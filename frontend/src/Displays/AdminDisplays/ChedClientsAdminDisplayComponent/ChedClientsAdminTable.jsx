@@ -241,7 +241,7 @@ ChedClientsAdminTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
   searchQueryID: PropTypes.string.isRequired,
   searchQueryName: PropTypes.string.isRequired,
-  handleInfoClick: PropTypes.string.isRequired,
+  handleInfoClick: PropTypes.func.isRequired,
   handleDeleteClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,
 };
