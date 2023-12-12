@@ -2,17 +2,17 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 const ChedClientsAdminShowInstitutions = ({ institutions }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showInstitutionsModal, setShowInstitutionsModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // You can adjust this value as needed
 
-  const handleShowModal = () => {
+  const handleShowInstitutionsModal = () => {
     setCurrentPage(1); // Reset to the first page when opening the modal
-    setShowModal(true);
+    setShowInstitutionsModal(true);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowInstitutionsModal(false);
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -28,13 +28,13 @@ const ChedClientsAdminShowInstitutions = ({ institutions }) => {
   return (
     <div>
       <button
-        onClick={handleShowModal}
+        onClick={handleShowInstitutionsModal}
         className="w-auto px-4 py-2 text-white bg-slate-600 rounded-lg hover:bg-slate-800 transition duration-300 mb-2"
       >
         Show Institution List
       </button>
 
-      {showModal && (
+      {showInstitutionsModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
           <div className="bg-white rounded-lg p-8 z-50">

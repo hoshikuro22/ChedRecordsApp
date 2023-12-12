@@ -127,6 +127,7 @@ export default function ChedClients() {
   const [clients, setClients] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
+  const[showInstitutionList, setShowInstitutionListButton]= useState(true);
  
 
   // for search for filter
@@ -210,6 +211,7 @@ export default function ChedClients() {
 
   const handleAddClientClick = () => {
     setShowForm(true);
+    setShowInstitutionListButton(false);
     setFormData((prevData) => ({
       ...prevData,
     }));
@@ -217,6 +219,7 @@ export default function ChedClients() {
 
   const handleHideFormClick = () => {
     setShowForm(false);
+    setShowInstitutionListButton(true);
   };
 
   const handleClearFormClick = () => {
@@ -308,7 +311,7 @@ export default function ChedClients() {
       <h1 className="font-semibold text-2xl mb-4">CHED CLIENTS</h1>
 
       {/* Add New Client and Show Institution List buttons */}
-     <div className="flex gap-3">
+     <div className="flex-row gap-2">
       {/* The add form */}
       <ChedClientsAdminAddForm
         formData={formData}
@@ -320,10 +323,12 @@ export default function ChedClients() {
         handleChange={handleChange}
         handleFileChange={handleFileChange}
       />
-
-      <ChedClientsAdminShowInstitutions
-      institutions={clients} />
+  
       </div>
+      {showInstitutionList &&(
+      <ChedClientsAdminShowInstitutions
+      institutions={clients} /> )}
+      
 
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">

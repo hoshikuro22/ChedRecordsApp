@@ -10,6 +10,7 @@ import communicationsRoutes from './routes/Communications.js';
 import communicationReportRoutes from './routes/CommunicationReports.js';
 import listofpersonnelsRoutes from './routes/ListOfPersonnels.js';
 import addaccountsRoutes from './routes/AddAccounts.js';
+import activitylogRoutes from './routes/ActivityLog.js';
 
 
 const app = express();
@@ -98,6 +99,7 @@ app.use("/", listofpersonnelsRoutes);
 ////
 app.use('/', addaccountsRoutes);
 ////
+app.use('/', activitylogRoutes);
 
 
 app.get("/logout", (req, res) => {

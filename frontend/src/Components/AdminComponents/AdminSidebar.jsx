@@ -2,6 +2,7 @@ import Picture from '../AdminComponents/ched10.png';
 import { BsFillPersonFill, BsPersonVcard } from 'react-icons/bs';
 import { IoMdPersonAdd } from 'react-icons/io';
 import { GoOrganization } from 'react-icons/go';
+import { FaClockRotateLeft } from "react-icons/fa6";
 import { BiMessageSquare, BiSolidReport, BiLogOut } from 'react-icons/bi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -84,6 +85,15 @@ export default function AdminSidebar() {
               </div>
             </ul>
           </div>
+
+          <div className="mb-4">
+            <a href="/admin/activitylog" className="px-2 rounded hover:bg-gray-700 flex gap-2 items-center">
+            <FaClockRotateLeft  />Activity Log
+            </a>
+          </div>
+
+          
+          
           
           <div className='bottom-5 absolute'>
           <div className="mb-4">
