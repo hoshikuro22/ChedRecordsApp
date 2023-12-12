@@ -28,10 +28,8 @@ export default function CommunicationsAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Add File</label>
             <input
-             
-              id="file"
-              name="file"
               type="file"
+              name="file"   
               onChange={handleFileChange} 
               className="border"
             />
@@ -41,9 +39,8 @@ export default function CommunicationsAdminEditForm({
   <label className="mb-1 text-sm font-semibold">Document Type</label>
   <select 
    
-    id="documentType"
-    name="documentType"
-    value={editFormData.documentType || ""}
+    name="doc_type_id"
+    value={editFormData.doc_type_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
@@ -97,9 +94,8 @@ export default function CommunicationsAdminEditForm({
               <label className="mb-1 text-sm font-semibold">Assignatories</label>
               <select 
                
-                id="assignatories"
-                name="assignatories"
-                value={editFormData.assignatories || ""}
+                name="personnel_id"
+                value={editFormData.personnel_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -131,10 +127,9 @@ export default function CommunicationsAdminEditForm({
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
               <select 
-               
-                id="department"
-                name="department"
-                value={editFormData.department || ""}
+              
+                name="department_id"
+                value={editFormData.department_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -152,9 +147,8 @@ export default function CommunicationsAdminEditForm({
               <label className="mb-1 text-sm font-semibold">Status</label>
               <select
               
-                id="status"
-                name="status"
-                value={editFormData.status}
+                name="status_id"
+                value={editFormData.status_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -190,12 +184,16 @@ export default function CommunicationsAdminEditForm({
 CommunicationsAdminEditForm.propTypes = {
   editFormData: PropTypes.shape({
     doc_ID: PropTypes.string,
-    documentType: PropTypes.string,
-    department: PropTypes.string,
+    documentType: PropTypes.string, //sa read
+    doc_type_id: PropTypes.number,  //sa put
+    department: PropTypes.string,   //sa read
+    department_id: PropTypes.number,//sa put
     dateIssued: PropTypes.instanceOf(Date),
-    status: PropTypes.string,
+    status: PropTypes.string,      //sa read
+    status_id: PropTypes.number,   //sa put
     remarks: PropTypes.string,
-    assignatories: PropTypes.string,
+    assignatories: PropTypes.string, //sa read
+    personnel_id: PropTypes.number, // sa put
   }).isRequired,
 
   handleEditSubmit: PropTypes.func.isRequired,

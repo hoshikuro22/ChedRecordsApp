@@ -26,6 +26,7 @@ export default function CommunicationsAdminTable({
           <tr className="bg-gray-200">
             <th className="px-4 py-2">Doc No</th>
             <th className="px-4 py-2">File</th>
+            <th className="px-4 py-2">Assignatory</th>
             <th className="px-4 py-2">Type</th>
             <th className="px-4 py-2">Department</th>
             <th className="px-4 py-2">Date Issued (year/month/date)</th>
@@ -119,6 +120,7 @@ export default function CommunicationsAdminTable({
             {document.file}
           </a>
         </td>
+        <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
         <td className="border px-4 py-2 text-center">{document.document_type}</td>
         <td className="border px-4 py-2 text-center">{document.department}</td>
         <td className="border px-4 py-2 text-center">{document.date_issued}</td>

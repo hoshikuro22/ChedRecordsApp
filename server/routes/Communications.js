@@ -153,6 +153,10 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
       lp.first_name as contact_firstName,
       lp.last_name as contact_lastName,
       lp.position as contact_position,
+      d.doc_type_id,
+      d.personnel_id,
+      d.department_id,
+      d.status_id,
       d.file,
       d.date_issued,
       d.remarks,
@@ -182,7 +186,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
 // UPDATE
 router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
     const { id } = req.params;
-    const { documentType, department, dateIssued, status, remarks, assignatories } = req.body;
+    const { doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id } = req.body;
   
     // Check if a file was uploaded
     const newFile = req.file ? req.file.filename : null;
@@ -218,7 +222,7 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
   
       db.query(
         updateDocumentSQL,
-        [documentType, department, dateIssued, status, remarks, assignatories, newFile, id],
+        [doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id, newFile, id],
         (err, result) => {
           if (err) {
             console.error(err);

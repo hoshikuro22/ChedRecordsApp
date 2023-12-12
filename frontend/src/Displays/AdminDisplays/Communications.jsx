@@ -79,11 +79,11 @@ export default function Communications() {
         const formattedDate = formData.dateIssued.toLocaleDateString();
         // Append the non-file data to formDataToSend
         formDataToSend.append("doc_ID", String(editFormData.doc_ID));
-        formDataToSend.append("documentType", editFormData.documentType);
+        formDataToSend.append("doc_type_id", editFormData.doc_type_id);
         formDataToSend.append("dateIssued", formattedDate);
-        formDataToSend.append("status", editFormData.status);
-        formDataToSend.append("assignatories", editFormData.assignatories);
-        formDataToSend.append("department", editFormData.department);
+        formDataToSend.append("status_id", editFormData.status_id);
+        formDataToSend.append("personnel_id", editFormData.personnel_id);
+        formDataToSend.append("department_id", editFormData.department_id);
         formDataToSend.append("remarks", editFormData.remarks);
   
         // Append the file if it exists
@@ -245,7 +245,7 @@ const handleFileChange = (e) => {
           file: null,
           documentType: "",
           dateIssued: new Date(),
-          status: "0",
+          status: "",
           assignatories: "",
           department: "",
           remarks: "",

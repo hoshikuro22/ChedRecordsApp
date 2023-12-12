@@ -193,6 +193,9 @@ router.post("/addClient", upload.single("file"), async (req, res) => {
         CAST(i.seq_no AS SIGNED) as seq_no,
         i.inst_id,
         i.inst_name,
+        i.client_type_id,
+        i.inst_type_id,
+        i.fil_cat_id,
         ct.type as client_type,
         it.type as inst_type,
         fc.type as filing_category,
@@ -352,10 +355,10 @@ router.put('/updateClient/:id', upload.single('file'), (req, res) => {
   const { id } = req.params;
   const {
     inst_name,
-    institutionType,
+    inst_type_id,
     address,
-    clientType,
-    filingCat,
+    client_type_id,
+    fil_cat_id,
     contact_person,
     contact_number,
   } = req.body;
@@ -389,10 +392,10 @@ router.put('/updateClient/:id', upload.single('file'), (req, res) => {
       updateInstitutionSQL,
       [
         inst_name,
-        institutionType,
+        inst_type_id,
         address,
-        clientType,
-        filingCat,
+        client_type_id,
+        fil_cat_id,
         contact_person,
         contact_number,
         newFile,

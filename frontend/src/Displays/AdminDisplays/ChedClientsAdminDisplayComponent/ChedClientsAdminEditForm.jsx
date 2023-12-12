@@ -39,8 +39,8 @@ export default function ChedClientsAdminEditForm({
             <label className="mb-1 text-sm font-semibold">Institution Type</label>
             <select
               
-              name="institutionType"
-              value={editFormData.institutionType}
+              name="inst_type_id"
+              value={editFormData.inst_type_id}
               onChange={handleChange}
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             >
@@ -67,8 +67,8 @@ export default function ChedClientsAdminEditForm({
             <label className="mb-1 text-sm font-semibold">Client Type</label>
             <select
               
-              name="clientType"
-              value={editFormData.clientType}
+              name="client_type_id"
+              value={editFormData.client_type_id}
               onChange={handleChange}
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             >
@@ -107,8 +107,8 @@ export default function ChedClientsAdminEditForm({
             <label className="mb-1 text-sm font-semibold">Filing Category</label>
             <select
               required
-              name="filingCat"
-              value={editFormData.filingCat}
+              name="fil_cat_id"
+              value={editFormData.fil_cat_id}
               onChange={handleChange}
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             >
@@ -161,11 +161,14 @@ export default function ChedClientsAdminEditForm({
 ChedClientsAdminEditForm.propTypes = {
   editFormData: PropTypes.shape({
    inst_id: PropTypes.string,
-    inst_name: PropTypes.string,
-    institutionType: PropTypes.string,
+    inst_name: PropTypes.string, 
+    institutionType: PropTypes.string, //sa read
+    inst_type_id: PropTypes.number,   //sa put
     address: PropTypes.string,
-    clientType: PropTypes.string,
-    filingCat: PropTypes.string,
+    clientType: PropTypes.string,    //sa read
+    client_type_id: PropTypes.number,//sa put
+    filingCat: PropTypes.string,    //sa read
+    fil_cat_id: PropTypes.number,   //sa put
     contact_person: PropTypes.string,
     contact_number: PropTypes.string,
     file: PropTypes.object.isRequired,

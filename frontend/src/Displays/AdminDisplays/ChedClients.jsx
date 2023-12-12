@@ -41,9 +41,9 @@ export default function ChedClients() {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
     institutionName: "",
-    institutionType: "",
+    inst_type_id: "",
     address: "",
-    clientType: "",
+    clientType: "",   
     filingCat: "",
     contactPerson: "",
     contactNumber: "",
@@ -80,10 +80,10 @@ export default function ChedClients() {
       // Append the non-file data to formDataToSend
       formDataToSend.append("inst_id", editFormData.inst_id);
       formDataToSend.append("inst_name", editFormData.inst_name);
-      formDataToSend.append("institutionType", editFormData.institutionType);
+      formDataToSend.append("inst_type_id", editFormData.inst_type_id);
       formDataToSend.append("address", editFormData.address);
-      formDataToSend.append("clientType", editFormData.clientType);
-      formDataToSend.append("filingCat", editFormData.filingCat);
+      formDataToSend.append("client_type_id", editFormData.client_type_id);
+      formDataToSend.append("fil_cat_id", editFormData.fil_cat_id);
       formDataToSend.append("contact_person", editFormData.contact_person);
       formDataToSend.append("contact_number", editFormData.contact_number);
 
