@@ -265,28 +265,43 @@ const handleFileChange = (e) => {
   
 
 
+// function for delete button
 
-
-  const handleDeleteClick = async (id) => {
+const handleDeleteClick = async (id) => {
   // Show a confirmation dialog
   const confirmDelete = window.confirm("Are you sure you want to delete this client?");
 
   if (confirmDelete) {
     try {
-      const response = await axios.delete(`http://localhost:8081/deleteDocument/${id}`);
-      if (response.data.Status === "Success") {
+      // Fetch user information (replace this with your actual method of getting user info)
+      const userResponse = await axios.get("http://localhost:8081"); 
+      const { User_ID, First_Name, Last_Name } = userResponse.data;
+
+      const deleteResponse = await axios.delete(`http://localhost:8081/deleteDocument/${id}`, {
+        headers: {
+          // Pass user information in headers
+          user_ID: User_ID,
+          first_Name: First_Name,
+          last_Name: Last_Name,
+        },
+      });
+
+      console.log("delete function call user_id and name: " + User_ID, First_Name, Last_Name);
+
+      if (deleteResponse.data.Status === "Success") {
         alert("Document deleted successfully!");
         fetchDocuments(); // Refresh the document list
       } else {
-        alert("Error deleting client. Please try again.");
+        alert("Error deleting document. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred while deleting the client.(frontend)");
+      alert("An error occurred while deleting the document (frontend).");
     }
   }
 };
 
+  
 
 
   return (

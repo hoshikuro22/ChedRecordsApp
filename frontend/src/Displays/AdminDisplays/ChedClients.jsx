@@ -288,24 +288,40 @@ export default function ChedClients() {
   
 
   const handleDeleteClick = async (id) => {
-  // Show a confirmation dialog
-  const confirmDelete = window.confirm("Are you sure you want to delete this client?");
-
-  if (confirmDelete) {
-    try {
-      const response = await axios.delete(`http://localhost:8081/deleteClient/${id}`);
-      if (response.data.Status === "Success") {
-        alert("Client deleted successfully!");
-        fetchClients(); // Refresh the client list
-      } else {
-        alert("Error deleting client. Please try again.");
+    // Show a confirmation dialog
+    const confirmDelete = window.confirm("Are you sure you want to delete this client?");
+  
+    if (confirmDelete) {
+      try {
+        // Fetch user information (replace this with your actual method of getting user info)
+        const userResponse = await axios.get("http://localhost:8081"); 
+        const { User_ID, First_Name, Last_Name } = userResponse.data;
+  
+        const deleteResponse = await axios.delete(`http://localhost:8081/deleteClient/${id}`, {
+          headers: {
+            // Pass user information in headers
+            User_ID: User_ID,
+            First_Name: First_Name,
+            Last_Name: Last_Name,
+          },
+        });
+  
+        console.log("delete function call user_id and name: " + User_ID, First_Name, Last_Name);
+  
+        if (deleteResponse.data.Status === "Success") {
+          alert("Client deleted successfully!");
+          fetchClients(); // Refresh the client list
+        } else {
+          alert("Error deleting client. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while deleting the client (frontend).");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while deleting the client.");
     }
-  }
-};
+  };
+
+
   return (
     <div className="w-screen h-screen mt-2 p-2 ml-4">
       <h1 className="font-semibold text-2xl mb-4">CHED CLIENTS</h1>

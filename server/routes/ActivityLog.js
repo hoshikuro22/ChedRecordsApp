@@ -19,7 +19,9 @@ router.get('/getActivityLog', (req, res) => {
   al.activity AS Activity
 FROM
   activity_log al
-  LEFT JOIN transaction t ON al.trans_ID = t.Trans_ID;
+  LEFT JOIN transaction t ON al.trans_ID = t.Trans_ID
+ORDER BY ActivityID DESC;
+
 
   `;
 
