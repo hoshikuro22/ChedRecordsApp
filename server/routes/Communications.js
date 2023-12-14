@@ -202,7 +202,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                       nextActivityLogId,
                       nextTransID,
                       new Date().toISOString(),
-                      `Added doc_ID: ${docID}`,
+                      `Added doc_ID: ${docID} | File Name:  ${file.filename}`,
                       userAccount,
                     ];
 
@@ -561,7 +561,7 @@ console.log("Last Name:", userLastName);
                 }
 
                 const dateAndTime = new Date().toISOString();
-                const activityMessage = `Deleted doc_ID: ${id}`;
+                const activityMessage = `Deleted doc_ID: ${id} | File Name: ${result[0].file}`;
 
                 db.query(
                   insertActivityLogQuery,

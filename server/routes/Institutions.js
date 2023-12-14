@@ -199,7 +199,7 @@ router.post("/addClient", upload.single("file"), async (req, res) => {
                           nextActivityLogId,
                           nextTransID,
                           new Date().toISOString(),
-                          `Added inst_id: ${institutionID}`,
+                          `Added inst_id: ${institutionID} | File Name: ${file.filename}`,
                           userAccount,
                         ];
 
@@ -308,7 +308,7 @@ router.post("/addClient", upload.single("file"), async (req, res) => {
   
 
 // DELETE
-router.delete("/deleteClient/:id", (req, res) => {
+router.delete("/deleteClient/:id", async (req, res) => {
   const { id } = req.params;
 
   if (!id) {
@@ -324,155 +324,153 @@ router.delete("/deleteClient/:id", (req, res) => {
   const insertActivityLogQuery =
     "INSERT INTO Activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
 
-  db.beginTransaction((err) => {
-    if (err) {
-      console.error("Error in beginTransaction:", err);
-      return res.status(500).json({
-        Status: "Error",
-        Message: "Error starting transaction",
+  try {
+    // Get the file information
+    const filePathResult = await new Promise((resolve, reject) => {
+      db.query(getFilePathQuery, [id], (err, result) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        }
+        resolve(result);
+      });
+    });
+
+    // Delete the corresponding transaction records
+    await new Promise((resolve, reject) => {
+      db.query(deleteTransactionQuery, [id], (deleteTransErr, deleteTransResult) => {
+        if (deleteTransErr) {
+          console.error(deleteTransErr);
+          db.rollback(() => {
+            reject(deleteTransErr);
+          });
+        }
+        resolve();
+      });
+    });
+
+    // Get the current activity_ID
+    const newActivityID = await getMaxActivityID() + 1;
+
+    // Insert activity log
+    const dateAndTime = new Date().toISOString();
+    const activityMessage = `Deleted institution ID: ${id} | File Name: ${filePathResult[0].file}`;
+
+    await new Promise((resolve, reject) => {
+      db.query(
+        insertActivityLogQuery,
+        [newActivityID, null, dateAndTime, activityMessage, `${req.headers.first_name} ${req.headers.last_name}`],
+        (insertActivityLogErr, insertActivityLogResult) => {
+          if (insertActivityLogErr) {
+            console.error(insertActivityLogErr);
+            db.rollback(() => {
+              reject(insertActivityLogErr);
+            });
+          }
+          resolve();
+        }
+      );
+    });
+
+    // Check if the institution record exists
+    const institutionRecord = await new Promise((resolve, reject) => {
+      db.query("SELECT * FROM institution WHERE inst_id = ?", [id], (err, result) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        }
+        resolve(result[0]);
+      });
+    });
+
+    if (!institutionRecord || !institutionRecord.fileColumnName) {
+      // No file associated with the record
+      await new Promise((resolve, reject) => {
+        db.query(deleteClientQuery, [id], (deleteErr, deleteResult) => {
+          if (deleteErr) {
+            console.error(deleteErr);
+            db.rollback(() => {
+              reject(deleteErr);
+            });
+          }
+          resolve();
+        });
+      });
+    } else {
+      // There is a file associated with the record
+      const filePath = join(uploadsPath, institutionRecord.fileColumnName);
+
+      // Delete the file from the "uploads" folder
+      await new Promise((resolve, reject) => {
+        fs.unlink(filePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error(unlinkErr);
+            db.rollback(() => {
+              reject(unlinkErr);
+            });
+          }
+          resolve();
+        });
+      });
+
+      // File deleted successfully, Now, delete the record from the institution table
+      await new Promise((resolve, reject) => {
+        db.query(deleteClientQuery, [id], (deleteErr, deleteResult) => {
+          if (deleteErr) {
+            console.error(deleteErr);
+            db.rollback(() => {
+              reject(deleteErr);
+            });
+          }
+          resolve();
+        });
       });
     }
 
-    // Delete the corresponding transaction records
-    db.query(deleteTransactionQuery, [id], (deleteTransErr, deleteTransResult) => {
-      if (deleteTransErr) {
-        console.error(deleteTransErr);
-        db.rollback(() => {
-          return res.status(500).json({
-            Status: "Error",
-            Message: "Error deleting transaction from the database",
-          });
-        });
-      }
-
-      // Get the current activity_ID
-      db.query("SELECT MAX(activity_ID) AS maxActivityID FROM Activity_log", (maxActivityIDErr, maxActivityIDResult) => {
-        if (maxActivityIDErr) {
-          console.error(maxActivityIDErr);
+    // Commit the transaction
+    await new Promise((resolve, reject) => {
+      db.commit((commitErr) => {
+        if (commitErr) {
+          console.error("Error in commit:", commitErr);
           db.rollback(() => {
-            return res.status(500).json({
-              Status: "Error",
-              Message: "Error getting max activity_ID from Activity_log",
-            });
+            reject(commitErr);
           });
         }
 
-        const newActivityID = maxActivityIDResult[0].maxActivityID + 1;
-
-        // Insert activity log
-        const dateAndTime = new Date().toISOString();
-        const activityMessage = `Deleted institution ID: ${id}`;
-
-        db.query(
-          insertActivityLogQuery,
-          [newActivityID, null, dateAndTime, activityMessage, `${req.headers.first_name} ${req.headers.last_name}`],
-          (insertActivityLogErr, insertActivityLogResult) => {
-            if (insertActivityLogErr) {
-              console.error(insertActivityLogErr);
-              db.rollback(() => {
-                return res.status(500).json({
-                  Status: "Error",
-                  Message: "Error inserting activity log",
-                });
-              });
-            }
-
-            // Check if the institution record exists
-            db.query(getFilePathQuery, [id], (err, result) => {
-              if (err) {
-                console.error(err);
-                db.rollback(() => {
-                  return res.status(500).json({
-                    Status: "Error",
-                    Message: "Error getting file path from the database",
-                  });
-                });
-              }
-
-              if (result.length === 0 || !result[0].file) {
-                // No file associated with the record
-                db.query(deleteClientQuery, [id], (deleteErr, deleteResult) => {
-                  if (deleteErr) {
-                    console.error(deleteErr);
-                    db.rollback(() => {
-                      return res.status(500).json({
-                        Status: "Error",
-                        Message: "Error deleting client from the database",
-                      });
-                    });
-                  }
-
-                  // Commit the transaction
-                  db.commit((commitErr) => {
-                    if (commitErr) {
-                      console.error("Error in commit:", commitErr);
-                      return res.status(500).json({
-                        Status: "Error",
-                        Message: "Error committing transaction",
-                      });
-                    }
-
-                    console.log("Client deleted from the database");
-                    return res.status(200).json({
-                      Status: "Success",
-                      Message: "Client deleted from the database",
-                    });
-                  });
-                });
-              } else {
-                // There is a file associated with the record
-                const filePath = join(uploadsPath, result[0].file);
-
-                // Delete the file from the "uploads" folder
-                fs.unlink(filePath, (unlinkErr) => {
-                  if (unlinkErr) {
-                    console.error(unlinkErr);
-                    db.rollback(() => {
-                      return res.status(500).json({
-                        Status: "Error",
-                        Message: "Error deleting file from the server",
-                      });
-                    });
-                  }
-
-                  // File deleted successfully, Now, delete the record from the institution table
-                  db.query(deleteClientQuery, [id], (deleteErr, deleteResult) => {
-                    if (deleteErr) {
-                      console.error(deleteErr);
-                      db.rollback(() => {
-                        return res.status(500).json({
-                          Status: "Error",
-                          Message: "Error deleting client from the database",
-                        });
-                      });
-                    }
-
-                    // Commit the transaction
-                    db.commit((commitErr) => {
-                      if (commitErr) {
-                        console.error("Error in commit:", commitErr);
-                        return res.status(500).json({
-                          Status: "Error",
-                          Message: "Error committing transaction",
-                        });
-                      }
-
-                      console.log("Client deleted from the database");
-                      return res.status(200).json({
-                        Status: "Success",
-                        Message: "Client deleted from the database",
-                      });
-                    });
-                  });
-                });
-              }
-            });
-          }
-        );
+        console.log("Client deleted from the database");
+        resolve();
       });
     });
-  });
+
+    return res.status(200).json({
+      Status: "Success",
+      Message: "Client deleted from the database",
+    });
+  } catch (error) {
+    console.error("Error in try-catch block:", error);
+    return res.status(500).json({
+      Status: "Error",
+      Message: "Error deleting client from the database",
+    });
+  }
 });
+
+// Function to get the maximum Activity_ID from the "Activity_Log" table
+function getMaxActivityID() {
+  return new Promise((resolve, reject) => {
+    const getMaxActivityIDQuery = "SELECT MAX(activity_ID) AS maxActivityID FROM Activity_log";
+    db.query(getMaxActivityIDQuery, (err, result) => {
+      if (err) {
+        console.error("Error in getMaxActivityIDQuery:", err);
+        reject(err);
+      } else {
+        const maxActivityID = result[0].maxActivityID || 0;
+        resolve(maxActivityID);
+      }
+    });
+  });
+}
+
 
 
 

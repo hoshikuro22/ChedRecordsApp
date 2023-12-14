@@ -28,6 +28,8 @@ export default function ActivityLog() {
   const currentItems = activityLog.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(activityLog.length / itemsPerPage);
 
+  
+
   return (
     <div className="w-screen h-screen mt-8 p-4 ml-4">
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
