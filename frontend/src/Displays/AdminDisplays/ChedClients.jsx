@@ -69,10 +69,13 @@ export default function ChedClients() {
 
  const handleEditSubmit = async (e) => {
   e.preventDefault();
-  const confirmed = window.confirm("Are you sure you want to save changes?");
+    const userConfirmed = window.confirm("Are you sure you want to save changes?");
 
-  // If the user clicks "OK" (confirmed is true), proceed with the API call
-  if (confirmed) {
+    if (!userConfirmed) {
+        // User clicked 'Cancel' in the confirmation dialog
+        alert("Changes not saved.");
+        return;
+    }
     try {
       // Create a new FormData object
       const formDataToSend = new FormData();
@@ -109,11 +112,8 @@ export default function ChedClients() {
       console.error("Error:", error);
       alert("An error occurred while editing the client.");
     }
-  } else {
-    // If the user clicks "Cancel" in the confirmation dialog
-    alert("Changes not saved.");
-  }
 };
+
 
   //====Edit====//
   
@@ -241,7 +241,14 @@ export default function ChedClients() {
   // pang add data sa database if eclick ang submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    const userConfirmed = window.confirm("Are you sure you want to add this client?");
+
+    if (!userConfirmed) {
+        // User clicked 'Cancel' in the confirmation dialog
+        alert("Client not added.");
+        return;
+
+    }
     try {
       const seq_no = getMaxSeqNo();
   

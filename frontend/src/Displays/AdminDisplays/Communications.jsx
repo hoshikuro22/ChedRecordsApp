@@ -68,10 +68,14 @@ export default function Communications() {
   // the "save form function of edit modal"
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-    const confirmed = window.confirm("Are you sure you want to save changes?");
-  
-    // If the user clicks "OK" (confirmed is true), proceed with the API call
-    if (confirmed) {
+    const userConfirmed = window.confirm("Are you sure you want to save changes?");
+
+    if (!userConfirmed) {
+        // User clicked 'Cancel' in the confirmation dialog
+        alert("Changes not saved.");
+        return;
+    }
+
       try {
         // Create a new FormData object
         const formDataToSend = new FormData();
@@ -109,10 +113,6 @@ export default function Communications() {
         console.error("Error:", error);
         alert("An error occurred while editing the document.");
       }
-    } else {
-      // If the user clicks "Cancel" in the confirmation dialog
-      alert("Changes not saved.");
-    }
   };
   
   
@@ -219,6 +219,13 @@ const handleFileChange = (e) => {
   // pang add data sa database if eclick ang submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userConfirmed = window.confirm("Are you sure you want to add this communication?");
+
+    if (!userConfirmed) {
+        // User clicked 'Cancel' in the confirmation dialog
+        alert("Communication not added.");
+        return;
+    }
     try {
       const docID = getMaxDocID();
       const formattedDate = formData.dateIssued.toLocaleDateString();

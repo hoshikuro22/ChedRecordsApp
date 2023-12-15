@@ -8,7 +8,7 @@ import NormalCommunications from "../Displays/NormalDisplays/NormalCommunication
 import NormalHeader from "../Components/NormalComponents/NormalHeader"
 import NormalHome from "../Displays/NormalDisplays/NormalHome"
 import NormalFooter from "../Components/NormalComponents/NormalFooter"
-import NormalReports from "../Displays/NormalDisplays/NormalReports"
+
 
 
 
@@ -49,8 +49,8 @@ export default function NormalPage() {
             <Route path='/norhome' element={<NormalHome />} />
             <Route path='/nchedclients' element={<NormalChedClients />} />
             <Route path='/ncommunications' element={<NormalCommunications />} />
-            {/* <Route path='/listofpersonnel' element={<ListOfPersonnel/>} /> */}
-            <Route path='/nreports' element={<NormalReports/>} />
+            {/* <Route path='/listofpersonnel' element={<ListOfPersonnel/>} />
+            <Route path='/nreports' element={<NormalReports/>} /> */}
           </Routes>
         </div>
         :

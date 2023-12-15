@@ -20,11 +20,11 @@ export default function NormalHome() {
           <a href="/normal/ncommunications"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Communications</a>
           
-          <a href="/admin/listofpersonnel"
+          {/* <a href="/admin/listofpersonnel"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"> List of Personnels</a>
             
           <a href="/admin/reports" 
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Reports</a>
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Reports</a> */}
         
           
         </div>
