@@ -326,7 +326,7 @@ export default function ChedClients() {
     <div className="w-screen h-screen mt-2 p-2 ml-4">
       <h1 className="font-semibold text-2xl mb-4">CHED CLIENTS</h1>
 
-      {/* Add New Client and Show Institution List buttons */}
+
      <div className="flex-row gap-2">
       {/* The add form */}
       <ChedClientsAdminAddForm

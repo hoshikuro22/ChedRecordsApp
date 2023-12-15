@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ChedClientsNormalAddForm from "./ChedClientsNormalDisplayComponent/ChedClientsNormalAddForm";
 import ChedClientsNormalTable from "./ChedClientsNormalDisplayComponent/ChedClientsNormalTable";
+import ChedClientsNormalMoreDetails from "./ChedClientsNormalDisplayComponent/ChedClientsNormalMoreDetails";
 
 export default function ChedClients() {
   const [formData, setFormData] = useState({
@@ -13,8 +14,24 @@ export default function ChedClients() {
     filingCat: "",
     contactPerson: "", 
     contactNumber: "", 
-    file: "" 
+    file: null,
+    userID: "",
   });
+
+   // to fetch user_ID
+ useEffect(() => {
+  axios
+    .get("http://localhost:8081")
+    .then((res) => {
+      const userID = res.data.User_ID;
+      console.log("Institutions-This is the User_ID: " + userID);
+      // Set the userID in the state
+      setFormData((prevData) => ({ ...prevData, userID }));
+    })
+    .catch((error) => {
+      console.error("Error fetching User_ID:", error);
+    });
+}, []);
 
   const [clients, setClients] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -79,7 +96,7 @@ export default function ChedClients() {
     return maxSeqNo + 1;
   };
 
-  
+   // all data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -87,6 +104,16 @@ export default function ChedClients() {
       [name]: value,
     });
   };
+
+  // for file in the add form only
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      file: selectedFile,
+    }));
+  };
+  
 
   const handleSearchIDChange = (e) => {
     setSearchQueryID(e.target.value);
@@ -170,31 +197,32 @@ export default function ChedClients() {
     setShowInstitutionTypeFilterDropdown(false);
   };
 
-  const handleDeleteClick = async (id) => {
-  // Show a confirmation dialog
-  const confirmDelete = window.confirm("Are you sure you want to delete this client?");
+  // commented cause staff have no delete
+//   const handleDeleteClick = async (id) => {
+//   // Show a confirmation dialog
+//   const confirmDelete = window.confirm("Are you sure you want to delete this client?");
 
-  if (confirmDelete) {
-    try {
-      const response = await axios.delete(`http://localhost:8081/deleteClient/${id}`);
-      if (response.data.Status === "Success") {
-        alert("Client deleted successfully!");
-        fetchClients(); // Refresh the client list
-      } else {
-        alert("Error deleting client. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while deleting the client.");
-    }
-  }
-};
+//   if (confirmDelete) {
+//     try {
+//       const response = await axios.delete(`http://localhost:8081/deleteClient/${id}`);
+//       if (response.data.Status === "Success") {
+//         alert("Client deleted successfully!");
+//         fetchClients(); // Refresh the client list
+//       } else {
+//         alert("Error deleting client. Please try again.");
+//       }
+//     } catch (error) {
+//       console.error("Error:", error);
+//       alert("An error occurred while deleting the client.");
+//     }
+//   }
+// };
   return (
     <div className="w-screen h-screen mt-2 p-2 ml-4">
       <h1 className="font-semibold text-2xl mb-4">CHED CLIENTS</h1>
 
-      {/* The add form */}
-      <ChedClientsNormalAddForm
+     {/* The add form */}
+     <ChedClientsNormalAddForm
         formData={formData}
         handleSubmit={handleSubmit}
         showForm={showForm}
@@ -202,6 +230,7 @@ export default function ChedClients() {
         handleHideFormClick={handleHideFormClick}
         handleClearFormClick={handleClearFormClick}
         handleChange={handleChange}
+        handleFileChange={handleFileChange}
       />
 
 
@@ -237,7 +266,6 @@ export default function ChedClients() {
     searchQueryName={searchQueryName}
     selectedFilter={selectedFilter}
     selectedInstitutionTypeFilter={selectedInstitutionTypeFilter}
-    handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
     handleToggleInstitutionTypeFilterDropdown={handleToggleInstitutionTypeFilterDropdown}
     handleToggleClientTypeFilterDropdown={handleToggleClientTypeFilterDropdown}
@@ -270,49 +298,10 @@ export default function ChedClients() {
 </div>
 
       {/* Info modal(MORE DETAILS) */}
-      {isInfoModalOpen && selectedRowData && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
-          <div className="bg-white rounded-lg p-8 z-50">
-            <h2 className="text-xl font-semibold mb-4">Client Information</h2>
-
-            <div>
-
-               <thead>
-                <tr className="bg-gray-200">
-                
-                <th className="px-4 py-2">Institution ID</th>
-                <th className="px-4 py-2">Name of Institution</th>
-                <th className="px-4 py-2">Filing Category</th>
-                <th className="px-4 py-2">File</th>
-                <th className="px-4 py-2">Contact Person</th>
-                <th className="px-4 py-2">Contact Number</th>
-                </tr>
-               </thead>
-
-              <tbody>
-              <tr>
-               
-               <td className="border px-4 py-2 text-center">{selectedRowData.inst_id}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.inst_name}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.filing_category}</td>
-               <td className="border px-4 py-2 text-center">*file*</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.contact_person}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.contact_number}</td>
-               </tr>
-              </tbody>
-
-            </div>
-
-            <button
-              className="mt-4 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-              onClick={() => setInfoModalOpen(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+ <ChedClientsNormalMoreDetails 
+   isInfoModalOpen={isInfoModalOpen}
+   setInfoModalOpen={setInfoModalOpen}
+   selectedRowData={selectedRowData}/>
 
 
     </div>

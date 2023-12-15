@@ -1,7 +1,7 @@
 import Picture from '../AdminComponents/ched10.png';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { GoOrganization } from 'react-icons/go';
-import { BiMessageSquare, BiSolidReport, BiLogOut } from 'react-icons/bi';
+import { BiMessageSquare,  BiLogOut } from 'react-icons/bi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -33,7 +33,7 @@ export default function NormalSidebar() {
 
   return (
     <div>
-      <body className=" bg-slate-800 bottom-0 fixed h-screen sm:w-72">
+      <div className=" bg-slate-800 bottom-0 fixed h-screen sm:w-72">
         <div className=" bg-slate-800 text-white w-36 sm:w-72 py-4 px-6">
           <div className="flex gap-5">
             <img className=" h-16 pl-6 sm:pl-3" src={Picture} alt="Ched Logo" />
@@ -63,13 +63,7 @@ export default function NormalSidebar() {
                   </a>
                 </li>
               </div>
-              <div className="text-center block items-center mb-2">
-                <li>
-                  <a href="/normal/nreports" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
-                    <BiSolidReport />Reports
-                  </a>
-                </li>
-              </div>
+            
             </ul>
           </div>
 
@@ -79,7 +73,7 @@ export default function NormalSidebar() {
             </Link>
           </div>
         </div>
-      </body>
+      </div>
     </div>
   );
 }

@@ -8,7 +8,6 @@ export default function ChedClientsNormalTable({
   searchQueryName,
   selectedFilter,
   selectedInstitutionTypeFilter,
-  handleDeleteClick,
   handleInfoClick,
   handleToggleInstitutionTypeFilterDropdown,
   handleToggleClientTypeFilterDropdown,
@@ -192,12 +191,7 @@ export default function ChedClientsNormalTable({
         >
           Edit
         </button>
-        <button
-          className="text-red-500 hover:underline ml-2"
-          onClick={() => handleDeleteClick(client.inst_id)}
-        >
-          Delete
-        </button>
+    
         <button
           className="text-gray-500 hover:underline ml-2"
           onClick={() => handleInfoClick(client.inst_id)}
@@ -223,7 +217,6 @@ ChedClientsNormalTable.propTypes = {
   searchQueryName: PropTypes.string.isRequired,
   selectedFilter: PropTypes.string.isRequired,
   selectedInstitutionTypeFilter: PropTypes.string.isRequired,
-  handleDeleteClick: PropTypes.func.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
   handleToggleInstitutionTypeFilterDropdown: PropTypes.func.isRequired,
   handleToggleClientTypeFilterDropdown: PropTypes.func.isRequired,

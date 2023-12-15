@@ -8,16 +8,18 @@ export default function ChedClientsNormalAddForm({
     handleHideFormClick,
     handleClearFormClick,
     handleChange,
+    handleFileChange
   }) {
+
   return (
     <div>
         
         {showForm ? (
         <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4">
           <h2 className="text-xl font-semibold mb-2">Add New Client</h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" encType="multipart/form-data">
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Institution ID</label>
+              <label className="mb-1 text-sm font-semibold">Institution ID <a className='font-black'>(Not Editable)</a></label>
               <input
                 required
                 type="text"
@@ -109,7 +111,6 @@ export default function ChedClientsNormalAddForm({
                 id="contactNumber"
                 name="contactNumber"
                 placeholder="Enter Contact Number of Contact Person"
-                value={formData.contactNumber}
                 onChange={handleChange}
                 className="w-80 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
@@ -145,9 +146,9 @@ export default function ChedClientsNormalAddForm({
             required
             id="file"
             name="file"
-            value={formData.file}
+            // value={formData.file}
             type="file"
-            onChange={handleChange}
+            onChange={handleFileChange}
             className="border">
             </input>
             </div>
@@ -206,10 +207,11 @@ ChedClientsNormalAddForm.propTypes = {
       filingCat: PropTypes.string,
       contactPerson: PropTypes.string,
       contactNumber: PropTypes.string,
-      file: PropTypes.string,
+      file: PropTypes.object,
     }).isRequired,
     handleAddClientClick: PropTypes.func.isRequired,
     handleHideFormClick: PropTypes.func.isRequired,
     handleClearFormClick: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
+    handleFileChange: PropTypes.func.isRequired,
   };
