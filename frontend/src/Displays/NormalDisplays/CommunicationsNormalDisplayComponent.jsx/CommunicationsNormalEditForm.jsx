@@ -1,44 +1,46 @@
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; 
 import PropTypes from 'prop-types';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default function CommunicationsNormalAddForm({
-    showForm,
-    formData,
-    handleChange,
-    handleSubmit,
-    handleHideFormClick,
-    handleClearFormClick,
-    handleFileChange,
-    handleAddCommunicationClick,
-  }) {
+export default function CommunicationsNormalEditForm({
+  // formData,
+  editFormData,
+  handleEditSubmit,
+  handleCloseEditForm,
+  handleChange,
+  handleFileChange,
+}) {
   return (
-    <div>
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
+      <div className="bg-white rounded-lg p-8 z-50">
+        <span className="close text-white" onClick={handleCloseEditForm}>
+          &times;
+        </span>
+        <h2 className="text-2xl font-semibold mb-4">Edit Document</h2>
+        <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
 
-{showForm ? (
-        <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4">
-          <h2 className="text-xl font-semibold mb-2">Add New Communication</h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-
+        <div className="flex flex-col">
+        <label className="mb-1 text-sm font-semibold">Document ID:</label>
+        <label className='font-semibold text-1xl ml-3'>#{editFormData.doc_ID}</label>
+          </div>
+         
           <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Add File</label>
+            <label className="mb-1 text-sm font-semibold">Add File</label>
             <input
-            required
-            id="file"
-            name="file"
-            type="file"
-            onChange={handleFileChange}
-            className="border">
-            </input>
-            </div>
-            
+              type="file"
+              name="file"   
+              onChange={handleFileChange} 
+              className="border"
+            />
+          </div>
+
             <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Document Type</label>
   <select 
-    required
-    id="documentType"
-    name="documentType"
-    value={formData.documentType}
+   
+    name="doc_type_id"
+    value={editFormData.doc_type_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
@@ -65,25 +67,25 @@ export default function CommunicationsNormalAddForm({
   </select>
 </div>
 
-            <div className="flex flex-col">
+<div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Date Issued</label>
               <DatePicker
-                selected={formData.dateIssued}
-                onChange={(date) => ({ ...formData, dateIssued: date })}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                displayFormat
-              />
+  selected={editFormData.dateIssued ? new Date(editFormData.dateIssued) : null}
+  onChange={(date) => handleChange({ target: { name: 'dateIssued', value: date } })}
+  dateFormat="MM/dd/yyyy"  // Set the desired date format
+  className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+/>
             </div>
             
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Remarks</label>
               <input
-                required
+                
                 type="text"
                 id="remarks"
                 name="remarks"
                 placeholder="Enter Remarks"
-                value={formData.remarks}
+                value={editFormData.remarks}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
@@ -91,10 +93,9 @@ export default function CommunicationsNormalAddForm({
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Assignatories</label>
               <select 
-                required
-                id="assignatories"
-                name="assignatories"
-                value={formData.assignatories}
+               
+                name="personnel_id"
+                value={editFormData.personnel_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -120,17 +121,15 @@ export default function CommunicationsNormalAddForm({
               <option value="19">Pasagad, Abegail</option>
               <option value="20">Raagas, Susan Daisy</option>
               <option value="21">Torres, Mark Godfrey</option>
-
               </select>
             </div>
 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
               <select 
-                required
-                id="department"
-                name="department"
-                value={formData.department}
+              
+                name="department_id"
+                value={editFormData.department_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -143,83 +142,62 @@ export default function CommunicationsNormalAddForm({
             </div>
 
 
-            {/* para ma add ang status sa add form */}
-             <div className="hidden"> 
+       
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Status</label>
               <select
-                required
-                id="status"
-                name="status"
-                value={formData.status}
+              
+                name="status_id"
+                value={editFormData.status_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
+                 <option value="">Select Status</option>
                 <option value="0">Pending</option>
                 <option value="1">Approved</option>
                 <option value="2">Disapproved</option>
               </select>
-            </div>  </div>
-
-
-
-            <div className="col-span-2 ml-auto ">
-              
-              <button
-                type="submit"
-                className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-              >
-                Add Communication
-              </button>
-              <button
-                type="button"
-                onClick={handleHideFormClick}
-                className="w-40 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
-              >
-                Hide Form
-              </button>
-              <button
-                type="button"
-                onClick={handleClearFormClick}
-                className="w-40 px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
-              >
-                Clear Form
-              </button>
-            </div>
-          </form>
-          
-        </div>
-      ) : (
-        <button
-          onClick={handleAddCommunicationClick}
-          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
-        >
-          Add New Communication
-        </button>
-      )}
-
-
-
-
+            </div> 
+            
+       
+          <div className="col-span-2 ml-auto gap-">
+            <button
+              type="submit"
+              className="w-40 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              onClick={handleCloseEditForm}
+              className="w-40 px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300 mx-2"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  )
+  );
 }
 
-CommunicationsNormalAddForm.propTypes = {
-  showForm: PropTypes.bool.isRequired,
-  formData: PropTypes.shape({
-    file: PropTypes.object,
-    documentType: PropTypes.string.isRequired,
-    dateIssued: PropTypes.instanceOf(Date).isRequired,
-    status: PropTypes.string.isRequired,
-    assignatories: PropTypes.string.isRequired,
-    department: PropTypes.string.isRequired,
-    remarks: PropTypes.string.isRequired,
+CommunicationsNormalEditForm.propTypes = {
+  editFormData: PropTypes.shape({
+    doc_ID: PropTypes.string,
+    documentType: PropTypes.string, //sa read
+    doc_type_id: PropTypes.number,  //sa put
+    department: PropTypes.string,   //sa read
+    department_id: PropTypes.number,//sa put
+    dateIssued: PropTypes.instanceOf(Date),
+    status: PropTypes.string,      //sa read
+    status_id: PropTypes.number,   //sa put
+    remarks: PropTypes.string,
+    assignatories: PropTypes.string, //sa read
+    personnel_id: PropTypes.number, // sa put
   }).isRequired,
+
+  handleEditSubmit: PropTypes.func.isRequired,
+  handleCloseEditForm: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  handleHideFormClick: PropTypes.func.isRequired,
-  handleClearFormClick: PropTypes.func.isRequired,
   handleFileChange: PropTypes.func.isRequired,
-  handleAddCommunicationClick: PropTypes.func.isRequired,
 };

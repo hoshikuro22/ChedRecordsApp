@@ -159,7 +159,7 @@ export default function ChedClientsNormalAddForm({
                 type="submit"
                 className="w-40 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
               >
-                Add Client
+                Add Client  
               </button>
               <button
                 type="button"

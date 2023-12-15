@@ -1,21 +1,40 @@
 import PropTypes from 'prop-types';
-
+import { useState } from 'react';
 
 
 export default function ChedClientsNormalTable({
   currentItems,
   searchQueryID,
   searchQueryName,
-  selectedFilter,
-  selectedInstitutionTypeFilter,
+  // handleDeleteClick,
   handleInfoClick,
-  handleToggleInstitutionTypeFilterDropdown,
-  handleToggleClientTypeFilterDropdown,
-  handleSelectFilter,
-  handleSelectInstitutionTypeFilter,
-  showClientTypeFilterDropdown,
-  showInstitutionTypeFilterDropdown,
+  handleEditClick={handleEditClick} 
 }) {
+   // for Client Type Filter dropdown
+   const [showClientTypeFilterDropdown, setShowClientTypeFilterDropdown] = useState(false);
+   const [selectedClientTypeFilter, setSelectedClientTypeFilter] = useState("");
+
+   const handleToggleClientTypeFilterDropdown = () => {
+         setShowClientTypeFilterDropdown(!showClientTypeFilterDropdown);
+  };
+   const handleSelectClientTypeFilter = (value) => {
+         setSelectedClientTypeFilter(value);
+         setShowClientTypeFilterDropdown(false);
+  };
+
+ // for Institution Type Filter dropdown
+   const [showInstitutionTypeFilterDropdown, setShowInstitutionTypeFilterDropdown] = useState(false);
+   const [selectedInstitutionTypeFilter, setSelectedInstitutionTypeFilter] = useState("");
+  
+   const handleToggleInstitutionTypeFilterDropdown = () => {
+         setShowInstitutionTypeFilterDropdown(!showInstitutionTypeFilterDropdown);
+  };
+  const handleSelectInstitutionTypeFilter = (value) => {
+         setSelectedInstitutionTypeFilter(value);
+         setShowInstitutionTypeFilterDropdown(false);
+  };
+
+
   return (
     <div>
         
@@ -24,6 +43,7 @@ export default function ChedClientsNormalTable({
             <tr className="bg-gray-200">
               <th className="px-4 py-2">Seq No</th>
               <th className="px-4 py-2">Name of Institution</th>
+              <th className="px-4 py-2">Filing Category</th>
               <th className="px-4 py-2">
                 Institution Type
                 <div className="relative inline-block ml-2">
@@ -114,9 +134,9 @@ export default function ChedClientsNormalTable({
                       type="button"
                       className="inline-flex justify-center w-16 px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
                     >
-                      {selectedFilter === "1"
+                      {selectedClientTypeFilter === "1"
                         ? "Internal"
-                        : selectedFilter === "2"
+                        : selectedClientTypeFilter === "2"
                         ? "External"
                         : "Filter"}
                     </button>
@@ -127,9 +147,9 @@ export default function ChedClientsNormalTable({
                     >
                       <div className="py-1">
                         <button
-                          onClick={() => handleSelectFilter("")}
+                          onClick={() => handleSelectClientTypeFilter("")}
                           className={`${
-                            selectedFilter === ""
+                            selectedClientTypeFilter === ""
                               ? "bg-gray-200 text-gray-900"
                               : "text-gray-700"
                           } block px-4 py-2 text-sm w-full text-left`}
@@ -137,9 +157,9 @@ export default function ChedClientsNormalTable({
                           All
                         </button>
                         <button
-                          onClick={() => handleSelectFilter("1")}
+                          onClick={() => handleSelectClientTypeFilter("1")}
                           className={`${
-                            selectedFilter === "1"
+                            selectedClientTypeFilter === "1"
                               ? "bg-gray-200 text-gray-900"
                               : "text-gray-700"
                           } block px-4 py-2 text-sm w-full text-left`}
@@ -147,9 +167,9 @@ export default function ChedClientsNormalTable({
                           Internal
                         </button>
                         <button
-                          onClick={() => handleSelectFilter("2")}
+                          onClick={() => handleSelectClientTypeFilter("2")}
                           className={`${
-                            selectedFilter === "2"
+                            selectedClientTypeFilter === "2"
                               ? "bg-gray-200 text-gray-900"
                               : "text-gray-700"
                           } block px-4 py-2 text-sm w-full text-left`}
@@ -166,9 +186,9 @@ export default function ChedClientsNormalTable({
           </thead>
           <tbody>
           {currentItems.map((client) => (
-  ((selectedFilter === "1" && client.client_type === "internal") ||
-    (selectedFilter === "2" && client.client_type === "external") ||
-    selectedFilter === "") &&
+  ((selectedClientTypeFilter === "1" && client.client_type === "internal") ||
+    (selectedClientTypeFilter === "2" && client.client_type === "external") ||
+    selectedClientTypeFilter === "") &&
   ((selectedInstitutionTypeFilter === "1" && client.inst_type === "NGO") ||
     (selectedInstitutionTypeFilter === "2" && client.inst_type === "NGA") ||
     (selectedInstitutionTypeFilter === "3" && client.inst_type === "Public") ||
@@ -179,6 +199,7 @@ export default function ChedClientsNormalTable({
     <tr key={client.inst_id}>
       <td className="border px-4 py-2 text-center">{client.seq_no}</td>
       <td className="border px-4 py-2 text-center">{client.inst_name}</td>
+      <td className="border px-4 py-2 text-center">{client.filing_category}</td>
       <td className="border px-4 py-2 text-center">{client.inst_type}</td>
       <td className="border px-4 py-2 text-center">{client.address}</td>
       <td className="border px-4 py-2 text-center">{client.client_type}</td>
@@ -187,11 +208,16 @@ export default function ChedClientsNormalTable({
         
         <button
           className="text-blue-500 hover:underline ml-2"
-          // onClick={() => handleUpdateClick(client.inst_id)}
+          onClick={() =>  handleEditClick(client.inst_id)}
         >
           Edit
         </button>
-    
+        {/* <button
+          className="text-red-500 hover:underline ml-2"
+          onClick={() => handleDeleteClick(client.inst_id)}   sa admin ra makadelete
+        >
+          Delete
+        </button> */}
         <button
           className="text-gray-500 hover:underline ml-2"
           onClick={() => handleInfoClick(client.inst_id)}
@@ -215,14 +241,7 @@ ChedClientsNormalTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
   searchQueryID: PropTypes.string.isRequired,
   searchQueryName: PropTypes.string.isRequired,
-  selectedFilter: PropTypes.string.isRequired,
-  selectedInstitutionTypeFilter: PropTypes.string.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
-  handleToggleInstitutionTypeFilterDropdown: PropTypes.func.isRequired,
-  handleToggleClientTypeFilterDropdown: PropTypes.func.isRequired,
-  handleSelectFilter: PropTypes.func.isRequired,
-  handleSelectInstitutionTypeFilter: PropTypes.func.isRequired,
-  showClientTypeFilterDropdown: PropTypes.bool.isRequired,
-  showInstitutionTypeFilterDropdown: PropTypes.bool.isRequired,
-
+  // handleDeleteClick: PropTypes.func.isRequired,
+  handleEditClick: PropTypes.func.isRequired,
 };

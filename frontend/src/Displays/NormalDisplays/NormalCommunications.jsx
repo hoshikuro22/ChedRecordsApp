@@ -2,33 +2,140 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import CommunicationsNormalAddForm from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalAddForm";
 import CommunicationsNormalTable from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalTable";
+import CommunicationsNormalEditForm from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalEditForm";
+import CommunicationsNormalMoreDetails from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalMoreDetails";
+import CommunicationsNormalPagination from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalPagination";
+
 
 
 export default function NormalCommunications() {
   const [formData, setFormData] = useState({
-    file: "",
+    doc_ID: "",
+    file: null,
     documentType: "",
     dateIssued: new Date(),
     status: "",
     assignatories: "",
+    department: "",
     remarks: "",
+    userID: "", 
   });
+  console.log("the formData " + JSON.stringify(formData));
+
+
+    // to fetch user_ID
+    useEffect(() => {
+      axios
+        .get("http://localhost:8081")
+        .then((res) => {
+          const userID = res.data.User_ID;
+          console.log("Communications-This is the User_ID: " + userID);
+          // Set the userID in the state
+          setFormData((prevData) => ({ ...prevData, userID }));
+        })
+        .catch((error) => {
+          console.error("Error fetching User_ID:", error);
+        });
+    }, []);
+  
+ //===== Edit =====//
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    doc_ID: "",
+    file: null,
+    documentType: "",
+    dateIssued: new Date(),
+    status: "", 
+    assignatories: "",
+    department: "",
+    remarks: "",
+  }); console.log("the EditformData " + JSON.stringify(editFormData));
+ 
+
+  const handleEditClick = (doc_ID) => {
+    const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
+    if (selectedRow) {
+      console.log("Selected Row Data:", selectedRow);
+     selectedRow.doc_ID = String(selectedRow.doc_ID);
+     setEditFormData({
+      ...selectedRow,
+      file: selectedRow.file ? new File([], selectedRow.file.name) : null,
+    });
+      setShowEditForm(true);
+    }
+  };
+  
+
+  // the "save form function of edit modal"
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    const confirmed = window.confirm("Are you sure you want to save changes?");
+  
+    // If the user clicks "OK" (confirmed is true), proceed with the API call
+    if (confirmed) {
+      try {
+        // Create a new FormData object
+        const formDataToSend = new FormData();
+        // para sa date 
+        const formattedDate = formData.dateIssued.toLocaleDateString();
+        // Append the non-file data to formDataToSend
+        formDataToSend.append("doc_ID", String(editFormData.doc_ID));
+        formDataToSend.append("doc_type_id", editFormData.doc_type_id);
+        formDataToSend.append("dateIssued", formattedDate);
+        formDataToSend.append("status_id", editFormData.status_id);
+        formDataToSend.append("personnel_id", editFormData.personnel_id);
+        formDataToSend.append("department_id", editFormData.department_id);
+        formDataToSend.append("remarks", editFormData.remarks);
+  
+        // Append the file if it exists
+        if (editFormData.file && editFormData.file instanceof File) {
+          formDataToSend.append("file", editFormData.file);
+        }
+        
+      
+        // Make the API call to update the document details
+        const response = await axios.put(
+          `http://localhost:8081/updateDocument/${editFormData.doc_ID}`,
+          formDataToSend
+        );
+  
+        if (response.data.Status === "Success") {
+          alert("Document edited successfully!");
+          setShowEditForm(false);
+          fetchDocuments(); // Refresh the document list
+        } else {
+          alert("Error editing document. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while editing the document.");
+      }
+    } else {
+      // If the user clicks "Cancel" in the confirmation dialog
+      alert("Changes not saved.");
+    }
+  };
+  
+  
+  //EDIT
+
+
 
   const [documents, setDocuments] = useState([]);
 
   const [showForm, setShowForm] = useState(false);
-  
+
+  // for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = documents.slice(indexOfFirstItem, indexOfLastItem);
 
+  // for more details
   const [selectedRowData, setSelectedRowData] = useState(null);
   const [isInfoModalOpen, setInfoModalOpen] = useState(false);
-
-
-
+  
   const handleInfoClick = (doc_ID) => {
     // Find the selected row data based on the inst_id
     const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
@@ -38,6 +145,8 @@ export default function NormalCommunications() {
     }
   };
 
+
+  // to fetch 
   useEffect(() => {
     fetchDocuments();
   }, []);
@@ -63,7 +172,7 @@ export default function NormalCommunications() {
     return maxDocID + 1;
   };
   
-
+//  all data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -71,6 +180,14 @@ export default function NormalCommunications() {
       [name]: value,
     });
   };
+// for file in the add form only
+const handleFileChange = (e) => {
+  const selectedFile = e.target.files[0];
+  setFormData((prevData) => ({
+    ...prevData,
+    file: selectedFile,
+  }));
+};
 
 
 
@@ -85,17 +202,19 @@ export default function NormalCommunications() {
 
 
   const handleClearFormClick = () => {
-    setFormData({
-      file: "",
+    setFormData((prevData) => ({
+      ...prevData,
+      doc_ID: "",
+      file: null,
       documentType: "",
       dateIssued: new Date(),
-      status: "" ,
+      status: "0",
       assignatories: "",
-      remarks: "" ,
-
-    });
+      department: "",
+      remarks: "",
+      userID: prevData.userID,
+    }));
   };
-
 
 
   // pang add data sa database if eclick ang submit
@@ -104,20 +223,36 @@ export default function NormalCommunications() {
     try {
       const docID = getMaxDocID();
       const formattedDate = formData.dateIssued.toLocaleDateString();
-      const response = await axios.post("http://localhost:8081/addDocument", {
-        ...formData,
-        docID,
-        dateIssued: formattedDate,
-      });
+      const formDataToSend = new FormData();
+    
+      // Append form data including the file
+      formDataToSend.append("docID", docID);
+      formDataToSend.append("assignatories", formData.assignatories);
+      formDataToSend.append("documentType", formData.documentType);
+      formDataToSend.append("dateIssued", formattedDate);
+      formDataToSend.append("remarks", formData.remarks);
+      formDataToSend.append("status", formData.status);
+      formDataToSend.append("department", formData.department);
+      formDataToSend.append("file", formData.file);
+      formDataToSend.append("userID", formData.userID);
+
+      console.log("the formData to send " + JSON.stringify(formDataToSend));
+      const response = await axios.post("http://localhost:8081/addDocument", formDataToSend);
+  
       if (response.data.Status === "Success") {
         alert("Document added successfully!");
-        setFormData({
-          file: "",
+        setFormData((prevData) => ({
+          ...prevData,
+          file: null,
           documentType: "",
           dateIssued: new Date(),
+          status: "",
           assignatories: "",
+          department: "",
           remarks: "",
-        });
+          userID: prevData.userID,
+        }));
+      
         fetchDocuments();
         setShowForm(false);
       } else {
@@ -128,29 +263,46 @@ export default function NormalCommunications() {
       alert("An error occurred while adding the document.");
     }
   };
+  
 
 
+// function for delete button
+// sa admin ra ni
+// const handleDeleteClick = async (id) => {
+//   // Show a confirmation dialog
+//   const confirmDelete = window.confirm("Are you sure you want to delete this client?");
 
+//   if (confirmDelete) {
+//     try {
+//       // Fetch user information (replace this with your actual method of getting user info)
+//       const userResponse = await axios.get("http://localhost:8081"); 
+//       const { User_ID, First_Name, Last_Name } = userResponse.data;
 
-  const handleDeleteClick = async (id) => {
-  // Show a confirmation dialog
-  const confirmDelete = window.confirm("Are you sure you want to delete this client?");
+//       const deleteResponse = await axios.delete(`http://localhost:8081/deleteDocument/${id}`, {
+//         headers: {
+//           // Pass user information in headers
+//           user_ID: User_ID,
+//           first_Name: First_Name,
+//           last_Name: Last_Name,
+//         },
+//       });
 
-  if (confirmDelete) {
-    try {
-      const response = await axios.delete(`http://localhost:8081/deleteDocument/${id}`);
-      if (response.data.Status === "Success") {
-        alert("Document deleted successfully!");
-        fetchDocuments(); // Refresh the document list
-      } else {
-        alert("Error deleting client. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while deleting the client.");
-    }
-  }
-};
+//       console.log("delete function call user_id and name: " + User_ID, First_Name, Last_Name);
+
+//       if (deleteResponse.data.Status === "Success") {
+//         alert("Document deleted successfully!");
+//         fetchDocuments(); // Refresh the document list
+//       } else {
+//         alert("Error deleting document. Please try again.");
+//       }
+//     } catch (error) {
+//       console.error("Error:", error);
+//       alert("An error occurred while deleting the document (frontend).");
+//     }
+//   }
+// };
+
+  
 
 
   return (
@@ -163,6 +315,7 @@ export default function NormalCommunications() {
         formData={formData}
         showForm={showForm}
         handleChange={handleChange}
+        handleFileChange={handleFileChange}
         handleSubmit={handleSubmit}
         handleAddCommunicationClick={handleAddCommunicationClick}
         handleHideFormClick={handleHideFormClick}
@@ -177,78 +330,44 @@ export default function NormalCommunications() {
    <div>
   <CommunicationsNormalTable
     currentItems={currentItems}
-    handleDeleteClick={handleDeleteClick}
+    // handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
+    handleEditClick={handleEditClick}
   />
 </div>
 
+
+  {/* Edit Modal Form */}
+   {showEditForm && (
+  <CommunicationsNormalEditForm
+    editFormData={editFormData}
+    handleEditSubmit={handleEditSubmit}
+    handleCloseEditForm={() => setShowEditForm(false)}
+    handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
+    handleFileChange={(e) =>setEditFormData({ ...editFormData, file: e.target.files[0] })  } 
+  />
+)}
+
+
  </div>
 
- <div className="flex justify-between mt-4">
-  <button
-    onClick={() => setCurrentPage(currentPage - 1)}
-    disabled={currentPage === 1}
-    className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-  >
-    Previous
-  </button>
-  <span>{`Page ${currentPage}`}</span>
-  <button
-    onClick={() => setCurrentPage(currentPage + 1)}
-    disabled={indexOfLastItem >= documents.length}
-    className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-  >
-    Next
-  </button>
-</div>
-             {/* Info modal */}
-      {isInfoModalOpen && selectedRowData && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
-          <div className="bg-white rounded-lg p-8 z-50">
-            <h2 className="text-xl font-semibold mb-4">Communications Information</h2>
+   {/* Pagination */}
+   <CommunicationsNormalPagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        documents={documents}
+       itemsPerPage={itemsPerPage}
+      />
 
-            <div>
-
-               <thead>
-                <tr className="bg-gray-200">
-                <th className="px-4 py-2">Document ID</th> 
-                <th className="px-4 py-2">File</th>
-                <th className="px-4 py-2">Document Type</th>
-                <th className="px-4 py-2">Date Issued</th>
-                <th className="px-4 py-2">Status</th>
-                <th className="px-4 py-2">Remarks</th>
-                <th className="px-4 py-2">Assignatory</th>
-                <th className="px-4 py-2">Document Type</th>
-
-                </tr>
-               </thead>
-
-              <tbody>
-              <tr>
-               <td className="border px-4 py-2 text-center">{selectedRowData.doc_ID}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.file}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.document_type}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.date_issued}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.status}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.remarks}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.contact_firstName} {selectedRowData.contact_lastName}</td>
-               <td className="border px-4 py-2 text-center">{selectedRowData.document_type}</td>
-
-               </tr>
-              </tbody>
-
-            </div>
-
-            <button
-              className="mt-4 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-              onClick={() => setInfoModalOpen(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+             {/* Info modal/ MORE DETAILS */}
+             <div>
+             <CommunicationsNormalMoreDetails
+          isInfoModalOpen={isInfoModalOpen}
+          selectedRowData={selectedRowData}
+           setInfoModalOpen={setInfoModalOpen}
+/>
+             </div>
+      
 
     </div>
   );

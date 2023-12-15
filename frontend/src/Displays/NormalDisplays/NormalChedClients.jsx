@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ChedClientsNormalAddForm from "./ChedClientsNormalDisplayComponent/ChedClientsNormalAddForm";
 import ChedClientsNormalTable from "./ChedClientsNormalDisplayComponent/ChedClientsNormalTable";
+import ChedClientsNormalEditForm from "./ChedClientsNormalDisplayComponent/ChedClientsNormalEditForm";
+import ChedClientsNormalPagination from "./ChedClientsNormalDisplayComponent/ChedClientsNormalPagination";
 import ChedClientsNormalMoreDetails from "./ChedClientsNormalDisplayComponent/ChedClientsNormalMoreDetails";
 
-export default function ChedClients() {
+
+export default function NormalChedClients() {
   const [formData, setFormData] = useState({
     institutionID: "",
     institutionName: "",
@@ -17,8 +20,9 @@ export default function ChedClients() {
     file: null,
     userID: "",
   });
+  console.log("the formData " + JSON.stringify(formData));
 
-   // to fetch user_ID
+ // to fetch user_ID
  useEffect(() => {
   axios
     .get("http://localhost:8081")
@@ -33,16 +37,98 @@ export default function ChedClients() {
     });
 }, []);
 
+  //===== Edit =====//
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    institutionName: "",
+    inst_type_id: "",
+    address: "",
+    clientType: "",   
+    filingCat: "",
+    contactPerson: "",
+    contactNumber: "",
+    file: null,
+  }); console.log("the EditformData " + JSON.stringify(editFormData));
+
+
+  const handleEditClick = (inst_id) => {
+    const selectedRow = clients.find((client) => client.inst_id === inst_id);
+    if (selectedRow) {
+      console.log("Selected Row Data to edit:", selectedRow);
+      setEditFormData({
+        ...selectedRow,
+        file: selectedRow.file ? new File([], selectedRow.file.name) : null,
+      });
+      setShowEditForm(true);
+    }
+  };
+  
+  
+  
+ // the "save form function of edit modal"
+
+ const handleEditSubmit = async (e) => {
+  e.preventDefault();
+  const confirmed = window.confirm("Are you sure you want to save changes?");
+
+  // If the user clicks "OK" (confirmed is true), proceed with the API call
+  if (confirmed) {
+    try {
+      // Create a new FormData object
+      const formDataToSend = new FormData();
+
+      // Append the non-file data to formDataToSend
+      formDataToSend.append("inst_id", editFormData.inst_id);
+      formDataToSend.append("inst_name", editFormData.inst_name);
+      formDataToSend.append("inst_type_id", editFormData.inst_type_id);
+      formDataToSend.append("address", editFormData.address);
+      formDataToSend.append("client_type_id", editFormData.client_type_id);
+      formDataToSend.append("fil_cat_id", editFormData.fil_cat_id);
+      formDataToSend.append("contact_person", editFormData.contact_person);
+      formDataToSend.append("contact_number", editFormData.contact_number);
+
+      // Append the file if it exists
+      if (editFormData.file) {
+        formDataToSend.append("file", editFormData.file);
+      }
+
+      // Make the API call to update the client details
+      const response = await axios.put(
+        `http://localhost:8081/updateClient/${editFormData.inst_id}`,
+        formDataToSend
+      );
+
+      if (response.data.Status === "Success") {
+        alert("Client edited successfully!");
+        setShowEditForm(false);
+        fetchClients(); // Refresh the client list
+      } else {
+        alert("Error editing client. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while editing the client.");
+    }
+  } else {
+    // If the user clicks "Cancel" in the confirmation dialog
+    alert("Changes not saved.");
+  }
+};
+
+  //====Edit====//
+  
+
+  const handleCloseEditForm = () => {
+    setShowEditForm(false);
+  };
+    
+
+
   const [clients, setClients] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
-  // for filter dropdown
-  const [showInstitutionTypeFilterDropdown, setShowInstitutionTypeFilterDropdown] = useState(false);
-  const [showClientTypeFilterDropdown, setShowClientTypeFilterDropdown] = useState(false);
+  // const[showInstitutionList, setShowInstitutionListButton]= useState(true);  sa admin ra ni
  
-  // for filter by type
-  const [selectedFilter, setSelectedFilter] = useState("");
-  const [selectedInstitutionTypeFilter, setSelectedInstitutionTypeFilter] = useState("");
 
   // for search for filter
   const [searchQueryID, setSearchQueryID] = useState("");
@@ -76,10 +162,11 @@ export default function ChedClients() {
     fetchClients();
   }, []);
 
+  
   const fetchClients = async () => {
     try {
       const response = await axios.get("http://localhost:8081/getClients");
-      console.log(response.data); // Add this line to check the fetched data
+      console.log(response.data); //  line to check the fetched data
       const sortedClients = response.data.sort();
       setClients(sortedClients);
     } catch (error) {
@@ -96,16 +183,15 @@ export default function ChedClients() {
     return maxSeqNo + 1;
   };
 
-   // all data
+  // all data
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
-
-  // for file in the add form only
+// for file in the add form only
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFormData((prevData) => ({
@@ -114,25 +200,31 @@ export default function ChedClients() {
     }));
   };
   
-
+  // sa pang search filter sa inst_ID
   const handleSearchIDChange = (e) => {
     setSearchQueryID(e.target.value);
   };
-
+ // sa pang search filter sa inst_Name
   const handleSearchNameChange = (e) => {
     setSearchQueryName(e.target.value);
   };
 
   const handleAddClientClick = () => {
     setShowForm(true);
-  };
+    // setShowInstitutionListButton(false);
+    setFormData((prevData) => ({
+      ...prevData,
+    }));
+  };                        
 
   const handleHideFormClick = () => {
     setShowForm(false);
+    // setShowInstitutionListButton(true);
   };
 
   const handleClearFormClick = () => {
-    setFormData({
+    setFormData((prevData) => ({
+      ...prevData,
       institutionID: "",
       institutionName: "",
       institutionType: "",
@@ -140,33 +232,49 @@ export default function ChedClients() {
       clientType: "",
       contactPerson: "",
       contactNumber: "",
-      file: "",
-    });
+      file: null,
+      userID: prevData.userID,
+    }));
   };
 
 
   // pang add data sa database if eclick ang submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
       const seq_no = getMaxSeqNo();
-      const response = await axios.post("http://localhost:8081/addClient", {
-        ...formData,
-        seq_no,
-      });
+  
+      const formDataToSend = new FormData();
+      formDataToSend.append("seq_no", seq_no);
+      formDataToSend.append("institutionID", formData.institutionID);
+      formDataToSend.append("institutionName", formData.institutionName);
+      formDataToSend.append("institutionType", formData.institutionType);
+      formDataToSend.append("address", formData.address);
+      formDataToSend.append("clientType", formData.clientType);
+      formDataToSend.append("filingCat", formData.filingCat);
+      formDataToSend.append("contactPerson", formData.contactPerson);
+      formDataToSend.append("contactNumber", formData.contactNumber);
+      formDataToSend.append("file", formData.file); 
+      formDataToSend.append("userID", formData.userID);
+  
+      const response = await axios.post("http://localhost:8081/addClient", formDataToSend);
+  
       if (response.data.Status === "Success") {
         alert("Client added successfully!");
-        setFormData({
+        setFormData((prevData) => ({
+          ...prevData,
           institutionID: "",
           institutionName: "",
           institutionType: "",
           address: "",
           clientType: "",
           filingCat: "",
-          contactPerson: "",  // Clear the  fields
+          contactPerson: "",
           contactNumber: "",
-          file: "",
-        });
+          file: null, // Clear the file data
+          userID: prevData.userID,
+        }));
         fetchClients();
         setShowForm(false);
       } else {
@@ -179,50 +287,50 @@ export default function ChedClients() {
   };
   
 
-  const handleToggleInstitutionTypeFilterDropdown = () => {
-    setShowInstitutionTypeFilterDropdown(!showInstitutionTypeFilterDropdown);
-  };
+  //admin ra maka delete
+  // const handleDeleteClick = async (id) => {
+  //   // Show a confirmation dialog
+  //   const confirmDelete = window.confirm("Are you sure you want to delete this client?");
+  
+  //   if (confirmDelete) {
+  //     try {
+  //       // Fetch user information (replace this with your actual method of getting user info)
+  //       const userResponse = await axios.get("http://localhost:8081"); 
+  //       const { User_ID, First_Name, Last_Name } = userResponse.data;
+  
+  //       const deleteResponse = await axios.delete(`http://localhost:8081/deleteClient/${id}`, {
+  //         headers: {
+  //           // Pass user information in headers
+  //           User_ID: User_ID,
+  //           First_Name: First_Name,
+  //           Last_Name: Last_Name,
+  //         },
+  //       });
+  
+  //       console.log("delete function call user_id and name: " + User_ID, First_Name, Last_Name);
+  
+  //       if (deleteResponse.data.Status === "Success") {
+  //         alert("Client deleted successfully!");
+  //         fetchClients(); // Refresh the client list
+  //       } else {
+  //         alert("Error deleting client. Please try again.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       alert("An error occurred while deleting the client (frontend).");
+  //     }
+  //   }
+  // };
 
-  const handleToggleClientTypeFilterDropdown = () => {
-    setShowClientTypeFilterDropdown(!showClientTypeFilterDropdown);
-  };
 
-  const handleSelectFilter = (value) => {
-    setSelectedFilter(value);
-    setShowClientTypeFilterDropdown(false);
-  };
-
-  const handleSelectInstitutionTypeFilter = (value) => {
-    setSelectedInstitutionTypeFilter(value);
-    setShowInstitutionTypeFilterDropdown(false);
-  };
-
-  // commented cause staff have no delete
-//   const handleDeleteClick = async (id) => {
-//   // Show a confirmation dialog
-//   const confirmDelete = window.confirm("Are you sure you want to delete this client?");
-
-//   if (confirmDelete) {
-//     try {
-//       const response = await axios.delete(`http://localhost:8081/deleteClient/${id}`);
-//       if (response.data.Status === "Success") {
-//         alert("Client deleted successfully!");
-//         fetchClients(); // Refresh the client list
-//       } else {
-//         alert("Error deleting client. Please try again.");
-//       }
-//     } catch (error) {
-//       console.error("Error:", error);
-//       alert("An error occurred while deleting the client.");
-//     }
-//   }
-// };
   return (
     <div className="w-screen h-screen mt-2 p-2 ml-4">
       <h1 className="font-semibold text-2xl mb-4">CHED CLIENTS</h1>
 
-     {/* The add form */}
-     <ChedClientsNormalAddForm
+
+     <div className="flex-row gap-2">
+      {/* The add form */}
+      <ChedClientsNormalAddForm
         formData={formData}
         handleSubmit={handleSubmit}
         showForm={showForm}
@@ -232,6 +340,10 @@ export default function ChedClients() {
         handleChange={handleChange}
         handleFileChange={handleFileChange}
       />
+  
+      </div>
+   
+      
 
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
@@ -264,44 +376,43 @@ export default function ChedClients() {
     currentItems={currentItems}
     searchQueryID={searchQueryID}
     searchQueryName={searchQueryName}
-    selectedFilter={selectedFilter}
-    selectedInstitutionTypeFilter={selectedInstitutionTypeFilter}
+    // handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
-    handleToggleInstitutionTypeFilterDropdown={handleToggleInstitutionTypeFilterDropdown}
-    handleToggleClientTypeFilterDropdown={handleToggleClientTypeFilterDropdown}
-    handleSelectFilter={handleSelectFilter}
-    handleSelectInstitutionTypeFilter={handleSelectInstitutionTypeFilter}
-    showClientTypeFilterDropdown={showClientTypeFilterDropdown}
-    showInstitutionTypeFilterDropdown={showInstitutionTypeFilterDropdown}
+  handleEditClick={handleEditClick}
   />
 </div>
+
+
+{/* Edit Modal Form */}
+        {showEditForm && (
+    <ChedClientsNormalEditForm
+      editFormData={editFormData}
+      handleEditSubmit={handleEditSubmit}
+      handleCloseEditForm={handleCloseEditForm}
+      handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
+      handleFileChange={(e) =>setEditFormData({ ...editFormData, file: e.target.files[0] })  }  
+    />
+  )}  
+
     
     </div>
 
      {/* Pagination */}
-    <div className="flex justify-between mt-4">
-  <button
-    onClick={() => setCurrentPage(currentPage - 1)}
-    disabled={currentPage === 1}
-    className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-  >
-    Previous
-  </button>
-  <span>{`Page ${currentPage}`}</span>
-  <button
-    onClick={() => setCurrentPage(currentPage + 1)}
-    disabled={indexOfLastItem >= clients.length}
-    className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-  >
-    Next
-  </button>
-</div>
+     <ChedClientsNormalPagination
+  currentPage={currentPage}
+  setCurrentPage={setCurrentPage}
+  itemsPerPage={itemsPerPage}
+  totalItems={clients.length}
+/>
 
       {/* Info modal(MORE DETAILS) */}
- <ChedClientsNormalMoreDetails 
-   isInfoModalOpen={isInfoModalOpen}
-   setInfoModalOpen={setInfoModalOpen}
-   selectedRowData={selectedRowData}/>
+<ChedClientsNormalMoreDetails 
+  isInfoModalOpen={isInfoModalOpen}
+  setInfoModalOpen={setInfoModalOpen}
+  selectedRowData={selectedRowData}
+/>
+
+
 
 
     </div>
