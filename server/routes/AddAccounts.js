@@ -15,7 +15,7 @@ const salt = 10;
 
 //first line sa admin:addaccount(users)
 
-
+//CREATE
 router.post("/addUser", (req, res) => {
     const {
       userID,
@@ -71,11 +71,13 @@ router.post("/addUser", (req, res) => {
     });
   });
   
+// READ
   router.get("/getUsers", (req, res) => {
     const sql = `
       SELECT
       CAST(u.user_ID AS SIGNED) as user_ID,
       ut.type as user_type,
+      u.user_type_ID,
       u.email,
       u.password,
       u.last_name,
@@ -127,6 +129,96 @@ router.post("/addUser", (req, res) => {
       return res
         .status(200)
         .json({ Status: "Success", Message: "User deleted from the database" });
+    });
+  });
+
+
+
+  //UPDATE
+  router.put("/updateUser/:id", (req, res) => {
+    const { id } = req.params;
+  
+    if (!id) {
+      return res
+        .status(400)
+        .json({ Status: "Error", Message: "Invalid user ID provided" });
+    }
+  
+    const {
+      user_type_ID,
+      email,
+      password,
+      last_name,
+      first_name,
+      contact_number,
+    } = req.body;
+  
+    // Check if the email already exists in the database (excluding the current user's email)
+    const checkEmailSql =
+      "SELECT COUNT(*) AS emailCount FROM user WHERE email = ? AND user_ID != ?";
+  
+    db.query(checkEmailSql, [email, id], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.json({ Status: "Error" });
+      }
+  
+      // Check if an entry with the same email already exists
+      if (result[0].emailCount > 0) {
+        return res.json({ Status: "Email already exists" });
+      } else {
+        // Hash the password
+        bcrypt.hash(password, salt, (err, hash) => {
+          if (err) {
+            console.error(err);
+            return res.json({
+              Status: "Error",
+              Message: "Error hashing password",
+            });
+          }
+  
+          // Convert the hashed password to a string
+          const hashedPasswordString = hash.toString();
+  
+          // Update the user with the provided ID
+          const updateSql =
+            "UPDATE user SET user_type_ID = ?, email = ?, password = ?, last_name = ?, first_name = ?, contact_number = ? WHERE user_ID = ?";
+  
+          db.query(
+            updateSql,
+            [
+              user_type_ID,
+              email,
+              hashedPasswordString,
+              last_name,
+              first_name,
+              contact_number,
+              id,
+            ],
+            (err, result) => {
+              if (err) {
+                console.error(err);
+                return res.json({
+                  Status: "Error",
+                  Message: "Error updating user in the database",
+                });
+              }
+  
+              if (result.affectedRows === 0) {
+                return res
+                  .status(404)
+                  .json({ Status: "Error", Message: "User not found" });
+              }
+  
+              console.log("User updated in the database");
+              return res.status(200).json({
+                Status: "Success",
+                Message: "User updated in the database",
+              });
+            }
+          );
+        });
+      }
     });
   });
   

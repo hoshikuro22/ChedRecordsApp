@@ -41,7 +41,7 @@ export default function ChedClients() {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
     institutionName: "",
-    inst_type_id: "",
+    institutionType: "",
     address: "",
     clientType: "",   
     filingCat: "",

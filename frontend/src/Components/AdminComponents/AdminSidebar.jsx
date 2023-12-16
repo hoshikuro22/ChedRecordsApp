@@ -86,16 +86,17 @@ export default function AdminSidebar() {
             </ul>
           </div>
 
-          <div className="mb-4">
-            <a href="/admin/activitylog" className="px-2 rounded hover:bg-gray-700 flex gap-2 items-center">
-            <FaClockRotateLeft  />Activity Log
-            </a>
-          </div>
+        
 
           
           
           
           <div className='bottom-5 absolute'>
+          <div className="mb-4">
+            <a href="/admin/activitylog" className="px-2 rounded hover:bg-gray-700 flex gap-2 items-center">
+            <FaClockRotateLeft  />Activity Log
+            </a>
+          </div>
           <div className="mb-4">
             <a href="/admin/addaccount" className="px-2 rounded hover:bg-gray-700 flex gap-2 items-center">
             <IoMdPersonAdd />Accounts

@@ -54,7 +54,7 @@ export default function Communications() {
   const handleEditClick = (doc_ID) => {
     const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
     if (selectedRow) {
-      console.log("Selected Row Data:", selectedRow);
+      console.log("Selected Row Data to edit:", selectedRow);
      selectedRow.doc_ID = String(selectedRow.doc_ID);
      setEditFormData({
       ...selectedRow,

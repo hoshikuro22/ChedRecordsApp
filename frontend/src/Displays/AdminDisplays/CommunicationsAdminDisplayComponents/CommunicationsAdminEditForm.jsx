@@ -184,15 +184,15 @@ export default function CommunicationsAdminEditForm({
 CommunicationsAdminEditForm.propTypes = {
   editFormData: PropTypes.shape({
     doc_ID: PropTypes.string,
-    documentType: PropTypes.string, //sa read
+    // documentType: PropTypes.string, //sa read
     doc_type_id: PropTypes.number,  //sa put
-    department: PropTypes.string,   //sa read
+    // department: PropTypes.string,   //sa read
     department_id: PropTypes.number,//sa put
     dateIssued: PropTypes.instanceOf(Date),
-    status: PropTypes.string,      //sa read
+    // status: PropTypes.string,      //sa read
     status_id: PropTypes.number,   //sa put
     remarks: PropTypes.string,
-    assignatories: PropTypes.string, //sa read
+    // assignatories: PropTypes.string, //sa read
     personnel_id: PropTypes.number, // sa put
   }).isRequired,
 

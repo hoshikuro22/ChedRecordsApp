@@ -160,14 +160,14 @@ export default function ChedClientsAdminEditForm({
 
 ChedClientsAdminEditForm.propTypes = {
   editFormData: PropTypes.shape({
-   inst_id: PropTypes.string,
+    inst_id: PropTypes.string,
     inst_name: PropTypes.string, 
-    institutionType: PropTypes.string, //sa read
+    // institutionType: PropTypes.string, //sa read
     inst_type_id: PropTypes.number,   //sa put
     address: PropTypes.string,
-    clientType: PropTypes.string,    //sa read
+    // clientType: PropTypes.string,    //sa read
     client_type_id: PropTypes.number,//sa put
-    filingCat: PropTypes.string,    //sa read
+    // filingCat: PropTypes.string,    //sa read
     fil_cat_id: PropTypes.number,   //sa put
     contact_person: PropTypes.string,
     contact_number: PropTypes.string,

@@ -52,7 +52,7 @@ export default function ReportsAdminInstitutionsTable() {
               <th className="px-4 py-2">Seq No.(From Inst)</th>
               <th className="px-4 py-2">Institution Name</th>
               <th className="px-4 py-2">Institution Type</th>
-              <th className="px-4 py-2">Address</th>
+              {/* <th className="px-4 py-2">Address</th> */}
               <th className="px-4 py-2">Client Type</th>
               <th className="px-4 py-2">Filing Category</th>
               <th className="px-4 py-2">Contact Person</th>
@@ -69,7 +69,7 @@ export default function ReportsAdminInstitutionsTable() {
                 <td className="border px-4 py-2 text-center">{report.Seq_no}</td>
                 <td className="border px-4 py-2 text-center">{report.InstitutionName}</td>
                 <td className="border px-4 py-2 text-center">{report.InstitutionType}</td>
-                <td className="border px-4 py-2 text-center">{report.Address}</td>
+                {/* <td className="border px-4 py-2 text-center">{report.Address}</td> */}
                 <td className="border px-4 py-2 text-center">{report.ClientType}</td>
                 <td className="border px-4 py-2 text-center">{report.FilingCategory}</td>
                 <td className="border px-4 py-2 text-center">{report.ContactPerson}</td>
