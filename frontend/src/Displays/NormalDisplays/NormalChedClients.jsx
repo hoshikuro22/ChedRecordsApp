@@ -244,7 +244,7 @@ export default function NormalChedClients() {
 
     if (!userConfirmed) {
         // User clicked 'Cancel' in the confirmation dialog
-        alert("Client not added.");
+        alert("Client not added."); 
         return;
     }
     try {
