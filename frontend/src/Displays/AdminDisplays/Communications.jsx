@@ -179,6 +179,7 @@ export default function Communications() {
       [name]: value,
     });
   };
+
 // for file in the add form only
 const handleFileChange = (e) => {
   const selectedFile = e.target.files[0];
@@ -187,7 +188,6 @@ const handleFileChange = (e) => {
     file: selectedFile,
   }));
 };
-
 
 
   const handleAddCommunicationClick = () => {
@@ -312,7 +312,7 @@ const handleDeleteClick = async (id) => {
 
 
   return (
-    <div className="w-screen h-screen mt-2 p-2 ml-4">
+    <div className="w-screen h-auto mt-2 p-2 ml-4">
       <h1 className="font-semibold text-2xl mb-4">COMMUNICATIONS</h1>
 
       

@@ -26,7 +26,7 @@ export default function CommunicationsAdminEditForm({
           </div>
          
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Add File</label>
+            <label className="mb-1 text-sm font-semibold">Add File </label>
             <input
               type="file"
               name="file"   
@@ -72,7 +72,7 @@ export default function CommunicationsAdminEditForm({
               <DatePicker
   selected={editFormData.dateIssued ? new Date(editFormData.dateIssued) : null}
   onChange={(date) => handleChange({ target: { name: 'dateIssued', value: date } })}
-  dateFormat="MM/dd/yyyy"  // Set the desired date format
+  dateFormat="MM/dd/yyyy" 
   className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
 />
             </div>
@@ -194,6 +194,7 @@ CommunicationsAdminEditForm.propTypes = {
     remarks: PropTypes.string,
     // assignatories: PropTypes.string, //sa read
     personnel_id: PropTypes.number, // sa put
+   
   }).isRequired,
 
   handleEditSubmit: PropTypes.func.isRequired,

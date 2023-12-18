@@ -130,7 +130,7 @@ export default function ChedClientsAdminEditForm({
               
               type="file"
               name="file"
-              onChange={handleFileChange} // Add this line
+              onChange={handleFileChange} 
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             />
           </div>

@@ -59,9 +59,9 @@ export default function AdminPage() {
     <div>
      <AdminHeader />
       {auth ?
-      <div>
+      <div className="h-auto">
         {ifAdmin ?
-        <div className='flex gap-72'>
+        <div className='flex gap-72 h-auto'>
       
           
           <AdminSidebar />

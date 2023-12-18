@@ -9,8 +9,8 @@ export default function CommunicationsAdminPagination({
   const totalPages = Math.ceil(documents.length / itemsPerPage);
 
   return (
-    <div>
-      <div className="flex justify-between mt-4">
+    
+      <div className="flex justify-between mt-4 h-auto">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
@@ -27,7 +27,7 @@ export default function CommunicationsAdminPagination({
           Next
         </button>
       </div>
-    </div>
+    
   );
 }
 

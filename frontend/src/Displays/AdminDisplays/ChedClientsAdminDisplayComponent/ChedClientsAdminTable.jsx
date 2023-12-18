@@ -38,7 +38,7 @@ export default function ChedClientsAdminTable({
   return (
     <div>
         
-        <table className="table-auto w-full border-collapse border ">
+        <table className="table-auto w-full border-collapse border h-auto">
           <thead>
             <tr className="bg-gray-200">
               <th className="px-4 py-2">Seq No</th>

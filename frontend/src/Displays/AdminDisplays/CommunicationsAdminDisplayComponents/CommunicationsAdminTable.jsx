@@ -39,7 +39,7 @@ const handleSelectDepartmentFilter = (value) => {
 
   return (
     <div>
-      <table className="table-auto w-full border-collapse border">
+      <table className="table-auto w-full border-collapse border h-auto">
         <thead>
           <tr className="bg-gray-200">
             <th className="px-4 py-2">Doc No</th>
@@ -58,7 +58,7 @@ const handleSelectDepartmentFilter = (value) => {
                       ? 'Receiving'
                       : selectedDepartmentFilter === '2'
                       ? 'Scholarship'
-                      : selectedDepartmentFilter === '3'
+                      : selectedStatusFilter === '3'
                       ? 'Records'
                       : 'Filter'}
                   </button>

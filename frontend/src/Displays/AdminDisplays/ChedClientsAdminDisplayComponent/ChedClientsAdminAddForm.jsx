@@ -15,7 +15,7 @@ export default function ChedClientsAdminAddForm({
     <div>
         
         {showForm ? (
-        <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4">
+        <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4 h-auto">
           <h2 className="text-xl font-semibold mb-2">Add New Client</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" encType="multipart/form-data">
             <div className="flex flex-col">
