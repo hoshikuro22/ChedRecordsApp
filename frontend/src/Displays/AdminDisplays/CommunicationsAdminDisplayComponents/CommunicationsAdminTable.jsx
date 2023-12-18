@@ -7,6 +7,8 @@ export default function CommunicationsAdminTable({
   handleInfoClick,
   handleEditClick,
 }) {
+
+  //sa filtering function for STATUS//
   const [showStatusFilterDropdown, setShowStatusFilterDropdown] = useState(false);
   const [selectedStatusFilter, setSelectedStatusFilter] = useState('');
 
@@ -18,6 +20,22 @@ export default function CommunicationsAdminTable({
     setSelectedStatusFilter(value);
     setShowStatusFilterDropdown(false);
   };
+//sa filtering function for STATUS//
+
+//sa filtering function for DEPARTMENT//
+
+const [showDepartmentFilterDropdown, setShowDepartmentFilterDropdown] = useState(false);
+const [selectedDepartmentFilter, setSelectedDepartmentFilter] = useState('');
+
+const handleToggleDepartmentFilterDropdown = () => {
+  setShowDepartmentFilterDropdown(!showDepartmentFilterDropdown);
+};
+
+const handleSelectDepartmentFilter = (value) => {
+  setSelectedDepartmentFilter(value);
+  setShowDepartmentFilterDropdown(false);
+};
+//sa filtering function for DEPARTMENT//
 
   return (
     <div>
@@ -28,7 +46,72 @@ export default function CommunicationsAdminTable({
             <th className="px-4 py-2">File</th>
             <th className="px-4 py-2">Assignatory</th>
             <th className="px-4 py-2">Type</th>
-            <th className="px-4 py-2">Department</th>
+            <th className="px-4 py-2">
+  Department
+  <div className="relative inline-block ml-2">
+  <button
+                    onClick={handleToggleDepartmentFilterDropdown}
+                    type="button"
+                    className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                  >
+                    {selectedDepartmentFilter === '1'
+                      ? 'Receiving'
+                      : selectedDepartmentFilter === '2'
+                      ? 'Scholarship'
+                      : selectedDepartmentFilter === '3'
+                      ? 'Records'
+                      : 'Filter'}
+                  </button>
+    {showDepartmentFilterDropdown ? (
+      <div
+        className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+      >
+        <div className="py-1">
+          <button
+            onClick={() => handleSelectDepartmentFilter('')}
+            className={`${
+              selectedDepartmentFilter === ''
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => handleSelectDepartmentFilter('1')}
+            className={`${
+              selectedDepartmentFilter === '1'
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            Receiving
+          </button>
+          <button
+            onClick={() => handleSelectDepartmentFilter('2')}
+            className={`${
+              selectedDepartmentFilter === '2'
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            Scholarship
+          </button>
+          <button
+            onClick={() => handleSelectDepartmentFilter('3')}
+            className={`${
+              selectedDepartmentFilter === '3'
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            Records
+          </button>
+        </div>
+      </div>
+    ) : null}
+  </div>
+</th>
             <th className="px-4 py-2">Date Issued (year/month/date)</th>
             <th className="px-4 py-2">
               Status
@@ -103,11 +186,18 @@ export default function CommunicationsAdminTable({
           </tr>
         </thead>
         <tbody>
-  {currentItems.map((document) => (
-    ((selectedStatusFilter === "0" && document.status === "Pending") ||
-      (selectedStatusFilter === "1" && document.status === "Approved") ||
-      (selectedStatusFilter === "2" && document.status === "Disapproved") ||
-      selectedStatusFilter === "") && (
+  {currentItems
+    .filter((document) =>
+      ((selectedStatusFilter === '0' && document.status === 'Pending') ||
+        (selectedStatusFilter === '1' && document.status === 'Approved') ||
+        (selectedStatusFilter === '2' && document.status === 'Disapproved') ||
+        selectedStatusFilter === '') &&
+      ((selectedDepartmentFilter === '1' && document.department === 'Receiving') ||
+        (selectedDepartmentFilter === '2' && document.department === 'Scholarship') ||
+        (selectedDepartmentFilter === '3' && document.department === 'Records') ||
+        selectedDepartmentFilter === '')
+    )
+    .map((document) => (
       <tr key={document.doc_ID}>
         <td className="border px-4 py-2 text-center">{document.doc_ID}</td>
         <td className="border px-4 py-2 text-center">
@@ -147,9 +237,9 @@ export default function CommunicationsAdminTable({
           </button>
         </td>
       </tr>
-    )
-  ))}
+    ))}
 </tbody>
+
       </table>
     </div>
   );
