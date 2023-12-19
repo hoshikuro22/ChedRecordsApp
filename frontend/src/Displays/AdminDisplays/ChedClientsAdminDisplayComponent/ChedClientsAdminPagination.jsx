@@ -17,7 +17,7 @@ export default function ChedClientsAdminPagination({
   };
 
   return (
-    <div className="flex justify-between mt-4 h-auto">
+    <div className="flex justify-between mt-4 h-auto w-auto">
       <button
         onClick={handlePrevClick}
         disabled={currentPage === 1}

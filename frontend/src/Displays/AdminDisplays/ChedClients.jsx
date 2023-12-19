@@ -354,7 +354,7 @@ export default function ChedClients() {
       
 
 
-      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
+      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md h-78">
         <h2 className="text-xl font-semibold mb-2">List of CHED Clients</h2>
 
         {/* Search bar for filter by Institution ID or Name */}

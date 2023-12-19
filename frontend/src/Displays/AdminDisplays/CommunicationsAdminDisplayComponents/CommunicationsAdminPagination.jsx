@@ -10,7 +10,7 @@ export default function CommunicationsAdminPagination({
 
   return (
     
-      <div className="flex justify-between mt-4 h-auto">
+      <div className="flex justify-between mt-4 h-auto mb-24">
         <button
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
