@@ -61,7 +61,7 @@ ChedClientsAdminMoreDetails.propTypes = {
   selectedRowData: PropTypes.shape({
     inst_id: PropTypes.string.isRequired,
     inst_name: PropTypes.string.isRequired,
-    filing_category: PropTypes.string.isRequired,
+    // filing_category: PropTypes.string.isRequired,
     // file: PropTypes.any.isRequired,
     contact_person: PropTypes.string.isRequired,
     contact_number: PropTypes.string.isRequired,

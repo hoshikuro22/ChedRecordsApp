@@ -6,7 +6,6 @@ export default function ChedClientsAdminEditForm({
   handleEditSubmit,
   handleCloseEditForm,
   handleChange,
-  handleFileChange,
 }) {
   
   
@@ -103,7 +102,7 @@ export default function ChedClientsAdminEditForm({
               />
             </div>
           </div>
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Filing Category</label>
             <select
               required
@@ -123,8 +122,8 @@ export default function ChedClientsAdminEditForm({
               <option value="8">CAV TRACKER</option>
               <option value="9">THESIS/DISSERTATIONS</option>
             </select>
-          </div>
-          <div className="flex flex-col">
+          </div> */}
+          {/* <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">File</label>
             <input
               
@@ -133,7 +132,7 @@ export default function ChedClientsAdminEditForm({
               onChange={handleFileChange} 
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             />
-          </div>
+          </div> */}
 
          
 
@@ -168,13 +167,12 @@ ChedClientsAdminEditForm.propTypes = {
     // clientType: PropTypes.string,    //sa read
     client_type_id: PropTypes.number,//sa put
     // filingCat: PropTypes.string,    //sa read
-    fil_cat_id: PropTypes.number,   //sa put
     contact_person: PropTypes.string,
     contact_number: PropTypes.string,
-    file: PropTypes.object.isRequired,
+    // file: PropTypes.object.isRequired,
   }).isRequired,
   handleEditSubmit: PropTypes.func.isRequired,
   handleCloseEditForm: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleFileChange: PropTypes.func.isRequired,
+  // handleFileChange: PropTypes.func.isRequired,
 };

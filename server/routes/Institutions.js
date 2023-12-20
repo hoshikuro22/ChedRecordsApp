@@ -408,7 +408,7 @@ router.delete("/deleteClient/:id", (req, res) => {
 
 
   // UPDATE
-router.put('/updateClient/:id', upload.single('file'), (req, res) => {
+router.put('/updateClient/:id', (req, res) => {
   const { id } = req.params;
   const {
     inst_name,
@@ -420,154 +420,49 @@ router.put('/updateClient/:id', upload.single('file'), (req, res) => {
     contact_number,
   } = req.body;
 
-  // Check if a file was uploaded
-  const newFile = req.file ? req.file.filename : null;
-
   if (!id) {
     return res.status(400).json({ Status: 'Error', Message: 'Invalid client ID provided' });
   }
 
-  // Get the current file name from the database
-  const getCurrentFileSQL = 'SELECT file FROM institution WHERE inst_id = ?';
-  db.query(getCurrentFileSQL, [id], (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        Status: 'Error',
-        Message: 'Error retrieving current file from the database',
-      });
-    }
+  const updateInstitutionSQL = `
+    UPDATE institution 
+    SET inst_name=?, inst_type_id=?, address=?, client_type_id=?, contact_person=?, contact_number=? 
+    WHERE inst_id=?`;
 
-    const currentFile = result[0] ? result[0].file : null;
-
-    const updateInstitutionSQL = `
-      UPDATE institution 
-      SET inst_name=?, inst_type_id=?, address=?, client_type_id=?, fil_cat_id=?, contact_person=?, contact_number=?, file=? 
-      WHERE inst_id=?`;
-
-    db.query(
-      updateInstitutionSQL,
-      [
-        inst_name,
-        inst_type_id,
-        address,
-        client_type_id,
-        fil_cat_id,
-        contact_person,
-        contact_number,
-        newFile,
-        id,
-      ],
-      (err, result) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({
-            Status: 'Error',
-            Message: 'Error updating client in the database',
-          });
-        }
-
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ Status: 'Error', Message: 'Client not found' });
-        }
-
-        // Delete the old file if it exists and is different from the new file
-        if (currentFile && currentFile !== newFile) {
-          const filePath = join(uploadsPath, currentFile);
-          fs.unlinkSync(filePath);
-        }
-
-        console.log('Client updated in the database');
-        return res.status(200).json({
-          Status: 'Success',
-          Message: 'Client updated in the database',
+  db.query(
+    updateInstitutionSQL,
+    [
+      inst_name,
+      inst_type_id,
+      address,
+      client_type_id,
+      contact_person,
+      contact_number,
+      id,
+    ],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          Status: 'Error',
+          Message: 'Error updating client in the database',
         });
       }
-    );
-  });
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ Status: 'Error', Message: 'Client not found' });
+      }
+
+      console.log('Client updated in the database');
+      return res.status(200).json({
+        Status: 'Success',
+        Message: 'Client updated in the database',
+      });
+    }
+  );
 });
 
 
-
-  // UPDATE
-router.put('/updateClient/:id', upload.single('file'), (req, res) => {
-  const { id } = req.params;
-  const {
-    inst_name,
-    inst_type_id,
-    address,
-    client_type_id,
-    fil_cat_id,
-    contact_person,
-    contact_number,
-  } = req.body;
-
-  // Check if a file was uploaded
-  const newFile = req.file ? req.file.filename : null;
-
-  if (!id) {
-    return res.status(400).json({ Status: 'Error', Message: 'Invalid client ID provided' });
-  }
-
-  // Get the current file name from the database
-  const getCurrentFileSQL = 'SELECT file FROM institution WHERE inst_id = ?';
-  db.query(getCurrentFileSQL, [id], (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({
-        Status: 'Error',
-        Message: 'Error retrieving current file from the database',
-      });
-    }
-
-    const currentFile = result[0] ? result[0].file : null;
-
-    const updateInstitutionSQL = `
-      UPDATE institution 
-      SET inst_name=?, inst_type_id=?, address=?, client_type_id=?, fil_cat_id=?, contact_person=?, contact_number=?, file=? 
-      WHERE inst_id=?`;
-
-    db.query(
-      updateInstitutionSQL,
-      [
-        inst_name,
-        inst_type_id,
-        address,
-        client_type_id,
-        fil_cat_id,
-        contact_person,
-        contact_number,
-        newFile,
-        id,
-      ],
-      (err, result) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({
-            Status: 'Error',
-            Message: 'Error updating client in the database',
-          });
-        }
-
-        if (result.affectedRows === 0) {
-          return res.status(404).json({ Status: 'Error', Message: 'Client not found' });
-        }
-
-        // Delete the old file if it exists and is different from the new file
-        if (currentFile && currentFile !== newFile) {
-          const filePath = join(uploadsPath, currentFile);
-          fs.unlinkSync(filePath);
-        }
-
-        console.log('Client updated in the database');
-        return res.status(200).json({
-          Status: 'Success',
-          Message: 'Client updated in the database',
-        });
-      }
-    );
-  });
-});
 
 
   // last line sa admin:instituion(chedclients)

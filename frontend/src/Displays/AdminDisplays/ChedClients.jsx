@@ -69,49 +69,39 @@ export default function ChedClients() {
 
  const handleEditSubmit = async (e) => {
   e.preventDefault();
-    const userConfirmed = window.confirm("Are you sure you want to save changes?");
+  const userConfirmed = window.confirm("Are you sure you want to save changes?");
 
-    if (!userConfirmed) {
-        // User clicked 'Cancel' in the confirmation dialog
-        alert("Changes not saved.");
-        return;
-    }
-    try {
-      // Create a new FormData object
-      const formDataToSend = new FormData();
+  if (!userConfirmed) {
+    // User clicked 'Cancel' in the confirmation dialog
+    alert("Changes not saved.");
+    return;
+  }
 
-      // Append the non-file data to formDataToSend
-      formDataToSend.append("inst_id", editFormData.inst_id);
-      formDataToSend.append("inst_name", editFormData.inst_name);
-      formDataToSend.append("inst_type_id", editFormData.inst_type_id);
-      formDataToSend.append("address", editFormData.address);
-      formDataToSend.append("client_type_id", editFormData.client_type_id);
-      // formDataToSend.append("fil_cat_id", editFormData.fil_cat_id);
-      formDataToSend.append("contact_person", editFormData.contact_person);
-      formDataToSend.append("contact_number", editFormData.contact_number);
-
-      // // Append the file if it exists
-      // if (editFormData.file) {
-      //   formDataToSend.append("file", editFormData.file);
-      // }
-
-      // Make the API call to update the client details
-      const response = await axios.put(
-        `http://localhost:8081/updateClient/${editFormData.inst_id}`,
-        formDataToSend
-      );
-
-      if (response.data.Status === "Success") {
-        alert("Client edited successfully!");
-        setShowEditForm(false);
-        fetchClients(); // Refresh the client list
-      } else {
-        alert("Error editing client. Please try again.");
+  try {
+    const response = await axios.put(
+      `http://localhost:8081/updateClient/${editFormData.inst_id}`,
+      {
+        inst_id: editFormData.inst_id,
+        inst_name: editFormData.inst_name,
+        inst_type_id: editFormData.inst_type_id,
+        address: editFormData.address,
+        client_type_id: editFormData.client_type_id,
+        contact_person: editFormData.contact_person,
+        contact_number: editFormData.contact_number,
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while editing the client.");
+    );
+
+    if (response.data.Status === "Success") {
+      alert("Client edited successfully!");
+      setShowEditForm(false);
+      fetchClients(); // Refresh the client list
+    } else {
+      alert("Error editing client. Please try again.");
     }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while editing the client.");
+  }
 };
 
 
@@ -392,7 +382,7 @@ export default function ChedClients() {
       handleEditSubmit={handleEditSubmit}
       handleCloseEditForm={handleCloseEditForm}
       handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
-      handleFileChange={(e) =>setEditFormData({ ...editFormData, file: e.target.files[0] })  }  
+      // handleFileChange={(e) =>setEditFormData({ ...editFormData, file: e.target.files[0] })  }  
     />
   )}  
 
