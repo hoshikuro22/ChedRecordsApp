@@ -14,10 +14,10 @@ export default function ChedClients() {
     institutionType: "",
     address: "",
     clientType: "",
-    filingCat: "",
+    // filingCat: "",
     contactPerson: "", 
     contactNumber: "", 
-    file: null,
+    // file: null,
     userID: "",
   });
   console.log("the formData " + JSON.stringify(formData));
@@ -44,10 +44,10 @@ export default function ChedClients() {
     institutionType: "",
     address: "",
     clientType: "",   
-    filingCat: "",
+    // filingCat: "",
     contactPerson: "",
     contactNumber: "",
-    file: null,
+    // file: null,
   }); console.log("the EditformData " + JSON.stringify(editFormData));
 
 
@@ -57,7 +57,7 @@ export default function ChedClients() {
       console.log("Selected Row Data to edit:", selectedRow);
       setEditFormData({
         ...selectedRow,
-        file: selectedRow.file ? new File([], selectedRow.file.name) : null,
+        // file: selectedRow.file ? new File([], selectedRow.file.name) : null,
       });
       setShowEditForm(true);
     }
@@ -86,14 +86,14 @@ export default function ChedClients() {
       formDataToSend.append("inst_type_id", editFormData.inst_type_id);
       formDataToSend.append("address", editFormData.address);
       formDataToSend.append("client_type_id", editFormData.client_type_id);
-      formDataToSend.append("fil_cat_id", editFormData.fil_cat_id);
+      // formDataToSend.append("fil_cat_id", editFormData.fil_cat_id);
       formDataToSend.append("contact_person", editFormData.contact_person);
       formDataToSend.append("contact_number", editFormData.contact_number);
 
-      // Append the file if it exists
-      if (editFormData.file) {
-        formDataToSend.append("file", editFormData.file);
-      }
+      // // Append the file if it exists
+      // if (editFormData.file) {
+      //   formDataToSend.append("file", editFormData.file);
+      // }
 
       // Make the API call to update the client details
       const response = await axios.put(
@@ -192,13 +192,13 @@ export default function ChedClients() {
     }));
   };
 // for file in the add form only
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      file: selectedFile,
-    }));
-  };
+  // const handleFileChange = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     file: selectedFile,
+  //   }));
+  // };
   
   // sa pang search filter sa inst_ID
   const handleSearchIDChange = (e) => {
@@ -232,7 +232,6 @@ export default function ChedClients() {
       clientType: "",
       contactPerson: "",
       contactNumber: "",
-      file: null,
       userID: prevData.userID,
     }));
   };
@@ -247,52 +246,46 @@ export default function ChedClients() {
         // User clicked 'Cancel' in the confirmation dialog
         alert("Client not added.");
         return;
+    }
 
-    }
     try {
-      const seq_no = getMaxSeqNo();
-  
-      const formDataToSend = new FormData();
-      formDataToSend.append("seq_no", seq_no);
-      formDataToSend.append("institutionID", formData.institutionID);
-      formDataToSend.append("institutionName", formData.institutionName);
-      formDataToSend.append("institutionType", formData.institutionType);
-      formDataToSend.append("address", formData.address);
-      formDataToSend.append("clientType", formData.clientType);
-      formDataToSend.append("filingCat", formData.filingCat);
-      formDataToSend.append("contactPerson", formData.contactPerson);
-      formDataToSend.append("contactNumber", formData.contactNumber);
-      formDataToSend.append("file", formData.file); 
-      formDataToSend.append("userID", formData.userID);
-  
-      const response = await axios.post("http://localhost:8081/addClient", formDataToSend);
-  
-      if (response.data.Status === "Success") {
-        alert("Client added successfully!");
-        setFormData((prevData) => ({
-          ...prevData,
-          institutionID: "",
-          institutionName: "",
-          institutionType: "",
-          address: "",
-          clientType: "",
-          filingCat: "",
-          contactPerson: "",
-          contactNumber: "",
-          file: null, // Clear the file data
-          userID: prevData.userID,
-        }));
-        fetchClients();
-        setShowForm(false);
-      } else {
-        alert("Error adding client. Please try again.(frontend)");
-      }
+        const seq_no = getMaxSeqNo();
+
+        const response = await axios.post("http://localhost:8081/addClient", {
+            seq_no: seq_no,
+            institutionID: formData.institutionID,
+            institutionName: formData.institutionName,
+            institutionType: formData.institutionType,
+            address: formData.address,
+            clientType: formData.clientType,
+            contactPerson: formData.contactPerson,
+            contactNumber: formData.contactNumber,
+            userID: formData.userID,
+        });
+
+        if (response.data.Status === "Success") {
+            alert("Client added successfully!");
+            setFormData({
+                institutionID: "",
+                institutionName: "",
+                institutionType: "",
+                address: "",
+                clientType: "",
+                contactPerson: "",
+                contactNumber: "",
+                userID: formData.userID,
+            });
+            fetchClients();
+            setShowForm(false);
+        } else {
+            alert("Error adding client. Please try again.(frontend)");
+        }
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while adding the client.");
+        console.error("Error:", error);
+        alert("An error occurred while adding the client.");
     }
-  };
-  
+};
+
 
   const handleDeleteClick = async (id) => {
     // Show a confirmation dialog
@@ -344,9 +337,10 @@ export default function ChedClients() {
         handleHideFormClick={handleHideFormClick}
         handleClearFormClick={handleClearFormClick}
         handleChange={handleChange}
-        handleFileChange={handleFileChange}
+        // handleFileChange={handleFileChange}
       />
   
+     {/* Show Institution list */}
       </div>
       {showInstitutionList &&(
       <ChedClientsAdminShowInstitutions

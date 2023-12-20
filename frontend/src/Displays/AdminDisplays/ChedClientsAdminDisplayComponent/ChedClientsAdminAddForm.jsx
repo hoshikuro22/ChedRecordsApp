@@ -8,7 +8,7 @@ export default function ChedClientsAdminAddForm({
     handleHideFormClick,
     handleClearFormClick,
     handleChange,
-    handleFileChange
+    // handleFileChange
   }) {
 
   return (
@@ -17,7 +17,7 @@ export default function ChedClientsAdminAddForm({
         {showForm ? (
         <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4 h-auto">
           <h2 className="text-xl font-semibold mb-2">Add New Client</h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" encType="multipart/form-data">
+          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" >
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Institution ID <a className='font-black'>(Not Editable)</a></label>
               <input
@@ -85,10 +85,12 @@ export default function ChedClientsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
                 <option value="">Select Client Type</option>
-                <option value="1">Internal</option>
-                <option value="2">External</option>
+                <option value="1">Internal - CHED10</option>
+                <option value="2">External - HEIS </option>
+            
               </select>
             </div>
+            
             <div className="flex gap-4">
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Contact Person</label>
@@ -116,7 +118,7 @@ export default function ChedClientsAdminAddForm({
               />
             </div>
             </div>
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">  tanggalon
               <label className="mb-1 text-sm font-semibold">Filing Category</label>
               <select
                 required
@@ -138,9 +140,9 @@ export default function ChedClientsAdminAddForm({
                   <option value="9">THESIS/DISSERTATIONS</option>
  
               </select>
-            </div>
+            </div> */}
             
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col"> tanggalon
               <label className="mb-1 text-sm font-semibold">Add File</label>
             <input
             required
@@ -151,7 +153,7 @@ export default function ChedClientsAdminAddForm({
             onChange={handleFileChange}
             className="border">
             </input>
-            </div>
+            </div> */}
             
 
             <div className="col-span-2 ml-auto gap-">
@@ -204,14 +206,14 @@ ChedClientsAdminAddForm.propTypes = {
       institutionType: PropTypes.string,
       address: PropTypes.string,
       clientType: PropTypes.string,
-      filingCat: PropTypes.string,
+      // filingCat: PropTypes.string,
       contactPerson: PropTypes.string,
       contactNumber: PropTypes.string,
-      file: PropTypes.object,
+      // file: PropTypes.object,
     }).isRequired,
     handleAddClientClick: PropTypes.func.isRequired,
     handleHideFormClick: PropTypes.func.isRequired,
     handleClearFormClick: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
-    handleFileChange: PropTypes.func.isRequired,
+    // handleFileChange: PropTypes.func.isRequired,
   };

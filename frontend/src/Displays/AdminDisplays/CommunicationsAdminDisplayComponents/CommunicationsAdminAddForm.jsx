@@ -33,7 +33,7 @@ export default function CommunicationsAdminAddForm({
             </div>
             
             <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Document Type</label>
+  <label className="mb-1 text-sm font-semibold">Filing Category</label>
   <select 
     required
     id="documentType"
@@ -42,7 +42,7 @@ export default function CommunicationsAdminAddForm({
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
-    <option value="">Select Document Type</option>
+    <option value="">Select Filing Category</option>
     <option value="1">OFFICE MEMO MESSAGES</option>
     <option value="2">CERTIFICATES</option>
     <option value="3">RECOMMENDATIONS</option>
@@ -89,7 +89,7 @@ export default function CommunicationsAdminAddForm({
               />
             </div>
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Assignatories</label>
+              <label className="mb-1 text-sm font-semibold">Assigned to:  (mag fetch dapat)</label>
               <select 
                 required
                 id="assignatories"
@@ -123,6 +123,7 @@ export default function CommunicationsAdminAddForm({
 
               </select>
             </div>
+            
 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
@@ -135,6 +136,23 @@ export default function CommunicationsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
                 <option value="">Select Department</option>
+                <option value="1">Receiving</option>
+                <option value="2">Scholarship</option>
+                <option value="3">Records</option>
+               
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Institution Name (Mag fetch dapat)</label>
+              <select 
+                required
+                id="department"
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              >
+                <option value="">Select Institution</option>
                 <option value="1">Receiving</option>
                 <option value="2">Scholarship</option>
                 <option value="3">Records</option>
@@ -164,7 +182,12 @@ export default function CommunicationsAdminAddForm({
 
 
             <div className="col-span-2 ml-auto ">
-              
+            <button
+                
+                className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
+              >
+                Add Institution
+              </button>
               <button
                 type="submit"
                 className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
