@@ -105,6 +105,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
     remarks,
     status,
     department,
+    institution,
     userID,
   } = req.body;
   const file = req.file;
@@ -137,7 +138,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
         }
 
         const documentInsertQuery =
-          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Issued, remarks, status_id, department_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Issued, remarks, status_id, department_id, inst_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const documentInsertValues = [
           docID,
           assignatories,
@@ -146,6 +147,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
           remarks,
           status,
           department,
+          institution,
           file.filename,
         ];
 
@@ -273,26 +275,30 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
   router.get("/getDocuments", (req, res) => {
     const sql = `
     SELECT
-      CAST(d.Doc_ID AS SIGNED) AS doc_ID,
-      dt.Type AS document_type,
-      lp.first_name as contact_firstName,
-      lp.last_name as contact_lastName,
-      lp.position as contact_position,
-      d.doc_type_id,
-      d.personnel_id,
-      d.department_id,
-      d.status_id,
-      d.file,
-      d.date_issued,
-      d.remarks,
-      s.type AS status,
-      dep.type AS department  
-    FROM document d
-    JOIN document_type dt ON d.Doc_Type_ID = dt.Doc_Type_ID
-    JOIN list_personnel lp ON d.Personnel_ID = lp.Personnel_ID
-    JOIN status s ON d.status_id = s.status_ID
-    JOIN department dep ON d.department_id = dep.department_ID  
-    ORDER BY doc_ID ASC;
+  CAST(d.Doc_ID AS SIGNED) AS doc_ID,
+  dt.Type AS document_type,
+  lp.first_name as contact_firstName,
+  lp.last_name as contact_lastName,
+  lp.position as contact_position,
+  d.doc_type_id,
+  d.personnel_id,
+  d.department_id,
+  d.status_id,
+  d.file,
+  d.date_issued,
+  d.remarks,
+  s.type AS status,
+  dep.type AS department,
+  i.inst_name AS institution_name
+FROM document d
+JOIN document_type dt ON d.Doc_Type_ID = dt.Doc_Type_ID
+JOIN list_personnel lp ON d.Personnel_ID = lp.Personnel_ID
+JOIN status s ON d.status_id = s.status_ID
+JOIN department dep ON d.department_id = dep.department_ID
+JOIN institution i ON d.inst_ID = i.inst_ID 
+ORDER BY doc_ID ASC;
+
+  
     `;
   
     db.query(sql, (err, data) => {

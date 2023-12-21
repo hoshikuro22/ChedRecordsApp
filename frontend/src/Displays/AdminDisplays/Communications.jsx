@@ -17,6 +17,7 @@ export default function Communications() {
     assignatories: "",
     department: "",
     remarks: "",
+    institution: "",
     userID: "", 
   });
   console.log("the formData " + JSON.stringify(formData));
@@ -36,6 +37,39 @@ export default function Communications() {
           console.error("Error fetching User_ID:", error);
         });
     }, []);
+
+    // to fetch personnel for the add form
+    const [personnelOptions, setPersonnelOptions] = useState([]);
+
+   useEffect(() => {
+  const fetchPersonnelData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/getPersonnels");
+      setPersonnelOptions(response.data);
+      console.log("the personnels " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching personnel data:", error);
+    }
+  }; fetchPersonnelData(); }, []);
+
+  // to fetch institution for the add form
+const [institutionsOptions, setInstitutionsOptions] = useState([]);
+
+useEffect(() => {
+  const fetchInstitutionData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/getClients");
+      setInstitutionsOptions(response.data);
+      console.log("the institutions " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching institution data:", error);
+    }
+  };
+
+  fetchInstitutionData();
+}, []);
+
+
   
  //===== Edit =====//
   const [showEditForm, setShowEditForm] = useState(false);
@@ -239,6 +273,7 @@ const handleFileChange = (e) => {
       formDataToSend.append("remarks", formData.remarks);
       formDataToSend.append("status", formData.status);
       formDataToSend.append("department", formData.department);
+      formDataToSend.append("institution", formData.institution);
       formDataToSend.append("file", formData.file);
       formDataToSend.append("userID", formData.userID);
 
@@ -256,6 +291,7 @@ const handleFileChange = (e) => {
           assignatories: "",
           department: "",
           remarks: "",
+          institution: "",
           userID: prevData.userID,
         }));
       
@@ -320,6 +356,8 @@ const handleDeleteClick = async (id) => {
       <CommunicationsAdminAddForm
         formData={formData}
         showForm={showForm}
+        personnelOptions={personnelOptions} 
+        institutionsOptions={institutionsOptions}
         handleChange={handleChange}
         handleFileChange={handleFileChange}
         handleSubmit={handleSubmit}

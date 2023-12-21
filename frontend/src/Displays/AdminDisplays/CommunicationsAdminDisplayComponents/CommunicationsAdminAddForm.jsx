@@ -2,9 +2,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; 
 import PropTypes from 'prop-types';
 
+
+
 export default function CommunicationsAdminAddForm({
     showForm,
     formData,
+    personnelOptions,
+    institutionsOptions,
     handleChange,
     handleSubmit,
     handleHideFormClick,
@@ -89,40 +93,24 @@ export default function CommunicationsAdminAddForm({
               />
             </div>
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Assigned to:  (mag fetch dapat)</label>
-              <select 
-                required
-                id="assignatories"
-                name="assignatories"
-                value={formData.assignatories}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-              <option value="">Select Assignatories</option>
-              <option value="1">Bernal, Freddie</option>
-              <option value="2">Apag, Desiderio III</option>
-              <option value="3">Bag-o, Maria Dejeaneth</option>
-              <option value="4">Bolasco, Angelica Katrina</option>
-              <option value="5">Cotejar, Lilia</option>
-              <option value="6">Duplito, Jay Loienie</option>
-              <option value="7">Fernandez, Glarigen</option>
-              <option value="8">Fuentes, Miriam</option>
-              <option value="9">Galapin, Laiza Anna</option>
-              <option value="10">Gomez, Leonora</option>
-              <option value="11">Ladera, Virgil Thery Amor</option>
-              <option value="12">Lopez, Elmer</option>
-              <option value="13">Lumasag, Rose Mae</option>
-              <option value="14">Lumongsod, Jasmin</option>
-              <option value="15">Medez, Sarah Jane</option>
-              <option value="16">Minguez, Arlita Amapola</option>
-              <option value="17">Morong, Abraham, Jr.</option>
-              <option value="18">Pamplona, Daryl Glenn</option>
-              <option value="19">Pasagad, Abegail</option>
-              <option value="20">Raagas, Susan Daisy</option>
-              <option value="21">Torres, Mark Godfrey</option>
+  <label className="mb-1 text-sm font-semibold">Assigned to:</label>
+  <select
+    required
+    id="assignatories"
+    name="assignatories"
+    value={formData.assignatories}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Assignatories</option>
+    {personnelOptions.map((person) => (
+      <option key={person.Personnel_ID} value={person.Personnel_ID}>
+        {`${person.Last_Name}, ${person.First_Name}`}
+      </option>
+    ))}
+  </select>
+</div>
 
-              </select>
-            </div>
             
 
             <div className="flex flex-col">
@@ -143,22 +131,23 @@ export default function CommunicationsAdminAddForm({
               </select>
             </div>
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Institution Name (Mag fetch dapat)</label>
-              <select 
-                required
-                id="department"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select Institution</option>
-                <option value="1">Receiving</option>
-                <option value="2">Scholarship</option>
-                <option value="3">Records</option>
-               
-              </select>
-            </div>
+  <label className="mb-1 text-sm font-semibold">Institution Name</label>
+  <select 
+    required
+    id="institution"
+    name="institution"
+    value={formData.institution}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Institution</option>
+    {institutionsOptions.map((institution) => (
+      <option key={institution.inst_id} value={institution.inst_id}>
+        {institution.inst_name}
+      </option>
+    ))}
+  </select>
+</div>
 
 
             {/* para ma add ang status sa add form */}
@@ -238,6 +227,7 @@ CommunicationsAdminAddForm.propTypes = {
     assignatories: PropTypes.string.isRequired,
     department: PropTypes.string.isRequired,
     remarks: PropTypes.string.isRequired,
+    institution: PropTypes.string.isRequired,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -245,4 +235,6 @@ CommunicationsAdminAddForm.propTypes = {
   handleClearFormClick: PropTypes.func.isRequired,
   handleFileChange: PropTypes.func.isRequired,
   handleAddCommunicationClick: PropTypes.func.isRequired,
+  personnelOptions: PropTypes.array.isRequired,
+  institutionsOptions: PropTypes.array.isRequired,
 };

@@ -38,6 +38,7 @@ router.post("/addPersonnel", (req, res) => {
     const sql = `
       SELECT
       CAST(p.Personnel_ID AS SIGNED) as Personnel_ID,
+      p.Personnel_ID,
       p.Last_Name,
       p.First_Name,
       p.Position
