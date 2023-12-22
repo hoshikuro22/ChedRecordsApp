@@ -82,6 +82,7 @@ useEffect(() => {
     assignatories: "",
     department: "",
     remarks: "",
+    institution: "",
   }); console.log("the EditformData " + JSON.stringify(editFormData));
  
 
@@ -123,6 +124,8 @@ useEffect(() => {
         formDataToSend.append("personnel_id", editFormData.personnel_id);
         formDataToSend.append("department_id", editFormData.department_id);
         formDataToSend.append("remarks", editFormData.remarks);
+        formDataToSend.append("inst_id", editFormData.inst_id);
+        
   
         // Append the file if it exists
         if (editFormData.file && editFormData.file instanceof File) {
@@ -385,6 +388,8 @@ const handleDeleteClick = async (id) => {
    {showEditForm && (
   <CommunicationsAdminEditForm
     editFormData={editFormData}
+    personnelOptions={personnelOptions} 
+    institutionsOptions={institutionsOptions}
     handleEditSubmit={handleEditSubmit}
     handleCloseEditForm={() => setShowEditForm(false)}
     handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}

@@ -3,8 +3,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function CommunicationsAdminEditForm({
-  // formData,
+  
   editFormData,
+  personnelOptions,
+  institutionsOptions,
   handleEditSubmit,
   handleCloseEditForm,
   handleChange,
@@ -34,6 +36,25 @@ export default function CommunicationsAdminEditForm({
               className="border"
             />
           </div>
+
+          <div className="flex flex-col">
+  <label className="mb-1 text-sm font-semibold">Institution Name</label>
+  <select 
+    required
+
+    name="inst_id"
+    value={editFormData.inst_id}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Institution</option>
+    {institutionsOptions.map((institution) => (
+      <option key={institution.inst_id} value={institution.inst_id}>
+        {institution.inst_name}
+      </option>
+    ))}
+  </select>
+</div>
 
             <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Document Type</label>
@@ -90,39 +111,45 @@ export default function CommunicationsAdminEditForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Assignatories</label>
-              <select 
-               
-                name="personnel_id"
-                value={editFormData.personnel_id}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-              <option value="">Select Assignatories</option>
-              <option value="1">Bernal, Freddie</option>
-              <option value="2">Apag, Desiderio III</option>
-              <option value="3">Bag-o, Maria Dejeaneth</option>
-              <option value="4">Bolasco, Angelica Katrina</option>
-              <option value="5">Cotejar, Lilia</option>
-              <option value="6">Duplito, Jay Loienie</option>
-              <option value="7">Fernandez, Glarigen</option>
-              <option value="8">Fuentes, Miriam</option>
-              <option value="9">Galapin, Laiza Anna</option>
-              <option value="10">Gomez, Leonora</option>
-              <option value="11">Ladera, Virgil Thery Amor</option>
-              <option value="12">Lopez, Elmer</option>
-              <option value="13">Lumasag, Rose Mae</option>
-              <option value="14">Lumongsod, Jasmin</option>
-              <option value="15">Medez, Sarah Jane</option>
-              <option value="16">Minguez, Arlita Amapola</option>
-              <option value="17">Morong, Abraham, Jr.</option>
-              <option value="18">Pamplona, Daryl Glenn</option>
-              <option value="19">Pasagad, Abegail</option>
-              <option value="20">Raagas, Susan Daisy</option>
-              <option value="21">Torres, Mark Godfrey</option>
-              </select>
-            </div>
+       <label className="mb-1 text-sm font-semibold">Assigned to:</label>
+  <select
+    required
+  
+    name="personnel_id"
+    value={editFormData.personnel_id}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Assignatories</option>
+    {personnelOptions.map((person) => (
+      <option key={person.personnel_id} value={person.personnel_id}>
+        {`${person.Last_Name}, ${person.First_Name}`}
+      </option>
+    ))}
+     </select>
+    </div>
+    {/* <div className="flex flex-col">
+  <label className="mb-1 text-sm font-semibold">Institution Name</label>
+  <select 
+    required
+
+    name="inst_id"
+    value={editFormData.inst_id}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Institution</option>
+    {institutionsOptions.map((institution) => (
+      <option key={institution.inst_id} value={institution.inst_id}>
+        {institution.inst_name}
+      </option>
+    ))}
+  </select>
+</div> */}
+
+           
 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
@@ -140,7 +167,6 @@ export default function CommunicationsAdminEditForm({
                
               </select>
             </div>
-
 
        
             <div className="flex flex-col">
@@ -186,6 +212,8 @@ CommunicationsAdminEditForm.propTypes = {
     doc_ID: PropTypes.string,
     // documentType: PropTypes.string, //sa read
     doc_type_id: PropTypes.number,  //sa put
+    // institution: PropTypes.string, // sa read
+    inst_id: PropTypes.string,
     // department: PropTypes.string,   //sa read
     department_id: PropTypes.number,//sa put
     dateIssued: PropTypes.instanceOf(Date),
@@ -194,6 +222,7 @@ CommunicationsAdminEditForm.propTypes = {
     remarks: PropTypes.string,
     // assignatories: PropTypes.string, //sa read
     personnel_id: PropTypes.number, // sa put
+    
    
   }).isRequired,
 
@@ -201,4 +230,6 @@ CommunicationsAdminEditForm.propTypes = {
   handleCloseEditForm: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleFileChange: PropTypes.func.isRequired,
+  personnelOptions: PropTypes.array.isRequired,
+  institutionsOptions: PropTypes.array.isRequired,
 };
