@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 
 export default function ChedClientsAdminEditForm({
   editFormData,
-  // formData,
   handleEditSubmit,
   handleCloseEditForm,
   handleChange,
@@ -102,39 +101,6 @@ export default function ChedClientsAdminEditForm({
               />
             </div>
           </div>
-          {/* <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Filing Category</label>
-            <select
-              required
-              name="fil_cat_id"
-              value={editFormData.fil_cat_id}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            >
-              <option value="">Select Filing Type</option>
-              <option value="1">CUSTOMER FEEDBACK FORMS</option>
-              <option value="2">AUTHORIZATION</option>
-              <option value="3">HEIS DESIGNATION/SPECIMEN</option>
-              <option value="4">ENROLLMENT LIST</option>
-              <option value="5">PROMOTIONAL REPORT</option>
-              <option value="6">LIST OF GRADUATES</option>
-              <option value="7">CAV CLAIM STUB</option>
-              <option value="8">CAV TRACKER</option>
-              <option value="9">THESIS/DISSERTATIONS</option>
-            </select>
-          </div> */}
-          {/* <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">File</label>
-            <input
-              
-              type="file"
-              name="file"
-              onChange={handleFileChange} 
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div> */}
-
-         
 
           <div className="col-span-2 ml-auto gap-">
             <button

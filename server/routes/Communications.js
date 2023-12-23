@@ -408,7 +408,51 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
     });
   });
 
-// UPDATE
+// UPDATE FOR STAFF
+router.put('/updateDocumentNormal/:id', (req, res) => {
+  const { id } = req.params;
+  const { doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id, inst_id } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ Status: 'Error', Message: 'Invalid Document ID provided' });
+  }
+
+  const updateDocumentSQL = `
+    UPDATE document
+    SET
+      doc_type_id = ?,
+      department_id = ?,
+      Date_Issued = ?,
+      status_id = ?,
+      remarks = ?,
+      personnel_id = ?,
+      inst_id = ?
+    WHERE doc_ID = ?`;
+
+  db.query(
+    updateDocumentSQL,
+    [doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id, inst_id, id],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({
+          Status: 'Error',
+          Message: 'Error updating document in the database',
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ Status: 'Error', Message: 'Document not found' });
+      }
+
+      console.log('Document updated in the database');
+      return res.status(200).json({
+        Status: 'Success',
+        Message: 'Document updated in the database',
+      });
+    }
+  );
+});
 
 
 

@@ -165,7 +165,7 @@ export default function CommunicationsAdminAddForm({
                 Add Institution
               </button>
               <button
-                type="submit"
+                
                 className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
               >
                 Add Communication

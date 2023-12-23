@@ -38,7 +38,7 @@ export default function Communications() {
         });
     }, []);
 
-    // to fetch personnel for the add form
+    // to fetch personnel for the add and edit form
     const [personnelOptions, setPersonnelOptions] = useState([]);
 
    useEffect(() => {
@@ -52,7 +52,7 @@ export default function Communications() {
     }
   }; fetchPersonnelData(); }, []);
 
-  // to fetch institution for the add form
+  // to fetch institution for the add and edit form 
 const [institutionsOptions, setInstitutionsOptions] = useState([]);
 
 useEffect(() => {
@@ -69,7 +69,7 @@ useEffect(() => {
   fetchInstitutionData();
 }, []);
 
-// to fetch document type for the add form
+// to fetch document type for the add and edit form
 const [documentTypeOptions, setDocumentTypeOptions] = useState([]);
 
 useEffect(() => {

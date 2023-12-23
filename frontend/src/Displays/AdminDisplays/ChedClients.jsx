@@ -181,14 +181,6 @@ export default function ChedClients() {
       [name]: value,
     }));
   };
-// for file in the add form only
-  // const handleFileChange = (e) => {
-  //   const selectedFile = e.target.files[0];
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     file: selectedFile,
-  //   }));
-  // };
   
   // sa pang search filter sa inst_ID
   const handleSearchIDChange = (e) => {

@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function CommunicationsNormalEditForm({
-  // formData,
   editFormData,
+  personnelOptions,
+  institutionsOptions,
+  documentTypeOptions,
   handleEditSubmit,
   handleCloseEditForm,
   handleChange,
-  handleFileChange,
 }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center">
@@ -19,114 +20,98 @@ export default function CommunicationsNormalEditForm({
         </span>
         <h2 className="text-2xl font-semibold mb-4">Edit Document</h2>
         <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
-
-        <div className="flex flex-col">
-        <label className="mb-1 text-sm font-semibold">Document ID:</label>
-        <label className='font-semibold text-1xl ml-3'>#{editFormData.doc_ID}</label>
-          </div>
-         
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Add File</label>
-            <input
-              type="file"
-              name="file"   
-              onChange={handleFileChange} 
-              className="border"
-            />
+            <label className="mb-1 text-sm font-semibold">Document ID:</label>
+            <label className="font-semibold text-1xl ml-3">
+              #{editFormData.doc_ID}
+            </label>
           </div>
 
-            <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Document Type</label>
+          <div className="flex flex-col">
+  <label className="mb-1 text-sm font-semibold">Institution Name</label>
   <select 
-   
-    name="doc_type_id"
-    value={editFormData.doc_type_id}
+    disabled
+
+    name="inst_id"
+    value={editFormData.inst_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
-    <option value="">Select Document Type</option>
-    <option value="1">OFFICE MEMO MESSAGES</option>
-    <option value="2">CERTIFICATES</option>
-    <option value="3">RECOMMENDATIONS</option>
-    <option value="4">MAIL CERTIFICATES</option>
-    <option value="5">REGIONAL LETTER</option>
-    <option value="6">REGIONAL MEMO</option>
-    <option value="7">SPECIAL TRAVEL ORDER</option>
-    <option value="8">GOVERNMENT OFFICE</option>
-    <option value="9">CHED MANILA</option>
-    <option value="10">MISCELLANEOUS</option>
-    <option value="11">SPECIAL ORDER DEFICIENCY</option>
-    <option value="12">APPROVED/REPLY LETTERS TO SCHOLARS</option>
-    <option value="13">GOVERNMENT RECOGNITION</option>
-    <option value="14">CERTIFICATE OF PROGRAM COMPLETION- SUCS</option>
-    <option value="15">GOVERNMENT AUTHORITY-LUCS</option>
-    <option value="16">GOVERNMENT PERMIT</option>
-    <option value="17">COA-CHED 10 COMMUNICATION</option>
-    <option value="18">CHED MEMORANDUM</option>
-    <option value="19">SPECIAL ORDER DUPLICATES</option>
+    <option value="">Select Institution</option>
+    {institutionsOptions.map((institution) => (
+      <option key={institution.inst_id} value={institution.inst_id}>
+        {institution.inst_name}
+      </option>
+    ))}
   </select>
 </div>
 
 <div className="flex flex-col">
+      <label className="mb-1 text-sm font-semibold">Document Type</label>
+      <select
+        disabled
+
+        name="doc_type_id" 
+        value={editFormData.doc_type_id}
+        onChange={handleChange}
+        className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select Document Type</option>
+        {documentTypeOptions.map((documentType) => (
+          <option key={documentType.doc_type_id} value={documentType.doc_type_id}>
+            {documentType.document_type}
+          </option>
+        ))}
+      </select>
+    </div>
+
+
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-bold">Remarks</label>
+            <input
+              type="text"
+              id="remarks"
+              name="remarks"
+              placeholder="Enter Remarks"
+              value={editFormData.remarks}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-black"
+            />
+          </div>
+
+          <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Date Issued</label>
               <DatePicker
   selected={editFormData.dateIssued ? new Date(editFormData.dateIssued) : null}
   onChange={(date) => handleChange({ target: { name: 'dateIssued', value: date } })}
-  dateFormat="MM/dd/yyyy"  // Set the desired date format
+  dateFormat="MM/dd/yyyy" 
   className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
 />
             </div>
-            
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Remarks</label>
-              <input
-                
-                type="text"
-                id="remarks"
-                name="remarks"
-                placeholder="Enter Remarks"
-                value={editFormData.remarks}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Assignatories</label>
-              <select 
-               
-                name="personnel_id"
-                value={editFormData.personnel_id}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-              <option value="">Select Assignatories</option>
-              <option value="1">Bernal, Freddie</option>
-              <option value="2">Apag, Desiderio III</option>
-              <option value="3">Bag-o, Maria Dejeaneth</option>
-              <option value="4">Bolasco, Angelica Katrina</option>
-              <option value="5">Cotejar, Lilia</option>
-              <option value="6">Duplito, Jay Loienie</option>
-              <option value="7">Fernandez, Glarigen</option>
-              <option value="8">Fuentes, Miriam</option>
-              <option value="9">Galapin, Laiza Anna</option>
-              <option value="10">Gomez, Leonora</option>
-              <option value="11">Ladera, Virgil Thery Amor</option>
-              <option value="12">Lopez, Elmer</option>
-              <option value="13">Lumasag, Rose Mae</option>
-              <option value="14">Lumongsod, Jasmin</option>
-              <option value="15">Medez, Sarah Jane</option>
-              <option value="16">Minguez, Arlita Amapola</option>
-              <option value="17">Morong, Abraham, Jr.</option>
-              <option value="18">Pamplona, Daryl Glenn</option>
-              <option value="19">Pasagad, Abegail</option>
-              <option value="20">Raagas, Susan Daisy</option>
-              <option value="21">Torres, Mark Godfrey</option>
-              </select>
-            </div>
 
-            <div className="flex flex-col">
+          <div className="flex flex-col">
+       <label className="mb-1 text-sm font-semibold">Assigned to:</label>
+  <select
+   disabled
+  
+    name="personnel_id"
+    value={editFormData.personnel_id}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Assignatories</option>
+    {personnelOptions.map((person) => (
+      <option key={person.personnel_id} value={person.personnel_id}>
+        {`${person.Last_Name}, ${person.First_Name}`}
+      </option>
+    ))}
+     </select>
+    </div>
+
+    <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
               <select 
+              
               
                 name="department_id"
                 value={editFormData.department_id}
@@ -141,11 +126,10 @@ export default function CommunicationsNormalEditForm({
               </select>
             </div>
 
-
-       
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Status</label>
               <select
+              
               
                 name="status_id"
                 value={editFormData.status_id}
@@ -158,8 +142,7 @@ export default function CommunicationsNormalEditForm({
                 <option value="2">Disapproved</option>
               </select>
             </div> 
-            
-       
+
           <div className="col-span-2 ml-auto gap-">
             <button
               type="submit"
@@ -184,20 +167,25 @@ export default function CommunicationsNormalEditForm({
 CommunicationsNormalEditForm.propTypes = {
   editFormData: PropTypes.shape({
     doc_ID: PropTypes.string,
-    documentType: PropTypes.string, //sa read
+    // documentType: PropTypes.string, //sa read
     doc_type_id: PropTypes.number,  //sa put
-    department: PropTypes.string,   //sa read
-    department_id: PropTypes.number,//sa put
+    // institution: PropTypes.string, // sa read
+    inst_id: PropTypes.string, // sa put  
+    // department: PropTypes.string,   //sa read
+    department_id: PropTypes.number,//sa put 
     dateIssued: PropTypes.instanceOf(Date),
-    status: PropTypes.string,      //sa read
-    status_id: PropTypes.number,   //sa put
+    // status: PropTypes.string,  //sa read
+    status_id: PropTypes.number, //sa put
     remarks: PropTypes.string,
-    assignatories: PropTypes.string, //sa read
+    // assignatories: PropTypes.string, // sa read
     personnel_id: PropTypes.number, // sa put
+    department: PropTypes.string,
   }).isRequired,
 
   handleEditSubmit: PropTypes.func.isRequired,
   handleCloseEditForm: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleFileChange: PropTypes.func.isRequired,
+  personnelOptions: PropTypes.array.isRequired,
+  institutionsOptions: PropTypes.array.isRequired,
+  documentTypeOptions: PropTypes.array.isRequired,
 };

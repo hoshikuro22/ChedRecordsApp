@@ -118,27 +118,7 @@ export default function CommunicationsAdminEditForm({
     ))}
      </select>
     </div>
-    {/* <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Institution Name</label>
-  <select 
-    required
-
-    name="inst_id"
-    value={editFormData.inst_id}
-    onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-  >
-    <option value="">Select Institution</option>
-    {institutionsOptions.map((institution) => (
-      <option key={institution.inst_id} value={institution.inst_id}>
-        {institution.inst_name}
-      </option>
-    ))}
-  </select>
-</div> */}
-
-           
-
+   
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
               <select 
@@ -202,10 +182,10 @@ CommunicationsAdminEditForm.propTypes = {
     doc_type_id: PropTypes.number,  //sa put
     // institution: PropTypes.string, // sa read
     inst_id: PropTypes.string,
-    // department: PropTypes.string,   //sa read
+    // department: PropTypes.string, //sa read
     department_id: PropTypes.number,//sa put
     dateIssued: PropTypes.instanceOf(Date),
-    // status: PropTypes.string,      //sa read
+    // status: PropTypes.string,   //sa read
     status_id: PropTypes.number,   //sa put
     remarks: PropTypes.string,
     // assignatories: PropTypes.string, //sa read

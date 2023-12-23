@@ -43,7 +43,6 @@ export default function ChedClientsNormalTable({
             <tr className="bg-gray-200">
               <th className="px-4 py-2">Seq No</th>
               <th className="px-4 py-2">Name of Institution</th>
-              <th className="px-4 py-2">Filing Category</th>
               <th className="px-4 py-2">
                 Institution Type
                 <div className="relative inline-block ml-2">
@@ -199,7 +198,6 @@ export default function ChedClientsNormalTable({
     <tr key={client.inst_id}>
       <td className="border px-4 py-2 text-center">{client.seq_no}</td>
       <td className="border px-4 py-2 text-center">{client.inst_name}</td>
-      <td className="border px-4 py-2 text-center">{client.filing_category}</td>
       <td className="border px-4 py-2 text-center">{client.inst_type}</td>
       <td className="border px-4 py-2 text-center">{client.address}</td>
       <td className="border px-4 py-2 text-center">{client.client_type}</td>

@@ -14,8 +14,6 @@ export default function ChedClientsNormalMoreDetails({ isInfoModalOpen, setInfoM
                 <tr className="bg-gray-200">
                   <th className="px-4 py-2">Institution ID</th>
                   <th className="px-4 py-2">Name of Institution</th>
-                  <th className="px-4 py-2">Filing Category</th>
-                  <th className="px-4 py-2">File</th>
                   <th className="px-4 py-2">Contact Person</th>
                   <th className="px-4 py-2">Contact Number</th>
                 </tr>
@@ -25,17 +23,6 @@ export default function ChedClientsNormalMoreDetails({ isInfoModalOpen, setInfoM
                 <tr>
                   <td className="border px-4 py-2 text-center">{selectedRowData.inst_id}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.inst_name}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.filing_category}</td>
-                  <td className="border px-4 py-2 text-center">
-                    <a
-                      href={`http://localhost:8081/institutionfiles/${selectedRowData.file}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
-                    >
-                      {selectedRowData.file}
-                    </a>
-                  </td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.contact_person}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.contact_number}</td>
                 </tr>
@@ -61,8 +48,6 @@ ChedClientsNormalMoreDetails.propTypes = {
   selectedRowData: PropTypes.shape({
     inst_id: PropTypes.string.isRequired,
     inst_name: PropTypes.string.isRequired,
-    filing_category: PropTypes.string.isRequired,
-    file: PropTypes.any.isRequired,
     contact_person: PropTypes.string.isRequired,
     contact_number: PropTypes.string.isRequired,
   }),
