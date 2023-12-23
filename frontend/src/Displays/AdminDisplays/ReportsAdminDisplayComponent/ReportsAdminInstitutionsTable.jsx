@@ -27,16 +27,7 @@ export default function ReportsAdminInstitutionsTable() {
   const currentItems = reports.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(reports.length / itemsPerPage);
 
-  //  para ma truncate
-  function truncateFileName(fileName, maxLength) {
-    if (fileName.length <= maxLength) {
-      return fileName;
-    } else {
-      const truncatedName = fileName.substring(0, maxLength - 3) + "...";
-      return truncatedName;
-    }
-  }
-
+ 
 
   return (
     <div className="mt-2">
@@ -52,12 +43,9 @@ export default function ReportsAdminInstitutionsTable() {
               <th className="px-4 py-2">Seq No.(From Inst)</th>
               <th className="px-4 py-2">Institution Name</th>
               <th className="px-4 py-2">Institution Type</th>
-              {/* <th className="px-4 py-2">Address</th> */}
               <th className="px-4 py-2">Client Type</th>
-              <th className="px-4 py-2">Filing Category</th>
               <th className="px-4 py-2">Contact Person</th>
               <th className="px-4 py-2">Contact Number</th>
-              <th className="px-4 py-2">File</th>
             </tr>
           </thead>
           <tbody>
@@ -69,12 +57,9 @@ export default function ReportsAdminInstitutionsTable() {
                 <td className="border px-4 py-2 text-center">{report.Seq_no}</td>
                 <td className="border px-4 py-2 text-center">{report.InstitutionName}</td>
                 <td className="border px-4 py-2 text-center">{report.InstitutionType}</td>
-                {/* <td className="border px-4 py-2 text-center">{report.Address}</td> */}
                 <td className="border px-4 py-2 text-center">{report.ClientType}</td>
-                <td className="border px-4 py-2 text-center">{report.FilingCategory}</td>
                 <td className="border px-4 py-2 text-center">{report.ContactPerson}</td>
                 <td className="border px-4 py-2 text-center">{report.ContactNumber}</td>
-                <td className="border px-4 py-2 text-center">{truncateFileName(report.File, 20)}</td>
 
               </tr>
             ))}

@@ -9,6 +9,7 @@ export default function CommunicationsAdminAddForm({
     formData,
     personnelOptions,
     institutionsOptions,
+    documentTypeOptions,
     handleChange,
     handleSubmit,
     handleHideFormClick,
@@ -37,37 +38,23 @@ export default function CommunicationsAdminAddForm({
             </div>
             
             <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Filing Category</label>
-  <select 
-    required
-    id="documentType"
-    name="documentType"
-    value={formData.documentType}
-    onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-  >
-    <option value="">Select Filing Category</option>
-    <option value="1">OFFICE MEMO MESSAGES</option>
-    <option value="2">CERTIFICATES</option>
-    <option value="3">RECOMMENDATIONS</option>
-    <option value="4">MAIL CERTIFICATES</option>
-    <option value="5">REGIONAL LETTER</option>
-    <option value="6">REGIONAL MEMO</option>
-    <option value="7">SPECIAL TRAVEL ORDER</option>
-    <option value="8">GOVERNMENT OFFICE</option>
-    <option value="9">CHED MANILA</option>
-    <option value="10">MISCELLANEOUS</option>
-    <option value="11">SPECIAL ORDER DEFICIENCY</option>
-    <option value="12">APPROVED/REPLY LETTERS TO SCHOLARS</option>
-    <option value="13">GOVERNMENT RECOGNITION</option>
-    <option value="14">CERTIFICATE OF PROGRAM COMPLETION- SUCS</option>
-    <option value="15">GOVERNMENT AUTHORITY-LUCS</option>
-    <option value="16">GOVERNMENT PERMIT</option>
-    <option value="17">COA-CHED 10 COMMUNICATION</option>
-    <option value="18">CHED MEMORANDUM</option>
-    <option value="19">SPECIAL ORDER DUPLICATES</option>
-  </select>
-</div>
+      <label className="mb-1 text-sm font-semibold">Document Type</label>
+      <select
+        required
+        id="documentType"
+        name="documentType" 
+        value={formData.documentType}
+        onChange={handleChange}
+        className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select Document Type</option>
+        {documentTypeOptions.map((documentType) => (
+          <option key={documentType.doc_type_id} value={documentType.doc_type_id}>
+            {documentType.document_type}
+          </option>
+        ))}
+      </select>
+    </div>
 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Date Issued</label>
@@ -237,4 +224,5 @@ CommunicationsAdminAddForm.propTypes = {
   handleAddCommunicationClick: PropTypes.func.isRequired,
   personnelOptions: PropTypes.array.isRequired,
   institutionsOptions: PropTypes.array.isRequired,
+  documentTypeOptions: PropTypes.array.isRequired,
 };

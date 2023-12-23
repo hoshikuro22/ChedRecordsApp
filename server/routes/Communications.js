@@ -314,6 +314,29 @@ ORDER BY doc_ID ASC;
     });
 });
 
+//READ FOR DOCUMENT TYPE
+router.get('/getDocumentTypes', (req, res) => {
+  const sql = `
+    SELECT
+      CAST(dt.Doc_Type_ID AS SIGNED) AS doc_type_id,
+      dt.Type AS document_type
+    FROM document_type dt
+    ORDER BY doc_type_id ASC;
+  `;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.error('Error fetching document types:', err);
+      return res
+        .status(500)
+        .json({ Status: 'Error', Message: 'Failed to fetch document types' });
+    }
+
+    return res.status(200).json(data);
+  });
+});
+
+
 
 // UPDATE
 router.put('/updateDocument/:id', upload.single('file'), (req, res) => {

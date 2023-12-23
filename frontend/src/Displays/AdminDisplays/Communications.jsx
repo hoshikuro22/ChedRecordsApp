@@ -69,6 +69,23 @@ useEffect(() => {
   fetchInstitutionData();
 }, []);
 
+// to fetch document type for the add form
+const [documentTypeOptions, setDocumentTypeOptions] = useState([]);
+
+useEffect(() => {
+  const fetchDocumentTypeData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/getDocumentTypes");
+      setDocumentTypeOptions(response.data);
+      console.log("Document types: " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching document type data:", error);
+    }
+  };
+
+  fetchDocumentTypeData();
+}, []);
+
 
   
  //===== Edit =====//
@@ -361,6 +378,7 @@ const handleDeleteClick = async (id) => {
         showForm={showForm}
         personnelOptions={personnelOptions} 
         institutionsOptions={institutionsOptions}
+        documentTypeOptions={documentTypeOptions}
         handleChange={handleChange}
         handleFileChange={handleFileChange}
         handleSubmit={handleSubmit}
@@ -390,6 +408,7 @@ const handleDeleteClick = async (id) => {
     editFormData={editFormData}
     personnelOptions={personnelOptions} 
     institutionsOptions={institutionsOptions}
+    documentTypeOptions={documentTypeOptions}
     handleEditSubmit={handleEditSubmit}
     handleCloseEditForm={() => setShowEditForm(false)}
     handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
