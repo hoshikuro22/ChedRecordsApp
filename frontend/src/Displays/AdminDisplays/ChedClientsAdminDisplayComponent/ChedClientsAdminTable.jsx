@@ -124,7 +124,6 @@ export default function ChedClientsAdminTable({
                   ) : null}
                 </div>
               </th>
-              <th className="px-4 py-2">Address</th>
               <th className="px-4 py-2">
                 Client Type
                 <div className="relative inline-block ml-2">
@@ -199,9 +198,7 @@ export default function ChedClientsAdminTable({
     <tr key={client.inst_id}>
       <td className="border px-4 py-2 text-center">{client.seq_no}</td>
       <td className="border px-4 py-2 text-center">{client.inst_name}</td>
-      {/* <td className="border px-4 py-2 text-center">{client.filing_category}</td> */}
       <td className="border px-4 py-2 text-center">{client.inst_type}</td>
-      <td className="border px-4 py-2 text-center">{client.address}</td>
       <td className="border px-4 py-2 text-center">{client.client_type}</td>
       <td className="border px-4 py-2 text-center">
      

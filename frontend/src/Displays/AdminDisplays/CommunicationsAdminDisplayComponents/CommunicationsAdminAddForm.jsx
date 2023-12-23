@@ -162,7 +162,7 @@ export default function CommunicationsAdminAddForm({
                 
                 className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
               >
-                Add Institution
+                Add Client
               </button>
               <button
                 
