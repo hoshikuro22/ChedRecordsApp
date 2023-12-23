@@ -59,7 +59,7 @@ export default function AdminPage() {
     <div>
      <AdminHeader />
       {auth ?
-      <div className="h-auto ">
+      <div className="h-auto min-h-screen ">
         {ifAdmin ?
         <div className='flex gap-72 h-auto '>
       
