@@ -36,14 +36,42 @@ export default function ReportsAdminCommunicationsTable() {
       }
     }
   
+  //sa filtering function for STATUS//
+  const [showStatusFilterDropdown, setShowStatusFilterDropdown] = useState(false);
+  const [selectedStatusFilter, setSelectedStatusFilter] = useState('');
+
+  const handleToggleStatusFilterDropdown = () => {
+    setShowStatusFilterDropdown(!showStatusFilterDropdown);
+  };
+
+  const handleSelectStatusFilter = (value) => {
+    setSelectedStatusFilter(value);
+    setShowStatusFilterDropdown(false);
+  };
+//sa filtering function for STATUS//
+
+//sa filtering function for DEPARTMENT//
+
+const [showDepartmentFilterDropdown, setShowDepartmentFilterDropdown] = useState(false);
+const [selectedDepartmentFilter, setSelectedDepartmentFilter] = useState('');
+
+const handleToggleDepartmentFilterDropdown = () => {
+  setShowDepartmentFilterDropdown(!showDepartmentFilterDropdown);
+};
+
+const handleSelectDepartmentFilter = (value) => {
+  setSelectedDepartmentFilter(value);
+  setShowDepartmentFilterDropdown(false);
+};
+//sa filtering function for DEPARTMENT//
 
 
   return (
     <div className="mt-2">
       <h1 className="font-bold">Communications Transaction: </h1>
 
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full border-collapse border">
+      <div className="">
+        <table className="table-auto w-full border-collapse border h-24">
           <thead>
             <tr className="bg-gray-200">
               <th className="px-4 py-2">TransactionID</th>
@@ -53,27 +81,171 @@ export default function ReportsAdminCommunicationsTable() {
               <th className="px-4 py-2">Document Type</th>
               <th className="px-4 py-2">Date Issued</th>
               <th className="px-4 py-2">Remarks</th>
-              <th className="px-4 py-2">Department</th>
+              <th className="px-4 py-2">
+       Department
+  <div className="relative inline-block ml-2 h-auto ">
+  <button
+                    onClick={handleToggleDepartmentFilterDropdown}
+                    type="button"
+                    className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                  >
+                    {selectedDepartmentFilter === '1'
+                      ? 'Receiving'
+                      : selectedDepartmentFilter === '2'
+                      ? 'Scholarship'
+                      : selectedStatusFilter === '3'
+                      ? 'Records'
+                      : 'Filter'}
+                  </button>
+    {showDepartmentFilterDropdown ? (
+      <div
+        className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+      >
+        <div className="py-1">
+          <button
+            onClick={() => handleSelectDepartmentFilter('')}
+            className={`${
+              selectedDepartmentFilter === ''
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            All
+          </button>
+          <button
+            onClick={() => handleSelectDepartmentFilter('1')}
+            className={`${
+              selectedDepartmentFilter === '1'
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            Receiving
+          </button>
+          <button
+            onClick={() => handleSelectDepartmentFilter('2')}
+            className={`${
+              selectedDepartmentFilter === '2'
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            Scholarship
+          </button>
+          <button
+            onClick={() => handleSelectDepartmentFilter('3')}
+            className={`${
+              selectedDepartmentFilter === '3'
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            Records
+          </button>
+        </div>
+      </div>
+    ) : null}
+  </div>
+</th>
               <th className="px-4 py-2">File Name</th>
-              <th className="px-4 py-2">Status</th>
+              <th className="px-4 py-2">
+              Status
+              <div className="relative inline-block ml-2">
+                <div>
+                  <button
+                    onClick={handleToggleStatusFilterDropdown}
+                    type="button"
+                    className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                  >
+                    {selectedStatusFilter === '0'
+                      ? 'Pending'
+                      : selectedStatusFilter === '1'
+                      ? 'Approved'
+                      : selectedStatusFilter === '2'
+                      ? 'Disapproved'
+                      : 'Filter'}
+                  </button>
+                </div>
+                {showStatusFilterDropdown ? (
+                  <div
+                    className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  >
+                    <div className="py-1">
+                      <button
+                        onClick={() => handleSelectStatusFilter('')}
+                        className={`${
+                          selectedStatusFilter === ''
+                            ? 'bg-gray-200 text-gray-900'
+                            : 'text-gray-700'
+                        } block px-4 py-2 text-sm w-full text-left`}
+                      >
+                        All
+                      </button>
+                      <button
+                        onClick={() => handleSelectStatusFilter('0')}
+                        className={`${
+                          selectedStatusFilter === '0'
+                            ? 'bg-gray-200 text-gray-900'
+                            : 'text-gray-700'
+                        } block px-4 py-2 text-sm w-full text-left`}
+                      >
+                        Pending
+                      </button>
+                      <button
+                        onClick={() => handleSelectStatusFilter('1')}
+                        className={`${
+                          selectedStatusFilter === '1'
+                            ? 'bg-gray-200 text-gray-900'
+                            : 'text-gray-700'
+                        } block px-4 py-2 text-sm w-full text-left`}
+                      >
+                        Approved
+                      </button>
+                      <button
+                        onClick={() => handleSelectStatusFilter('2')}
+                        className={`${
+                          selectedStatusFilter === '2'
+                            ? 'bg-gray-200 text-gray-900'
+                            : 'text-gray-700'
+                        } block px-4 py-2 text-sm w-full text-left`}
+                      >
+                        Disapproved
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </th>
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((report) => (
-              <tr key={report.TransactionID}>
-                <td className="border px-4 py-2 text-center">{report.TransactionID}</td>
-                <td className="border px-4 py-2 text-center">{report.SentBy}</td>
-                <td className="border px-4 py-2 text-center">{report.DocID}</td>
-                <td className="border px-4 py-2 text-center">{report.Assignatories}</td>
-                <td className="border px-4 py-2 text-center">{report.DocumentType}</td>
-                <td className="border px-4 py-2 text-center">{report.DateIssued}</td>
-                <td className="border px-4 py-2 text-center">{report.Remarks}</td>
-                <td className="border px-4 py-2 text-center">{report.Department}</td>
-                <td className="border px-4 py-2 text-center">{truncateFileName(report.File, 20)}</td>
-                <td className="border px-4 py-2 text-center">{report.Status}</td>
-              </tr>
-            ))}
-          </tbody>
+  {currentItems
+    .filter((report) =>
+      ((selectedStatusFilter === '0' && report.Status === 'Pending') ||
+        (selectedStatusFilter === '1' && report.Status === 'Approved') ||
+        (selectedStatusFilter === '2' && report.Status === 'Disapproved') ||
+        selectedStatusFilter === '') &&
+      ((selectedDepartmentFilter === '1' && report.Department === 'Receiving') ||
+        (selectedDepartmentFilter === '2' && report.Department === 'Scholarship') ||
+        (selectedDepartmentFilter === '3' && report.Department === 'Records') ||
+        selectedDepartmentFilter === '')
+    )
+    .map((report) => (
+      <tr key={report.TransactionID}>
+        <td className="border px-4 py-2 text-center">{report.TransactionID}</td>
+        <td className="border px-4 py-2 text-center">{report.SentBy}</td>
+        <td className="border px-4 py-2 text-center">{report.DocID}</td>
+        <td className="border px-4 py-2 text-center">{report.Assignatories}</td>
+        <td className="border px-4 py-2 text-center">{report.DocumentType}</td>
+        <td className="border px-4 py-2 text-center">{report.DateIssued}</td>
+        <td className="border px-4 py-2 text-center">{report.Remarks}</td>
+        <td className="border px-4 py-2 text-center">{report.Department}</td>
+        <td className="border px-4 py-2 text-center">{truncateFileName(report.File, 30)}</td>
+        <td className="border px-4 py-2 text-center">{report.Status}</td>
+      </tr>
+    ))}
+</tbody>
+
         </table>
       </div>
 

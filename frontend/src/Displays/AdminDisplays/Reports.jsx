@@ -3,8 +3,8 @@ import ReportsAdminCommunicationsTable from './ReportsAdminDisplayComponent/Repo
 import ReportsAdminInstitutionsTable from './ReportsAdminDisplayComponent/ReportsAdminInstitutionsTable';
 
 export default function Reports() {
-  const [showInstitutions, setShowInstitutions] = useState(true);
-  const [showCommunications, setShowCommunications] = useState(false);
+  const [showInstitutions, setShowInstitutions] = useState(false);
+  const [showCommunications, setShowCommunications] = useState(true);
 
   const handleToggleInstitutions = () => {
     setShowInstitutions(true);
@@ -17,11 +17,11 @@ export default function Reports() {
   };
 
   return (
-    <div className="duration-500 w-screen h-auto mt-8 bg-gray-100 p-8">
+    <div className="duration-500 w-screen h-auto mt-8 bg-gray-100 p-8 ">
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md ">
         <h1 className="font-semibold text-2xl mb-4 ml-3">Report Records:</h1>
 
-        <div className="flex">
+        <div className="flex ">
           <button
             className={`${
               showInstitutions
