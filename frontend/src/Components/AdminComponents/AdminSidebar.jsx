@@ -42,7 +42,7 @@ export default function AdminSidebar() {
       <div className=" bg-slate-800 bottom-0 fixed h-screen w-72">
         <div className=" bg-slate-800 text-white w-72 py-4 px-6">
           <div className="flex gap-5">
-            <img className=" h-16 pl-6 sm:pl-3" src={Picture} alt="Ched Logo" />
+            <img className=" h-16 pl-6 sm:pl-3 mt-6" src={Picture} alt="Ched Logo" />
             <h1 className=" font-bold sm:text-1xl text-white top-7 items-center hidden sm:flex">
               CHED Region 10
             </h1>

@@ -28,6 +28,12 @@ export default function ActivityLog() {
   const currentItems = activityLog.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(activityLog.length / itemsPerPage);
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleString('en-US', options);
+  };
+  
+
   
 
   return (
@@ -50,7 +56,8 @@ export default function ActivityLog() {
                 <td className="border px-4 py-2 text-center">{activity.ActivityID}</td>
                 <td className="border px-4 py-2 text-center">{activity.UserAccount}</td>
                 <td className="border px-4 py-2 text-center">{activity.Activity}</td>
-                <td className="border px-4 py-2 text-center">{activity.DateAndTime}</td>
+                <td className="border px-4 py-2 text-center">{formatDate(activity.DateAndTime)}</td>
+
               </tr>
             ))}
           </tbody>

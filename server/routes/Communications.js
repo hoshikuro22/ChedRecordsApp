@@ -198,12 +198,16 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                     db.rollback(() => reject(err));
                   } else {
                     // Insert into the "activity_log" table
+
+                    const myDate = new Date();
+                    myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+                    console.log(myDate)
                     const activityLogInsertQuery =
                       "INSERT INTO activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
                     const activityLogInsertValues = [
                       nextActivityLogId,
                       nextTransID,
-                      new Date().toISOString(),
+                      myDate,
                       `Added doc_ID: ${docID} | File Name:  ${file.filename}`,
                       userAccount,
                     ];
@@ -558,12 +562,14 @@ console.log("Last Name:", userLastName);
                 });
               }
 
-              const dateAndTime = new Date().toISOString();
+              const myDate = new Date();
+              myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+              console.log(myDate)
               const activityMessage = `Deleted doc_id: ${id}`;
 
               db.query(
                 insertActivityLogQuery,
-                [nextActivityID, null, dateAndTime, activityMessage, `${userFirstName} ${userLastName}`],
+                [nextActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
                 (insertActivityLogErr, insertActivityLogResult) => {
                   if (insertActivityLogErr) {
                     console.error(insertActivityLogErr);
@@ -574,6 +580,7 @@ console.log("Last Name:", userLastName);
                       });
                     });
                   }
+                  
 
                   // Commit the transaction
                   db.commit((commitErr) => {
@@ -635,12 +642,14 @@ console.log("Last Name:", userLastName);
                   });
                 }
 
-                const dateAndTime = new Date().toISOString();
+                const myDate = new Date();
+                myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+                console.log(myDate)
                 const activityMessage = `Deleted doc_ID: ${id} | File Name: ${result[0].file}`;
 
                 db.query(
                   insertActivityLogQuery,
-                  [nextActivityID, null, dateAndTime, activityMessage, `${userFirstName} ${userLastName}`],
+                  [nextActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
                   (insertActivityLogErr, insertActivityLogResult) => {
                     if (insertActivityLogErr) {
                       console.error(insertActivityLogErr);
