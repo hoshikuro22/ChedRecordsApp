@@ -182,6 +182,8 @@ router.post("/addClient", async (req, res) => {
                       } else {
                         const { First_Name, Last_Name } = userResult[0];
                         const userAccount = `${First_Name} ${Last_Name}`;
+                        const myDate = new Date();
+                        myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
 
                         // Add a record to the "Activity_Log" table
                         const activityLogInsertQuery =
@@ -189,7 +191,7 @@ router.post("/addClient", async (req, res) => {
                         const activityLogInsertValues = [
                           nextActivityLogId,
                           nextTransID,
-                          new Date().toISOString(),
+                          myDate,
                           `Added inst_id: ${institutionID} `,
                           userAccount,
                         ];
@@ -352,12 +354,13 @@ router.delete("/deleteClient/:id", (req, res) => {
         const newActivityID = maxActivityIDResult[0].maxActivityID + 1;
 
         // Insert activity log
-        const dateAndTime = new Date().toISOString();
         const activityMessage = `Deleted institution ID: ${id}`;
+        const myDate = new Date();
+        myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
 
         db.query(
           insertActivityLogQuery,
-          [newActivityID, null, dateAndTime, activityMessage, `${userFirstName} ${userLastName}`],
+          [newActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
           (insertActivityLogErr, insertActivityLogResult) => {
             if (insertActivityLogErr) {
               console.error(insertActivityLogErr);
@@ -415,7 +418,6 @@ router.put('/updateClient/:id', (req, res) => {
     inst_type_id,
     address,
     client_type_id,
-    fil_cat_id,
     contact_person,
     contact_number,
   } = req.body;
