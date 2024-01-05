@@ -9,7 +9,7 @@ import ChedClientsAdminPagination from "./ChedClientsAdminDisplayComponent/ChedC
 
 export default function ChedClients() {
   const [formData, setFormData] = useState({
-    institutionID: "20030000",
+    institutionID: "Inst2024000",
     institutionName: "",
     institutionType: "",
     address: "",
@@ -207,7 +207,7 @@ export default function ChedClients() {
   const handleClearFormClick = () => {
     setFormData((prevData) => ({
       ...prevData,
-      institutionID: "20030000",
+      institutionID: "Inst2024000",
       institutionName: "",
       institutionType: "",
       address: "",
@@ -248,7 +248,7 @@ export default function ChedClients() {
         if (response.data.Status === "Success") {
             alert("Client added successfully!");
             setFormData({
-                institutionID: "20030000",
+                institutionID: "Inst2024000",
                 institutionName: "",
                 institutionType: "",
                 address: "",

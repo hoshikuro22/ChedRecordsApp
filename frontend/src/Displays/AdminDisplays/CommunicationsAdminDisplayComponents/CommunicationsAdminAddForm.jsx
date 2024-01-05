@@ -158,12 +158,13 @@ export default function CommunicationsAdminAddForm({
 
 
             <div className="col-span-2 ml-auto ">
-            <button
+            <a
                 
                 className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
+                href="/admin/chedclients"
               >
                 Add Client
-              </button>
+              </a>
               <button
                 
                 className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
