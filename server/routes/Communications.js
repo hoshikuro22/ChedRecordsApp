@@ -7,6 +7,8 @@ import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// diri masulod na folder ang file
 const uploadsPath = join(__dirname, '..', 'communications-uploads');
 
 const storage = multer.diskStorage({
@@ -77,6 +79,24 @@ const getNextActivityLogId = async () => {
   });
 };
 
+// Function to get the maximum Doc_Backup_ID from the "doc_backup" table
+const getMaxDocBackupID = async () => {
+  return new Promise((resolve, reject) => {
+    const getMaxDocBackupIDQuery =
+      "SELECT MAX(Doc_Backup_ID) AS maxDocBackupID FROM doc_backup";
+    db.query(getMaxDocBackupIDQuery, (err, result) => {
+      if (err) {
+        console.error("Error in getMaxDocBackupIDQuery:", err);
+        reject(err);
+      } else {
+        const maxDocBackupID = result[0].maxDocBackupID || 0;
+        console.log("maxDocBackupID:", maxDocBackupID);
+        resolve(maxDocBackupID);
+      }
+    });
+  });
+};
+
 // Function to get the user account from the user table based on User_ID
 const getUserAccount = async (userID) => {
   return new Promise((resolve, reject) => {
@@ -94,6 +114,9 @@ const getUserAccount = async (userID) => {
     });
   });
 };
+
+// sa backup
+const backupUploadsPath = join(__dirname, '..', 'communications-uploads-backup');
 
 router.post('/addDocument', upload.single('file'), async (req, res) => {
   console.log("Received request:", req.body);
@@ -120,11 +143,18 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
   }
 
   try {
+    // sa backup
+    const backupFilePath = join(backupUploadsPath, file.filename);
+    fs.copyFileSync(join(uploadsPath, file.filename), backupFilePath);
+
     // Get the maximum Trans_ID from the "transaction" table
     const maxTransID = await getMaxTransID();
 
     // Get the next available primary key for the activity_log table
     const nextActivityLogId = await getNextActivityLogId();
+
+    // Get the maximum Doc_Backup_ID from the "doc_backup" table
+    const maxDocBackupID = await getMaxDocBackupID();
 
     // Fetch user account to get first_name and last_name
     const userAccount = await getUserAccount(userID);
@@ -197,7 +227,49 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                     );
                     db.rollback(() => reject(err));
                   } else {
-                    // Insert into the "activity_log" table
+                    // Insert into the "doc_backup" table
+                    const docBackupInsertQuery =
+                      "INSERT INTO doc_backup (Doc_Backup_ID, doc_ID, doc_type_id, personnel_id, Inst_ID, Dept_ID, Status_ID, file, Date_Time, Backup_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    const docBackupInsertValues = [
+                      maxDocBackupID + 1,
+                      docID,
+                      documentType,
+                      assignatories,
+                      institution,
+                      department,
+                      status,
+                      file.filename,
+                      dateIssued,
+                      docID,
+                    ];
+
+                    // Log the docBackupInsertQuery and values
+                    console.log(
+                      "docBackupInsertQuery:",
+                      docBackupInsertQuery
+                    );
+                    console.log(
+                      "docBackupInsertValues:",
+                      docBackupInsertValues
+                    );
+
+                    db.query(
+                      docBackupInsertQuery,
+                      docBackupInsertValues,
+                      (err, result) => {
+                        if (err) {
+                          console.error(
+                            "Error in docBackupInsertQuery:",
+                            err
+                          );
+                          db.rollback(() => reject(err));
+                        } else {
+                          db.query(docBackupInsertQuery, docBackupInsertValues, (err, result) => {
+                            if (err) {
+                              console.error("Error in docBackupInsertQuery:", err);
+                              db.rollback(() => reject(err));
+                            } else {
+                             // Insert into the "activity_log" table
 
                     const myDate = new Date();
                     myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
@@ -211,29 +283,30 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                       `Added doc_ID: ${docID} | File Name:  ${file.filename}`,
                       userAccount,
                     ];
+                              // Log the activityLogInsertQuery and values
+                              console.log("activityLogInsertQuery:", activityLogInsertQuery);
+                              console.log("activityLogInsertValues:", activityLogInsertValues);
+                          
+                              db.query(activityLogInsertQuery, activityLogInsertValues, (err, result) => {
+                                if (err) {
+                                  console.error("Error in activityLogInsertQuery:", err);
+                                  db.rollback(() => reject(err));
+                                } else {
+                                  // Commit the transaction
+                                  db.commit((err) => {
+                                    if (err) {
+                                      console.error("Error in commit:", err);
+                                      db.rollback(() => reject(err));
+                                    } else {
+                                      resolve(result);
+                                    }
+                                  });
+                                }
+                              });
+                            }
+                          });
 
-                    // Log the activityLogInsertQuery and values
-                    console.log(
-                      "activityLogInsertQuery:",
-                      activityLogInsertQuery
-                    );
-                    console.log(
-                      "activityLogInsertValues:",
-                      activityLogInsertValues
-                    );
-
-                    db.query(
-                      activityLogInsertQuery,
-                      activityLogInsertValues,
-                      (err, result) => {
-                        if (err) {
-                          console.error(
-                            "Error in activityLogInsertQuery:",
-                            err
-                          );
-                          db.rollback(() => reject(err));
-                        } else {
-                          // Both queries were successful, commit the transaction
+                          // Commit the transaction
                           db.commit((err) => {
                             if (err) {
                               console.error("Error in commit:", err);
