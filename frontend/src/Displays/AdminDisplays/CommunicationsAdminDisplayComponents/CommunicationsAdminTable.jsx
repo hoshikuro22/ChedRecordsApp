@@ -22,6 +22,7 @@ export default function CommunicationsAdminTable({
   };
 //sa filtering function for STATUS//
 
+
 //sa filtering function for DEPARTMENT//
 
 const [showDepartmentFilterDropdown, setShowDepartmentFilterDropdown] = useState(false);
@@ -37,6 +38,54 @@ const handleSelectDepartmentFilter = (value) => {
 };
 //sa filtering function for DEPARTMENT//
 
+//sa filtering function for DOCUMENT TYPE//
+
+const [showTypeFilterDropdown, setShowTypeFilterDropdown] = useState(false);
+const [selectedTypeFilter, setSelectedTypeFilter] = useState('');
+
+const handleToggleTypeFilterDropdown = () => {
+  setShowTypeFilterDropdown(!showTypeFilterDropdown);
+};
+
+const handleSelectTypeFilter = (value) => {
+  const selectedType = types.find(type => type.id === value)?.type || '';
+  // Set selectedTypeFilter to an empty string for the "All" option
+  setSelectedTypeFilter(value === '' ? '' : selectedType );
+
+  setShowTypeFilterDropdown(false);
+};
+
+const types = [
+  { id: '', type: 'ALL '},
+  { id: 1, type: 'OFFICE MEMO' },
+  { id: 2, type: 'MESSAGES' },
+  { id: 3, type: 'CERTIFICATES' },
+  { id: 4, type: 'RECOMMENDATIONS' },
+  { id: 5, type: 'MAIL CERTIFICATES' },
+  { id: 6, type: 'REGIONAL LETTER' },
+  { id: 7, type: 'REGIONAL MEMO' },
+  { id: 8, type: 'SPECIAL TRAVEL ORDER' },
+  { id: 9, type: 'GOVERNMENT OFFICE' },
+  { id: 10, type: 'CHED MANILA' },
+  { id: 11, type: 'MISCELLANEOUS' },
+  { id: 12, type: 'SPECIAL ORDER DEFICIENCY' },
+  { id: 13, type: 'APPROVED/REPLY LETTERS TO SCHOLARS' },
+  { id: 14, type: 'GOVERNMENT RECOGNITION' },
+  { id: 15, type: 'CERTIFICATE OF PROGRAM COMPLETION- SUCS' },
+  { id: 16, type: 'GOVERNMENT AUTHORITY-LUCS' },
+  { id: 17, type: 'GOVERNMENT PERMIT' },
+  { id: 18, type: 'COA-CHED 10 COMMUNICATION' },
+  { id: 19, type: 'CHED MEMORANDUM' },
+  { id: 20, type: 'SPECIAL ORDER DUPLICATES' },
+  { id: 21, type: 'CAV DUPLICATES' },
+  { id: 22, type: 'CUSTOMER FEEDBACK FORMS' },
+  { id: 23, type: 'AUTHORIZATION' },
+  { id: 24, type: 'HEIS DESIGNATION/SPECIMEN' },
+  { id: 25, type: 'ENROLLMENT LIST' },
+];  
+
+//sa filtering function for DOCUMENT TYPE//
+
   return (
     <div>
         <table className="table-auto w-full border-collapse border h-24">
@@ -46,11 +95,43 @@ const handleSelectDepartmentFilter = (value) => {
             <th className="px-4 py-2">File</th>
             <th className="px-4 py-2">Institution Name</th>
             <th className="px-4 py-2">Assignatory</th>
-            <th className="px-4 py-2">Type</th>
             <th className="px-4 py-2">
-  Department
-  <div className="relative inline-block ml-2">
-  <button
+              Type
+              <div className="relative inline-block ml-2">
+                {/* Type filter dropdown */}
+                <button
+             onClick={handleToggleTypeFilterDropdown}
+             type="button"
+             className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+             >
+               {selectedTypeFilter ? types.find(t => t.type === selectedTypeFilter)?.type : 'Filter'}
+               </button>
+
+                {showTypeFilterDropdown && (
+                  <div
+                    className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  >
+                    <div className="py-1">
+                      {types.map(type => (
+                        <button
+                          key={type.id}
+                          onClick={() => handleSelectTypeFilter(type.id)}
+                          className={`${
+                            selectedTypeFilter === type.id ? 'bg-gray-200 text-gray-900' : 'text-gray-700'
+                          } block px-4 py-2 text-sm w-full text-left`}
+                        >
+                          {type.type}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </th>
+            <th className="px-4 py-2">
+                                      Department
+                 <div className="relative inline-block ml-2">
+                  <button
                     onClick={handleToggleDepartmentFilterDropdown}
                     type="button"
                     className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
@@ -59,7 +140,7 @@ const handleSelectDepartmentFilter = (value) => {
                       ? 'Receiving'
                       : selectedDepartmentFilter === '2'
                       ? 'Scholarship'
-                      : selectedStatusFilter === '3'
+                      : selectedDepartmentFilter  === '3'
                       ? 'Records'
                       : 'Filter'}
                   </button>
@@ -111,8 +192,8 @@ const handleSelectDepartmentFilter = (value) => {
         </div>
       </div>
     ) : null}
-  </div>
-</th>
+          </div>
+           </th>
             <th className="px-4 py-2">Date Issued (year/month/date)</th>
             <th className="px-4 py-2">
               Status
@@ -196,7 +277,8 @@ const handleSelectDepartmentFilter = (value) => {
       ((selectedDepartmentFilter === '1' && document.department === 'Receiving') ||
         (selectedDepartmentFilter === '2' && document.department === 'Scholarship') ||
         (selectedDepartmentFilter === '3' && document.department === 'Records') ||
-        selectedDepartmentFilter === '')
+        selectedDepartmentFilter === '') &&
+        (selectedTypeFilter === '' || document.document_type === selectedTypeFilter)
     )
     .map((document) => (
       <tr key={document.doc_ID}>

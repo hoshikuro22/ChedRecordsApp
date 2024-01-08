@@ -27,7 +27,7 @@ export default function PersonnelTable({ personnels, handleDeleteClick, currentP
               <td className="border px-4 py-2 text-center">{personnel.Position}</td>
 
               <td className="border px-4 py-2 text-center">
-                <button className="text-blue-500 hover:underline">Edit</button>
+                {/* <button className="text-blue-500 hover:underline">Edit</button> */}
                 <button
                   className="text-red-500 hover:underline ml-2"
                   onClick={() => handleDeleteClick(personnel.Personnel_ID)}
