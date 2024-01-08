@@ -60,11 +60,30 @@ const getMaxTransID = async () => {
   });
 };
 
+// Function to get the maximum Doc_Backup_ID from the "doc_backup" table
+const getNextDocBackupID = async () => {
+  return new Promise((resolve, reject) => {
+    const getMaxDocBackupIDQuery =
+      "SELECT MAX(Doc_Backup_ID) AS maxDocBackupID FROM doc_backup";
+    db.query(getMaxDocBackupIDQuery, (err, result) => {
+      if (err) {
+        console.error("Error in getMaxDocBackupIDQuery:", err);
+        reject(err);
+      } else {
+        const maxDocBackupID = result[0].maxDocBackupID || 0;
+        const nextDocBackupID = maxDocBackupID + 1;
+        console.log("maxDocBackupID:", maxDocBackupID);
+        resolve(nextDocBackupID);
+      }
+    });
+  });
+};
+
 // Function to find the next available primary key for the activity_log table
 const getNextActivityLogId = async () => {
   return new Promise((resolve, reject) => {
     const getMaxActivityLogIdQuery =
-      "SELECT MAX(activity_ID) AS maxActivityLogId FROM activity_log";
+      "SELECT MAX(activity_ID) AS maxActivityLogId FROM Activity_Log";
     db.query(getMaxActivityLogIdQuery, (err, result) => {
       if (err) {
         console.error("Error in getMaxActivityLogIdQuery:", err);
@@ -79,23 +98,6 @@ const getNextActivityLogId = async () => {
   });
 };
 
-// Function to get the maximum Doc_Backup_ID from the "doc_backup" table
-const getMaxDocBackupID = async () => {
-  return new Promise((resolve, reject) => {
-    const getMaxDocBackupIDQuery =
-      "SELECT MAX(Doc_Backup_ID) AS maxDocBackupID FROM doc_backup";
-    db.query(getMaxDocBackupIDQuery, (err, result) => {
-      if (err) {
-        console.error("Error in getMaxDocBackupIDQuery:", err);
-        reject(err);
-      } else {
-        const maxDocBackupID = result[0].maxDocBackupID || 0;
-        console.log("maxDocBackupID:", maxDocBackupID);
-        resolve(maxDocBackupID);
-      }
-    });
-  });
-};
 
 // Function to get the user account from the user table based on User_ID
 const getUserAccount = async (userID) => {
@@ -150,13 +152,13 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
     // Get the maximum Trans_ID from the "transaction" table
     const maxTransID = await getMaxTransID();
 
+    // Get the maximum Doc_Backup_ID from the "doc_backup" table
+    const nextDocBackupID = await getNextDocBackupID();
+
     // Get the next available primary key for the activity_log table
     const nextActivityLogId = await getNextActivityLogId();
 
-    // Get the maximum Doc_Backup_ID from the "doc_backup" table
-    const maxDocBackupID = await getMaxDocBackupID();
-
-    // Fetch user account to get first_name and last_name
+   // Fetch user account to get first_name and last_name
     const userAccount = await getUserAccount(userID);
 
     // Use a transaction to ensure consistency across "document" and "transaction" tables
@@ -195,7 +197,6 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
             } else {
               // Increment the maxTransID for the next transaction
               const nextTransID = maxTransID + 1;
-
               // Insert into the "transaction" table with the obtained "Trans_ID"
               const transactionInsertQuery =
                 "INSERT INTO transaction (Trans_ID, User_ID, Doc_ID, Inst_ID) VALUES (?, ?, ?, ?)";
@@ -227,12 +228,12 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                     );
                     db.rollback(() => reject(err));
                   } else {
-                    // Insert into the "doc_backup" table
+                    // Insert into the "doc_backup" table with the obtained "Doc_backup_ID"
                     const docBackupInsertQuery =
-                      "INSERT INTO doc_backup (Doc_Backup_ID, doc_ID, doc_type_id, personnel_id, Inst_ID, Dept_ID, Status_ID, file, Date_Time, Backup_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                      "INSERT INTO doc_backup (Doc_backup_ID, Doc_ID, Doc_type_ID, personnel_id, Inst_ID, Dept_ID, Status_ID, File, Date_Time, Backup_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     const docBackupInsertValues = [
-                      maxDocBackupID + 1,
-                      docID,
+                      nextDocBackupID,
+                      null,
                       documentType,
                       assignatories,
                       institution,
@@ -252,37 +253,25 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                       "docBackupInsertValues:",
                       docBackupInsertValues
                     );
-
-                    db.query(
-                      docBackupInsertQuery,
-                      docBackupInsertValues,
-                      (err, result) => {
-                        if (err) {
-                          console.error(
-                            "Error in docBackupInsertQuery:",
-                            err
-                          );
-                          db.rollback(() => reject(err));
-                        } else {
                           db.query(docBackupInsertQuery, docBackupInsertValues, (err, result) => {
                             if (err) {
                               console.error("Error in docBackupInsertQuery:", err);
                               db.rollback(() => reject(err));
                             } else {
+                              
                              // Insert into the "activity_log" table
 
-                    const myDate = new Date();
-                    myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-                    console.log(myDate)
-                    const activityLogInsertQuery =
-                      "INSERT INTO activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
-                    const activityLogInsertValues = [
-                      nextActivityLogId,
-                      nextTransID,
-                      myDate,
-                      `Added doc_ID: ${docID} | File Name:  ${file.filename}`,
-                      userAccount,
-                    ];
+                             const myDate = new Date();
+                             myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+                             console.log(myDate)
+                             const activityLogInsertQuery =
+                                   "INSERT INTO activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
+                             const activityLogInsertValues = [
+                                   nextActivityLogId,
+                                   nextTransID,
+                                   myDate,
+                                  `Added doc_ID: ${docID} | File Name:  ${file.filename}`,
+                                   userAccount,   ];
                               // Log the activityLogInsertQuery and values
                               console.log("activityLogInsertQuery:", activityLogInsertQuery);
                               console.log("activityLogInsertValues:", activityLogInsertValues);
@@ -315,9 +304,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                               resolve(result);
                             }
                           });
-                        }
-                      }
-                    );
+                        
                   }
                 }
               );
@@ -574,7 +561,7 @@ console.log("Last Name:", userLastName);
 
   const getFilePathQuery = "SELECT file FROM document WHERE doc_id = ?";
   const deleteDocumentQuery = "DELETE FROM document WHERE doc_id = ?";
-  const deleteTransactionQuery = "DELETE FROM transaction WHERE Doc_ID = ?";
+  const deleteTransactionQuery = "DELETE FROM transaction WHERE doc_id = ?";
   const insertActivityLogQuery = "INSERT INTO Activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
 
   db.beginTransaction((err) => {
