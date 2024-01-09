@@ -12,7 +12,8 @@ export default function Communications() {
     doc_ID: "",
     file: null,
     documentType: "",
-    dateIssued: new Date(),
+    dateReceived: new Date(),
+    dateReleased: new Date(),
     status: "",
     assignatories: "",
     department: "",
@@ -282,14 +283,16 @@ const handleFileChange = (e) => {
     }
     try {
       const docID = getMaxDocID();
-      const formattedDate = formData.dateIssued.toLocaleDateString();
+      const formattedDateReceived = formData.dateReceived.toLocaleDateString();
+      const formattedDateReleased = formData.dateReleased.toLocaleDateString();
       const formDataToSend = new FormData();
     
       // Append form data including the file
       formDataToSend.append("docID", docID);
       formDataToSend.append("assignatories", formData.assignatories);
       formDataToSend.append("documentType", formData.documentType);
-      formDataToSend.append("dateIssued", formattedDate);
+      formDataToSend.append("dateReceived", formattedDateReceived);
+      formDataToSend.append("dateReleased", formattedDateReleased);
       formDataToSend.append("remarks", formData.remarks);
       formDataToSend.append("status", formData.status);
       formDataToSend.append("department", formData.department);
@@ -306,7 +309,8 @@ const handleFileChange = (e) => {
           ...prevData,
           file: null,
           documentType: "",
-          dateIssued: new Date(),
+          dateReceived: new Date(),
+          dateReleased: new Date(),
           status: "",
           assignatories: "",
           department: "",
@@ -398,6 +402,7 @@ const handleDeleteClick = async (id) => {
     handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
     handleEditClick={handleEditClick}
+    institutionsOptions={institutionsOptions}
   />
 </div>
 

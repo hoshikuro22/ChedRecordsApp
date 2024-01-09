@@ -4,8 +4,6 @@ import { useState } from 'react';
 
 export default function ChedClientsAdminTable({
   currentItems,
-  searchQueryID,
-  searchQueryName,
   handleDeleteClick,
   handleInfoClick,
   handleEditClick={handleEditClick} 
@@ -193,8 +191,9 @@ export default function ChedClientsAdminTable({
     (selectedInstitutionTypeFilter === "3" && client.inst_type === "Public") ||
     (selectedInstitutionTypeFilter === "4" && client.inst_type === "Private") ||
     selectedInstitutionTypeFilter === "") &&
-  (client.inst_id.includes(searchQueryID) &&
-    client.inst_name.includes(searchQueryName)) && (
+  // (client.inst_id.includes(searchQueryID) &&
+  //   client.inst_name.includes(searchQueryName)) &&
+     (
     <tr key={client.inst_id}>
       <td className="border px-4 py-2 text-center">{client.seq_no}</td>
       <td className="border px-4 py-2 text-center">{client.inst_name}</td>
@@ -236,8 +235,8 @@ export default function ChedClientsAdminTable({
 
 ChedClientsAdminTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
-  searchQueryID: PropTypes.string.isRequired,
-  searchQueryName: PropTypes.string.isRequired,
+  // searchQueryID: PropTypes.string.isRequired,
+  // searchQueryName: PropTypes.string.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
   handleDeleteClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,

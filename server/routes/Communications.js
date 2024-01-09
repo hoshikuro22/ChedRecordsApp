@@ -126,7 +126,8 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
     docID,
     assignatories,
     documentType,
-    dateIssued,
+    dateReceived,
+    dateReleased,
     remarks,
     status,
     department,
@@ -170,12 +171,13 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
         }
 
         const documentInsertQuery =
-          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Issued, remarks, status_id, department_id, inst_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Received, Date_Released, remarks, status_id, department_id, inst_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const documentInsertValues = [
           docID,
           assignatories,
           documentType,
-          dateIssued,
+          dateReceived,
+          dateReleased,
           remarks,
           status,
           department,
@@ -230,7 +232,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                   } else {
                     // Insert into the "doc_backup" table with the obtained "Doc_backup_ID"
                     const docBackupInsertQuery =
-                      "INSERT INTO doc_backup (Doc_backup_ID, Doc_ID, Doc_type_ID, personnel_id, Inst_ID, Dept_ID, Status_ID, File, Date_Time, Backup_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                      "INSERT INTO doc_backup (Doc_backup_ID, Doc_ID, Doc_type_ID, personnel_id, Inst_ID, Dept_ID, Status_ID, File, Date_Received, Date_Released, Backup_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     const docBackupInsertValues = [
                       nextDocBackupID,
                       null,
@@ -240,7 +242,8 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                       department,
                       status,
                       file.filename,
-                      dateIssued,
+                      dateReceived,
+                      dateReleased,
                       docID,
                     ];
 
@@ -350,7 +353,8 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
   d.status_id,
   d.inst_id,
   d.file,
-  d.date_issued,
+  d.date_received,
+  d.date_released,
   d.remarks,
   s.type AS status,
   dep.type AS department,

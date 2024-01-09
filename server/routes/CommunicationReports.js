@@ -18,10 +18,12 @@ router.get('/getCommunicationReports', (req, res) => {
     d.File,
     CONCAT(lp.Last_Name, ', ', lp.First_Name) AS Assignatories,
     dt.Type AS DocumentType,
-    d.Date_Issued AS DateIssued,
+    d.Date_Received AS DateReceived,
+    d.Date_Released AS DateReleased,
     d.Remarks,
     dep.Type AS Department,
-    s.Type AS Status
+    s.Type AS Status,
+    i.inst_name as institution_name
 FROM
     transaction t
     JOIN user u ON t.User_ID = u.User_ID
@@ -30,6 +32,7 @@ FROM
     JOIN document_type dt ON d.Doc_Type_ID = dt.Doc_Type_ID
     JOIN department dep ON d.Department_ID = dep.Department_ID
     JOIN status s ON d.Status_ID = s.Status_ID
+    JOIN institution i ON d.inst_ID = i.inst_ID
 ORDER BY t.Trans_ID;
   `;
 

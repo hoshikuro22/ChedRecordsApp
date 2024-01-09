@@ -5,6 +5,7 @@ import ReportsAdminInstitutionsTable from './ReportsAdminDisplayComponent/Report
 export default function Reports() {
   const [showInstitutions, setShowInstitutions] = useState(false);
   const [showCommunications, setShowCommunications] = useState(true);
+  
 
   const handleToggleInstitutions = () => {
     setShowInstitutions(true);

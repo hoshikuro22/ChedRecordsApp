@@ -120,9 +120,9 @@ export default function ChedClients() {
   const[showInstitutionList, setShowInstitutionListButton]= useState(true);
  
 
-  // for search for filter
-  const [searchQueryID, setSearchQueryID] = useState("");
-  const [searchQueryName, setSearchQueryName] = useState("");
+  // // for search for filter
+  // const [searchQueryID, setSearchQueryID] = useState("");
+  // const [searchQueryName, setSearchQueryName] = useState("");
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -182,14 +182,14 @@ export default function ChedClients() {
     }));
   };
   
-  // sa pang search filter sa inst_ID
-  const handleSearchIDChange = (e) => {
-    setSearchQueryID(e.target.value);
-  };
- // sa pang search filter sa inst_Name
-  const handleSearchNameChange = (e) => {
-    setSearchQueryName(e.target.value);
-  };
+//   // sa pang search filter sa inst_ID
+//   const handleSearchIDChange = (e) => {
+//     setSearchQueryID(e.target.value);
+//   };
+//  // sa pang search filter sa inst_Name
+//   const handleSearchNameChange = (e) => {
+//     setSearchQueryName(e.target.value);
+//   };
 
   const handleAddClientClick = () => {
     setShowForm(true);
@@ -334,7 +334,7 @@ export default function ChedClients() {
         <h2 className="text-xl font-semibold mb-2">List of CHED Clients</h2>
 
         {/* Search bar for filter by Institution ID or Name */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <input
             type="text"
             placeholder="Search by Institutional ID"
@@ -349,7 +349,7 @@ export default function ChedClients() {
             onChange={handleSearchNameChange}
             className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 ml-2"
           />
-        </div>
+        </div> */}
 
         
 
@@ -358,8 +358,8 @@ export default function ChedClients() {
         <div>
   <ChedClientsAdminTable
     currentItems={currentItems}
-    searchQueryID={searchQueryID}
-    searchQueryName={searchQueryName}
+    // searchQueryID={searchQueryID}
+    // searchQueryName={searchQueryName}
     handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
   handleEditClick={handleEditClick}

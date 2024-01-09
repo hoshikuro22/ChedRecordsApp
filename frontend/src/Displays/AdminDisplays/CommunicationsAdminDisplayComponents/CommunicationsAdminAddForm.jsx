@@ -54,53 +54,28 @@ export default function CommunicationsAdminAddForm({
           </option>
         ))}
       </select>
-    </div>
+    </div> 
 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Issued</label>
-              <DatePicker
-                selected={formData.dateIssued}
-                onChange={(date) => ({ ...formData, dateIssued: date })}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                displayFormat
-              />
-            </div>
-            
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Remarks</label>
-              <input
-                required
-                type="text"
-                id="remarks"
-                name="remarks"
-                placeholder="Enter Remarks"
-                value={formData.remarks}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-            <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Assigned to:</label>
-  <select
+    <div className="flex flex-col">
+  <label className="mb-1 text-sm font-semibold">Client Name</label>
+  <select 
     required
-    id="assignatories"
-    name="assignatories"
-    value={formData.assignatories}
+    id="institution"
+    name="institution"
+    value={formData.institution}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
-    <option value="">Select Assignatories</option>
-    {personnelOptions.map((person) => (
-      <option key={person.Personnel_ID} value={person.Personnel_ID}>
-        {`${person.Last_Name}, ${person.First_Name}`}
+    <option value="">Select Client</option>
+    {institutionsOptions.map((institution) => (
+      <option key={institution.inst_id} value={institution.inst_id}>
+        {institution.inst_name}
       </option>
     ))}
   </select>
 </div>
 
-            
-
-            <div className="flex flex-col">
+    <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
               <select 
                 required
@@ -117,24 +92,60 @@ export default function CommunicationsAdminAddForm({
                
               </select>
             </div>
+
             <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Institution Name</label>
-  <select 
-    required
-    id="institution"
-    name="institution"
-    value={formData.institution}
-    onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-  >
-    <option value="">Select Institution</option>
-    {institutionsOptions.map((institution) => (
-      <option key={institution.inst_id} value={institution.inst_id}>
-        {institution.inst_name}
-      </option>
-    ))}
-  </select>
-</div>
+              <label className="mb-1 text-sm font-semibold">Date Received</label>
+              <DatePicker
+                selected={formData.dateReceived}
+                onChange={(date) => handleChange({ target: { name: 'dateReceived', value: date } })}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                displayFormat
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Date Released</label>
+              <DatePicker
+                selected={formData.dateReleased}
+                onChange={(date) => handleChange({ target: { name: 'dateReleased', value: date } })}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                displayFormat
+              />
+            </div>
+            
+           
+            <div className="flex flex-col">
+           <label className="mb-1 text-sm font-semibold">Assigned to: (change term)</label>
+             <select
+             required
+             id="assignatories"
+             name="assignatories"
+             value={formData.assignatories}
+             onChange={handleChange}
+             className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+               >
+             <option value="">Select Assignatories</option>
+             {personnelOptions.map((person) => (
+               <option key={person.Personnel_ID} value={person.Personnel_ID}>
+             {`${person.Last_Name}, ${person.First_Name}`}
+                </option>
+             ))}
+           </select>
+           </div>
+   
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Remarks</label>
+              <input
+                required
+                type="text"
+                id="remarks"
+                name="remarks"
+                placeholder="Enter Remarks"
+                value={formData.remarks}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
 
 
             {/* para ma add ang status sa add form */}
@@ -210,7 +221,8 @@ CommunicationsAdminAddForm.propTypes = {
   formData: PropTypes.shape({
     file: PropTypes.object,
     documentType: PropTypes.string.isRequired,
-    dateIssued: PropTypes.instanceOf(Date).isRequired,
+    dateReceived: PropTypes.instanceOf(Date).isRequired,
+    dateReleased: PropTypes.instanceOf(Date).isRequired,
     status: PropTypes.string.isRequired,
     assignatories: PropTypes.string.isRequired,
     department: PropTypes.string.isRequired,

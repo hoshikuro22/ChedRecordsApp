@@ -6,6 +6,7 @@ export default function CommunicationsAdminTable({
   handleDeleteClick,
   handleInfoClick,
   handleEditClick,
+  institutionsOptions,
 }) {
 
   //sa filtering function for STATUS//
@@ -86,6 +87,24 @@ const types = [
 
 //sa filtering function for DOCUMENT TYPE//
 
+
+//sa filtering function for CLIENT/INSTITUTION TYPE//
+
+const [showClientNameFilterDropdown, setShowClientNameFilterDropdown] = useState(false);
+const [selectedClientNameFilter, setSelectedClientNameFilter] = useState('');
+
+const handleToggleClientNameFilterDropdown = () => {
+  setShowClientNameFilterDropdown(!showClientNameFilterDropdown);
+};
+
+const handleSelectClientNameFilter = (value) => {
+  setSelectedClientNameFilter(value);
+  setShowClientNameFilterDropdown(false);
+};
+
+//sa filtering function for CLIENT/INSTITUTION TYPE//
+
+
   return (
     <div>
         <table className="table-auto w-full border-collapse border h-24">
@@ -93,41 +112,49 @@ const types = [
           <tr className="bg-gray-200">
             <th className="px-4 py-2">Doc No</th>
             <th className="px-4 py-2">File</th>
-            <th className="px-4 py-2">Institution Name</th>
+            <th className="px-4 py-2">Client Name
+  <div className="relative inline-block ml-2">
+    <button
+      onClick={handleToggleClientNameFilterDropdown}
+      type="button"
+      className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+    >
+      {selectedClientNameFilter ? selectedClientNameFilter : 'Filter'}
+    </button>
+    {showClientNameFilterDropdown && (
+      <div
+        className="origin-top-right absolute right-0 w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+      >
+        <div className="py-1">
+          <button
+            onClick={() => handleSelectClientNameFilter('')} // Clears the filter
+            className={`${
+              selectedClientNameFilter === ''
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            All
+          </button>
+          {institutionsOptions.map((institution) => (
+            <button
+              key={institution.inst_id}
+              onClick={() => handleSelectClientNameFilter(institution.inst_name)}
+              className={`${
+                selectedClientNameFilter === institution.inst_name
+                  ? 'bg-gray-200 text-gray-900'
+                  : 'text-gray-700'
+              } block px-4 py-2 text-sm w-full text-left`}
+            >
+              {institution.inst_name}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</th>
             <th className="px-4 py-2">Assignatory</th>
-            <th className="px-4 py-2">
-              Type
-              <div className="relative inline-block ml-2">
-                {/* Type filter dropdown */}
-                <button
-             onClick={handleToggleTypeFilterDropdown}
-             type="button"
-             className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-             >
-               {selectedTypeFilter ? types.find(t => t.type === selectedTypeFilter)?.type : 'Filter'}
-               </button>
-
-                {showTypeFilterDropdown && (
-                  <div
-                    className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  >
-                    <div className="py-1">
-                      {types.map(type => (
-                        <button
-                          key={type.id}
-                          onClick={() => handleSelectTypeFilter(type.id)}
-                          className={`${
-                            selectedTypeFilter === type.id ? 'bg-gray-200 text-gray-900' : 'text-gray-700'
-                          } block px-4 py-2 text-sm w-full text-left`}
-                        >
-                          {type.type}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </th>
             <th className="px-4 py-2">
                                       Department
                  <div className="relative inline-block ml-2">
@@ -194,7 +221,41 @@ const types = [
     ) : null}
           </div>
            </th>
-            <th className="px-4 py-2">Date Issued (year/month/date)</th>
+           <th className="px-4 py-2">
+              Document Type
+              <div className="relative inline-block ml-2">
+                {/* Type filter dropdown */}
+                <button
+             onClick={handleToggleTypeFilterDropdown}
+             type="button"
+             className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+             >
+               {selectedTypeFilter ? types.find(t => t.type === selectedTypeFilter)?.type : 'Filter'}
+               </button>
+
+                {showTypeFilterDropdown && (
+                  <div
+                    className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  >
+                    <div className="py-1">
+                      {types.map(type => (
+                        <button
+                          key={type.id}
+                          onClick={() => handleSelectTypeFilter(type.id)}
+                          className={`${
+                            selectedTypeFilter === type.id ? 'bg-gray-200 text-gray-900' : 'text-gray-700'
+                          } block px-4 py-2 text-sm w-full text-left`}
+                        >
+                          {type.type}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </th>
+            <th className="px-4 py-2">Date Received</th>
+            <th className="px-4 py-2">Date Released</th>
             <th className="px-4 py-2">
               Status
               <div className="relative inline-block ml-2">
@@ -278,7 +339,8 @@ const types = [
         (selectedDepartmentFilter === '2' && document.department === 'Scholarship') ||
         (selectedDepartmentFilter === '3' && document.department === 'Records') ||
         selectedDepartmentFilter === '') &&
-        (selectedTypeFilter === '' || document.document_type === selectedTypeFilter)
+        (selectedTypeFilter === '' || document.document_type === selectedTypeFilter) &&
+        (selectedClientNameFilter === '' || document.institution_name === selectedClientNameFilter)
     )
     .map((document) => (
       <tr key={document.doc_ID}>
@@ -295,9 +357,10 @@ const types = [
         </td>
         <td className="border px-4 py-2 text-center">{document.institution_name}</td>
         <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
-        <td className="border px-4 py-2 text-center">{document.document_type}</td>
         <td className="border px-4 py-2 text-center">{document.department}</td>
-        <td className="border px-4 py-2 text-center">{document.date_issued}</td>
+        <td className="border px-4 py-2 text-center">{document.document_type}</td>
+        <td className="border px-4 py-2 text-center">{document.date_received}</td>
+        <td className="border px-4 py-2 text-center">{document.date_released}</td>
         <td className="border px-4 py-2 text-center">{document.status}</td>
         <td className="border px-4 py-2 text-center">{document.remarks}</td>
         <td className="border px-4 py-2 text-center">
@@ -334,4 +397,5 @@ CommunicationsAdminTable.propTypes = {
   handleDeleteClick: PropTypes.func.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,
+  institutionsOptions: PropTypes.array.isRequired,
 };
