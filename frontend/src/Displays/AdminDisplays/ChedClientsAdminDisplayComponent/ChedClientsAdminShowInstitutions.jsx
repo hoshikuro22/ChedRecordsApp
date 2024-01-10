@@ -31,31 +31,31 @@ const ChedClientsAdminShowInstitutions = ({ institutions }) => {
         onClick={handleShowInstitutionsModal}
         className="w-auto px-4 py-2 text-white bg-slate-600 rounded-lg hover:bg-slate-800 transition duration-300 mb-2"
       >
-        Show Institution List
+        Show Client List
       </button>
 
       {showInstitutionsModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
           <div className="bg-white rounded-lg p-8 z-50">
-            <h2 className="text-xl font-semibold mb-4">Institution List</h2>
+            <h2 className="text-xl font-semibold mb-4">Client List</h2>
 
             <table className="w-full">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="px-4 py-2">Seq. No</th>
-                  <th className="px-4 py-2">Inst ID</th>
-                  <th className="px-4 py-2">Inst Name</th>
+                  <th className="px-4 py-2">Client ID</th>
+                  <th className="px-4 py-2">Client Name</th>
                 </tr>
               </thead>
               <tbody>
                 {currentItems.map((institution, index) => (
-                  <tr key={institution.inst_id}>
+                  <tr key={institution.client_id}>
                     <td className="border px-4 py-2 text-center">
                       {index + 1 + indexOfFirstItem}
                     </td>
                     <td className="border px-4 py-2 text-center">
-                      {institution.inst_id}
+                      {institution.client_id}
                     </td>
                     <td className="border px-4 py-2 text-center">
                       {institution.inst_name}

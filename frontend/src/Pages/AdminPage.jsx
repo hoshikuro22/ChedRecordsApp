@@ -7,6 +7,7 @@ import AdminHeader from "../Components/AdminComponents/AdminHeader"
 import AdminHome from "../Displays/AdminDisplays/AdminHome"
 import ChedClients from "../Displays/AdminDisplays/ChedClients"
 import Communications from "../Displays/AdminDisplays/Communications"
+import DocumentTypes from "../Displays/AdminDisplays/DocumentTypes"
 import ActivityLog from "../Displays/AdminDisplays/ActivityLog"
 import Reports from "../Displays/AdminDisplays/Reports"
 import ListOfPersonnels from "../Displays/AdminDisplays/ListOfPersonnels"
@@ -69,6 +70,7 @@ export default function AdminPage() {
             <Route path='/adhome' element={<AdminHome/>} />
             <Route path='/chedclients' element={<ChedClients />} />
             <Route path='/communications' element={<Communications />} />
+            <Route path ='/documenttypes' element ={<DocumentTypes />} />
             <Route path='/activitylog' element={<ActivityLog/>} />
             <Route path='/reports' element={<Reports/>} />
             <Route path='/listofpersonnel' element={<ListOfPersonnels/>} />

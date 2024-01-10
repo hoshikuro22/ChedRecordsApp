@@ -199,7 +199,7 @@ const handleSelectClientNameFilter = (value) => {
     )}
   </div>
 </th>
-              <th className="px-4 py-2">Assignatory(change term)</th>
+              <th className="px-4 py-2">Appointer </th>
               <th className="px-4 py-2">
        Department
   <div className="relative inline-block ml-2 h-auto ">
@@ -301,8 +301,8 @@ const handleSelectClientNameFilter = (value) => {
             </th>
               <th className="px-4 py-2">Date Received</th>
               <th className="px-4 py-2">Date Released</th>
-              <th className="px-4 py-2">Remarks</th>
               <th className="px-4 py-2">File Name</th>
+              <th className="px-4 py-2">Remarks</th>
               <th className="px-4 py-2">
               Status
               <div className="relative inline-block ml-2">
@@ -398,8 +398,8 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{report.DocumentType}</td>
         <td className="border px-4 py-2 text-center">{report.DateReceived}</td>
         <td className="border px-4 py-2 text-center">{report.DateReleased}</td>
-        <td className="border px-4 py-2 text-center">{report.Remarks}</td>
         <td className="border px-4 py-2 text-center">{truncateFileName(report.File, 30)}</td>
+        <td className="border px-4 py-2 text-center">{report.Remarks}</td>
         <td className="border px-4 py-2 text-center">{report.Status}</td>
       </tr>
     ))}

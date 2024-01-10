@@ -1,6 +1,6 @@
 import Picture from '../AdminComponents/ched10.png';
 import { BsFillPersonFill, BsPersonVcard } from 'react-icons/bs';
-import { IoMdPersonAdd } from 'react-icons/io';
+import { IoMdPersonAdd, IoIosFolder } from 'react-icons/io';
 import { GoOrganization } from 'react-icons/go';
 import { FaClockRotateLeft } from "react-icons/fa6";
 import { BiMessageSquare, BiSolidReport, BiLogOut } from 'react-icons/bi';
@@ -66,6 +66,13 @@ export default function AdminSidebar() {
                 <li>
                   <a href="/admin/communications" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
                     <BiMessageSquare />Communication
+                  </a>
+                </li>
+              </div>
+              <div className="text-center block items-center mb-2">
+                <li>
+                  <a href="/admin/documenttypes" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
+                    <IoIosFolder />Document Types
                   </a>
                 </li>
               </div>

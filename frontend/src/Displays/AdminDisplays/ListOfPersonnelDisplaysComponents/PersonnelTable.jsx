@@ -50,7 +50,6 @@ PersonnelTable.propTypes = {
       Last_Name: PropTypes.string.isRequired,
       First_Name: PropTypes.string.isRequired,
       Position: PropTypes.string.isRequired,
-      // Add other properties as needed
     })
   ).isRequired,
   handleDeleteClick: PropTypes.func.isRequired,

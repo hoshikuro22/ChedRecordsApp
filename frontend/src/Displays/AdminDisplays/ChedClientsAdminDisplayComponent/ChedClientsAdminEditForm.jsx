@@ -18,11 +18,11 @@ export default function ChedClientsAdminEditForm({
         <h2 className="text-2xl font-semibold mb-4">Edit Client</h2>
         <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Institution ID:</label>
-        <label className='font-semibold text-1xl ml-3'>{editFormData.inst_id}</label>
+            <label className="mb-1 text-sm font-semibold">Client ID:</label>
+        <label className='font-semibold text-1xl ml-3'>{editFormData.client_id}</label>
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Name of Institution </label>
+            <label className="mb-1 text-sm font-semibold">Name of Client </label>
             <input
               
               type="text"
@@ -32,22 +32,6 @@ export default function ChedClientsAdminEditForm({
               onChange={handleChange}
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Institution Type</label>
-            <select
-              
-              name="inst_type_id"
-              value={editFormData.inst_type_id}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            >
-              <option value="">Select Institution Type</option>
-              <option value="1">NGO</option>
-              <option value="2">NGA</option>
-              <option value="3">Public</option>
-              <option value="4">Private</option>
-            </select>
           </div>
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Address</label>
@@ -125,10 +109,8 @@ export default function ChedClientsAdminEditForm({
 
 ChedClientsAdminEditForm.propTypes = {
   editFormData: PropTypes.shape({
-    inst_id: PropTypes.string,
+    client_id: PropTypes.string,
     inst_name: PropTypes.string, 
-    // institutionType: PropTypes.string, //sa read
-    inst_type_id: PropTypes.number,   //sa put
     address: PropTypes.string,
     // clientType: PropTypes.string,    //sa read
     client_type_id: PropTypes.number,//sa put

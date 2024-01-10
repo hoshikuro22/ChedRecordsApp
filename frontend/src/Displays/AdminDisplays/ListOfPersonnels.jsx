@@ -21,7 +21,6 @@ export default function ListOfPersonnels() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
  
-
   useEffect(() => {
     fetchPersonnels();
   }, []);
@@ -29,7 +28,7 @@ export default function ListOfPersonnels() {
   const fetchPersonnels = async () => {
     try {
       const response = await axios.get("http://localhost:8081/getPersonnels");
-      console.log(response.data); // Add this line to check the fetched data
+      console.log(response.data); //  line to check the fetched data
       const sortedPersonnels = response.data.sort();
       setPersonnels(sortedPersonnels);
     } catch (error) {
@@ -46,7 +45,6 @@ export default function ListOfPersonnels() {
     return maxPersonnelID + 1;
   };
   
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({

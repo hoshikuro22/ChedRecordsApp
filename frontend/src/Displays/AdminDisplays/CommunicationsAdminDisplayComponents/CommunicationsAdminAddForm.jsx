@@ -8,7 +8,7 @@ export default function CommunicationsAdminAddForm({
     showForm,
     formData,
     personnelOptions,
-    institutionsOptions,
+    clientsOptions,
     documentTypeOptions,
     handleChange,
     handleSubmit,
@@ -49,8 +49,8 @@ export default function CommunicationsAdminAddForm({
       >
         <option value="">Select Document Type</option>
         {documentTypeOptions.map((documentType) => (
-          <option key={documentType.doc_type_id} value={documentType.doc_type_id}>
-            {documentType.document_type}
+          <option key={documentType.Doc_type_ID} value={documentType.Doc_type_ID}>
+            {documentType.Type}
           </option>
         ))}
       </select>
@@ -60,16 +60,16 @@ export default function CommunicationsAdminAddForm({
   <label className="mb-1 text-sm font-semibold">Client Name</label>
   <select 
     required
-    id="institution"
-    name="institution"
-    value={formData.institution}
+    id="client"
+    name="client"
+    value={formData.client}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
     <option value="">Select Client</option>
-    {institutionsOptions.map((institution) => (
-      <option key={institution.inst_id} value={institution.inst_id}>
-        {institution.inst_name}
+    {clientsOptions.map((client) => (
+      <option key={client.inst_id} value={client.inst_id}>
+        {client.inst_name}
       </option>
     ))}
   </select>
@@ -227,7 +227,7 @@ CommunicationsAdminAddForm.propTypes = {
     assignatories: PropTypes.string.isRequired,
     department: PropTypes.string.isRequired,
     remarks: PropTypes.string.isRequired,
-    institution: PropTypes.string.isRequired,
+    client: PropTypes.string.isRequired,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -236,6 +236,6 @@ CommunicationsAdminAddForm.propTypes = {
   handleFileChange: PropTypes.func.isRequired,
   handleAddCommunicationClick: PropTypes.func.isRequired,
   personnelOptions: PropTypes.array.isRequired,
-  institutionsOptions: PropTypes.array.isRequired,
+  clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
 };

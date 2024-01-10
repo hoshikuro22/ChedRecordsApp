@@ -23,44 +23,27 @@ export default function ChedClientsAdminAddForm({
               <input
                 required
                 type="text"
-                id="institutionID"
-                name="institutionID"
+                id="clientID"
+                name="clientID"
                 placeholder="Enter Institution ID"
-                value={formData.institutionID}
+                value={formData.clientID}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Name of Institution</label>
+              <label className="mb-1 text-sm font-semibold">Name of Client</label>
               <input
                 required
                 type="text"
                 id="institutionName"
                 name="institutionName"
-                placeholder="Enter Name of Institution"
+                placeholder="Enter Name of Client"
                 value={formData.institutionName}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
-            </div>
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Institution Type</label>
-              <select
-                required
-                id="institutionType"
-                name="institutionType"
-                value={formData.institutionType}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select Institution Type</option>
-                <option value="1">NGO</option>
-                <option value="2">NGA</option>
-                <option value="3">Public</option>
-                <option value="4">Private</option>
-              </select>
-            </div>
+            </div>  
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Address</label>
               <input
@@ -118,44 +101,6 @@ export default function ChedClientsAdminAddForm({
               />
             </div>
             </div>
-            {/* <div className="flex flex-col">  tanggalon
-              <label className="mb-1 text-sm font-semibold">Filing Category</label>
-              <select
-                required
-                id="filingCat"
-                name="filingCat"
-                value={formData.filingCat}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                  <option value="">Select Filing Type</option>
-                  <option value="1">CUSTOMER FEEDBACK FORMS</option>
-                  <option value="2">AUTHORIZATION</option>
-                  <option value="3">HEIS DESIGNATION/SPECIMEN</option>
-                  <option value="4">ENROLLMENT LIST</option>
-                  <option value="5">PROMOTIONAL REPORT</option>
-                  <option value="6">LIST OF GRADUATES</option>
-                  <option value="7">CAV CLAIM STUB</option>
-                  <option value="8">CAV TRACKER</option>
-                  <option value="9">THESIS/DISSERTATIONS</option>
- 
-              </select>
-            </div> */}
-            
-            {/* <div className="flex flex-col"> tanggalon
-              <label className="mb-1 text-sm font-semibold">Add File</label>
-            <input
-            required
-            id="file"
-            name="file"
-            // value={formData.file}
-            type="file"
-            onChange={handleFileChange}
-            className="border">
-            </input>
-            </div> */}
-            
-
             <div className="col-span-2 ml-auto gap-">
               <button
                 type="submit"
@@ -201,7 +146,7 @@ ChedClientsAdminAddForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     showForm: PropTypes.bool.isRequired,
     formData: PropTypes.shape({
-      institutionID: PropTypes.string,
+      clientID: PropTypes.string,
       institutionName: PropTypes.string,
       institutionType: PropTypes.string,
       address: PropTypes.string,

@@ -85,9 +85,8 @@ router.post("/addClient", async (req, res) => {
   const {
     
     seq_no,
-    institutionID,
+    clientID,
     institutionName,
-    institutionType,
     address,
     clientType,
     contactPerson,
@@ -97,7 +96,7 @@ router.post("/addClient", async (req, res) => {
 
 
   try {
-    console.log("Received request with institutionID:", institutionID);
+    console.log("Received request with clientID:", clientID);
     // Get the maximum Trans_ID from the "transaction" table
     const maxTransID = await getMaxTransID();
 
@@ -113,12 +112,11 @@ router.post("/addClient", async (req, res) => {
         }
 
         const institutionInsertQuery =
-          "INSERT INTO institution (seq_no, inst_id, inst_name, inst_type_id, address, client_type_id, contact_person, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO institution (seq_no, client_id, inst_name, address, client_type_id, contact_person, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
         const institutionInsertValues = [
           seq_no,
-          institutionID,
+          clientID,
           institutionName,
-          institutionType,
           address,
           clientType,
           contactPerson,
@@ -143,12 +141,12 @@ router.post("/addClient", async (req, res) => {
 
               // Insert into the "transaction" table with the obtained "Trans_ID"
               const transactionInsertQuery =
-                "INSERT INTO transaction (Trans_ID, User_ID, Doc_ID, Inst_ID) VALUES (?, ?, ?, ?)";
+                "INSERT INTO transaction (Trans_ID, User_ID, Doc_ID, client_ID) VALUES (?, ?, ?, ?)";
               const transactionInsertValues = [
                 nextTransID,
                 userID,
                 null,
-                institutionID,
+                clientID,
               ];
 
               // Log the transactionInsertQuery and values
@@ -192,7 +190,7 @@ router.post("/addClient", async (req, res) => {
                           nextActivityLogId,
                           nextTransID,
                           myDate,
-                          `Added inst_id: ${institutionID} `,
+                          `Added client_id: ${clientID} `,
                           userAccount,
                         ];
 
@@ -267,18 +265,15 @@ router.post("/addClient", async (req, res) => {
     const sql = `
       SELECT
         CAST(i.seq_no AS SIGNED) as seq_no,
-        i.inst_id,
+        i.client_id,
         i.inst_name,
         i.client_type_id,
-        i.inst_type_id,
         ct.type as client_type,
-        it.type as inst_type,
         i.address,
         i.contact_person,
         i.contact_number
       FROM institution i
       JOIN client_type ct ON i.client_type_id = ct.client_type_id
-      JOIN institution_type it ON i.inst_type_id = it.inst_type_id
       ORDER BY seq_no ASC; `;
   
     db.query(sql, (err, data) => {
@@ -314,8 +309,8 @@ router.delete("/deleteClient/:id", (req, res) => {
     });
   }
 
-  const deleteClientQuery = "DELETE FROM institution WHERE inst_id = ?";
-  const deleteTransactionQuery = "DELETE FROM transaction WHERE Inst_ID = ?";
+  const deleteClientQuery = "DELETE FROM institution WHERE client_id = ?";
+  const deleteTransactionQuery = "DELETE FROM transaction WHERE client_ID = ?";
   const insertActivityLogQuery = "INSERT INTO Activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
 
   db.beginTransaction((err) => {
@@ -415,7 +410,6 @@ router.put('/updateClient/:id', (req, res) => {
   const { id } = req.params;
   const {
     inst_name,
-    inst_type_id,
     address,
     client_type_id,
     contact_person,
@@ -428,14 +422,13 @@ router.put('/updateClient/:id', (req, res) => {
 
   const updateInstitutionSQL = `
     UPDATE institution 
-    SET inst_name=?, inst_type_id=?, address=?, client_type_id=?, contact_person=?, contact_number=? 
-    WHERE inst_id=?`;
+    SET inst_name=?, address=?, client_type_id=?, contact_person=?, contact_number=? 
+    WHERE client_id=?`;
 
   db.query(
     updateInstitutionSQL,
     [
       inst_name,
-      inst_type_id,
       address,
       client_type_id,
       contact_person,

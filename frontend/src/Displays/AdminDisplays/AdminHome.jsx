@@ -14,24 +14,24 @@ export default function AdminHome() {
          <a className="bg-blue-500 hover:bg-blue-700 w-1/4 h-64 "
           href="/admin/chedclients">
             <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex">Ched Clients</a>
-            <p className="text-white text-center mt-32 underline">Manage clients associated with Ched</p>
+            <p className="text-white text-center mt-20  underline">Manage clients associated with Ched</p>
           </a>
 
           <a className="bg-blue-500 hover:bg-blue-700 w-1/4 h-64"
             href="/admin/communications">
             <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex">Communications</a>
-            <p className="text-white text-center mt-32 underline">Handle communications</p>
+            <p className="text-white text-center mt-20 underline">Handle communications</p>
           </a>
           <a className="bg-blue-500 hover:bg-blue-700 w-1/4 h-64"
           href="/admin/listofpersonnel">
             <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex"> List of Personnels</a>
-            <p className="text-white text-center mt-32 underline">View and manage personnel information</p>
+            <p className="text-white text-center mt-20 underline">View and manage personnel information</p>
             </a>
 
             <a className="bg-blue-500 hover:bg-blue-700 w-1/4 h-64"
              href="/admin/reports" >
             <a className=" text-white text-2xl font-bold py-2 px-4 rounded justify-center flex"> Reports</a>
-            <p className="text-white text-center mt-32 underline">Reports for administrative purposes</p>
+            <p className="text-white text-center mt-20 underline">Reports for administrative purposes</p>
             </a>
           
         </div>

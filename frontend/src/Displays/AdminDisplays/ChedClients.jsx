@@ -9,15 +9,12 @@ import ChedClientsAdminPagination from "./ChedClientsAdminDisplayComponent/ChedC
 
 export default function ChedClients() {
   const [formData, setFormData] = useState({
-    institutionID: "Inst2024000",
+    clientID: "Client2024000",
     institutionName: "",
-    institutionType: "",
     address: "",
     clientType: "",
-    // filingCat: "",
     contactPerson: "", 
     contactNumber: "", 
-    // file: null,
     userID: "",
   });
   console.log("the formData " + JSON.stringify(formData));
@@ -41,7 +38,6 @@ export default function ChedClients() {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
     institutionName: "",
-    institutionType: "",
     address: "",
     clientType: "",   
     // filingCat: "",
@@ -51,8 +47,8 @@ export default function ChedClients() {
   }); console.log("the EditformData " + JSON.stringify(editFormData));
 
 
-  const handleEditClick = (inst_id) => {
-    const selectedRow = clients.find((client) => client.inst_id === inst_id);
+  const handleEditClick = (client_id) => {
+    const selectedRow = clients.find((client) => client.client_id === client_id);
     if (selectedRow) {
       console.log("Selected Row Data to edit:", selectedRow);
       setEditFormData({
@@ -79,9 +75,9 @@ export default function ChedClients() {
 
   try {
     const response = await axios.put(
-      `http://localhost:8081/updateClient/${editFormData.inst_id}`,
+      `http://localhost:8081/updateClient/${editFormData.client_id}`,
       {
-        inst_id: editFormData.inst_id,
+        client_id: editFormData.client_id,
         inst_name: editFormData.inst_name,
         inst_type_id: editFormData.inst_type_id,
         address: editFormData.address,
@@ -138,9 +134,9 @@ export default function ChedClients() {
 
 
 
-  const handleInfoClick = (inst_id) => {
-    // Find the selected row data based on the inst_id
-    const selectedRow = clients.find((client) => client.inst_id === inst_id);
+  const handleInfoClick = (client_id) => {
+    // Find the selected row data based on the client_id
+    const selectedRow = clients.find((client) => client.client_id === client_id);
     if (selectedRow) {
       setSelectedRowData(selectedRow);
       setInfoModalOpen(true);
@@ -182,7 +178,7 @@ export default function ChedClients() {
     }));
   };
   
-//   // sa pang search filter sa inst_ID
+//   // sa pang search filter sa client_ID
 //   const handleSearchIDChange = (e) => {
 //     setSearchQueryID(e.target.value);
 //   };
@@ -207,9 +203,8 @@ export default function ChedClients() {
   const handleClearFormClick = () => {
     setFormData((prevData) => ({
       ...prevData,
-      institutionID: "Inst2024000",
+      clientID: "Client2024000",
       institutionName: "",
-      institutionType: "",
       address: "",
       clientType: "",
       contactPerson: "",
@@ -235,9 +230,8 @@ export default function ChedClients() {
 
         const response = await axios.post("http://localhost:8081/addClient", {
             seq_no: seq_no,
-            institutionID: formData.institutionID,
+            clientID: formData.clientID,
             institutionName: formData.institutionName,
-            institutionType: formData.institutionType,
             address: formData.address,
             clientType: formData.clientType,
             contactPerson: formData.contactPerson,
@@ -248,9 +242,8 @@ export default function ChedClients() {
         if (response.data.Status === "Success") {
             alert("Client added successfully!");
             setFormData({
-                institutionID: "Inst2024000",
+                clientID: "Client2024000",
                 institutionName: "",
-                institutionType: "",
                 address: "",
                 clientType: "",
                 contactPerson: "",

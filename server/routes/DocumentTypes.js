@@ -12,56 +12,55 @@ import mysql from "mysql"
 //first line sa admin:listofpersonnels(assignatories)
 
 //CREATE
-router.post("/addPersonnel", (req, res) => {
-    const { personnelID, lastName, firstName, position } = req.body;
+router.post("/addDocumentType", (req, res) => {
+    const { documentTypeID, documentType } = req.body;
   
     const sql =
-      "INSERT INTO list_personnel (Personnel_ID, Last_Name, First_Name, Position) VALUES (?, ?, ?, ? )";
+      "INSERT INTO document_type (doc_type_ID, type) VALUES (?, ?)";
   
-    db.query(sql, [personnelID, lastName, firstName, position], (err, result) => {
+    db.query(sql, [documentTypeID, documentType], (err, result) => {
       if (err) {
         console.error(err);
         return res.json({
           Status: "Error",
-          Message: "Error adding personnel to the database",
+          Message: "Error adding document type to the database",
         });
       }
   
-      console.log("Personnel added to the database");
+      console.log("Document type added to the database");
       return res.json({
         Status: "Success",
-        Message: "Personnel added to the database",
+        Message: "Document type added to the database",
       });
     });
   });
   
 
   //READ
-  router.get("/getPersonnels", (req, res) => {
+  router.get("/getDocumentTypes", (req, res) => {
     const sql = `
       SELECT
-      CAST(p.Personnel_ID AS SIGNED) as Personnel_ID,
-      p.personnel_id,
-      p.Last_Name,
-      p.First_Name,
-      p.Position
-    FROM list_personnel p
+      CAST(d.Doc_type_ID AS SIGNED) as Doc_type_ID,
+      d.Doc_type_ID,
+      d.Type
+    FROM document_type d
    
-    ORDER BY Personnel_ID ASC; `;
+    ORDER BY Doc_type_ID ASC; `;
   
     db.query(sql, (err, data) => {
       if (err) {
-        console.error("Error fetching personnels", err);
+        console.error("Error fetching document type", err);
         return res
           .status(500)
-          .json({ Status: "Error", Message: "Failed to fetch personnels" });
+          .json({ Status: "Error", Message: "Failed to fetch document type" });
       }
   
       return res.status(200).json(data);
     });
   });
   
-  //EDIT
+  //UPDATE
+
   router.put("/editPersonnel/:id", (req, res) => {
     const { id } = req.params;
     const { lastName, firstName, position } = req.body;
@@ -93,36 +92,37 @@ router.post("/addPersonnel", (req, res) => {
   });
   
   
-  router.delete("/deletePersonnel/:id", (req, res) => {
+  //DELETE
+  router.delete("/deleteDocumentType/:id", (req, res) => {
     const { id } = req.params;
   
     if (!id) {
       return res
         .status(400)
-        .json({ Status: "Error", Message: "Invalid user ID provided" });
+        .json({ Status: "Error", Message: "Invalid document type ID provided" });
     }
   
-    const sql = "DELETE FROM list_personnel WHERE Personnel_ID = ?";
+    const sql = "DELETE FROM document_type WHERE doc_type_ID = ?";
   
     db.query(sql, [id], (err, result) => {
       if (err) {
         console.error(err);
         return res.status(500).json({
           Status: "Error",
-          Message: "Error deleting personnel from the database",
+          Message: "Error deleting document type from the database",
         });
       }
   
       if (result.affectedRows === 0) {
         return res
           .status(404)
-          .json({ Status: "Error", Message: "Personnel not found" });
+          .json({ Status: "Error", Message: "Document type not found" });
       }
   
-      console.log("Personnel deleted from the database");
+      console.log("Document type deleted from the database");
       return res
         .status(200)
-        .json({ Status: "Success", Message: "Personnel deleted from the database" });
+        .json({ Status: "Success", Message: "Document Type deleted from the database" });
     });
   });
   
