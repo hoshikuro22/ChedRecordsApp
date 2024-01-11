@@ -68,8 +68,8 @@ export default function CommunicationsAdminAddForm({
   >
     <option value="">Select Client</option>
     {clientsOptions.map((client) => (
-      <option key={client.inst_id} value={client.inst_id}>
-        {client.inst_name}
+      <option key={client.client_id} value={client.client_id}>
+        {client.client_name}
       </option>
     ))}
   </select>
@@ -164,18 +164,27 @@ export default function CommunicationsAdminAddForm({
                 <option value="1">Approved</option>
                 <option value="2">Disapproved</option>
               </select>
-            </div>  </div>
+            </div></div>
 
 
 
-            <div className="col-span-2 ml-auto ">
-            <a
+            <div className="col-span-2 flex ">
+              <div className="flex mr-auto">
                 
-                className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
+            <a className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
                 href="/admin/chedclients"
               >
                 Add Client
+                
               </a>
+              <a className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
+                href="/admin/documenttypes"
+              >
+                Add Document Type
+                
+              </a>
+              </div>
+              <div className="flex">
               <button
                 
                 className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
@@ -196,6 +205,7 @@ export default function CommunicationsAdminAddForm({
               >
                 Clear Form
               </button>
+            </div>
             </div>
           </form>
           

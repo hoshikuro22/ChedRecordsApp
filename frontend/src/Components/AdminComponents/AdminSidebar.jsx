@@ -50,11 +50,18 @@ export default function AdminSidebar() {
 
           <div className="flex items-center gap-2 mt-5">
             <BsFillPersonFill size="20" />
-            <h1 className="text-1xl">Admin: {FirstName + ", "+ LastName }</h1>
+            <h1 className="text-1xl">Name: {FirstName + ", "+ LastName }</h1>
           </div>
 
           <div className="flex items-center mt-5">
             <ul>
+            <div className="text-center block items-center mb-5">
+                <li>
+                  <a href="/admin/communications" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
+                    <BiMessageSquare />Communication
+                  </a>
+                </li>
+              </div>
               <div className="text-center block items-center mb-2">
                 <li>
                   <a href="/admin/chedclients" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
@@ -62,13 +69,7 @@ export default function AdminSidebar() {
                   </a>
                 </li>
               </div>
-              <div className="text-center block items-center mb-2">
-                <li>
-                  <a href="/admin/communications" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
-                    <BiMessageSquare />Communication
-                  </a>
-                </li>
-              </div>
+
               <div className="text-center block items-center mb-2">
                 <li>
                   <a href="/admin/documenttypes" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">

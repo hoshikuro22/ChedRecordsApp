@@ -36,6 +36,25 @@ useEffect(() => {
   fetchInstitutionData();
 }, []);
 
+
+// to fetch document type for the add and edit form
+const [documentTypeOptions, setDocumentTypeOptions] = useState([]);
+
+useEffect(() => {
+  const fetchDocumentTypeData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/getDocumentTypes");
+      setDocumentTypeOptions(response.data);
+      console.log("Document types: " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching document type data:", error);
+    }
+  };
+
+  fetchDocumentTypeData();
+}, []);
+
+
   // for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -91,43 +110,11 @@ const handleToggleTypeFilterDropdown = () => {
 };
 
 const handleSelectTypeFilter = (value) => {
-  const selectedType = types.find(type => type.id === value)?.type || '';
-  // Set selectedTypeFilter to an empty string for the "All" option
-  setSelectedTypeFilter(value === '' ? '' : selectedType );
-
+  setSelectedTypeFilter(value);
   setShowTypeFilterDropdown(false);
 };
-
-const types = [
-  { id: '', type: 'ALL '},
-  { id: 1, type: 'OFFICE MEMO' },
-  { id: 2, type: 'MESSAGES' },
-  { id: 3, type: 'CERTIFICATES' },
-  { id: 4, type: 'RECOMMENDATIONS' },
-  { id: 5, type: 'MAIL CERTIFICATES' },
-  { id: 6, type: 'REGIONAL LETTER' },
-  { id: 7, type: 'REGIONAL MEMO' },
-  { id: 8, type: 'SPECIAL TRAVEL ORDER' },
-  { id: 9, type: 'GOVERNMENT OFFICE' },
-  { id: 10, type: 'CHED MANILA' },
-  { id: 11, type: 'MISCELLANEOUS' },
-  { id: 12, type: 'SPECIAL ORDER DEFICIENCY' },
-  { id: 13, type: 'APPROVED/REPLY LETTERS TO SCHOLARS' },
-  { id: 14, type: 'GOVERNMENT RECOGNITION' },
-  { id: 15, type: 'CERTIFICATE OF PROGRAM COMPLETION- SUCS' },
-  { id: 16, type: 'GOVERNMENT AUTHORITY-LUCS' },
-  { id: 17, type: 'GOVERNMENT PERMIT' },
-  { id: 18, type: 'COA-CHED 10 COMMUNICATION' },
-  { id: 19, type: 'CHED MEMORANDUM' },
-  { id: 20, type: 'SPECIAL ORDER DUPLICATES' },
-  { id: 21, type: 'CAV DUPLICATES' },
-  { id: 22, type: 'CUSTOMER FEEDBACK FORMS' },
-  { id: 23, type: 'AUTHORIZATION' },
-  { id: 24, type: 'HEIS DESIGNATION/SPECIMEN' },
-  { id: 25, type: 'ENROLLMENT LIST' },
-];  
-
 //sa filtering function for DOCUMENT TYPE//
+
 
 //sa filtering function for CLIENT/INSTITUTION TYPE//
 
@@ -181,17 +168,17 @@ const handleSelectClientNameFilter = (value) => {
           >
             All
           </button>
-          {institutionsOptions.map((institution) => (
+          {institutionsOptions.map((client) => (
             <button
-              key={institution.inst_id}
-              onClick={() => handleSelectClientNameFilter(institution.inst_name)}
+              key={client.client_id}
+              onClick={() => handleSelectClientNameFilter(client.client_name)}
               className={`${
-                selectedClientNameFilter === institution.inst_name
+                selectedClientNameFilter === client.client_name
                   ? 'bg-gray-200 text-gray-900'
                   : 'text-gray-700'
               } block px-4 py-2 text-sm w-full text-left`}
             >
-              {institution.inst_name}
+              {client.client_name}
             </button>
           ))}
         </div>
@@ -266,39 +253,49 @@ const handleSelectClientNameFilter = (value) => {
     ) : null}
   </div>
          </th>
-               <th className="px-4 py-2">
-                     Document Type
-              <div className="relative inline-block ml-2">
-                {/* Type filter dropdown */}
-                <button
-                onClick={handleToggleTypeFilterDropdown}
-                type="button"
-                className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-               >
-               {selectedTypeFilter ? types.find(t => t.type === selectedTypeFilter)?.type : 'Filter'}
-               </button>
-
-                {showTypeFilterDropdown && (
-                  <div
-                    className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                  >
-                    <div className="py-1">
-                      {types.map(type => (
-                        <button
-                          key={type.id}
-                          onClick={() => handleSelectTypeFilter(type.id)}
-                          className={`${
-                            selectedTypeFilter === type.id ? 'bg-gray-200 text-gray-900' : 'text-gray-700'
-                          } block px-4 py-2 text-sm w-full text-left`}
-                        >
-                          {type.type}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </th>
+         <th className="px-4 py-2">
+  Document Type
+  <div className="relative inline-block ml-2">
+    <button
+      onClick={handleToggleTypeFilterDropdown}
+      type="button"
+      className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+    >
+      {selectedTypeFilter ? selectedTypeFilter : 'Filter'}
+    </button>
+    {showTypeFilterDropdown && (
+      <div
+        className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+      >
+        <div className="py-1">
+          <button
+            onClick={() => handleSelectTypeFilter('')} // Clears the filter
+            className={`${
+              selectedTypeFilter === ''
+                ? 'bg-gray-200 text-gray-900'
+                : 'text-gray-700'
+            } block px-4 py-2 text-sm w-full text-left`}
+          >
+            All
+          </button>
+          {documentTypeOptions.map((type) => (
+            <button
+              key={type.Doc_type_ID}
+              onClick={() => handleSelectTypeFilter(type.Type)}
+              className={`${
+                selectedTypeFilter === type.Doc_type_ID
+                  ? 'bg-gray-200 text-gray-900'
+                  : 'text-gray-700'
+              } block px-4 py-2 text-sm w-full text-left`}
+            >
+              {type.Type}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</th>
               <th className="px-4 py-2">Date Received</th>
               <th className="px-4 py-2">Date Released</th>
               <th className="px-4 py-2">File Name</th>
@@ -385,14 +382,14 @@ const handleSelectClientNameFilter = (value) => {
         (selectedDepartmentFilter === '3' && report.Department === 'Records') ||
         selectedDepartmentFilter === '') &&
         (selectedTypeFilter === '' || report.DocumentType === selectedTypeFilter) &&
-        (selectedClientNameFilter === '' || report.institution_name === selectedClientNameFilter)
+        (selectedClientNameFilter === '' || report.client_name === selectedClientNameFilter)
     )
     .map((report) => (
       <tr key={report.TransactionID}>
         <td className="border px-4 py-2 text-center">{report.TransactionID}</td>
         <td className="border px-4 py-2 text-center">{report.SentBy}</td>
         <td className="border px-4 py-2 text-center">{report.DocID}</td>
-        <td className="border px-4 py-2 text-center">{report.institution_name}</td>
+        <td className="border px-4 py-2 text-center">{report.client_name}</td>
         <td className="border px-4 py-2 text-center">{report.Assignatories}</td>
         <td className="border px-4 py-2 text-center">{report.Department}</td>
         <td className="border px-4 py-2 text-center">{report.DocumentType}</td>

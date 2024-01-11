@@ -19,7 +19,8 @@ export default function CommunicationsAdminMoreDetails({
                   <th className="px-4 py-2">Document ID</th> 
                   <th className="px-4 py-2">File</th>
                   <th className="px-4 py-2">Document Type</th>
-                  <th className="px-4 py-2">Date Issued</th>
+                  <th className="px-4 py-2">Date Received</th>
+                  <th className="px-4 py-2">Date Released</th>
                   <th className="px-4 py-2">Status</th>
                   <th className="px-4 py-2">Remarks</th>
                   <th className="px-4 py-2">Assignatory</th>
@@ -32,7 +33,8 @@ export default function CommunicationsAdminMoreDetails({
                   <td className="border px-4 py-2 text-center">{selectedRowData.doc_ID}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.file}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.document_type}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.date_issued}</td>
+                  <td className="border px-4 py-2 text-center">{selectedRowData.date_received}</td>
+                  <td className="border px-4 py-2 text-center">{selectedRowData.date_released}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.status}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.remarks}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.contact_firstName} {selectedRowData.contact_lastName}</td>

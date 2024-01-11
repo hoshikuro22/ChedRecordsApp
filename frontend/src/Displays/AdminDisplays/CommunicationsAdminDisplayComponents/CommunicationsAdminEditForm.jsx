@@ -1,12 +1,10 @@
 import PropTypes from 'prop-types';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 export default function CommunicationsAdminEditForm({
   
   editFormData,
   personnelOptions,
-  institutionsOptions,
+  clientsOptions,
   documentTypeOptions,
   handleEditSubmit,
   handleCloseEditForm,
@@ -39,19 +37,19 @@ export default function CommunicationsAdminEditForm({
           </div>
 
           <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Institution Name</label>
+  <label className="mb-1 text-sm font-semibold">Client Name</label>
   <select 
     required
 
-    name="inst_id"
-    value={editFormData.inst_id}
+    name="Client_ID"
+    value={editFormData.client_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
-    <option value="">Select Institution</option>
-    {institutionsOptions.map((institution) => (
-      <option key={institution.inst_id} value={institution.inst_id}>
-        {institution.inst_name}
+    <option value="">Select Client</option>
+    {clientsOptions.map((client) => (
+      <option key={client.client_id} value={client.client_id}>
+        {client.client_name}
       </option>
     ))}
   </select>
@@ -69,22 +67,40 @@ export default function CommunicationsAdminEditForm({
       >
         <option value="">Select Document Type</option>
         {documentTypeOptions.map((documentType) => (
-          <option key={documentType.doc_type_id} value={documentType.doc_type_id}>
-            {documentType.document_type}
+          <option key={documentType.Doc_type_ID} value={documentType.Doc_type_ID}>
+            {documentType.Type}
           </option>
         ))}
       </select>
     </div>
 
-<div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Issued</label>
-              <DatePicker
-  selected={editFormData.dateIssued ? new Date(editFormData.dateIssued) : null}
-  onChange={(date) => handleChange({ target: { name: 'dateIssued', value: date } })}
-  dateFormat="MM/dd/yyyy" 
-  className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-/>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Date Received</label>
+              <input
+                
+                type="text"
+                id="date_received"
+                name="date_received"
+                placeholder="Enter date_received"
+                value={editFormData.date_received}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
             </div>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Date Released</label>
+              <input
+                
+                type="text"
+                id="date_released"
+                name="date_released"
+                placeholder="Enter date_released"
+                value={editFormData.date_released}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
+            
             
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Remarks</label>
@@ -99,9 +115,10 @@ export default function CommunicationsAdminEditForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+            
 
             <div className="flex flex-col">
-       <label className="mb-1 text-sm font-semibold">Assigned to:</label>
+       <label className="mb-1 text-sm font-semibold">Assigned to: (change term)</label>
   <select
     required
   
@@ -123,8 +140,8 @@ export default function CommunicationsAdminEditForm({
               <label className="mb-1 text-sm font-semibold">Department</label>
               <select 
               
-                name="department_id"
-                value={editFormData.department_id}
+                name="dept_id"
+                value={editFormData.dept_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -181,10 +198,11 @@ CommunicationsAdminEditForm.propTypes = {
     // documentType: PropTypes.string, //sa read
     doc_type_id: PropTypes.number,  //sa put
     // institution: PropTypes.string, // sa read
-    inst_id: PropTypes.string,
+    client_id: PropTypes.string,
     // department: PropTypes.string, //sa read
-    department_id: PropTypes.number,//sa put
-    dateIssued: PropTypes.instanceOf(Date),
+    dept_id: PropTypes.number,//sa put
+    date_received: PropTypes.string,
+    date_released: PropTypes.string,
     // status: PropTypes.string,   //sa read
     status_id: PropTypes.number,   //sa put
     remarks: PropTypes.string,
@@ -199,6 +217,6 @@ CommunicationsAdminEditForm.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleFileChange: PropTypes.func.isRequired,
   personnelOptions: PropTypes.array.isRequired,
-  institutionsOptions: PropTypes.array.isRequired,
+  clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
 };

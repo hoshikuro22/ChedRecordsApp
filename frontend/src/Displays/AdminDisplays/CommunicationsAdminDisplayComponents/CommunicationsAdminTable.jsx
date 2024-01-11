@@ -107,14 +107,14 @@ const handleSelectClientNameFilter = (value) => {
           {clientsOptions.map((client) => (
             <button
               key={client.client_id}
-              onClick={() => handleSelectClientNameFilter(client.inst_name)}
+              onClick={() => handleSelectClientNameFilter(client.client_name)}
               className={`${
-                selectedClientNameFilter === client.inst_name
+                selectedClientNameFilter === client.client_name
                   ? 'bg-gray-200 text-gray-900'
                   : 'text-gray-700'
               } block px-4 py-2 text-sm w-full text-left`}
             >
-              {client.inst_name}
+              {client.client_name}
             </button>
           ))}
         </div>
@@ -319,7 +319,7 @@ const handleSelectClientNameFilter = (value) => {
         (selectedDepartmentFilter === '3' && document.department === 'Records') ||
         selectedDepartmentFilter === '') &&
         (selectedTypeFilter === '' || document.document_type === selectedTypeFilter) &&
-        (selectedClientNameFilter === '' || document.institution_name === selectedClientNameFilter)
+        (selectedClientNameFilter === '' || document.client_name === selectedClientNameFilter)
     )
     .map((document) => (
       <tr key={document.doc_ID}>
@@ -334,7 +334,7 @@ const handleSelectClientNameFilter = (value) => {
             {document.file}
           </a>
         </td>
-        <td className="border px-4 py-2 text-center">{document.institution_name}</td>
+        <td className="border px-4 py-2 text-center">{document.client_name}</td>
         <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
         <td className="border px-4 py-2 text-center">{document.department}</td>
         <td className="border px-4 py-2 text-center">{document.document_type}</td>

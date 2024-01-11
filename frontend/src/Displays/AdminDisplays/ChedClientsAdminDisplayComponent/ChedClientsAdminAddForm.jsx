@@ -19,13 +19,13 @@ export default function ChedClientsAdminAddForm({
           <h2 className="text-xl font-semibold mb-2">Add New Client</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" >
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Institution ID <a className='font-black'>(Not Editable)</a></label>
+              <label className="mb-1 text-sm font-semibold">Client ID <a className='font-black'>(Not Editable)</a></label>
               <input
                 required
                 type="text"
                 id="clientID"
                 name="clientID"
-                placeholder="Enter Institution ID"
+                placeholder="Enter Client ID"
                 value={formData.clientID}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
@@ -36,10 +36,10 @@ export default function ChedClientsAdminAddForm({
               <input
                 required
                 type="text"
-                id="institutionName"
-                name="institutionName"
+                id="clientName"
+                name="clientName"
                 placeholder="Enter Name of Client"
-                value={formData.institutionName}
+                value={formData.clientName}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
@@ -147,8 +147,7 @@ ChedClientsAdminAddForm.propTypes = {
     showForm: PropTypes.bool.isRequired,
     formData: PropTypes.shape({
       clientID: PropTypes.string,
-      institutionName: PropTypes.string,
-      institutionType: PropTypes.string,
+      clientName: PropTypes.string,
       address: PropTypes.string,
       clientType: PropTypes.string,
       // filingCat: PropTypes.string,

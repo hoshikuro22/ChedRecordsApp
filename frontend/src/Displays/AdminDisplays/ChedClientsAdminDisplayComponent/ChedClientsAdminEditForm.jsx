@@ -26,9 +26,9 @@ export default function ChedClientsAdminEditForm({
             <input
               
               type="text"
-              name="inst_name"
-              placeholder="Enter Name of Institution"
-              value={editFormData.inst_name}
+              name="client_name"
+              placeholder="Enter Name of Client"
+              value={editFormData.client_name}
               onChange={handleChange}
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             />
@@ -110,7 +110,7 @@ export default function ChedClientsAdminEditForm({
 ChedClientsAdminEditForm.propTypes = {
   editFormData: PropTypes.shape({
     client_id: PropTypes.string,
-    inst_name: PropTypes.string, 
+    client_name: PropTypes.string, 
     address: PropTypes.string,
     // clientType: PropTypes.string,    //sa read
     client_type_id: PropTypes.number,//sa put

@@ -86,7 +86,7 @@ router.post("/addClient", async (req, res) => {
     
     seq_no,
     clientID,
-    institutionName,
+    clientName,
     address,
     clientType,
     contactPerson,
@@ -112,11 +112,11 @@ router.post("/addClient", async (req, res) => {
         }
 
         const institutionInsertQuery =
-          "INSERT INTO institution (seq_no, client_id, inst_name, address, client_type_id, contact_person, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO client (seq_no, client_id, client_name, address, client_type_id, contact_person, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
         const institutionInsertValues = [
           seq_no,
           clientID,
-          institutionName,
+          clientName,
           address,
           clientType,
           contactPerson,
@@ -266,13 +266,13 @@ router.post("/addClient", async (req, res) => {
       SELECT
         CAST(i.seq_no AS SIGNED) as seq_no,
         i.client_id,
-        i.inst_name,
+        i.client_name,
         i.client_type_id,
         ct.type as client_type,
         i.address,
         i.contact_person,
         i.contact_number
-      FROM institution i
+      FROM client i
       JOIN client_type ct ON i.client_type_id = ct.client_type_id
       ORDER BY seq_no ASC; `;
   
@@ -309,7 +309,7 @@ router.delete("/deleteClient/:id", (req, res) => {
     });
   }
 
-  const deleteClientQuery = "DELETE FROM institution WHERE client_id = ?";
+  const deleteClientQuery = "DELETE FROM client WHERE client_id = ?";
   const deleteTransactionQuery = "DELETE FROM transaction WHERE client_ID = ?";
   const insertActivityLogQuery = "INSERT INTO Activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
 
@@ -349,7 +349,7 @@ router.delete("/deleteClient/:id", (req, res) => {
         const newActivityID = maxActivityIDResult[0].maxActivityID + 1;
 
         // Insert activity log
-        const activityMessage = `Deleted institution ID: ${id}`;
+        const activityMessage = `Deleted client ID: ${id}`;
         const myDate = new Date();
         myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
 
@@ -409,7 +409,7 @@ router.delete("/deleteClient/:id", (req, res) => {
 router.put('/updateClient/:id', (req, res) => {
   const { id } = req.params;
   const {
-    inst_name,
+    client_name,
     address,
     client_type_id,
     contact_person,
@@ -421,14 +421,14 @@ router.put('/updateClient/:id', (req, res) => {
   }
 
   const updateInstitutionSQL = `
-    UPDATE institution 
-    SET inst_name=?, address=?, client_type_id=?, contact_person=?, contact_number=? 
+    UPDATE client 
+    SET client_name=?, address=?, client_type_id=?, contact_person=?, contact_number=? 
     WHERE client_id=?`;
 
   db.query(
     updateInstitutionSQL,
     [
-      inst_name,
+      client_name,
       address,
       client_type_id,
       contact_person,

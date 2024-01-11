@@ -23,16 +23,16 @@ router.get('/getCommunicationReports', (req, res) => {
     d.Remarks,
     dep.Type AS Department,
     s.Type AS Status,
-    i.inst_name as institution_name
+    i.client_name as client_name
 FROM
     transaction t
     JOIN user u ON t.User_ID = u.User_ID
     JOIN document d ON t.Doc_ID = d.Doc_ID
     JOIN list_personnel lp ON d.Personnel_ID = lp.Personnel_ID
     JOIN document_type dt ON d.Doc_Type_ID = dt.Doc_Type_ID
-    JOIN department dep ON d.Department_ID = dep.Department_ID
+    JOIN department dep ON d.dept_ID = dep.dept_ID
     JOIN status s ON d.Status_ID = s.Status_ID
-    JOIN institution i ON d.inst_ID = i.inst_ID
+    JOIN client i ON d.client_ID = i.client_ID
 ORDER BY t.Trans_ID;
   `;
 

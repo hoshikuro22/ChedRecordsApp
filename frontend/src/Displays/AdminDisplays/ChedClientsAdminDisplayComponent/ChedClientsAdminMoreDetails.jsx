@@ -23,7 +23,7 @@ export default function ChedClientsAdminMoreDetails({ isInfoModalOpen, setInfoMo
               <tbody>
                 <tr>
                   <td className="border px-4 py-2 text-center">{selectedRowData.client_id}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.inst_name}</td>
+                  <td className="border px-4 py-2 text-center">{selectedRowData.client_name}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.address}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.contact_person}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.contact_number}</td>
@@ -49,7 +49,7 @@ ChedClientsAdminMoreDetails.propTypes = {
   setInfoModalOpen: PropTypes.func.isRequired,
   selectedRowData: PropTypes.shape({
     client_id: PropTypes.string.isRequired,
-    inst_name: PropTypes.string.isRequired,
+    client_name: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
     contact_person: PropTypes.string.isRequired,
     contact_number: PropTypes.string.isRequired,

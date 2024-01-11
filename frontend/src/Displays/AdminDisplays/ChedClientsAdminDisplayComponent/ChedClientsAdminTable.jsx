@@ -100,9 +100,9 @@ export default function ChedClientsAdminTable({
   // (client.inst_id.includes(searchQueryID) &&
   //   client.inst_name.includes(searchQueryName)) &&
      (
-    <tr key={client.client}>
+    <tr key={client.client_id}>
       <td className="border px-4 py-2 text-center">{client.seq_no}</td>
-      <td className="border px-4 py-2 text-center">{client.inst_name}</td>
+      <td className="border px-4 py-2 text-center">{client.client_name}</td>
       <td className="border px-4 py-2 text-center">{client.client_type}</td>
       <td className="border px-4 py-2 text-center">
      

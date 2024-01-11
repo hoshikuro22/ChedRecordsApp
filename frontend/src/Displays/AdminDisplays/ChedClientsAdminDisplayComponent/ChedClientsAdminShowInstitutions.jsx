@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-const ChedClientsAdminShowInstitutions = ({ institutions }) => {
+const ChedClientsAdminShowInstitutions = ({ clients }) => {
   const [showInstitutionsModal, setShowInstitutionsModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // You can adjust this value as needed
@@ -17,9 +17,9 @@ const ChedClientsAdminShowInstitutions = ({ institutions }) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = institutions.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(institutions.length / itemsPerPage);
+  const totalPages = Math.ceil(clients.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -58,7 +58,7 @@ const ChedClientsAdminShowInstitutions = ({ institutions }) => {
                       {institution.client_id}
                     </td>
                     <td className="border px-4 py-2 text-center">
-                      {institution.inst_name}
+                      {institution.client_name}
                     </td>
                   </tr>
                 ))}
@@ -96,7 +96,7 @@ const ChedClientsAdminShowInstitutions = ({ institutions }) => {
 };
 
 ChedClientsAdminShowInstitutions.propTypes = {
-  institutions: PropTypes.array.isRequired,
+  clients: PropTypes.array.isRequired,
 };
 
 export default ChedClientsAdminShowInstitutions;

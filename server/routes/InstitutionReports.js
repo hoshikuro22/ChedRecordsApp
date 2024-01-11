@@ -14,9 +14,8 @@ router.get('/getInstitutionReports', (req, res) => {
   SELECT
     t.Trans_ID AS TransactionID,
     CONCAT(u.Last_Name, ', ', u.First_Name) AS SentBy,
-    i.Inst_ID AS InstitutionID,
-    i.Inst_Name AS InstitutionName,
-    it.Type AS InstitutionType,
+    i.Client_ID AS ClientID,
+    i.Client_Name AS ClientName,
     i.Address,
     i.Seq_no,
     ct.Type AS ClientType,
@@ -25,16 +24,15 @@ router.get('/getInstitutionReports', (req, res) => {
 FROM
     transaction t
     JOIN user u ON t.User_ID = u.User_ID
-    JOIN institution i ON t.Inst_ID = i.Inst_ID
-    JOIN institution_type it ON i.Inst_type_ID = it.Inst_type_ID
+    JOIN client i ON t.client_ID = i.Client_ID
     JOIN client_type ct ON i.Client_type_ID = ct.Client_type_ID
 ORDER BY t.Trans_ID;
   `;
 
   db.query(sql, (err, data) => {
     if (err) {
-      console.error('Error fetching institution reports:', err);
-      return res.status(500).json({ Status: 'Error', Message: 'Failed to fetch institution reports' });
+      console.error('Error fetching client reports:', err);
+      return res.status(500).json({ Status: 'Error', Message: 'Failed to fetch client reports' });
     }
 
     return res.status(200).json(data);

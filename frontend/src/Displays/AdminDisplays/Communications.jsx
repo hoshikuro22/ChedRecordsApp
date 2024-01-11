@@ -95,7 +95,8 @@ useEffect(() => {
     doc_ID: "",
     file: null,
     documentType: "",
-    dateIssued: new Date(),
+    dateReceived: new Date(),
+    dateReleased: new Date(),
     status: "", 
     assignatories: "",
     department: "",
@@ -133,16 +134,18 @@ useEffect(() => {
         // Create a new FormData object
         const formDataToSend = new FormData();
         // para sa date 
-        const formattedDate = formData.dateIssued.toLocaleDateString();
+        const formattedDateReceived = formData.dateReceived.toLocaleDateString();
+        const formattedDateReleased = formData.dateReleased.toLocaleDateString();
         // Append the non-file data to formDataToSend
         formDataToSend.append("doc_ID", String(editFormData.doc_ID));
         formDataToSend.append("doc_type_id", editFormData.doc_type_id);
-        formDataToSend.append("dateIssued", formattedDate);
+        formDataToSend.append("date_received", formattedDateReceived);
+        formDataToSend.append("date_released", formattedDateReleased);
         formDataToSend.append("status_id", editFormData.status_id);
         formDataToSend.append("personnel_id", editFormData.personnel_id);
-        formDataToSend.append("department_id", editFormData.department_id);
+        formDataToSend.append("dept_id", editFormData.dept_id);
         formDataToSend.append("remarks", editFormData.remarks);
-        formDataToSend.append("inst_id", editFormData.inst_id);
+        formDataToSend.append("client_id", editFormData.client_id);
         
   
         // Append the file if it exists
@@ -261,7 +264,8 @@ const handleFileChange = (e) => {
       doc_ID: "",
       file: null,
       documentType: "",
-      dateIssued: new Date(),
+      dateReceived: new Date(),
+      dateReleased: new Date(),
       status: "0",
       assignatories: "",
       department: "",

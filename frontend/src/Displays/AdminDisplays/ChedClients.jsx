@@ -10,7 +10,7 @@ import ChedClientsAdminPagination from "./ChedClientsAdminDisplayComponent/ChedC
 export default function ChedClients() {
   const [formData, setFormData] = useState({
     clientID: "Client2024000",
-    institutionName: "",
+    clientName: "",
     address: "",
     clientType: "",
     contactPerson: "", 
@@ -25,7 +25,7 @@ export default function ChedClients() {
     .get("http://localhost:8081")
     .then((res) => {
       const userID = res.data.User_ID;
-      console.log("Institutions-This is the User_ID: " + userID);
+      console.log("Clients-This is the User_ID: " + userID);
       // Set the userID in the state
       setFormData((prevData) => ({ ...prevData, userID }));
     })
@@ -37,7 +37,7 @@ export default function ChedClients() {
   //===== Edit =====//
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
-    institutionName: "",
+    clientName: "",
     address: "",
     clientType: "",   
     // filingCat: "",
@@ -78,8 +78,7 @@ export default function ChedClients() {
       `http://localhost:8081/updateClient/${editFormData.client_id}`,
       {
         client_id: editFormData.client_id,
-        inst_name: editFormData.inst_name,
-        inst_type_id: editFormData.inst_type_id,
+        client_name: editFormData.client_name,
         address: editFormData.address,
         client_type_id: editFormData.client_type_id,
         contact_person: editFormData.contact_person,
@@ -231,7 +230,7 @@ export default function ChedClients() {
         const response = await axios.post("http://localhost:8081/addClient", {
             seq_no: seq_no,
             clientID: formData.clientID,
-            institutionName: formData.institutionName,
+            clientName: formData.clientName,
             address: formData.address,
             clientType: formData.clientType,
             contactPerson: formData.contactPerson,
@@ -243,7 +242,7 @@ export default function ChedClients() {
             alert("Client added successfully!");
             setFormData({
                 clientID: "Client2024000",
-                institutionName: "",
+                clientName: "",
                 address: "",
                 clientType: "",
                 contactPerson: "",
@@ -319,7 +318,7 @@ export default function ChedClients() {
       </div>
       {showInstitutionList &&(
       <ChedClientsAdminShowInstitutions
-      institutions={clients} /> )}
+      clients={clients} /> )}
       
 
 

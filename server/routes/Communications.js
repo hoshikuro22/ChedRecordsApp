@@ -171,7 +171,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
         }
 
         const documentInsertQuery =
-          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Received, Date_Released, remarks, status_id, department_id, client_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Received, Date_Released, remarks, status_id, dept_id, client_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const documentInsertValues = [
           docID,
           assignatories,
@@ -231,6 +231,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                     db.rollback(() => reject(err));
                   } else {
                     // Insert into the "doc_backup" table with the obtained "Doc_backup_ID"
+                    // gi null nako ang paconnect sa doc_ID para pagdelete, dli mag error
                     const docBackupInsertQuery =
                       "INSERT INTO doc_backup (Doc_backup_ID, Doc_ID, Doc_type_ID, personnel_id, Client_ID, Dept_ID, Status_ID, File, Date_Received, Date_Released, Backup_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     const docBackupInsertValues = [
@@ -349,22 +350,22 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
   lp.position as contact_position,
   d.doc_type_id,
   d.personnel_id,
-  d.department_id,
+  d.dept_id,
   d.status_id,
-  d.Client_ID,
+  d.client_id,
   d.file,
   d.date_received,
   d.date_released,
   d.remarks,
   s.type AS status,
   dep.type AS department,
-  i.inst_name AS institution_name
-FROM document d
+  i.client_name AS client_name
+FROM document d 
 JOIN document_type dt ON d.Doc_Type_ID = dt.Doc_Type_ID
 JOIN list_personnel lp ON d.Personnel_ID = lp.Personnel_ID
 JOIN status s ON d.status_id = s.status_ID
-JOIN department dep ON d.department_id = dep.department_ID
-JOIN institution i ON d.Client_ID = i.Client_ID 
+JOIN department dep ON d.dept_id = dep.dept_id
+JOIN client i ON d.client_id = i.client_id 
 ORDER BY doc_ID ASC;
 
   
@@ -388,7 +389,7 @@ ORDER BY doc_ID ASC;
 // UPDATE
 router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
     const { id } = req.params;
-    const { doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id, client_id } = req.body;
+    const { doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id } = req.body;
   
     // Check if a file was uploaded
     const newFile = req.file ? req.file.filename : null;
@@ -414,8 +415,9 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
         UPDATE document
         SET
           doc_type_id = ?,
-          department_id = ?,
-          Date_Issued = ?,
+          dept_id = ?,
+          date_received = ?,
+          date_released = ?,
           status_id = ?,
           remarks = ?,
           personnel_id = ?,
@@ -425,7 +427,7 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
   
       db.query(
         updateDocumentSQL,
-        [doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id, client_id, newFile, id],
+        [doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id, newFile, id],
         (err, result) => {
           if (err) {
             console.error(err);
@@ -458,7 +460,7 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
 // UPDATE FOR STAFF
 router.put('/updateDocumentNormal/:id', (req, res) => {
   const { id } = req.params;
-  const { doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id, client_id } = req.body;
+  const { doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id } = req.body;
 
   if (!id) {
     return res.status(400).json({ Status: 'Error', Message: 'Invalid Document ID provided' });
@@ -468,8 +470,9 @@ router.put('/updateDocumentNormal/:id', (req, res) => {
     UPDATE document
     SET
       doc_type_id = ?,
-      department_id = ?,
-      Date_Issued = ?,
+      dept_id = ?,
+      date_received = ?,
+      date_released = ?,
       status_id = ?,
       remarks = ?,
       personnel_id = ?,
@@ -478,7 +481,7 @@ router.put('/updateDocumentNormal/:id', (req, res) => {
 
   db.query(
     updateDocumentSQL,
-    [doc_type_id, department_id, dateIssued, status_id, remarks, personnel_id, client_id, id],
+    [doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id, id],
     (err, result) => {
       if (err) {
         console.error(err);
