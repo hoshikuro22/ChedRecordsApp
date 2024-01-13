@@ -174,13 +174,13 @@ export default function CommunicationsAdminAddForm({
             <a className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
                 href="/admin/chedclients"
               >
-                Add Client
+                Add New Client
                 
               </a>
               <a className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
                 href="/admin/documenttypes"
               >
-                Add Document Type
+                Add New Document Type
                 
               </a>
               </div>

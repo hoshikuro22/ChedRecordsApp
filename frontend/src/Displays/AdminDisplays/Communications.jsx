@@ -189,18 +189,30 @@ useEffect(() => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = documents.slice(indexOfFirstItem, indexOfLastItem);
 
-  // for more details
-  const [selectedRowData, setSelectedRowData] = useState(null);
-  const [isInfoModalOpen, setInfoModalOpen] = useState(false);
-  
-  const handleInfoClick = (doc_ID) => {
-    // Find the selected row data based on the inst_id
-    const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
-    if (selectedRow) {
-      setSelectedRowData(selectedRow);
-      setInfoModalOpen(true);
-    }
-  };
+ // for more details
+const [selectedRowData, setSelectedRowData] = useState(null);
+const [documentHistory, setDocumentHistory] = useState([]);
+const [isInfoModalOpen, setInfoModalOpen] = useState(false);
+
+const fetchDocumentHistory = async (doc_ID) => {
+  try {
+    const response = await axios.get(`http://localhost:8081/getDocumentHistory/${doc_ID}`);
+    console.log('API Response:', response.data);
+    setDocumentHistory(response.data);
+  } catch (error) {
+    console.error('Error fetching document history:', error);
+  }
+};
+
+const handleInfoClick = (doc_ID) => {
+  // Find the selected row data based on the inst_id
+  const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
+  if (selectedRow) {
+    setSelectedRowData(selectedRow);
+    setInfoModalOpen(true);
+    fetchDocumentHistory(doc_ID); // Fetch document history when the modal opens
+  }
+};
 
 
   // to fetch 
@@ -443,6 +455,7 @@ const handleDeleteClick = async (id) => {
           isInfoModalOpen={isInfoModalOpen}
           selectedRowData={selectedRowData}
            setInfoModalOpen={setInfoModalOpen}
+           documentHistory={documentHistory}
 />
              </div>
       

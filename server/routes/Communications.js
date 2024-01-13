@@ -4,12 +4,19 @@ import multer from "multer";
 import fs from "fs";
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import path from "path"
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // diri masulod na folder ang file
 const uploadsPath = join(__dirname, '..', 'communications-uploads');
+//sa history 
+const uploadsHistoryPath = path.join(__dirname, '..', 'communications-uploads-history');
+// sa backup
+const backupUploadsPath = join(__dirname, '..', 'communications-uploads-backup');
+
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -30,12 +37,26 @@ const db = mysql.createConnection({
   database: "chedrmis",
 });
 
+//  sa communication table to see the file
 router.use('/communicationfiles', express.static(join(__dirname, 'communications-uploads')));
 
 router.get("/communicationfiles/:filename", (req, res) => {
   const { filename } = req.params;
   res.sendFile(join(uploadsPath, filename));
 });
+
+
+//  sa communication table to see the file
+router.use('/communicationhistoryfiles', express.static(join(__dirname, 'communications-uploads-history')));
+
+router.get("/communicationhistoryfiles/:filename", (req, res) => {
+  const { filename } = req.params;
+  res.sendFile(join(uploadsHistoryPath, filename));
+});
+
+
+
+
   //first line sa admin:communication(documents)
 
 
@@ -117,11 +138,27 @@ const getUserAccount = async (userID) => {
   });
 };
 
-// sa backup
-const backupUploadsPath = join(__dirname, '..', 'communications-uploads-backup');
+// Function to find the next available primary key for the document_history    table
+const getNextDocumentHistoryId = async () => {
+  return new Promise((resolve, reject) => {
+    const getMaxDocumentHistoryIdQuery =
+      "SELECT MAX(doc_history_ID) AS maxDocumentHistoryId FROM document_history";
+    db.query(getMaxDocumentHistoryIdQuery, (err, result) => {
+      if (err) {
+        console.error("Error in getMaxDocumentHistoryIdQuery:", err);
+        reject(err);
+      } else {
+        const maxDocumentHistoryId = result[0].maxDocumentHistoryId || 0;
+        const nextDocumentHistoryId = maxDocumentHistoryId + 1;
+        console.log("nextDocumentHistoryId:", nextDocumentHistoryId);
+        resolve(nextDocumentHistoryId);
+      }
+    });
+  });
+};
+
 
 router.post('/addDocument', upload.single('file'), async (req, res) => {
-  console.log("Received request:", req.body);
   const {
     docID,
     assignatories,
@@ -136,9 +173,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
   } = req.body;
   const file = req.file;
 
-  // Ensure the file exists before using it in the database query
   if (!file) {
-    console.log("File not provided or invalid");
     return res.json({
       Status: "Error",
       Message: "File not provided or invalid",
@@ -146,23 +181,15 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
   }
 
   try {
-    // sa backup
     const backupFilePath = join(backupUploadsPath, file.filename);
     fs.copyFileSync(join(uploadsPath, file.filename), backupFilePath);
 
-    // Get the maximum Trans_ID from the "transaction" table
     const maxTransID = await getMaxTransID();
-
-    // Get the maximum Doc_Backup_ID from the "doc_backup" table
     const nextDocBackupID = await getNextDocBackupID();
-
-    // Get the next available primary key for the activity_log table
     const nextActivityLogId = await getNextActivityLogId();
-
-   // Fetch user account to get first_name and last_name
+    const nextDocumentHistoryId = await getNextDocumentHistoryId();
     const userAccount = await getUserAccount(userID);
 
-    // Use a transaction to ensure consistency across "document" and "transaction" tables
     const result = await new Promise((resolve, reject) => {
       db.beginTransaction((err) => {
         if (err) {
@@ -185,7 +212,6 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
           file.filename,
         ];
 
-        // Log the documentInsertQuery and values
         console.log("documentInsertQuery:", documentInsertQuery);
         console.log("documentInsertValues:", documentInsertValues);
 
@@ -197,9 +223,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
               console.error("Error in documentInsertQuery:", err);
               db.rollback(() => reject(err));
             } else {
-              // Increment the maxTransID for the next transaction
               const nextTransID = maxTransID + 1;
-              // Insert into the "transaction" table with the obtained "Trans_ID"
               const transactionInsertQuery =
                 "INSERT INTO transaction (Trans_ID, User_ID, Doc_ID, Client_ID) VALUES (?, ?, ?, ?)";
               const transactionInsertValues = [
@@ -209,29 +233,17 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                 null,
               ];
 
-              // Log the transactionInsertQuery and values
-              console.log(
-                "transactionInsertQuery:",
-                transactionInsertQuery
-              );
-              console.log(
-                "transactionInsertValues:",
-                transactionInsertValues
-              );
+              console.log("transactionInsertQuery:", transactionInsertQuery);
+              console.log("transactionInsertValues:", transactionInsertValues);
 
               db.query(
                 transactionInsertQuery,
                 transactionInsertValues,
                 async (err, result) => {
                   if (err) {
-                    console.error(
-                      "Error in transactionInsertQuery:",
-                      err
-                    );
+                    console.error("Error in transactionInsertQuery:", err);
                     db.rollback(() => reject(err));
                   } else {
-                    // Insert into the "doc_backup" table with the obtained "Doc_backup_ID"
-                    // gi null nako ang paconnect sa doc_ID para pagdelete, dli mag error
                     const docBackupInsertQuery =
                       "INSERT INTO doc_backup (Doc_backup_ID, Doc_ID, Doc_type_ID, personnel_id, Client_ID, Dept_ID, Status_ID, File, Date_Received, Date_Released, Backup_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     const docBackupInsertValues = [
@@ -248,67 +260,76 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                       docID,
                     ];
 
-                    // Log the docBackupInsertQuery and values
-                    console.log(
-                      "docBackupInsertQuery:",
-                      docBackupInsertQuery
-                    );
-                    console.log(
-                      "docBackupInsertValues:",
-                      docBackupInsertValues
-                    );
-                          db.query(docBackupInsertQuery, docBackupInsertValues, (err, result) => {
-                            if (err) {
-                              console.error("Error in docBackupInsertQuery:", err);
-                              db.rollback(() => reject(err));
-                            } else {
-                              
-                             // Insert into the "activity_log" table
+                    console.log("docBackupInsertQuery:", docBackupInsertQuery);
+                    console.log("docBackupInsertValues:", docBackupInsertValues);
 
-                             const myDate = new Date();
-                             myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-                             console.log(myDate)
-                             const activityLogInsertQuery =
-                                   "INSERT INTO activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
-                             const activityLogInsertValues = [
-                                   nextActivityLogId,
-                                   nextTransID,
-                                   myDate,
-                                  `Added doc_ID: ${docID} | File Name:  ${file.filename}`,
-                                   userAccount,   ];
-                              // Log the activityLogInsertQuery and values
-                              console.log("activityLogInsertQuery:", activityLogInsertQuery);
-                              console.log("activityLogInsertValues:", activityLogInsertValues);
-                          
-                              db.query(activityLogInsertQuery, activityLogInsertValues, (err, result) => {
-                                if (err) {
-                                  console.error("Error in activityLogInsertQuery:", err);
-                                  db.rollback(() => reject(err));
-                                } else {
-                                  // Commit the transaction
-                                  db.commit((err) => {
-                                    if (err) {
-                                      console.error("Error in commit:", err);
-                                      db.rollback(() => reject(err));
-                                    } else {
-                                      resolve(result);
-                                    }
-                                  });
-                                }
-                              });
-                            }
-                          });
+                    db.query(docBackupInsertQuery, docBackupInsertValues, (err, result) => {
+                      if (err) {
+                        console.error("Error in docBackupInsertQuery:", err);
+                        db.rollback(() => reject(err));
+                      } else {
+                        const myDate = new Date();
+                        myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+                        console.log(myDate);
+                        const activityLogInsertQuery =
+                          "INSERT INTO activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
+                        const activityLogInsertValues = [
+                          nextActivityLogId,
+                          nextTransID,
+                          myDate,
+                          `Added doc_ID: ${docID} | File Name: ${file.filename}`,
+                          userAccount,
+                        ];
 
-                          // Commit the transaction
-                          db.commit((err) => {
-                            if (err) {
-                              console.error("Error in commit:", err);
-                              db.rollback(() => reject(err));
-                            } else {
-                              resolve(result);
-                            }
-                          });
-                        
+                        console.log("activityLogInsertQuery:", activityLogInsertQuery);
+                        console.log("activityLogInsertValues:", activityLogInsertValues);
+
+                        db.query(activityLogInsertQuery, activityLogInsertValues, (err, result) => {
+                          if (err) {
+                            console.error("Error in activityLogInsertQuery:", err);
+                            db.rollback(() => reject(err));
+                          } else {
+                            const documentHistoryInsertQuery =
+                              "INSERT INTO document_history (doc_history_ID, doc_ID, doc_type_ID, personnel_ID, client_ID, dept_ID, status_ID, file, date_received, date_released, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            const documentHistoryInsertValues = [
+                              nextDocumentHistoryId,
+                              docID,
+                              documentType,
+                              assignatories,
+                              client,
+                              department,
+                              status,
+                              file.filename,
+                              dateReceived,
+                              dateReleased,
+                              remarks,
+                            ];
+
+                            console.log("documentHistoryInsertQuery:", documentHistoryInsertQuery);
+                            console.log("documentHistoryInsertValues:", documentHistoryInsertValues);
+                             // Move the file to communication-uploads_history folder
+                             const historyFilePath = join(uploadsHistoryPath, file.filename);
+                             fs.copyFileSync(join(uploadsPath, file.filename), historyFilePath);
+
+                            db.query(documentHistoryInsertQuery, documentHistoryInsertValues, (err, result) => {
+                              if (err) {
+                                console.error("Error in documentHistoryInsertQuery:", err);
+                                db.rollback(() => reject(err));
+                              } else {
+                                db.commit((err) => {
+                                  if (err) {
+                                    console.error("Error in commit:", err);
+                                    db.rollback(() => reject(err));
+                                  } else {
+                                    resolve(result);
+                                  }
+                                });
+                              }
+                            });
+                          }
+                        });
+                      }
+                    });
                   }
                 }
               );
@@ -327,11 +348,11 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
     console.error("Error in try-catch block:", error);
     return res.status(500).json({
       Status: "Error",
-      Message:
-        "Error adding document, transaction, transaction log, and activity log to the database",
+      Message: "Error adding document, transaction, transaction log, and activity log to the database",
     });
   }
 });
+
 
 
 
@@ -367,10 +388,7 @@ JOIN status s ON d.status_id = s.status_ID
 JOIN department dep ON d.dept_id = dep.dept_id
 JOIN client i ON d.client_id = i.client_id 
 ORDER BY doc_ID ASC;
-
-  
     `;
-  
     db.query(sql, (err, data) => {
       if (err) {
         console.error("Error fetching clients:", err);
@@ -383,34 +401,154 @@ ORDER BY doc_ID ASC;
     });
 });
 
+// sa document history fetch
+router.get("/getDocumentHistory/:doc_ID", (req, res) => {
+  const doc_ID = req.params.doc_ID;
+  const sql = `
+  SELECT
+  CAST(dh.Doc_History_ID AS SIGNED) AS doc_history_ID,
+  dt.Type AS document_type,
+  lp.first_name as contact_firstName,
+  lp.last_name as contact_lastName,
+  lp.position as contact_position,
+  dh.doc_history_id,
+  dh.doc_id,
+  dh.doc_type_id,
+  dh.personnel_id,
+  dh.dept_id,
+  dh.status_id,
+  dh.client_id,
+  dh.file,
+  dh.date_received,
+  dh.date_released,
+  dh.remarks,
+  s.type AS status,
+  dep.type AS department,
+  i.client_name AS client_name
+FROM document_history dh 
+JOIN document_type dt ON dh.Doc_Type_ID = dt.Doc_Type_ID
+JOIN list_personnel lp ON dh.Personnel_ID = lp.Personnel_ID
+JOIN status s ON dh.status_id = s.status_ID
+JOIN department dep ON dh.dept_id = dep.dept_id
+JOIN client i ON dh.client_id = i.client_id 
+WHERE dh.doc_ID = ?
+ORDER BY doc_history_ID ASC;
+`;
+
+db.query(sql, [doc_ID], (err, data) => {
+if (err) {s
+console.error("Error fetching document history:", err);
+return res.status(500).json({ status: "Error", message: "Failed to fetch document history" });
+} return res.status(200).json(data);
+});
+});
+
+
+
+
 
 
 
 // UPDATE
-router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
-    const { id } = req.params;
-    const { doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id } = req.body;
-  
-    // Check if a file was uploaded
-    const newFile = req.file ? req.file.filename : null;
-  
-    if (!id) {
-      return res.status(400).json({ Status: 'Error', Message: 'Invalid Document ID provided' });
+
+
+// Function to move the file to the "communications-uploads-history" folder
+const moveFileToHistoryFolder = (filename, callback) => {
+  const sourcePath = join(uploadsPath, filename);
+  const destinationPath = join(uploadsHistoryPath, filename);
+
+  fs.rename(sourcePath, destinationPath, (err) => {
+    if (err) {
+      console.error(err);
+      return callback(err);
     }
-  
-    // Get the current file name from the database
-    const getCurrentFileSQL = 'SELECT file FROM document WHERE doc_ID = ?';
-    db.query(getCurrentFileSQL, [id], (err, result) => {
+
+    console.log('File moved to communications-uploads-history folder');
+    callback(null);
+  });
+};
+
+
+// Function to insert a record into the "document_history" table
+const insertDocumentHistory = (docID, callback) => {
+  const insertDocumentHistorySQL = `
+    INSERT INTO document_history (doc_history_ID, doc_ID, doc_type_ID, personnel_ID, client_ID, dept_ID, status_ID, file, date_received, date_released, remarks)
+    SELECT ?, doc_ID, doc_type_ID, personnel_ID, client_ID, dept_ID, status_ID, file, date_received, date_released, remarks
+    FROM document
+    WHERE doc_ID = ?`;
+
+  const getDocHistoryIDSQL = `
+    SELECT MAX(doc_history_ID) AS maxDocHistoryID
+    FROM document_history`;
+
+  db.query(getDocHistoryIDSQL, (err, result) => {
+    if (err) {
+      console.error(err);
+      return callback(err);
+    }
+
+    const maxDocHistoryID = result[0].maxDocHistoryID;
+
+    // Check if doc_history_ID is 0, set it to 1. Otherwise, increment by 1
+    const nextDocHistoryID = maxDocHistoryID === 0 ? 1 : maxDocHistoryID + 1;
+
+    // Update the document_history table with the correct doc_history_ID
+    db.query(insertDocumentHistorySQL, [nextDocHistoryID, docID], (err, result) => {
       if (err) {
         console.error(err);
-        return res.status(500).json({
-          Status: 'Error',
-          Message: 'Error retrieving current file from the database',
-        });
+        return callback(err);
       }
-  
-      const currentFile = result[0] ? result[0].file : null;
-  
+
+      console.log('Record added to document_history table');
+      callback(null, result);
+    });
+  });
+};
+
+router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
+  const { id } = req.params;
+  const { doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id } = req.body;
+
+  // Check if a file was uploaded
+  const newFile = req.file ? req.file.filename : null;
+
+  if (!id) {
+    return res.status(400).json({ Status: 'Error', Message: 'Invalid Document ID provided' });
+  }
+
+  // Get the current file name from the database
+  const getCurrentFileSQL = 'SELECT file FROM document WHERE doc_ID = ?';
+  db.query(getCurrentFileSQL, [id], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({
+        Status: 'Error',
+        Message: 'Error retrieving current file from the database',
+      });
+    }
+
+    const currentFile = result[0] ? result[0].file : null;
+
+    if (currentFile) {
+      // If a new file is uploaded, move the old file to the history folder
+      moveFileToHistoryFolder(currentFile, (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({
+            Status: 'Error',
+            Message: 'Error moving file to history folder',
+          });
+        }
+
+        // Continue with the document update process
+        updateDocument();
+      });
+    } else {
+      // If no new file is uploaded, or if it's the same as the old file, continue with the update process
+      updateDocument();
+    }
+
+    function updateDocument() {
       const updateDocumentSQL = `
         UPDATE document
         SET
@@ -424,10 +562,11 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
           client_id = ?,
           file = ?
         WHERE doc_ID = ?`;
-  
+        const fileToUpdate = newFile ? newFile : currentFile;
+
       db.query(
         updateDocumentSQL,
-        [doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id, newFile, id],
+        [doc_type_id, dept_id, date_received, date_released, status_id, remarks, personnel_id, client_id, fileToUpdate, id],
         (err, result) => {
           if (err) {
             console.error(err);
@@ -436,26 +575,33 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
               Message: 'Error updating document in the database',
             });
           }
-  
+
           if (result.affectedRows === 0) {
             return res.status(404).json({ Status: 'Error', Message: 'Document not found' });
           }
-  
-          // Delete the old file if it exists and is different from the new file
-          if (currentFile && currentFile !== newFile) {
-            const filePath = join(uploadsPath, currentFile);
-            fs.unlinkSync(filePath);
-          }
-  
-          console.log('Document updated in the database');
-          return res.status(200).json({
-            Status: 'Success',
-            Message: 'Document updated in the database',
+
+          // Insert a record into the "document_history" table
+          insertDocumentHistory(id, (err) => {
+            if (err) {
+              console.error(err);
+              return res.status(500).json({
+                Status: 'Error',
+                Message: 'Error adding record to document_history table',
+              });
+            }
+
+            console.log('Document updated in the database');
+            return res.status(200).json({
+              Status: 'Success',
+              Message: 'Document updated in the database',
+            });
           });
         }
       );
-    });
+    }
   });
+});
+
 
 // UPDATE FOR STAFF
 router.put('/updateDocumentNormal/:id', (req, res) => {
@@ -532,7 +678,7 @@ const userFirstName = req.headers.first_name;
 const userLastName = req.headers.last_name;
 
 // console.log("Request Headers:", req.headers); pa tan-aw sa headers gikan sa frontend
-
+console.log("Sa delete:")
 console.log("First Name:", userFirstName);
 console.log("Last Name:", userLastName);
 
@@ -571,168 +717,107 @@ console.log("Last Name:", userLastName);
         });
       }
 
-      // Check if the document record exists
-      db.query(getFilePathQuery, [id], (err, result) => {
-        if (err) {
-          console.error(err);
+ // Check if the document record exists
+db.query(getFilePathQuery, [id], (err, result) => {
+  if (err) {
+    console.error(err);
+    db.rollback(() => {
+      return res.status(500).json({
+        Status: "Error",
+        Message: "Error getting file path from the database",
+      });
+    });
+  }
+
+  const deleteDocumentAndLogActivity = () => {
+    // Delete the document record
+    db.query(deleteDocumentQuery, [id], (deleteErr, deleteResult) => {
+      if (deleteErr) {
+        console.error(deleteErr);
+        db.rollback(() => {
+          return res.status(500).json({
+            Status: "Error",
+            Message: "Error deleting document from the database",
+          });
+        });
+      }
+
+      // Insert activity log for document deletion
+      getNextActivityID((activityIDErr, nextActivityID) => {
+        if (activityIDErr) {
+          console.error(activityIDErr);
           db.rollback(() => {
             return res.status(500).json({
               Status: "Error",
-              Message: "Error getting file path from the database",
+              Message: "Error getting next activity ID",
             });
           });
         }
 
-        if (result.length === 0 || !result[0].file) {
-          // No file associated with the record
-          db.query(deleteDocumentQuery, [id], (deleteErr, deleteResult) => {
-            if (deleteErr) {
-              console.error(deleteErr);
+        const myDate = new Date();
+        myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+        console.log(myDate)
+        const activityMessage = `Deleted doc_id: ${id} | File Name: ${result[0].file || "No file"}`;
+
+        db.query(
+          insertActivityLogQuery,
+          [nextActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
+          (insertActivityLogErr, insertActivityLogResult) => {
+            if (insertActivityLogErr) {
+              console.error(insertActivityLogErr);
               db.rollback(() => {
                 return res.status(500).json({
                   Status: "Error",
-                  Message: "Error deleting document from the database",
+                  Message: "Error inserting activity log",
                 });
               });
             }
 
-            // Insert activity log for document deletion
-            getNextActivityID((activityIDErr, nextActivityID) => {
-              if (activityIDErr) {
-                console.error(activityIDErr);
-                db.rollback(() => {
-                  return res.status(500).json({
-                    Status: "Error",
-                    Message: "Error getting next activity ID",
-                  });
+            // Commit the transaction
+            db.commit((commitErr) => {
+              if (commitErr) {
+                console.error("Error in commit:", commitErr);
+                return res.status(500).json({
+                  Status: "Error",
+                  Message: "Error committing transaction",
                 });
               }
 
-              const myDate = new Date();
-              myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-              console.log(myDate)
-              const activityMessage = `Deleted doc_id: ${id}`;
-
-              db.query(
-                insertActivityLogQuery,
-                [nextActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
-                (insertActivityLogErr, insertActivityLogResult) => {
-                  if (insertActivityLogErr) {
-                    console.error(insertActivityLogErr);
-                    db.rollback(() => {
-                      return res.status(500).json({
-                        Status: "Error",
-                        Message: "Error inserting activity log",
-                      });
-                    });
-                  }
-                  
-
-                  // Commit the transaction
-                  db.commit((commitErr) => {
-                    if (commitErr) {
-                      console.error("Error in commit:", commitErr);
-                      return res.status(500).json({
-                        Status: "Error",
-                        Message: "Error committing transaction",
-                      });
-                    }
-
-                    console.log("Document and associated file deleted");
-                    return res.status(200).json({
-                      Status: "Success",
-                      Message: "Document and associated file deleted",
-                    });
-                  });
-                }
-              );
+              console.log("Document deleted");
+              return res.status(200).json({
+                Status: "Success",
+                Message: "Document deleted",
+              });
             });
-          });
-        } else {
-          // There is a file associated with the record
-          const filePath = join(uploadsPath, result[0].file);
+          }
+        );
+      });
+    });
+  };
 
-          // Delete the file from the "uploads" folder
-          fs.unlink(filePath, (unlinkErr) => {
-            if (unlinkErr) {
-              console.error(unlinkErr);
-              db.rollback(() => {
-                return res.status(500).json({
-                  Status: "Error",
-                  Message: "Error deleting file from the server",
-                });
-              });
-            }
+  if (result.length > 0 && result[0].file) {
+    // There is a file associated with the record
+    const filePath = join(uploadsPath, result[0].file);
 
-            // File deleted successfully, now delete the record from the database
-            db.query(deleteDocumentQuery, [id], (deleteErr, deleteResult) => {
-              if (deleteErr) {
-                console.error(deleteErr);
-                db.rollback(() => {
-                  return res.status(500).json({
-                    Status: "Error",
-                    Message: "Error deleting document from the database",
-                  });
-                });
-              }
+    // Delete the file from the "uploads" folder
+    fs.unlink(filePath, (unlinkErr) => {
+      if (unlinkErr) {
+        console.error(unlinkErr);
+      }
+      // Continue to delete the document record whether file deletion was successful or not
+      deleteDocumentAndLogActivity();
+    });
+  } else {
+    // No file associated, directly delete the document record
+    deleteDocumentAndLogActivity();
+  }
+});
 
-              // Insert activity log for document deletion
-              getNextActivityID((activityIDErr, nextActivityID) => {
-                if (activityIDErr) {
-                  console.error(activityIDErr);
-                  db.rollback(() => {
-                    return res.status(500).json({
-                      Status: "Error",
-                      Message: "Error getting next activity ID",
-                    });
-                  });
-                }
-
-                const myDate = new Date();
-                myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-                console.log(myDate)
-                const activityMessage = `Deleted doc_ID: ${id} | File Name: ${result[0].file}`;
-
-                db.query(
-                  insertActivityLogQuery,
-                  [nextActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
-                  (insertActivityLogErr, insertActivityLogResult) => {
-                    if (insertActivityLogErr) {
-                      console.error(insertActivityLogErr);
-                      db.rollback(() => {
-                        return res.status(500).json({
-                          Status: "Error",
-                          Message: "Error inserting activity log",
-                        });
-                      });
-                    }
-
-                    // Commit the transaction
-                    db.commit((commitErr) => {
-                      if (commitErr) {
-                        console.error("Error in commit:", commitErr);
-                        return res.status(500).json({
-                          Status: "Error",
-                          Message: "Error committing transaction",
-                        });
-                      }
-
-                      console.log("Document and associated file deleted");
-                      return res.status(200).json({
-                        Status: "Success",
-                        Message: "Document and associated file deleted",
-                      });
-                    });
                   }
                 );
               });
             });
-          });
-        }
-      });
-    });
-  });
-});
+         
 
 
 
