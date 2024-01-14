@@ -673,16 +673,8 @@ function getNextActivityID(callback) {
 router.delete("/deleteDocument/:id", (req, res) => {
   const { id } = req.params;
 
-// mao ni gikan sa "user" entity table na gifetch gikan sa pag click sa delete button
-const userFirstName = req.headers.first_name;
-const userLastName = req.headers.last_name;
-
-// console.log("Request Headers:", req.headers); pa tan-aw sa headers gikan sa frontend
-console.log("Sa delete:")
-console.log("First Name:", userFirstName);
-console.log("Last Name:", userLastName);
-
-  
+  const userFirstName = req.headers.first_name;
+  const userLastName = req.headers.last_name;
 
   if (!id) {
     return res.status(400).json({
@@ -695,6 +687,7 @@ console.log("Last Name:", userLastName);
   const deleteDocumentQuery = "DELETE FROM document WHERE doc_id = ?";
   const deleteTransactionQuery = "DELETE FROM transaction WHERE doc_id = ?";
   const insertActivityLogQuery = "INSERT INTO Activity_log (activity_ID, trans_ID, dateandtime, activity, user_account) VALUES (?, ?, ?, ?, ?)";
+  const getHistoryFilePathQuery = "SELECT doc_history_ID, file FROM document_history WHERE doc_ID = ?";
 
   db.beginTransaction((err) => {
     if (err) {
@@ -717,107 +710,129 @@ console.log("Last Name:", userLastName);
         });
       }
 
- // Check if the document record exists
-db.query(getFilePathQuery, [id], (err, result) => {
-  if (err) {
-    console.error(err);
-    db.rollback(() => {
-      return res.status(500).json({
-        Status: "Error",
-        Message: "Error getting file path from the database",
-      });
-    });
-  }
-
-  const deleteDocumentAndLogActivity = () => {
-    // Delete the document record
-    db.query(deleteDocumentQuery, [id], (deleteErr, deleteResult) => {
-      if (deleteErr) {
-        console.error(deleteErr);
-        db.rollback(() => {
-          return res.status(500).json({
-            Status: "Error",
-            Message: "Error deleting document from the database",
-          });
-        });
-      }
-
-      // Insert activity log for document deletion
-      getNextActivityID((activityIDErr, nextActivityID) => {
-        if (activityIDErr) {
-          console.error(activityIDErr);
+      // Check if the document record exists
+      db.query(getFilePathQuery, [id], (err, result) => {
+        if (err) {
+          console.error(err);
           db.rollback(() => {
             return res.status(500).json({
               Status: "Error",
-              Message: "Error getting next activity ID",
+              Message: "Error getting file path from the database",
             });
           });
         }
 
-        const myDate = new Date();
-        myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
-        console.log(myDate)
-        const activityMessage = `Deleted doc_id: ${id} | File Name: ${result[0].file || "No file"}`;
-
-        db.query(
-          insertActivityLogQuery,
-          [nextActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
-          (insertActivityLogErr, insertActivityLogResult) => {
-            if (insertActivityLogErr) {
-              console.error(insertActivityLogErr);
-              db.rollback(() => {
-                return res.status(500).json({
-                  Status: "Error",
-                  Message: "Error inserting activity log",
-                });
-              });
-            }
-
-            // Commit the transaction
-            db.commit((commitErr) => {
-              if (commitErr) {
-                console.error("Error in commit:", commitErr);
-                return res.status(500).json({
-                  Status: "Error",
-                  Message: "Error committing transaction",
-                });
-              }
-
-              console.log("Document deleted");
-              return res.status(200).json({
-                Status: "Success",
-                Message: "Document deleted",
+        // Retrieve file paths from document_history table
+        db.query(getHistoryFilePathQuery, [id], (historyErr, historyResult) => {
+          if (historyErr) {
+            console.error(historyErr);
+            db.rollback(() => {
+              return res.status(500).json({
+                Status: "Error",
+                Message: "Error getting file paths from document_history table",
               });
             });
           }
-        );
-      });
-    });
-  };
 
-  if (result.length > 0 && result[0].file) {
-    // There is a file associated with the record
-    const filePath = join(uploadsPath, result[0].file);
+          // Delete files from communications-uploads-history for each entry in document_history
+          historyResult.forEach((historyEntry) => {
+            if (historyEntry.file) {
+              const historyFilePath = join(uploadsHistoryPath, historyEntry.file);
+              fs.unlink(historyFilePath, (unlinkErr) => {
+                if (unlinkErr) {
+                  console.error(unlinkErr);
+                }
+              });
+            }
+          });
 
-    // Delete the file from the "uploads" folder
-    fs.unlink(filePath, (unlinkErr) => {
-      if (unlinkErr) {
-        console.error(unlinkErr);
-      }
-      // Continue to delete the document record whether file deletion was successful or not
-      deleteDocumentAndLogActivity();
-    });
-  } else {
-    // No file associated, directly delete the document record
-    deleteDocumentAndLogActivity();
-  }
-});
+          // Continue with document deletion
+          const deleteDocumentAndLogActivity = () => {
+            // Delete the document record
+            db.query(deleteDocumentQuery, [id], (deleteErr, deleteResult) => {
+              if (deleteErr) {
+                console.error(deleteErr);
+                db.rollback(() => {
+                  return res.status(500).json({
+                    Status: "Error",
+                    Message: "Error deleting document from the database",
+                  });
+                });
+              }
 
+              // Insert activity log for document deletion
+              getNextActivityID((activityIDErr, nextActivityID) => {
+                if (activityIDErr) {
+                  console.error(activityIDErr);
+                  db.rollback(() => {
+                    return res.status(500).json({
+                      Status: "Error",
+                      Message: "Error getting next activity ID",
+                    });
+                  });
+                }
+
+                const myDate = new Date();
+                myDate.toLocaleString('en-US', { timeZone: 'Asia/Manila' });
+                const activityMessage = `Deleted doc_id: ${id} | File Name: ${result[0].file || "No file"}`;
+
+                db.query(
+                  insertActivityLogQuery,
+                  [nextActivityID, null, myDate, activityMessage, `${userFirstName} ${userLastName}`],
+                  (insertActivityLogErr, insertActivityLogResult) => {
+                    if (insertActivityLogErr) {
+                      console.error(insertActivityLogErr);
+                      db.rollback(() => {
+                        return res.status(500).json({
+                          Status: "Error",
+                          Message: "Error inserting activity log",
+                        });
+                      });
+                    }
+
+                    // Commit the transaction
+                    db.commit((commitErr) => {
+                      if (commitErr) {
+                        console.error("Error in commit:", commitErr);
+                        return res.status(500).json({
+                          Status: "Error",
+                          Message: "Error committing transaction",
+                        });
+                      }
+
+                      console.log("Document deleted");
+                      return res.status(200).json({
+                        Status: "Success",
+                        Message: "Document deleted",
+                      });
+                    });
                   }
                 );
               });
             });
-         
+          };
+
+          // Delete files from communications-uploads for the main document
+          if (result.length > 0 && result[0].file) {
+            const filePath = join(uploadsPath, result[0].file);
+
+            fs.unlink(filePath, (unlinkErr) => {
+              if (unlinkErr) {
+                console.error(unlinkErr);
+              }
+              // Continue to delete the document record whether file deletion was successful or not
+              deleteDocumentAndLogActivity();
+            });
+          } else {
+            // No file associated, directly delete the document record
+            deleteDocumentAndLogActivity();
+          }
+        });
+      });
+    });
+  });
+});
+     
 
 
 

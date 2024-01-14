@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
 export default function CommunicationsAdminMoreDetails({ 
   isInfoModalOpen,
@@ -37,15 +38,8 @@ export default function CommunicationsAdminMoreDetails({
         {/* <td className="border px-4 py-2 text-center">{item.doc_history_id}</td> */}
         <td className="border px-4 py-2 text-center">{item.doc_id}</td>
         <td className="border px-4 py-2 text-center">
-          <a
-            href={`http://localhost:8081/communicationhistoryfiles/${item.file}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
-          >
-            {item.file}
-          </a>
-        </td>
+                      <FileLink item={item} />
+                    </td>
         <td className="border px-4 py-2 text-center">{item.document_type}</td>
         <td className="border px-4 py-2 text-center">{item.date_received}</td>
         <td className="border px-4 py-2 text-center">{item.date_released}</td>
@@ -77,4 +71,38 @@ CommunicationsAdminMoreDetails.propTypes = {
   selectedRowData: PropTypes.object,
   setInfoModalOpen: PropTypes.func,
   documentHistory: PropTypes.array,
+};
+
+const FileLink = ({ item }) => {
+  const [fileUrl, setFileUrl] = useState(`http://localhost:8081/communicationhistoryfiles/${item.file}`);
+
+  useEffect(() => {
+    const checkFile = async () => {
+      try {
+        const response = await fetch(fileUrl);
+        if (!response.ok) {
+          setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+        }
+      } catch (error) {
+        setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+      }
+    };
+
+    checkFile();
+  }, [item.file, fileUrl]);
+
+  return (
+    <a
+      href={fileUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-500 hover:underline"
+    >
+      {item.file}
+    </a>
+  );
+};
+
+FileLink.propTypes = {
+  item: PropTypes.object,
 };

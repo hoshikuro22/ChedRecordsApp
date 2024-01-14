@@ -32,7 +32,7 @@ export default function AdminHome() {
           <a className="bg-blue-500 hover:bg-blue-700 w-1/5 h-64"
           href="/admin/listofpersonnel">
             <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex"> List of Personnels</a>
-            <p className="text-white text-center mt-20 underline mx-2">View and manage personnel information</p>
+            <p className="text-white text-center mt-20 underline mx-2">View and manage personnels</p>
             </a>
 
             <a className="bg-blue-500 hover:bg-blue-700 w-1/5 h-64"
