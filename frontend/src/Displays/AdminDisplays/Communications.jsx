@@ -16,7 +16,7 @@ export default function Communications() {
     dateReleased: new Date(),
     status: "",
     assignatories: "",
-    department: "",
+    unit: "",
     remarks: "",
     client: "",
     userID: "", 
@@ -99,7 +99,7 @@ useEffect(() => {
     dateReleased: new Date(),
     status: "", 
     assignatories: "",
-    department: "",
+    unit: "",
     remarks: "",
     client: "",
   }); console.log("the EditformData " + JSON.stringify(editFormData));
@@ -143,7 +143,7 @@ useEffect(() => {
         formDataToSend.append("date_released", formattedDateReleased);
         formDataToSend.append("status_id", editFormData.status_id);
         formDataToSend.append("personnel_id", editFormData.personnel_id);
-        formDataToSend.append("dept_id", editFormData.dept_id);
+        formDataToSend.append("unit_id", editFormData.unit_id);
         formDataToSend.append("remarks", editFormData.remarks);
         formDataToSend.append("client_id", editFormData.client_id);
         
@@ -184,7 +184,7 @@ useEffect(() => {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 1000;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = documents.slice(indexOfFirstItem, indexOfLastItem);
@@ -280,7 +280,7 @@ const handleFileChange = (e) => {
       dateReleased: new Date(),
       status: "0",
       assignatories: "",
-      department: "",
+      unit: "",
       remarks: "",
       userID: prevData.userID,
     }));
@@ -311,7 +311,7 @@ const handleFileChange = (e) => {
       formDataToSend.append("dateReleased", formattedDateReleased);
       formDataToSend.append("remarks", formData.remarks);
       formDataToSend.append("status", formData.status);
-      formDataToSend.append("department", formData.department);
+      formDataToSend.append("unit", formData.unit);
       formDataToSend.append("client", formData.client);
       formDataToSend.append("file", formData.file);
       formDataToSend.append("userID", formData.userID);
@@ -329,7 +329,7 @@ const handleFileChange = (e) => {
           dateReleased: new Date(),
           status: "",
           assignatories: "",
-          department: "",
+          unit: "",
           remarks: "",
           client: "",
           userID: prevData.userID,

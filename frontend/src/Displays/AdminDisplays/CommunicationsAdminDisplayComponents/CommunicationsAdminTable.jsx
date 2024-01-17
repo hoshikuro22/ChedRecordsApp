@@ -25,20 +25,20 @@ export default function CommunicationsAdminTable({
 //sa filtering function for STATUS//
 
 
-//sa filtering function for DEPARTMENT//
+//sa filtering function for UNIT//
 
-const [showDepartmentFilterDropdown, setShowDepartmentFilterDropdown] = useState(false);
-const [selectedDepartmentFilter, setSelectedDepartmentFilter] = useState('');
+const [showUnitFilterDropdown, setShowUnitFilterDropdown] = useState(false);
+const [selectedUnitFilter, setSelectedUnitFilter] = useState('');
 
-const handleToggleDepartmentFilterDropdown = () => {
-  setShowDepartmentFilterDropdown(!showDepartmentFilterDropdown);
+const handleToggleUnitFilterDropdown = () => {
+  setShowUnitFilterDropdown(!showUnitFilterDropdown);
 };
 
-const handleSelectDepartmentFilter = (value) => {
-  setSelectedDepartmentFilter(value);
-  setShowDepartmentFilterDropdown(false);
+const handleSelectUnitFilter = (value) => {
+  setSelectedUnitFilter(value);
+  setShowUnitFilterDropdown(false);
 };
-//sa filtering function for DEPARTMENT//
+//sa filtering function for UNIT//
 
 //sa filtering function for DOCUMENT TYPE//
 
@@ -80,14 +80,14 @@ const handleSelectClientNameFilter = (value) => {
           <tr className="bg-gray-200">
             <th className="px-4 py-2">Doc No</th>
             <th className="px-4 py-2">File</th>
-            <th className="px-4 py-2">Client Name
+            <th className="px-4 py-2">
   <div className="relative inline-block ml-2">
     <button
       onClick={handleToggleClientNameFilterDropdown}
       type="button"
-      className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+      className="inline-flex justify-center w-32 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
     >
-      {selectedClientNameFilter ? selectedClientNameFilter : 'Filter'}
+      {selectedClientNameFilter ? selectedClientNameFilter : 'Client Name'}
     </button>
     {showClientNameFilterDropdown && (
       <div
@@ -122,32 +122,32 @@ const handleSelectClientNameFilter = (value) => {
     )}
   </div>
 </th>
-            <th className="px-4 py-2">Assignatory</th>
+            <th className="px-4 py-2">Assigned Personnel</th>
             <th className="px-4 py-2">
-                                      Department
+                                      
                  <div className="relative inline-block ml-2">
                   <button
-                    onClick={handleToggleDepartmentFilterDropdown}
+                    onClick={handleToggleUnitFilterDropdown}
                     type="button"
-                    className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                    className="inline-flex justify-center w-auto px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
                   >
-                    {selectedDepartmentFilter === '1'
+                    {selectedUnitFilter === '1'
                       ? 'Receiving'
-                      : selectedDepartmentFilter === '2'
+                      : selectedUnitFilter === '2'
                       ? 'Scholarship'
-                      : selectedDepartmentFilter  === '3'
+                      : selectedUnitFilter  === '3'
                       ? 'Records'
-                      : 'Filter'}
+                      : 'Unit'}
                   </button>
-    {showDepartmentFilterDropdown ? (
+    {showUnitFilterDropdown ? (
       <div
         className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div className="py-1">
           <button
-            onClick={() => handleSelectDepartmentFilter('')}
+            onClick={() => handleSelectUnitFilter('')}
             className={`${
-              selectedDepartmentFilter === ''
+              selectedUnitFilter === ''
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -155,9 +155,9 @@ const handleSelectClientNameFilter = (value) => {
             All
           </button>
           <button
-            onClick={() => handleSelectDepartmentFilter('1')}
+            onClick={() => handleSelectUnitFilter('1')}
             className={`${
-              selectedDepartmentFilter === '1'
+              selectedUnitFilter === '1'
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -165,9 +165,9 @@ const handleSelectClientNameFilter = (value) => {
             Receiving
           </button>
           <button
-            onClick={() => handleSelectDepartmentFilter('2')}
+            onClick={() => handleSelectUnitFilter('2')}
             className={`${
-              selectedDepartmentFilter === '2'
+              selectedUnitFilter === '2'
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -175,9 +175,9 @@ const handleSelectClientNameFilter = (value) => {
             Scholarship
           </button>
           <button
-            onClick={() => handleSelectDepartmentFilter('3')}
+            onClick={() => handleSelectUnitFilter('3')}
             className={`${
-              selectedDepartmentFilter === '3'
+              selectedUnitFilter === '3'
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -190,27 +190,27 @@ const handleSelectClientNameFilter = (value) => {
           </div>
            </th>
            <th className="px-4 py-2">
-  Document Type
+  
   <div className="relative inline-block ml-2">
     <button
       onClick={handleToggleTypeFilterDropdown}
       type="button"
-      className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+      className="inline-flex justify-center w-44 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
     >
-      {selectedTypeFilter ? selectedTypeFilter : 'Filter'}
+      {selectedTypeFilter ? selectedTypeFilter : 'Document Type'}
     </button>
     {showTypeFilterDropdown && (
       <div
-        className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+        className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none h-96 overflow-auto "
       >
         <div className="py-1">
           <button
             onClick={() => handleSelectTypeFilter('')} // Clears the filter
             className={`${
               selectedTypeFilter === ''
-                ? 'bg-gray-200 text-gray-900'
+                ? 'bg-gray-200 text-gray-900 '
                 : 'text-gray-700'
-            } block px-4 py-2 text-sm w-full text-left`}
+            } block px-4 py-2 text-sm w-full text-left `}
           >
             All
           </button>
@@ -234,15 +234,15 @@ const handleSelectClientNameFilter = (value) => {
 </th>
 
             <th className="px-4 py-2">Date Received</th>
-            <th className="px-4 py-2">Date Released</th>
+            <th className="px-4 py-2">Date Release</th>
             <th className="px-4 py-2">
-              Status
+              
               <div className="relative inline-block ml-2">
                 <div>
                   <button
                     onClick={handleToggleStatusFilterDropdown}
                     type="button"
-                    className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                    className="inline-flex justify-center w-26 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
                   >
                     {selectedStatusFilter === '0'
                       ? 'Pending'
@@ -250,7 +250,7 @@ const handleSelectClientNameFilter = (value) => {
                       ? 'Approved'
                       : selectedStatusFilter === '2'
                       ? 'Disapproved'
-                      : 'Filter'}
+                      : 'Status'}
                   </button>
                 </div>
                 {showStatusFilterDropdown ? (
@@ -314,10 +314,10 @@ const handleSelectClientNameFilter = (value) => {
         (selectedStatusFilter === '1' && document.status === 'Approved') ||
         (selectedStatusFilter === '2' && document.status === 'Disapproved') ||
         selectedStatusFilter === '') &&
-      ((selectedDepartmentFilter === '1' && document.department === 'Receiving') ||
-        (selectedDepartmentFilter === '2' && document.department === 'Scholarship') ||
-        (selectedDepartmentFilter === '3' && document.department === 'Records') ||
-        selectedDepartmentFilter === '') &&
+      ((selectedUnitFilter === '1' && document.unit === 'Receiving') ||
+        (selectedUnitFilter === '2' && document.unit === 'Scholarship') ||
+        (selectedUnitFilter === '3' && document.unit === 'Records') ||
+        selectedUnitFilter === '') &&
         (selectedTypeFilter === '' || document.document_type === selectedTypeFilter) &&
         (selectedClientNameFilter === '' || document.client_name === selectedClientNameFilter)
     )
@@ -336,7 +336,7 @@ const handleSelectClientNameFilter = (value) => {
         </td>
         <td className="border px-4 py-2 text-center">{document.client_name}</td>
         <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
-        <td className="border px-4 py-2 text-center">{document.department}</td>
+        <td className="border px-4 py-2 text-center">{document.unit}</td>
         <td className="border px-4 py-2 text-center">{document.document_type}</td>
         <td className="border px-4 py-2 text-center">{document.date_received}</td>
         <td className="border px-4 py-2 text-center">{document.date_released}</td>

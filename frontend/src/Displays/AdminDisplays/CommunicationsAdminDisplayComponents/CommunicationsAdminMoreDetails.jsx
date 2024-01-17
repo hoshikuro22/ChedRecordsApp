@@ -27,7 +27,7 @@ export default function CommunicationsAdminMoreDetails({
       <th className="px-4 py-2">Date Released</th>
       <th className="px-4 py-2">Status</th>
       <th className="px-4 py-2">Remarks</th>
-      <th className="px-4 py-2">Assignatory</th>
+      <th className="px-4 py-2">Appointer</th>
       <th className="px-4 py-2">Document Type</th>
     </tr>
   </thead>

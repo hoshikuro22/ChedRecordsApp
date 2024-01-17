@@ -25,6 +25,8 @@ export default function CommunicationsAdminAddForm({
           <h2 className="text-xl font-semibold mb-2">Add New Communication</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
 
+          <div className="flex flex-row gap-6">
+
           <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Add File</label>
             <input
@@ -35,6 +37,29 @@ export default function CommunicationsAdminAddForm({
             onChange={handleFileChange}
             className="border">
             </input>
+            </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Date Request</label>
+              <DatePicker
+                selected={formData.dateReceived}
+                onChange={(date) => handleChange({ target: { name: 'dateReceived', value: date } })}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                displayFormat
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Date Released</label>
+              <DatePicker
+                selected={formData.dateReleased}
+                onChange={(date) => handleChange({ target: { name: 'dateReleased', value: date } })}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                displayFormat
+              />
+            </div>
+            
+
             </div>
             
             <div className="flex flex-col">
@@ -75,47 +100,15 @@ export default function CommunicationsAdminAddForm({
   </select>
 </div>
 
-    <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Department</label>
-              <select 
-                required
-                id="department"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select Department</option>
-                <option value="1">Receiving</option>
-                <option value="2">Scholarship</option>
-                <option value="3">Records</option>
-               
-              </select>
-            </div>
+
+ 
+
+          
+   
+       <div className="flex flex-row gap-6">
 
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Received</label>
-              <DatePicker
-                selected={formData.dateReceived}
-                onChange={(date) => handleChange({ target: { name: 'dateReceived', value: date } })}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                displayFormat
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Released</label>
-              <DatePicker
-                selected={formData.dateReleased}
-                onChange={(date) => handleChange({ target: { name: 'dateReleased', value: date } })}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-                displayFormat
-              />
-            </div>
-            
-           
-            <div className="flex flex-col">
-           <label className="mb-1 text-sm font-semibold">Assigned to: (change term)</label>
+           <label className="mb-1 text-sm font-semibold">Assigned Personnel</label>
              <select
              required
              id="assignatories"
@@ -132,11 +125,31 @@ export default function CommunicationsAdminAddForm({
              ))}
            </select>
            </div>
-   
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Remarks</label>
-              <input
+
+           <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Unit</label>
+              <select 
                 required
+                id="unit"
+                name="unit"
+                value={formData.unit}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              >
+                <option value="">Select Unit</option>
+                <option value="1">Receiving</option>
+                <option value="2">Scholarship</option>
+                <option value="3">Records</option>
+               
+              </select>
+            </div>
+
+           </div>
+
+           <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Remarks (Optional)</label>
+              <input
+                
                 type="text"
                 id="remarks"
                 name="remarks"
@@ -146,6 +159,20 @@ export default function CommunicationsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+
+            {/* <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Tags</label>
+              <input
+                required
+                type="text"
+                id="tags"
+                name="tags"
+                placeholder="Enter Tags"
+                value={formData.tags}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-64"
+              />
+            </div> */}
 
 
             {/* para ma add ang status sa add form */}
@@ -168,42 +195,28 @@ export default function CommunicationsAdminAddForm({
 
 
 
-            <div className="col-span-2 flex ">
-              <div className="flex mr-auto">
-                
-            <a className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
-                href="/admin/chedclients"
-              >
-                Add New Client
-                
-              </a>
-              <a className="w-auto px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-600 transition duration-300 mr-2"
-                href="/admin/documenttypes"
-              >
-                Add New Document Type
-                
-              </a>
-              </div>
+            <div className="col-span-2 flex ml-auto">
+              
               <div className="flex">
               <button
                 
-                className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 "
               >
-                Add Communication
+                ADD
               </button>
               <button
                 type="button"
                 onClick={handleHideFormClick}
-                className="w-40 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
+                className="w-40 px-4 py-2 text-white font-bold bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
               >
-                Hide Form
+                CLOSE
               </button>
               <button
                 type="button"
                 onClick={handleClearFormClick}
-                className="w-40 px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
               >
-                Clear Form
+                CLEAR
               </button>
             </div>
             </div>
@@ -235,8 +248,9 @@ CommunicationsAdminAddForm.propTypes = {
     dateReleased: PropTypes.instanceOf(Date).isRequired,
     status: PropTypes.string.isRequired,
     assignatories: PropTypes.string.isRequired,
-    department: PropTypes.string.isRequired,
+    unit: PropTypes.string.isRequired,
     remarks: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
     client: PropTypes.string.isRequired,
   }).isRequired,
   handleChange: PropTypes.func.isRequired,

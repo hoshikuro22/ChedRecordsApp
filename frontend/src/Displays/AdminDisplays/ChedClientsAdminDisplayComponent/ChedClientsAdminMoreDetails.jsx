@@ -15,6 +15,7 @@ export default function ChedClientsAdminMoreDetails({ isInfoModalOpen, setInfoMo
                   <th className="px-4 py-2">Client ID</th>
                   <th className="px-4 py-2">Name of Client</th>
                   <th className="px-4 py-2">Address</th>
+                  <th className="px-4 py-2">Email</th>
                   <th className="px-4 py-2">Contact Person</th>
                   <th className="px-4 py-2">Contact Number</th>
                 </tr>
@@ -25,6 +26,7 @@ export default function ChedClientsAdminMoreDetails({ isInfoModalOpen, setInfoMo
                   <td className="border px-4 py-2 text-center">{selectedRowData.client_id}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.client_name}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.address}</td>
+                  <td className="border px-4 py-2 text-center">{selectedRowData.email}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.contact_person}</td>
                   <td className="border px-4 py-2 text-center">{selectedRowData.contact_number}</td>
                 </tr>
@@ -51,6 +53,7 @@ ChedClientsAdminMoreDetails.propTypes = {
     client_id: PropTypes.string.isRequired,
     client_name: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
     contact_person: PropTypes.string.isRequired,
     contact_number: PropTypes.string.isRequired,
   }),

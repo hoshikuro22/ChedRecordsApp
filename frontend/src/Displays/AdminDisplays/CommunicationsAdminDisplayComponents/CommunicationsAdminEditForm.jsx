@@ -137,15 +137,15 @@ export default function CommunicationsAdminEditForm({
     </div>
    
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Department</label>
+              <label className="mb-1 text-sm font-semibold">Unit</label>
               <select 
               
-                name="dept_id"
-                value={editFormData.dept_id}
+                name="unit_id"
+                value={editFormData.unit_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
-                <option value="">Select Department</option>
+                <option value="">Select Unit</option>
                 <option value="1">Receiving</option>
                 <option value="2">Scholarship</option>
                 <option value="3">Records</option>
@@ -199,8 +199,8 @@ CommunicationsAdminEditForm.propTypes = {
     doc_type_id: PropTypes.number,  //sa put
     // institution: PropTypes.string, // sa read
     client_id: PropTypes.string,
-    // department: PropTypes.string, //sa read
-    dept_id: PropTypes.number,//sa put
+    // unit: PropTypes.string, //sa read
+    unit_id: PropTypes.number,//sa put
     date_received: PropTypes.string,
     date_released: PropTypes.string,
     // status: PropTypes.string,   //sa read

@@ -68,10 +68,26 @@ export default function ChedClientsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
                 <option value="">Select Client Type</option>
-                <option value="1">Internal - CHED10</option>
-                <option value="2">External - HEIS </option>
+                <option value="1">CHED10</option>
+                <option value="2">HEIS </option>
+                <option value="3">Government Office </option>
+                <option value="4">Agency </option>
+                <option value="5">Individual </option>
             
               </select>
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Email Address (Optional)</label>
+              <input
+
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter Email Address"
+                value={formData.email}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
             </div>
             
             <div className="flex gap-4">
@@ -89,9 +105,9 @@ export default function ChedClientsAdminAddForm({
               />
             </div>
             <div className="flex flex-col overflow-hidden">
-              <label className="mb-1 text-sm font-semibold">Contact Number</label>
+              <label className="mb-1 text-sm font-semibold">Contact Number (Optional)</label>
               <input
-                required
+                
                 type="text"
                 id="contactNumber"
                 name="contactNumber"
@@ -104,23 +120,23 @@ export default function ChedClientsAdminAddForm({
             <div className="col-span-2 ml-auto gap-">
               <button
                 type="submit"
-                className="w-40 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
               >
-                Add Client  
+                ADD 
               </button>
               <button
                 type="button"
                 onClick={handleHideFormClick}
-                className="w-40 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
+                className="w-40 px-4 py-2 text-white font-bold bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
               >
-                Hide Form
+                CLOSE
               </button>
               <button
                 type="button"
                 onClick={handleClearFormClick}
-                className="w-40 px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
               >
-                Clear Form
+                CLEAR
               </button>
             </div>
              
@@ -150,6 +166,7 @@ ChedClientsAdminAddForm.propTypes = {
       clientName: PropTypes.string,
       address: PropTypes.string,
       clientType: PropTypes.string,
+      email: PropTypes.string,
       // filingCat: PropTypes.string,
       contactPerson: PropTypes.string,
       contactNumber: PropTypes.string,

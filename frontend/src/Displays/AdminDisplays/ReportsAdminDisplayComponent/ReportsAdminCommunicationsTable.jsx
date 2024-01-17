@@ -297,7 +297,7 @@ const handleSelectClientNameFilter = (value) => {
   </div>
 </th>
               <th className="px-4 py-2">Date Received</th>
-              <th className="px-4 py-2">Date Released</th>
+              <th className="px-4 py-2">Date Release</th>
               <th className="px-4 py-2">File Name</th>
               <th className="px-4 py-2">Remarks</th>
               <th className="px-4 py-2">
@@ -368,6 +368,7 @@ const handleSelectClientNameFilter = (value) => {
                 ) : null}
               </div>
             </th>
+            <th>Tags</th>
             </tr>
           </thead>
           <tbody>
@@ -398,6 +399,7 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{truncateFileName(report.File, 30)}</td>
         <td className="border px-4 py-2 text-center">{report.Remarks}</td>
         <td className="border px-4 py-2 text-center">{report.Status}</td>
+        <td className="border px-4 py-2 text-center">*tags*</td>
       </tr>
     ))}
 </tbody>

@@ -89,6 +89,7 @@ router.post("/addClient", async (req, res) => {
     clientName,
     address,
     clientType,
+    email,
     contactPerson,
     contactNumber,
     userID,
@@ -112,13 +113,14 @@ router.post("/addClient", async (req, res) => {
         }
 
         const institutionInsertQuery =
-          "INSERT INTO client (seq_no, client_id, client_name, address, client_type_id, contact_person, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO client (seq_no, client_id, client_name, address, client_type_id, email, contact_person, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         const institutionInsertValues = [
           seq_no,
           clientID,
           clientName,
           address,
           clientType,
+          email,
           contactPerson,
           contactNumber,
           // file.filename,
@@ -269,12 +271,13 @@ router.post("/addClient", async (req, res) => {
         i.client_name,
         i.client_type_id,
         ct.type as client_type,
+        i.email,
         i.address,
         i.contact_person,
         i.contact_number
       FROM client i
       JOIN client_type ct ON i.client_type_id = ct.client_type_id
-      ORDER BY seq_no ASC; `;
+      ORDER BY seq_no DESC; `;
   
     db.query(sql, (err, data) => {
       if (err) {
@@ -412,6 +415,7 @@ router.put('/updateClient/:id', (req, res) => {
     client_name,
     address,
     client_type_id,
+    email,
     contact_person,
     contact_number,
   } = req.body;
@@ -422,7 +426,7 @@ router.put('/updateClient/:id', (req, res) => {
 
   const updateInstitutionSQL = `
     UPDATE client 
-    SET client_name=?, address=?, client_type_id=?, contact_person=?, contact_number=? 
+    SET client_name=?, address=?, client_type_id=?, email=?, contact_person=?, contact_number=? 
     WHERE client_id=?`;
 
   db.query(
@@ -431,6 +435,7 @@ router.put('/updateClient/:id', (req, res) => {
       client_name,
       address,
       client_type_id,
+      email,
       contact_person,
       contact_number,
       id,

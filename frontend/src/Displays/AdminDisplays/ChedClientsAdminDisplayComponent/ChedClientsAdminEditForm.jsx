@@ -55,8 +55,10 @@ export default function ChedClientsAdminEditForm({
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             >
               <option value="">Select Client Type</option>
-              <option value="1">Internal</option>
-              <option value="2">External</option>
+              <option value="1">CHED10</option>
+              <option value="2">HEIS</option>
+              <option value="3">Government Office</option>
+              <option value="4">Agency</option>
             </select>
           </div>
           <div className="flex gap-4">
