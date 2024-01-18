@@ -8,15 +8,13 @@ import ChedClientsNormalMoreDetails from "./ChedClientsNormalDisplayComponent/Ch
 
 export default function NormalChedClients() {
   const [formData, setFormData] = useState({
-    institutionID: "",
-    institutionName: "",
-    institutionType: "",
+    clientID: "Client2024000",
+    clientName: "",
     address: "",
     clientType: "",
-    filingCat: "",
+    email: "",
     contactPerson: "", 
     contactNumber: "", 
-    file: null,
     userID: "",
   });
   console.log("the formData " + JSON.stringify(formData));
@@ -39,29 +37,28 @@ export default function NormalChedClients() {
   //===== Edit =====//
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
-    institutionName: "",
-    inst_type_id: "",
+    clientName: "",
     address: "",
     clientType: "",   
-    filingCat: "",
+    email: "",
+    // filingCat: "",
     contactPerson: "",
     contactNumber: "",
-    file: null,
+    // file: null,
   }); console.log("the EditformData " + JSON.stringify(editFormData));
 
 
-  const handleEditClick = (inst_id) => {
-    const selectedRow = clients.find((client) => client.inst_id === inst_id);
+  const handleEditClick = (client_id) => {
+    const selectedRow = clients.find((client) => client.client_id === client_id);
     if (selectedRow) {
       console.log("Selected Row Data to edit:", selectedRow);
       setEditFormData({
         ...selectedRow,
-        file: selectedRow.file ? new File([], selectedRow.file.name) : null,
+        // file: selectedRow.file ? new File([], selectedRow.file.name) : null,
       });
       setShowEditForm(true);
     }
   };
-  
   
   
  // the "save form function of edit modal"
@@ -78,12 +75,12 @@ export default function NormalChedClients() {
 
   try {
     const response = await axios.put(
-      `http://localhost:8081/updateClient/${editFormData.inst_id}`,
+      `http://localhost:8081/updateClient/${editFormData.client_id}`,
       {
-        inst_id: editFormData.inst_id,
-        inst_name: editFormData.inst_name,
-        inst_type_id: editFormData.inst_type_id,
+        client_id: editFormData.client_id,
+        client_name: editFormData.client_name,
         address: editFormData.address,
+        email: editFormData.email,
         client_type_id: editFormData.client_type_id,
         contact_person: editFormData.contact_person,
         contact_number: editFormData.contact_number,
@@ -117,9 +114,9 @@ export default function NormalChedClients() {
   // const[showInstitutionList, setShowInstitutionListButton]= useState(true);  sa admin ra ni
  
 
-  // for search for filter
-  const [searchQueryID, setSearchQueryID] = useState("");
-  const [searchQueryName, setSearchQueryName] = useState("");
+  // // for search for filter
+  // const [searchQueryID, setSearchQueryID] = useState("");
+  // const [searchQueryName, setSearchQueryName] = useState("");
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -135,9 +132,9 @@ export default function NormalChedClients() {
 
 
 
-  const handleInfoClick = (inst_id) => {
-    // Find the selected row data based on the inst_id
-    const selectedRow = clients.find((client) => client.inst_id === inst_id);
+  const handleInfoClick = (client_id) => {
+    // Find the selected row data based on the client_id
+    const selectedRow = clients.find((client) => client.client_id === client_id);
     if (selectedRow) {
       setSelectedRowData(selectedRow);
       setInfoModalOpen(true);
@@ -164,14 +161,14 @@ export default function NormalChedClients() {
 
 
   
-  // sa pang search filter sa inst_ID
-  const handleSearchIDChange = (e) => {
-    setSearchQueryID(e.target.value);
-  };
- // sa pang search filter sa inst_Name
-  const handleSearchNameChange = (e) => {
-    setSearchQueryName(e.target.value);
-  };
+//   // sa pang search filter sa inst_ID
+//   const handleSearchIDChange = (e) => {
+//     setSearchQueryID(e.target.value);
+//   };
+//  // sa pang search filter sa inst_Name
+//   const handleSearchNameChange = (e) => {
+//     setSearchQueryName(e.target.value);
+//   };
 
   
 
@@ -185,7 +182,7 @@ export default function NormalChedClients() {
         <h2 className="text-xl font-semibold mb-2">List of CHED Clients</h2>
 
         {/* Search bar for filter by Institution ID or Name */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <input
             type="text"
             placeholder="Search by Institutional ID"
@@ -200,7 +197,7 @@ export default function NormalChedClients() {
             onChange={handleSearchNameChange}
             className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 ml-2"
           />
-        </div>
+        </div> */}
 
         
 
@@ -209,8 +206,8 @@ export default function NormalChedClients() {
         <div>
   <ChedClientsNormalTable
     currentItems={currentItems}
-    searchQueryID={searchQueryID}
-    searchQueryName={searchQueryName}
+    // searchQueryID={searchQueryID}
+    // searchQueryName={searchQueryName}
     handleInfoClick={handleInfoClick}
   handleEditClick={handleEditClick}
   />

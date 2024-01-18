@@ -29,6 +29,7 @@ export default function ChedClientsAdminTable({
           <thead>
             <tr className="bg-gray-200">
               <th className="px-4 py-2">Seq No</th>
+              <th className="px-4 py-2">Client ID</th>
               <th className="px-4 py-2">Name of Client</th>
               {/* <th className="px-4 py-2">Filing Category</th> */}
             
@@ -140,6 +141,7 @@ export default function ChedClientsAdminTable({
      (
     <tr key={client.client_id}>
       <td className="border px-4 py-2 text-center">{client.seq_no}</td>
+      <td className="border px-4 py-2 text-center">{client.client_id}</td>
       <td className="border px-4 py-2 text-center">{client.client_name}</td>
       <td className="border px-4 py-2 text-center">{client.client_type}</td>
       <td className="border px-4 py-2 text-center">

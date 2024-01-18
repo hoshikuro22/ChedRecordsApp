@@ -61,6 +61,18 @@ export default function ChedClientsAdminEditForm({
               <option value="4">Agency</option>
             </select>
           </div>
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-semibold">Email Address</label>
+            <input
+              
+              type="email"
+              name="email"
+              placeholder="Enter Email Address "
+              value={editFormData.email}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
           <div className="flex gap-4">
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Contact Person</label>
@@ -116,6 +128,7 @@ ChedClientsAdminEditForm.propTypes = {
     address: PropTypes.string,
     // clientType: PropTypes.string,    //sa read
     client_type_id: PropTypes.number,//sa put
+    email: PropTypes.string, 
     // filingCat: PropTypes.string,    //sa read
     contact_person: PropTypes.string,
     contact_number: PropTypes.string,
