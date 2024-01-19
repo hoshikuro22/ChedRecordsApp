@@ -5,7 +5,9 @@ export default function DocumentTypesAddForm({
   return (
     <div>
               {showForm ? (
-        <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4">
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
+          <div className="bg-white rounded-lg p-8 z-50">
           <h2 className="text-xl font-semibold mb-2">Add New DOCUMENT TYPE</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
@@ -25,30 +27,30 @@ export default function DocumentTypesAddForm({
             
            
 
-            <div className="col-span-2 ml-auto gap-">
+            <div className="col-span-2 ml-auto ">
               <button
                 type="submit"
-                className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
               >
-                Add Document Type
+                ADD
               </button>
               <button
                 type="button"
                 onClick={handleHideFormClick}
-                className="w-40 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
+                className="w-40 px-4 py-2 text-white font-bold bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
               >
-                Hide Form
+                CLOSE
               </button>
               <button
                 type="button"
                 onClick={handleClearFormClick}
-                className="w-40 px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
               >
-                Clear Form
+                CLEAR
               </button>
             </div>
           </form>
-          
+          </div>
         </div>
       ) : (
         <button

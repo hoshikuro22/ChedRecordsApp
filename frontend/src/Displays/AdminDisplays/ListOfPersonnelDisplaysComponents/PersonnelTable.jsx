@@ -8,13 +8,17 @@ export default function PersonnelTable({ personnels, handleDeleteClick, currentP
 
   return (
     <div>
-      <table className="table-auto w-full border-collapse border">
+      <table className="table-auto w-full border-collapse border  ">
         <thead>
           <tr className="bg-gray-200">
             <th className="px-4 py-2">Personnel ID</th>
             <th className="px-4 py-2">Last Name</th>
             <th className="px-4 py-2">First Name</th>
             <th className="px-4 py-2">Position</th>
+            <th className="px-4 py-2">Unit</th>
+            <th className="px-4 py-2">Birth Date</th>
+            <th className="px-4 py-2">Email</th>
+            <th className="px-4 py-2">Contact Number</th>
             <th className="px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -25,6 +29,10 @@ export default function PersonnelTable({ personnels, handleDeleteClick, currentP
               <td className="border px-4 py-2 text-center">{personnel.Last_Name}</td>
               <td className="border px-4 py-2 text-center">{personnel.First_Name}</td>
               <td className="border px-4 py-2 text-center">{personnel.Position}</td>
+              <td className="border px-4 py-2 text-center">{personnel.Unit_Type}</td>
+              <td className="border px-4 py-2 text-center">{personnel.Birth_Date}</td>
+              <td className="border px-4 py-2 text-center">{personnel.Email}</td>
+              <td className="border px-4 py-2 text-center">{personnel.Contact_Number}</td>
 
               <td className="border px-4 py-2 text-center">
                 {/* <button className="text-blue-500 hover:underline">Edit</button> */}

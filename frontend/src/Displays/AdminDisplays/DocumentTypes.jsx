@@ -17,7 +17,7 @@ export default function DocumentTypes() {
 
     // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 50;
 
   useEffect(() => {
     fetchDocumentTypes();
@@ -108,7 +108,7 @@ export default function DocumentTypes() {
   };
 
   return (
-    <div className="w-screen h-screen mt-8 p-4 ml-4">
+    <div className="w-screen h-auto mt-8 p-4 ml-4">
       <h1 className="font-semibold text-2xl mb-4">LIST OF DOCUMENT TYPES</h1>
 
       <DocumentTypesAddForm

@@ -21,19 +21,19 @@ export default function ReportsAdminCommunicationsTable() {
   }, []);
 
    // to fetch institution for the add and edit form 
-const [institutionsOptions, setInstitutionsOptions] = useState([]);
+const [clientsOptions, setclientsOptions] = useState([]);
 
 useEffect(() => {
-  const fetchInstitutionData = async () => {
+  const fetchClientData = async () => {
     try {
       const response = await axios.get("http://localhost:8081/getClients");
-      setInstitutionsOptions(response.data);
+      setclientsOptions(response.data);
     } catch (error) {
-      console.error("Error fetching institution data:", error);
+      console.error("Error fetching client data:", error);
     }
   };
 
-  fetchInstitutionData();
+  fetchClientData();
 }, []);
 
 
@@ -85,20 +85,20 @@ useEffect(() => {
   };
 //sa filtering function for STATUS//
 
-//sa filtering function for DEPARTMENT//
+//sa filtering function for UNIT//
 
-const [showDepartmentFilterDropdown, setShowDepartmentFilterDropdown] = useState(false);
-const [selectedDepartmentFilter, setSelectedDepartmentFilter] = useState('');
+const [showUnitFilterDropdown, setShowUnitFilterDropdown] = useState(false);
+const [selectedUnitFilter, setSelectedUnitFilter] = useState('');
 
-const handleToggleDepartmentFilterDropdown = () => {
-  setShowDepartmentFilterDropdown(!showDepartmentFilterDropdown);
+const handleToggleUnitFilterDropdown = () => {
+  setShowUnitFilterDropdown(!showUnitFilterDropdown);
 };
 
-const handleSelectDepartmentFilter = (value) => {
-  setSelectedDepartmentFilter(value);
-  setShowDepartmentFilterDropdown(false);
+const handleSelectUnitFilter = (value) => {
+  setSelectedUnitFilter(value);
+  setShowUnitFilterDropdown(false);
 };
-//sa filtering function for DEPARTMENT//
+//sa filtering function for UNIT//
 
 //sa filtering function for DOCUMENT TYPE//
 
@@ -144,14 +144,14 @@ const handleSelectClientNameFilter = (value) => {
               <th className="px-4 py-2">TransactionID</th>
               <th className="px-4 py-2">Released By</th>
               <th className="px-4 py-2">Doc ID</th>
-              <th className="px-4 py-2">Client Name
-  <div className="relative inline-block ml-2">
+              <th className="px-4 py-2">
+              <div className="relative inline-block ml-2">
     <button
       onClick={handleToggleClientNameFilterDropdown}
       type="button"
-      className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+      className="inline-flex justify-center w-32 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
     >
-      {selectedClientNameFilter ? selectedClientNameFilter : 'Filter'}
+      {selectedClientNameFilter ? selectedClientNameFilter : 'Client Name'}
     </button>
     {showClientNameFilterDropdown && (
       <div
@@ -168,7 +168,7 @@ const handleSelectClientNameFilter = (value) => {
           >
             All
           </button>
-          {institutionsOptions.map((client) => (
+          {clientsOptions.map((client) => (
             <button
               key={client.client_id}
               onClick={() => handleSelectClientNameFilter(client.client_name)}
@@ -186,32 +186,31 @@ const handleSelectClientNameFilter = (value) => {
     )}
   </div>
 </th>
-              <th className="px-4 py-2">Appointer </th>
+              <th className="px-4 py-2">Assigned Personnel </th>
               <th className="px-4 py-2">
-       Department
-  <div className="relative inline-block ml-2 h-auto ">
-  <button
-                    onClick={handleToggleDepartmentFilterDropdown}
+              <div className="relative inline-block ml-2">
+                  <button
+                    onClick={handleToggleUnitFilterDropdown}
                     type="button"
-                    className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                    className="inline-flex justify-center w-auto px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
                   >
-                    {selectedDepartmentFilter === '1'
+                    {selectedUnitFilter === '1'
                       ? 'Receiving'
-                      : selectedDepartmentFilter === '2'
+                      : selectedUnitFilter === '2'
                       ? 'Scholarship'
-                      : selectedDepartmentFilter === '3'
+                      : selectedUnitFilter  === '3'
                       ? 'Records'
-                      : 'Filter'}
+                      : 'Unit'}
                   </button>
-    {showDepartmentFilterDropdown ? (
+    {showUnitFilterDropdown ? (
       <div
         className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div className="py-1">
           <button
-            onClick={() => handleSelectDepartmentFilter('')}
+            onClick={() => handleSelectUnitFilter('')}
             className={`${
-              selectedDepartmentFilter === ''
+              selectedUnitFilter === ''
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -219,9 +218,9 @@ const handleSelectClientNameFilter = (value) => {
             All
           </button>
           <button
-            onClick={() => handleSelectDepartmentFilter('1')}
+            onClick={() => handleSelectUnitFilter('1')}
             className={`${
-              selectedDepartmentFilter === '1'
+              selectedUnitFilter === '1'
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -229,9 +228,9 @@ const handleSelectClientNameFilter = (value) => {
             Receiving
           </button>
           <button
-            onClick={() => handleSelectDepartmentFilter('2')}
+            onClick={() => handleSelectUnitFilter('2')}
             className={`${
-              selectedDepartmentFilter === '2'
+              selectedUnitFilter === '2'
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -239,9 +238,9 @@ const handleSelectClientNameFilter = (value) => {
             Scholarship
           </button>
           <button
-            onClick={() => handleSelectDepartmentFilter('3')}
+            onClick={() => handleSelectUnitFilter('3')}
             className={`${
-              selectedDepartmentFilter === '3'
+              selectedUnitFilter === '3'
                 ? 'bg-gray-200 text-gray-900'
                 : 'text-gray-700'
             } block px-4 py-2 text-sm w-full text-left`}
@@ -251,30 +250,30 @@ const handleSelectClientNameFilter = (value) => {
         </div>
       </div>
     ) : null}
-  </div>
+          </div>
          </th>
          <th className="px-4 py-2">
-  Document Type
-  <div className="relative inline-block ml-2">
+  
+         <div className="relative inline-block ml-2">
     <button
       onClick={handleToggleTypeFilterDropdown}
       type="button"
-      className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+      className="inline-flex justify-center w-44 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
     >
-      {selectedTypeFilter ? selectedTypeFilter : 'Filter'}
+      {selectedTypeFilter ? selectedTypeFilter : 'Document Type'}
     </button>
     {showTypeFilterDropdown && (
       <div
-        className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+        className="origin-top-right absolute right-0 flex w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none h-96 overflow-auto "
       >
         <div className="py-1">
           <button
             onClick={() => handleSelectTypeFilter('')} // Clears the filter
             className={`${
               selectedTypeFilter === ''
-                ? 'bg-gray-200 text-gray-900'
+                ? 'bg-gray-200 text-gray-900 '
                 : 'text-gray-700'
-            } block px-4 py-2 text-sm w-full text-left`}
+            } block px-4 py-2 text-sm w-full text-left `}
           >
             All
           </button>
@@ -301,13 +300,13 @@ const handleSelectClientNameFilter = (value) => {
               <th className="px-4 py-2">File Name</th>
               <th className="px-4 py-2">Remarks</th>
               <th className="px-4 py-2">
-              Status
+              
               <div className="relative inline-block ml-2">
                 <div>
                   <button
                     onClick={handleToggleStatusFilterDropdown}
                     type="button"
-                    className="inline-flex justify-center w-auto px-2 py-1 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                    className="inline-flex justify-center w-26 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
                   >
                     {selectedStatusFilter === '0'
                       ? 'Pending'
@@ -315,7 +314,7 @@ const handleSelectClientNameFilter = (value) => {
                       ? 'Approved'
                       : selectedStatusFilter === '2'
                       ? 'Disapproved'
-                      : 'Filter'}
+                      : 'Status'}
                   </button>
                 </div>
                 {showStatusFilterDropdown ? (
@@ -378,10 +377,10 @@ const handleSelectClientNameFilter = (value) => {
         (selectedStatusFilter === '1' && report.Status === 'Approved') ||
         (selectedStatusFilter === '2' && report.Status === 'Disapproved') ||
         selectedStatusFilter === '') &&
-      ((selectedDepartmentFilter === '1' && report.Department === 'Receiving') ||
-        (selectedDepartmentFilter === '2' && report.Department === 'Scholarship') ||
-        (selectedDepartmentFilter === '3' && report.Department === 'Records') ||
-        selectedDepartmentFilter === '') &&
+      ((selectedUnitFilter === '1' && report.Unit_Type === 'Receiving') ||
+        (selectedUnitFilter === '2' && report.Unit_Type === 'Scholarship') ||
+        (selectedUnitFilter === '3' && report.Unit_Type === 'Records') ||
+        selectedUnitFilter === '') &&
         (selectedTypeFilter === '' || report.DocumentType === selectedTypeFilter) &&
         (selectedClientNameFilter === '' || report.client_name === selectedClientNameFilter)
     )
@@ -392,7 +391,7 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{report.DocID}</td>
         <td className="border px-4 py-2 text-center">{report.client_name}</td>
         <td className="border px-4 py-2 text-center">{report.Assignatories}</td>
-        <td className="border px-4 py-2 text-center">{report.Department}</td>
+        <td className="border px-4 py-2 text-center">{report.Unit_Type}</td>
         <td className="border px-4 py-2 text-center">{report.DocumentType}</td>
         <td className="border px-4 py-2 text-center">{report.DateReceived}</td>
         <td className="border px-4 py-2 text-center">{report.DateReleased}</td>

@@ -5,7 +5,9 @@ export default function PersonnelAddForm({
   return (
     <div>
               {showForm ? (
-        <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4">
+         <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
+          <div className="bg-white rounded-lg p-8 z-50">
           <h2 className="text-xl font-semibold mb-2">Add New PERSONNEL</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
@@ -35,6 +37,23 @@ export default function PersonnelAddForm({
               />
             </div>
             <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Unit</label>
+              <select 
+                required
+                id="unit"
+                name="unit"
+                value={formData.unit}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              >
+                <option value="">Select Unit</option>
+                <option value="1">Receiving</option>
+                <option value="2">Scholarship</option>
+                <option value="3">Records</option>
+               
+              </select>
+            </div>
+            <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Position</label>
               <input
                 required
@@ -47,33 +66,72 @@ export default function PersonnelAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Birth Date</label>
+              <input
+                required
+                type="text"
+                id="birthDate"
+                name="birthDate"
+                placeholder="Enter Birth Date"
+                value={formData.birthDate}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Email</label>
+              <input
+                required
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Contact Number</label>
+              <input
+                required
+                type="text"
+                id="contactNumber"
+                name="contactNumber"
+                placeholder="Enter Contact Number"
+                value={formData.contactNumber}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
             
            
 
             <div className="col-span-2 ml-auto gap-">
               <button
                 type="submit"
-                className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
               >
-                Add Personnel
+                ADD
               </button>
               <button
                 type="button"
                 onClick={handleHideFormClick}
-                className="w-40 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
+                className="w-40 px-4 py-2 text-white font-bold bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
               >
-                Hide Form
+                CLOSE
               </button>
               <button
                 type="button"
                 onClick={handleClearFormClick}
-                className="w-40 px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
+                className="w-40 px-4 py-2 text-white font-bold bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
               >
-                Clear Form
+                CLEAR
               </button>
             </div>
           </form>
-          
+          </div>
         </div>
       ) : (
         <button
@@ -89,9 +147,13 @@ export default function PersonnelAddForm({
 }
 PersonnelAddForm.propTypes = {
     formData: PropTypes.shape({
+      unit: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
       position: PropTypes.string.isRequired,
+      birthDate: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      contactNumber: PropTypes.string.isRequired,
     }),
     showForm: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,

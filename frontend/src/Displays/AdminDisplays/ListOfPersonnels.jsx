@@ -8,9 +8,13 @@ import PersonnelPagination from "./ListOfPersonnelDisplaysComponents/PersonnelPa
 
 export default function ListOfPersonnels() {
   const [formData, setFormData] = useState({
+    unit: "",
     firstName: "",
     lastName: "",
     position: "",
+    birthDate: "",
+    email: "",
+    contactNumber: "",
   });
  
   
@@ -19,7 +23,7 @@ export default function ListOfPersonnels() {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 50;
  
   useEffect(() => {
     fetchPersonnels();
@@ -63,9 +67,13 @@ export default function ListOfPersonnels() {
 
   const handleClearFormClick = () => {
     setFormData({
-      firstName: "",
-      lastName: "",
-      position: "",
+    unit: "",  
+    firstName: "",
+    lastName: "",
+    position: "",
+    birthDate: "",
+    email: "",
+    contactNumber: "",
 
     });
   };
@@ -74,30 +82,42 @@ export default function ListOfPersonnels() {
   // pang add data sa database if eclick ang submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Ask for confirmation before submitting
+    const isConfirmed = window.confirm("Are you sure you want to add this personnel?");
+  
+    if (!isConfirmed) {
+      return; // Do nothing if not confirmed
+    }
+  
     try {
       const personnelID = getMaxPersonnelID();
       const response = await axios.post("http://localhost:8081/addPersonnel", {
         ...formData,
         personnelID,
       });
+  
       if (response.data.Status === "Success") {
         alert("Personnel added successfully!");
         setFormData({
+          unit: "",
           firstName: "",
           lastName: "",
           position: "",
+          birthDate: "",
+          email: "",
+          contactNumber: "",
         });
         fetchPersonnels();
         setShowForm(false);
       } else {
-        alert("Error adding document. Please try again.");
+        alert("Error adding personnel. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred while adding the document.");
+      alert("An error occurred while adding the personnel.");
     }
   };
-
 
 
 
@@ -123,7 +143,7 @@ export default function ListOfPersonnels() {
 
 
   return (
-    <div className="w-screen h-screen mt-8 p-4 ml-4">
+    <div className="w-screen h-auto mt-8 p-4 ml-4">
       <h1 className="font-semibold text-2xl mb-4">LIST OF PERSONNELS</h1>
 
  
