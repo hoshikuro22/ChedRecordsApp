@@ -290,6 +290,26 @@ router.post("/addClient", async (req, res) => {
       return res.status(200).json(data);
     });
   });
+
+  // endpoint to get the count of client
+router.get("/getClientCount", (req, res) => {
+  const sql = `
+    SELECT COUNT(*) AS clientCount FROM client;
+  `;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching client count:", err);
+      return res.status(500).json({
+        Status: "Error",
+        Message: "Failed to fetch client count",
+      });
+    }
+
+    const clientCount = result[0].clientCount;
+    return res.status(200).json({ clientCount });
+  });
+});
+
   
 
   

@@ -444,7 +444,24 @@ return res.status(500).json({ status: "Error", message: "Failed to fetch documen
 });
 
 
+// endpoint to get the count of Communications
+router.get("/getCommunicationCount", (req, res) => {
+  const sql = `
+    SELECT COUNT(*) AS communicationCount FROM document;
+  `;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching communication count:", err);
+      return res.status(500).json({
+        Status: "Error",
+        Message: "Failed to fetch communication count",
+      });
+    }
 
+    const communicationCount = result[0].communicationCount;
+    return res.status(200).json({ communicationCount });
+  });
+});
 
 
 

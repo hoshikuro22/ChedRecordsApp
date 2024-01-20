@@ -1,46 +1,79 @@
-
+import  { useState, useEffect } from "react";
+import axios from "axios";
+import { FaEnvelope, FaUsers } from 'react-icons/fa';
 
 export default function AdminHome() {
+
+  // to fetch the the communicationCount
+  const [communicationCount, setCommunicationCount] = useState(0);
+  useEffect(() => {
+    // Fetch the count of Communications from the backend
+    axios.get("http://localhost:8081/getCommunicationCount")
+      .then((response) => {
+        setCommunicationCount(response.data.communicationCount);
+      })
+      .catch((error) => {
+        console.error("Error fetching communication count:", error);
+      });
+  }, []);
+
+    // to fetch the the clientCount
+    const [clientCount, setClientCount] = useState(0);
+    useEffect(() => {
+      // Fetch the count of Communications from the backend
+      axios.get("http://localhost:8081/getClientCount")
+        .then((response) => {
+          setClientCount(response.data.clientCount);
+        })
+        .catch((error) => {
+          console.error("Error fetching client count:", error);
+        });
+    }, []);
+
+
   return (
-    <div className=" min-h-screen w-screen overflow-auto ml-4">
-      <div className="container mx-2 py-8">
-        
-        <h1 className="text-3xl font-bold mb-4">Welcome to Admin Home</h1>
-        <p className="text-lg">This is the admin dashboard. You can manage your content here.</p>
-        
-        {/* Buttons to navigate to other routes */}
-        <div className="mt-6 flex items-center gap-4 ">
-         
-        <a className="bg-blue-500 hover:bg-blue-700 w-1/5 h-64"
-            href="/admin/communications">
-            <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex">Communications</a>
-            <p className="text-white text-center mt-20 underline">Handle communications</p>
-          </a>
-
-         <a className="bg-blue-500 hover:bg-blue-700 w-1/5 h-64 "
-          href="/admin/chedclients">
-            <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex">Ched Clients</a>
-            <p className="text-white text-center mt-20  underline">Manage clients associated with Ched</p>
-          </a>
-
-          <a className="bg-blue-500 hover:bg-blue-700 w-1/5 h-64 "
-          href="/admin/documenttypes">
-            <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex">Document Types</a>
-            <p className="text-white text-center mt-20  underline mx-2">Manage document types associated with Ched</p>
-          </a>
-
-          <a className="bg-blue-500 hover:bg-blue-700 w-1/5 h-64"
-          href="/admin/listofpersonnel">
-            <a className=" text-white text-2xl font-bold py-2 px-4 rounded mr-4 justify-center flex"> List of Personnels</a>
-            <p className="text-white text-center mt-20 underline mx-2">View and manage personnels</p>
-            </a>
-
-            <a className="bg-blue-500 hover:bg-blue-700 w-1/5 h-64"
-             href="/admin/reports" >
-            <a className=" text-white text-2xl font-bold py-2 px-4 rounded justify-center flex"> Reports</a>
-            <p className="text-white text-center mt-20 underline">Reports for administrative purposes</p>
-            </a>
+    <div className="w-screen h-screen bg-gray-100 p-8">
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-semibold text-gray-800 mb-6">Dashboard</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
+       
+        <a href="/admin/communications" className="bg-white rounded-lg shadow-lg p-6 border border-gray-300 hover:border-indigo-600 transition-all">
+            <div className="flex items-center space-x-4">
+              <div className="flex-shrink-0">
+                <span className="text-2xl leading-loose text-indigo-600">
+                <FaEnvelope />
+                </span>
+              </div>
+              <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-gray-600">
+                  Total Communications:
+                </p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {communicationCount} Files
+                </p>
+              </div>
+            </div>
+          </a>
+
+          <a href="/admin/chedclients" className="bg-white rounded-lg shadow-lg p-6 border border-gray-300 hover:border-green-500 transition-all">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 rounded-full bg-green-100 text-green-600">
+                <FaUsers size={24} />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-gray-600">
+                  Total CHED Clients
+                </p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {clientCount} Clients
+                </p>
+              </div>
+            </div>
+          </a>
+
+          {/* Other cards can be added similarly */}
+
         </div>
       </div>
     </div>

@@ -51,15 +51,16 @@ export default function NormalSidebar() {
             <ul>
               <div className="text-center block items-center mb-2">
                 <li>
-                  <a href="/normal/nchedclients" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
-                    <GoOrganization />Ched Clients
+                  <a href="/normal/ncommunications" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center mb-5">
+                    <BiMessageSquare />Communication
                   </a>
                 </li>
               </div>
+
               <div className="text-center block items-center mb-2">
                 <li>
-                  <a href="/normal/ncommunications" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
-                    <BiMessageSquare />Communication
+                  <a href="/normal/nchedclients" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
+                    <GoOrganization />Ched Clients
                   </a>
                 </li>
               </div>
