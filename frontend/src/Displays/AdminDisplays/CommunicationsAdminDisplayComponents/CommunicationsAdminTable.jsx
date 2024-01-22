@@ -347,7 +347,7 @@ const handleSelectClientNameFilter = (value) => {
             className="text-blue-500 hover:underline"
             onClick={() => handleEditClick(document.doc_ID)}
           >
-            Edit
+            Modify
           </button>
           <button
             className="text-red-500 hover:underline ml-2"

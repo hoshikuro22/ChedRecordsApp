@@ -102,15 +102,14 @@ export default function ChedClients() {
   }
 };
 
+const handleCloseEditForm = () => {
+  setShowEditForm(false);
+};
 
   //====Edit====//
   
 
-  const handleCloseEditForm = () => {
-    setShowEditForm(false);
-  };
     
-
 
   const [clients, setClients] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -365,8 +364,8 @@ export default function ChedClients() {
 </div>
 
 
-{/* Edit Modal Form */}
-        {showEditForm && (
+  {/* Edit Modal Form */}
+     {showEditForm && (
     <ChedClientsAdminEditForm
       editFormData={editFormData}
       handleEditSubmit={handleEditSubmit}

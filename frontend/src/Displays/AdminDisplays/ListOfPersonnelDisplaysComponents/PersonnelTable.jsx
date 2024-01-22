@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export default function PersonnelTable({ personnels, handleDeleteClick, currentPage, itemsPerPage }) {
+export default function PersonnelTable({ personnels, handleDeleteClick, handleEditClick, currentPage, itemsPerPage }) {
 
   const indexOfLastPersonnel = currentPage * itemsPerPage;
   const indexOfFirstPersonnel = indexOfLastPersonnel - itemsPerPage;
@@ -26,16 +26,21 @@ export default function PersonnelTable({ personnels, handleDeleteClick, currentP
           {currentPersonnels.map((personnel) => (
             <tr key={personnel.Personnel_ID}>
               <td className="border px-4 py-2 text-center">{personnel.Personnel_ID}</td>
-              <td className="border px-4 py-2 text-center">{personnel.Last_Name}</td>
-              <td className="border px-4 py-2 text-center">{personnel.First_Name}</td>
-              <td className="border px-4 py-2 text-center">{personnel.Position}</td>
-              <td className="border px-4 py-2 text-center">{personnel.Unit_Type}</td>
-              <td className="border px-4 py-2 text-center">{personnel.Birth_Date}</td>
-              <td className="border px-4 py-2 text-center">{personnel.Email}</td>
-              <td className="border px-4 py-2 text-center">{personnel.Contact_Number}</td>
+              <td className="border px-4 py-2 text-center">{personnel.last_name}</td>
+              <td className="border px-4 py-2 text-center">{personnel.first_name}</td>
+              <td className="border px-4 py-2 text-center">{personnel.position}</td>
+              <td className="border px-4 py-2 text-center">{personnel.unit_type}</td>
+              <td className="border px-4 py-2 text-center">{personnel.birth_date}</td>
+              <td className="border px-4 py-2 text-center">{personnel.email}</td>
+              <td className="border px-4 py-2 text-center">{personnel.contact_number}</td>
 
               <td className="border px-4 py-2 text-center">
-                {/* <button className="text-blue-500 hover:underline">Edit</button> */}
+                <button
+                 className="text-blue-500 hover:underline ml-2"
+                 onClick={() =>  handleEditClick(personnel.Personnel_ID)}
+               >
+                 Modify
+                </button>
                 <button
                   className="text-red-500 hover:underline ml-2"
                   onClick={() => handleDeleteClick(personnel.Personnel_ID)}
@@ -52,15 +57,9 @@ export default function PersonnelTable({ personnels, handleDeleteClick, currentP
 }
 
 PersonnelTable.propTypes = {
-  personnels: PropTypes.arrayOf(
-    PropTypes.shape({
-      Personnel_ID: PropTypes.number.isRequired,
-      Last_Name: PropTypes.string.isRequired,
-      First_Name: PropTypes.string.isRequired,
-      Position: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  personnels: PropTypes.array.isRequired,
   handleDeleteClick: PropTypes.func.isRequired,
+  handleEditClick: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
 };

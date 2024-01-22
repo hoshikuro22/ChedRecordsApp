@@ -40,9 +40,9 @@ export default function PersonnelAddForm({
               <label className="mb-1 text-sm font-semibold">Unit</label>
               <select 
                 required
-                id="unit"
-                name="unit"
-                value={formData.unit}
+                id="Unit"
+                name="Unit"
+                value={formData.Unit}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -147,7 +147,7 @@ export default function PersonnelAddForm({
 }
 PersonnelAddForm.propTypes = {
     formData: PropTypes.shape({
-      unit: PropTypes.string.isRequired,
+      Unit: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
       position: PropTypes.string.isRequired,

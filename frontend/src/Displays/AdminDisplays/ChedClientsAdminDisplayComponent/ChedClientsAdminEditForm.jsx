@@ -62,7 +62,7 @@ export default function ChedClientsAdminEditForm({
             </select>
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Email Address</label>
+            <label className="mb-1 text-sm font-semibold">Email Address (Optional)</label>
             <input
               
               type="email"
@@ -87,7 +87,7 @@ export default function ChedClientsAdminEditForm({
               />
             </div>
             <div className="flex flex-col overflow-hidden">
-              <label className="mb-1 text-sm font-semibold">Contact Number</label>
+              <label className="mb-1 text-sm font-semibold">Contact Number (Optional)</label>
               <input
                 
                 type="text"

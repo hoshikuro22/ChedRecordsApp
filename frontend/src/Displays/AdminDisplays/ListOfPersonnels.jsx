@@ -3,12 +3,13 @@ import axios from "axios";
 import PersonnelAddForm from "./ListOfPersonnelDisplaysComponents/PersonnelAddForm";
 import PersonnelTable from "./ListOfPersonnelDisplaysComponents/PersonnelTable";
 import PersonnelPagination from "./ListOfPersonnelDisplaysComponents/PersonnelPagination";
+import PersonnelEditForm from "./ListOfPersonnelDisplaysComponents/PersonnelEditForm";
 
 
 
 export default function ListOfPersonnels() {
   const [formData, setFormData] = useState({
-    unit: "",
+    Unit: "",
     firstName: "",
     lastName: "",
     position: "",
@@ -16,6 +17,83 @@ export default function ListOfPersonnels() {
     email: "",
     contactNumber: "",
   });
+
+
+  //===== Edit =====//
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    Unit: "",
+    firstName: "",
+    lastName: "",
+    position: "",
+    birthDate: "",
+    email: "",
+    contactNumber: "",
+  }); console.log("the EditformData " + JSON.stringify(editFormData));
+
+
+  const handleEditClick = (Personnel_ID) => {
+    const selectedRow = personnels.find((personnel) => personnel.Personnel_ID === Personnel_ID);
+    if (selectedRow) {
+      console.log("Selected Row Data to edit:", selectedRow);
+      setEditFormData({
+        ...selectedRow,
+      });
+      setShowEditForm(true);
+    }
+  };
+  
+  
+  
+ // the "save form function of edit modal"
+
+ const handleEditSubmit = async (e) => {
+  e.preventDefault();
+  const userConfirmed = window.confirm("Are you sure you want to save changes?");
+
+  if (!userConfirmed) {
+    // User clicked 'Cancel' in the confirmation dialog
+    alert("Changes not saved.");
+    return;
+  }
+
+  try {
+    const response = await axios.put(
+      `http://localhost:8081/updatePersonnel/${editFormData.personnel_id}`,
+      {
+        personnel_id: editFormData.personnel_id,
+        unit_id: editFormData.unit_id,
+        last_name: editFormData.last_name,
+        first_name: editFormData.first_name,
+        position: editFormData.position,
+        birth_date: editFormData.Birth_Date,
+        email: editFormData.email,
+        contact_number: editFormData.contact_number,
+      }
+    );
+
+    if (response.data.Status === "Success") {
+      alert("Personnel edited successfully!");
+      setShowEditForm(false);
+      fetchPersonnels(); // Refresh the personnels list
+    } else {
+      alert("Error editing personnel. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while editing the personnel.");
+  }
+};
+
+
+const handleCloseEditForm = () => {
+  setShowEditForm(false);
+};
+
+
+  //====Edit====//
+  
+
  
   
   const [personnels, setPersonnels] = useState([]);
@@ -25,6 +103,8 @@ export default function ListOfPersonnels() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 50;
  
+
+  // function to get personnels
   useEffect(() => {
     fetchPersonnels();
   }, []);
@@ -100,7 +180,7 @@ export default function ListOfPersonnels() {
       if (response.data.Status === "Success") {
         alert("Personnel added successfully!");
         setFormData({
-          unit: "",
+          Unit: "",
           firstName: "",
           lastName: "",
           position: "",
@@ -147,7 +227,7 @@ export default function ListOfPersonnels() {
       <h1 className="font-semibold text-2xl mb-4">LIST OF PERSONNELS</h1>
 
  
- {/* Add Form */}
+      {/* Add Form */}
      <PersonnelAddForm
       formData={formData}
       showForm={showForm}
@@ -166,9 +246,21 @@ export default function ListOfPersonnels() {
         <PersonnelTable
         personnels={personnels}
         handleDeleteClick={handleDeleteClick}
+        handleEditClick={handleEditClick}
         currentPage={currentPage} 
         itemsPerPage={itemsPerPage}  
-/>
+      />
+
+  {/* Edit Modal Form */}
+    {showEditForm && (
+    <PersonnelEditForm
+      editFormData={editFormData}
+      handleEditSubmit={handleEditSubmit}
+      handleCloseEditForm={handleCloseEditForm}
+      handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
+    />
+  )}  
+       
 
         {/* PAGINATION */}
         <PersonnelPagination

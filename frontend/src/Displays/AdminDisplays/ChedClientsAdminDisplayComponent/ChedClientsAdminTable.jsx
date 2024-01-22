@@ -151,7 +151,7 @@ export default function ChedClientsAdminTable({
           className="text-blue-500 hover:underline ml-2"
           onClick={() =>  handleEditClick(client.client_id)}
         >
-          Edit
+          Modify
         </button>
         <button
           className="text-red-500 hover:underline ml-2"
