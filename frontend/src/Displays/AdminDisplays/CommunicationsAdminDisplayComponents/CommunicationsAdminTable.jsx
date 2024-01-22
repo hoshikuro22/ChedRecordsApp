@@ -197,7 +197,7 @@ const handleSelectClientNameFilter = (value) => {
       type="button"
       className="inline-flex justify-center w-44 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
     >
-      {selectedTypeFilter ? selectedTypeFilter : 'Document Type'}
+      {selectedTypeFilter ? selectedTypeFilter : 'Filing Category'}
     </button>
     {showTypeFilterDropdown && (
       <div
