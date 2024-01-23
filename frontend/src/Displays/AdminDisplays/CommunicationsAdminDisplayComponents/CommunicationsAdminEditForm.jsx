@@ -118,7 +118,7 @@ export default function CommunicationsAdminEditForm({
             
 
             <div className="flex flex-col">
-       <label className="mb-1 text-sm font-semibold">Assigned to: (change term)</label>
+       <label className="mb-1 text-sm font-semibold">Assigned Personnel</label>
   <select
     required
   
@@ -130,7 +130,7 @@ export default function CommunicationsAdminEditForm({
     <option value="">Select Assignatories</option>
     {personnelOptions.map((person) => (
       <option key={person.personnel_id} value={person.personnel_id}>
-        {`${person.Last_Name}, ${person.First_Name}`}
+        {`${person.last_name}, ${person.first_name}`}
       </option>
     ))}
      </select>

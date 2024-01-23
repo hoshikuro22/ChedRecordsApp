@@ -117,23 +117,23 @@ export default function AddAccountAdminAddForm({
             <div className="col-span-2 ml-auto gap-">
               <button
                 type="submit"
-                className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                className="w-40 font-bold px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
               >
-                Add Account
+                ADD
               </button>
               <button
                 type="button"
                 onClick={handleHideFormClick}
-                className="w-40 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
+                className="w-40 font-bold px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-300 mx-2 "
               >
-                Hide Form
+                CLOSE
               </button>
               <button
                 type="button"
                 onClick={handleClearFormClick}
-                className="w-40 px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
+                className="w-40 font-bold px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition duration-300"
               >
-                Clear Form
+                CLEAR
               </button>
             </div>
           </form>
