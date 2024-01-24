@@ -58,14 +58,14 @@ export default function AdminSidebar() {
             <div className="text-center block items-center mb-5">
                 <li>
                   <a href="/admin/communications" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
-                    <BiMessageSquare />Communication
+                    <BiMessageSquare />Communications
                   </a>
                 </li>
               </div>
               <div className="text-center block items-center mb-2">
                 <li>
                   <a href="/admin/chedclients" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
-                    <GoOrganization />Ched Clients
+                    <GoOrganization />CHED Clients
                   </a>
                 </li>
               </div>

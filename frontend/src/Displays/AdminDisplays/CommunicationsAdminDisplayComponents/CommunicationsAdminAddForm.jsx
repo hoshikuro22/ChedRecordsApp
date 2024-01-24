@@ -65,7 +65,7 @@ export default function CommunicationsAdminAddForm({
             </div>
             
             <div className="flex flex-col">
-      <label className="mb-1 text-sm font-semibold">Document Type/Filing Catefory</label>
+      <label className="mb-1 text-sm font-semibold">Document Type/Filing Category</label>
       <select
         required
         id="documentType"
@@ -122,7 +122,7 @@ export default function CommunicationsAdminAddForm({
              <option value="">Assigned Personnel</option>
              {personnelOptions.map((person) => (
                <option key={person.Personnel_ID} value={person.Personnel_ID}>
-             {`${person.Last_Name}, ${person.First_Name}`}
+             {`${person.last_name}, ${person.first_name}`}
                 </option>
              ))}
            </select>
@@ -139,9 +139,10 @@ export default function CommunicationsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
                 <option value="">Select Unit</option>
-                <option value="1">Receiving</option>
-                <option value="2">Scholarship</option>
-                <option value="3">Records</option>
+                <option value="1">Admin</option>
+                <option value="2">Receiving</option>
+                <option value="3">Scholarship</option>
+                <option value="4">Records</option>
                
               </select>
             </div>
