@@ -463,6 +463,24 @@ router.get("/getCommunicationCount", (req, res) => {
   });
 });
 
+// endpoint to get the count of Status of Communcications
+router.get("/getDocumentStatusCounts", (req, res) => {
+  const sql = `
+    SELECT status.type, COUNT(*) as count
+    FROM document
+    JOIN status ON document.status_id = status.status_ID
+    GROUP BY status.type;
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching document status counts:", err);
+      return res.status(500).json({ status: "Error", message: "Failed to fetch document status counts" });
+    }
+
+    return res.status(200).json(results);
+  });
+});
 
 
 
