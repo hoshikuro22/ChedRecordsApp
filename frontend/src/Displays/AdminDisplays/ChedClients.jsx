@@ -3,7 +3,6 @@ import axios from "axios";
 import ChedClientsAdminAddForm from "./ChedClientsAdminDisplayComponent/ChedClientsAdminAddForm";
 import ChedClientsAdminTable from "./ChedClientsAdminDisplayComponent/ChedClientsAdminTable";
 import ChedClientsAdminEditForm from "./ChedClientsAdminDisplayComponent/ChedClientsAdminEditForm";
-import ChedClientsAdminShowInstitutions from "./ChedClientsAdminDisplayComponent/ChedClientsAdminShowInstitutions";
 import ChedClientsAdminMoreDetails from "./ChedClientsAdminDisplayComponent/ChedClientsAdminMoreDetails";
 import ChedClientsAdminPagination from "./ChedClientsAdminDisplayComponent/ChedClientsAdminPagination";
 
@@ -114,7 +113,6 @@ const handleCloseEditForm = () => {
   const [clients, setClients] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
-  const[showInstitutionList, setShowInstitutionListButton]= useState(true);
  
 
   // // for search for filter
@@ -190,7 +188,6 @@ const handleCloseEditForm = () => {
 
   const handleAddClientClick = () => {
     setShowForm(true);
-    setShowInstitutionListButton(false);
     setFormData((prevData) => ({
       ...prevData,
     }));
@@ -198,7 +195,6 @@ const handleCloseEditForm = () => {
 
   const handleHideFormClick = () => {
     setShowForm(false);
-    setShowInstitutionListButton(true);
   };
 
   const handleClearFormClick = () => {
@@ -319,11 +315,8 @@ const handleCloseEditForm = () => {
         // handleFileChange={handleFileChange}
       />
   
-     {/* Show Institution list */}
       </div>
-      {showInstitutionList &&(
-      <ChedClientsAdminShowInstitutions
-      clients={clients} /> )}
+     
       
 
 

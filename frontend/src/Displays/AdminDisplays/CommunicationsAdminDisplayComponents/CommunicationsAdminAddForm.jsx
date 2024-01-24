@@ -162,6 +162,19 @@ export default function CommunicationsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+            {/* <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Tags (Optional)</label>
+              <input
+                
+                type="text"
+                id="tags"
+                name="tags"
+                placeholder="Enter Tags"
+                value={formData.tags}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div> */}
 
             {/* <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Tags</label>

@@ -9,6 +9,7 @@ export default function CommunicationsAdminTable({
   clientsOptions,
   documentTypeOptions,
 }) {
+  
 
   //sa filtering function for STATUS//
   const [showStatusFilterDropdown, setShowStatusFilterDropdown] = useState(false);
@@ -78,7 +79,7 @@ const handleSelectClientNameFilter = (value) => {
         <table className="table-auto w-full border-collapse border h-24">
         <thead>
           <tr className="bg-gray-200">
-            <th className="px-4 py-2">Doc No</th>
+            <th className="px-4 py-2">Doc ID</th>
             <th className="px-4 py-2">File</th>
             <th className="px-4 py-2">
   <div className="relative inline-block ml-2">
@@ -91,7 +92,7 @@ const handleSelectClientNameFilter = (value) => {
     </button>
     {showClientNameFilterDropdown && (
       <div
-        className="origin-top-right absolute right-0 w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+        className="origin-top-right absolute right-0 w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none h-96 overflow-auto"
       >
         <div className="py-1">
           <button
@@ -304,6 +305,7 @@ const handleSelectClientNameFilter = (value) => {
               </div>
             </th>
             <th className="px-4 py-2">Remarks</th>
+            <th className="px-4 py-2">Tags</th>
             <th className="px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -342,6 +344,7 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{document.date_released}</td>
         <td className="border px-4 py-2 text-center">{document.status}</td>
         <td className="border px-4 py-2 text-center">{document.remarks}</td>
+        <td className="border px-4 py-2 text-center">*tags*</td>
         <td className="border px-4 py-2 text-center">
           <button
             className="text-blue-500 hover:underline"
