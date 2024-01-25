@@ -305,7 +305,6 @@ const handleSelectClientNameFilter = (value) => {
               </div>
             </th>
             <th className="px-4 py-2">Remarks</th>
-            <th className="px-4 py-2">Tags</th>
             <th className="px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -331,7 +330,9 @@ const handleSelectClientNameFilter = (value) => {
          document.remarks.toLowerCase().includes(searchQuery.toLowerCase()) ||
          document.unit.toLowerCase().includes(searchQuery.toLowerCase()) ||
          document.document_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.file.toLowerCase().includes(searchQuery.toLowerCase())
+         document.file.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.tags.toLowerCase().includes(searchQuery.toLowerCase())
+         
 
          
         
@@ -358,7 +359,6 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{document.date_released}</td>
         <td className="border px-4 py-2 text-center">{document.status}</td>
         <td className="border px-4 py-2 text-center">{document.remarks}</td>
-        <td className="border px-4 py-2 text-center">*tags*</td>
         <td className="border px-4 py-2 text-center">
           <button
             className="text-blue-500 hover:underline"

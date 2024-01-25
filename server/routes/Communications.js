@@ -166,6 +166,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
     dateReceived,
     dateReleased,
     remarks,
+    tags,
     status,
     unit,
     client,
@@ -198,7 +199,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
         }
 
         const documentInsertQuery =
-          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Received, Date_Released, remarks, status_id, unit_id, client_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Received, Date_Released, remarks, tags, status_id, unit_id, client_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const documentInsertValues = [
           docID,
           assignatories,
@@ -206,6 +207,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
           dateReceived,
           dateReleased,
           remarks,
+          tags,
           status,
           unit,
           client,
@@ -290,7 +292,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                             db.rollback(() => reject(err));
                           } else {
                             const documentHistoryInsertQuery =
-                              "INSERT INTO document_history (doc_history_ID, doc_ID, doc_type_ID, personnel_ID, client_ID, unit_ID, status_ID, file, date_received, date_released, remarks) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                              "INSERT INTO document_history (doc_history_ID, doc_ID, doc_type_ID, personnel_ID, client_ID, unit_ID, status_ID, file, date_received, date_released, remarks, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                             const documentHistoryInsertValues = [
                               nextDocumentHistoryId,
                               docID,
@@ -303,6 +305,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
                               dateReceived,
                               dateReleased,
                               remarks,
+                              tags,
                             ];
 
                             console.log("documentHistoryInsertQuery:", documentHistoryInsertQuery);
@@ -378,6 +381,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
   d.date_received,
   d.date_released,
   d.remarks,
+  d.tags,
   s.type AS status,
   dep.type AS unit,
   i.client_name AS client_name
@@ -422,6 +426,7 @@ router.get("/getDocumentHistory/:doc_ID", (req, res) => {
   dh.date_received,
   dh.date_released,
   dh.remarks,
+  dh.tags,
   s.type AS status,
   dep.type AS unit,
   i.client_name AS client_name
@@ -542,7 +547,7 @@ const insertDocumentHistory = (docID, callback) => {
 
 router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
   const { id } = req.params;
-  const { doc_type_id, unit_id, date_received, date_released, status_id, remarks, personnel_id, client_id } = req.body;
+  const { doc_type_id, unit_id, date_received, date_released, status_id, remarks, tags, personnel_id, client_id } = req.body;
 
   // Check if a file was uploaded
   const newFile = req.file ? req.file.filename : null;
@@ -593,6 +598,7 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
           date_released = ?,
           status_id = ?,
           remarks = ?,
+          tags = ?,
           personnel_id = ?,
           client_id = ?,
           file = ?
@@ -601,7 +607,7 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
 
       db.query(
         updateDocumentSQL,
-        [doc_type_id, unit_id, date_received, date_released, status_id, remarks, personnel_id, client_id, fileToUpdate, id],
+        [doc_type_id, unit_id, date_received, date_released, status_id, remarks, tags, personnel_id, client_id, fileToUpdate, id],
         (err, result) => {
           if (err) {
             console.error(err);

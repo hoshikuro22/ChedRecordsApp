@@ -19,6 +19,7 @@ export default function Communications() {
     assignatories: "",
     unit: "",
     remarks: "",
+    tags: "",
     client: "",
     userID: "", 
   });
@@ -102,6 +103,7 @@ useEffect(() => {
     assignatories: "",
     unit: "",
     remarks: "",
+    tags: "",
     client: "",
   }); console.log("the EditformData " + JSON.stringify(editFormData));
  
@@ -146,6 +148,7 @@ useEffect(() => {
         formDataToSend.append("personnel_id", editFormData.personnel_id);
         formDataToSend.append("unit_id", editFormData.unit_id);
         formDataToSend.append("remarks", editFormData.remarks);
+        formDataToSend.append("tags", editFormData.tags);
         formDataToSend.append("client_id", editFormData.client_id);
         
   
@@ -291,6 +294,7 @@ const handleFileChange = (e) => {
       assignatories: "",
       unit: "",
       remarks: "",
+      tags: "",
       userID: prevData.userID,
     }));
   };
@@ -319,6 +323,7 @@ const handleFileChange = (e) => {
       formDataToSend.append("dateReceived", formattedDateReceived);
       formDataToSend.append("dateReleased", formattedDateReleased);
       formDataToSend.append("remarks", formData.remarks);
+      formDataToSend.append("tags", formData.tags);
       formDataToSend.append("status", formData.status);
       formDataToSend.append("unit", formData.unit);
       formDataToSend.append("client", formData.client);
@@ -340,6 +345,7 @@ const handleFileChange = (e) => {
           assignatories: "",
           unit: "",
           remarks: "",
+          tags: "",
           client: "",
           userID: prevData.userID,
         }));

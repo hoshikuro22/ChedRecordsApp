@@ -27,6 +27,7 @@ export default function CommunicationsAdminMoreDetails({
       <th className="px-4 py-2">Date Released</th>
       <th className="px-4 py-2">Status</th>
       <th className="px-4 py-2">Remarks</th>
+      <th className="px-4 py-2">Tags</th>
       <th className="px-4 py-2">Assigned Personnel</th>
       <th className="px-4 py-2">Document Type</th>
     </tr>
@@ -45,6 +46,7 @@ export default function CommunicationsAdminMoreDetails({
         <td className="border px-4 py-2 text-center">{item.date_released}</td>
         <td className="border px-4 py-2 text-center">{item.status}</td>
         <td className="border px-4 py-2 text-center">{item.remarks}</td>
+        <td className="border px-4 py-2 text-center">{item.tags}</td>
         <td className="border px-4 py-2 text-center">{item.contact_firstName} {item.contact_lastName}</td>
         <td className="border px-4 py-2 text-center">{item.document_type}</td>
       </tr>
