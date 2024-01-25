@@ -1,9 +1,8 @@
-
 import PropTypes from 'prop-types';
 
 import { FaMagnifyingGlass } from "react-icons/fa6";  
 
-export default function CommunicationsAdminSearchBar({searchQuery, handleSearchChange}) {
+export default function ChedClientsAdminSearchBar({searchQuery, handleSearchChange}) {
 
   return (
     <div className="mb-4 flex items-center gap-4">
@@ -18,7 +17,7 @@ export default function CommunicationsAdminSearchBar({searchQuery, handleSearchC
   </div>
   )
 }
-CommunicationsAdminSearchBar.propTypes = {
+ChedClientsAdminSearchBar.propTypes = {
     searchQuery: PropTypes.string.isRequired,
     handleSearchChange: PropTypes.func.isRequired,
   };

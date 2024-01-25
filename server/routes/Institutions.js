@@ -31,13 +31,7 @@ const upload = multer({ storage });
     database: "chedrmis",
   });
   
-  // router.use('/institutionfiles', express.static(join(__dirname, 'institutions-uploads')));
-
-  // router.get("/institutionfiles/:filename", (req, res) => {
-  //   const { filename } = req.params;
-  //   res.sendFile(join(uploadsPath, filename));
-  // });
-
+  
 //first line sa admin:instituion(chedclients)
 
 

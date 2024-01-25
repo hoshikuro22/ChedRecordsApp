@@ -242,7 +242,7 @@ export default function CommunicationsAdminAddForm({
       ) : (
         <button
           onClick={handleAddCommunicationClick}
-          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
+          className="w-64 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
         >
           Add New Communication
         </button>

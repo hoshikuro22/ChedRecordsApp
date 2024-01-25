@@ -59,6 +59,7 @@ export default function ChedClientsAdminEditForm({
               <option value="2">HEIS</option>
               <option value="3">Government Office</option>
               <option value="4">Agency</option>
+              <option value="5">Individual</option>
             </select>
           </div>
           <div className="flex flex-col">

@@ -67,7 +67,7 @@ useEffect(() => {
   return (
     <div className="w-screen h-screen bg-gray-100 p-8">
       <div className="container mx-auto">
-        <h1 className="text-3xl font-semibold text-gray-800 mb-6">Dashboard</h1>
+        <h1 className="text-3xl font-semibold text-gray-800 mb-6">Home Page</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
        
@@ -85,7 +85,7 @@ useEffect(() => {
                 <p className="text-2xl font-bold text-gray-800 mb-10">
                   {communicationCount} Files
                 </p>
-
+                <p className="font-semibold">Status: </p>
               </div>
               
             </div>
@@ -125,6 +125,7 @@ useEffect(() => {
                 <p className="text-2xl font-bold text-gray-800 mb-10">
                   {clientCount} Clients
                 </p>
+                <p className="font-semibold">Client Types: </p>
               </div>
             </div>
            

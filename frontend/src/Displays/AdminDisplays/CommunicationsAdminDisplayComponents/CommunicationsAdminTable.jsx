@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
 export default function CommunicationsAdminTable({
   currentItems,
   handleDeleteClick,
@@ -8,6 +7,7 @@ export default function CommunicationsAdminTable({
   handleEditClick,
   clientsOptions,
   documentTypeOptions,
+  searchQuery,
 }) {
   
 
@@ -321,7 +321,21 @@ const handleSelectClientNameFilter = (value) => {
         (selectedUnitFilter === '3' && document.unit === 'Records') ||
         selectedUnitFilter === '') &&
         (selectedTypeFilter === '' || document.document_type === selectedTypeFilter) &&
-        (selectedClientNameFilter === '' || document.client_name === selectedClientNameFilter)
+        (selectedClientNameFilter === '' || document.client_name === selectedClientNameFilter) &&
+        (document.client_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.contact_firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.contact_lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.date_received.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.date_released.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.remarks.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.unit.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.document_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         document.file.toLowerCase().includes(searchQuery.toLowerCase())
+
+         
+        
+        )
     )
     .map((document) => (
       <tr key={document.doc_ID}>
@@ -376,6 +390,7 @@ const handleSelectClientNameFilter = (value) => {
 
 CommunicationsAdminTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
+  searchQuery: PropTypes.string.isRequired,
   handleDeleteClick: PropTypes.func.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,

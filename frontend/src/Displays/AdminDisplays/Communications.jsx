@@ -5,6 +5,7 @@ import CommunicationsAdminTable from "./CommunicationsAdminDisplayComponents/Com
 import CommunicationsAdminPagination from "./CommunicationsAdminDisplayComponents/CommunicationsAdminPagination";
 import CommunicationsAdminMoreDetails from "./CommunicationsAdminDisplayComponents/CommunicationsAdminMoreDetails";
 import CommunicationsAdminEditForm from "./CommunicationsAdminDisplayComponents/CommunicationsAdminEditForm";
+import CommunicationsAdminSearchBar from "./CommunicationsAdminDisplayComponents/CommunicationsAdminSearchBar";
 
 
 export default function Communications() {
@@ -181,6 +182,14 @@ useEffect(() => {
   const [documents, setDocuments] = useState([]);
 
   const [showForm, setShowForm] = useState(false);
+
+  // for dymanic search for filter
+  const [searchQuery, setSearchQuery] = useState("");
+  
+   const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -407,14 +416,23 @@ const handleDeleteClick = async (id) => {
         handleClearFormClick={handleClearFormClick}
       />
 
+ 
+
+
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-2">List of COMMUNICATIONS</h2>
+
+       {/* Dynamic Search */}
+       <CommunicationsAdminSearchBar
+       handleSearchChange={handleSearchChange}
+       searchQuery={searchQuery} />
 
 
        {/* Table sa pagtawag sa data gikan sa server */}
    <div>
   <CommunicationsAdminTable
     currentItems={currentItems}
+    searchQuery={searchQuery}
     handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
     handleEditClick={handleEditClick}

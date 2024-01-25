@@ -5,6 +5,7 @@ import ChedClientsAdminTable from "./ChedClientsAdminDisplayComponent/ChedClient
 import ChedClientsAdminEditForm from "./ChedClientsAdminDisplayComponent/ChedClientsAdminEditForm";
 import ChedClientsAdminMoreDetails from "./ChedClientsAdminDisplayComponent/ChedClientsAdminMoreDetails";
 import ChedClientsAdminPagination from "./ChedClientsAdminDisplayComponent/ChedClientsAdminPagination";
+import ChedClientsAdminSearchBar from "./ChedClientsAdminDisplayComponent/ChedClientsAdminSearchBar";
 
 export default function ChedClients() {
   const [formData, setFormData] = useState({
@@ -54,7 +55,6 @@ export default function ChedClients() {
       console.log("Selected Row Data to edit:", selectedRow);
       setEditFormData({
         ...selectedRow,
-        // file: selectedRow.file ? new File([], selectedRow.file.name) : null,
       });
       setShowEditForm(true);
     }
@@ -115,9 +115,12 @@ const handleCloseEditForm = () => {
 
  
 
-  // // for search for filter
-  // const [searchQueryID, setSearchQueryID] = useState("");
-  // const [searchQueryName, setSearchQueryName] = useState("");
+  // for dymanic search for filter
+  const [searchQuery, setSearchQuery] = useState("");
+  
+   const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -177,14 +180,7 @@ const handleCloseEditForm = () => {
     }));
   };
   
-//   // sa pang search filter sa client_ID
-//   const handleSearchIDChange = (e) => {
-//     setSearchQueryID(e.target.value);
-//   };
-//  // sa pang search filter sa inst_Name
-//   const handleSearchNameChange = (e) => {
-//     setSearchQueryName(e.target.value);
-//   };
+
 
   const handleAddClientClick = () => {
     setShowForm(true);
@@ -324,22 +320,10 @@ const handleCloseEditForm = () => {
         <h2 className="text-xl font-semibold mb-2">List of CHED Clients</h2>
 
         {/* Search bar for filter by Institution ID or Name */}
-        {/* <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Search by Institutional ID"
-            value={searchQueryID}
-            onChange={handleSearchIDChange}
-            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-          />
-          <input
-            type="text"
-            placeholder="Search by Institutional Name"
-            value={searchQueryName}
-            onChange={handleSearchNameChange}
-            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 ml-2"
-          />
-        </div> */}
+        <ChedClientsAdminSearchBar 
+        handleSearchChange={handleSearchChange}
+        searchQuery={searchQuery}/>
+       
 
         
 
@@ -348,8 +332,7 @@ const handleCloseEditForm = () => {
         <div>
   <ChedClientsAdminTable
     currentItems={currentItems}
-    // searchQueryID={searchQueryID}
-    // searchQueryName={searchQueryName}
+    searchQuery={searchQuery}
     handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
   handleEditClick={handleEditClick}
