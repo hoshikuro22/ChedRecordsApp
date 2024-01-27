@@ -38,12 +38,10 @@ export default function NormalPage() {
     <div>
      <NormalHeader />
       {auth ?
-         <div className='flex gap-72'>
+         <div className="h-auto min-h-screen ">
+          <div className='flex gap-72 h-auto '>
           {/* call sidebar when /normal only */}
-         
-          <NormalSidebar />
-
-      
+          <NormalSidebar />     
           {/* Displays */}
           <Routes >
             <Route path='/norhome' element={<NormalHome />} />
@@ -52,6 +50,7 @@ export default function NormalPage() {
             {/* <Route path='/listofpersonnel' element={<ListOfPersonnel/>} />
             <Route path='/nreports' element={<NormalReports/>} /> */}
           </Routes>
+          </div>
         </div>
         :
         <div className="flex flex-col items-center justify-center h-screen bg-gray-100">

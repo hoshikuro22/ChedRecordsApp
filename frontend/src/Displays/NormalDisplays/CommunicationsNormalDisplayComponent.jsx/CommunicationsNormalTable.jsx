@@ -356,7 +356,7 @@ const handleSelectClientNameFilter = (value) => {
             Delete
           </button> */}
           <button
-            className="text-gray-500 hover:underline ml-2"
+            className="text-gray-500 hover:underline ml-2 font-bold"
             onClick={() => handleInfoClick(document.doc_ID)}
           >
             More Details

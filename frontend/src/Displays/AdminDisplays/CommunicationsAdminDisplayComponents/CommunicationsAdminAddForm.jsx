@@ -180,7 +180,7 @@ export default function CommunicationsAdminAddForm({
 
 
             {/* para ma add ang status sa add form */}
-             <div className="hidden"> 
+             <div className=""> 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Status</label>
               <select

@@ -137,19 +137,19 @@ export default function ChedClientsAdminTable({
                 <td className="border px-4 py-2 text-center">{client.client_type}</td>
                 <td className="border px-4 py-2 text-center">
                   <button
-                    className="text-blue-500 hover:underline ml-2"
+                    className="text-blue-500 hover:underline ml-2 font-bold"
                     onClick={() => handleEditClick(client.client_id)}
                   >
                     Modify
                   </button>
                   <button
-                    className="text-red-500 hover:underline ml-2"
+                    className="text-red-500 hover:underline ml-2 font-bold"
                     onClick={() => handleDeleteClick(client.client_id)}
                   >
                     Delete
                   </button>
                   <button
-                    className="text-gray-500 hover:underline ml-2"
+                    className="text-gray-500 hover:underline ml-2 font-bold"
                     onClick={() => handleInfoClick(client.client_id)}
                   >
                     More Details

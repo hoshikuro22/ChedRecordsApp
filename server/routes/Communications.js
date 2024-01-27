@@ -22,8 +22,15 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, uploadsPath);
   },
+  // for the file name
+
+  
   filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
+    const now = new Date();
+    const dateString = now.toISOString().split('T')[0]; // This will format the date as 'YYYY-MM-DD'
+    const newFilename = dateString + "-" + file.originalname;
+    cb(null, newFilename);
+    console.log(newFilename); // Logging the new filename
   },
 });
 

@@ -40,6 +40,7 @@ router.post("/addUser", (req, res) => {
       if (result[0].emailCount > 0) {
         return res.json({ Status: "Email already exists" });
       } else {
+        
         // Hash the password
         bcrypt.hash(password, salt, (err, hash) => {
           if (err) {

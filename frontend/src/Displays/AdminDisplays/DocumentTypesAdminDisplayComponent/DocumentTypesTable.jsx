@@ -25,7 +25,7 @@ export default function DocumentTypesTable({ documentTypes, handleDeleteClick, c
               <td className="border px-4 py-2 text-center">
                 {/* <button className="text-blue-500 hover:underline">Edit</button> */}
                 <button
-                  className="text-red-500 hover:underline ml-2"
+                  className="text-red-500 hover:underline ml-2 font-bold"
                   onClick={() => handleDeleteClick(documentType.Doc_type_ID)}
                 >
                   Delete

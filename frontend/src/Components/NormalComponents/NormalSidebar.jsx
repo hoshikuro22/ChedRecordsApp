@@ -1,4 +1,4 @@
-import Picture from '../AdminComponents/ched10.png';
+import CHED10LOGOPicture from '../AdminComponents/ched10.png';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { GoOrganization } from 'react-icons/go';
 import { BiMessageSquare,  BiLogOut } from 'react-icons/bi';
@@ -36,7 +36,9 @@ export default function NormalSidebar() {
       <div className=" bg-slate-800 bottom-0 fixed h-screen sm:w-72">
         <div className=" bg-slate-800 text-white w-36 sm:w-72 py-4 px-6">
           <div className="flex gap-5">
-            <img className=" h-16 pl-6 sm:pl-3" src={Picture} alt="Ched Logo" />
+          <a href="/normal/norhome/">
+            <img className=" h-16 pl-6 sm:pl-3" src={CHED10LOGOPicture} alt="Ched Logo" />
+            </a>
             <h1 className=" font-bold sm:text-1xl text-white top-7 items-center hidden sm:flex">
               CHED Region 10
             </h1>

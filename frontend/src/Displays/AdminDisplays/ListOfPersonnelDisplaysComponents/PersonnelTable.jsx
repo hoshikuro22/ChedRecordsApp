@@ -36,13 +36,13 @@ export default function PersonnelTable({ personnels, handleDeleteClick, handleEd
 
               <td className="border px-4 py-2 text-center">
                 <button
-                 className="text-blue-500 hover:underline ml-2"
+                 className="text-blue-500 hover:underline ml-2 font-bold"
                  onClick={() =>  handleEditClick(personnel.Personnel_ID)}
                >
                  Modify
                 </button>
                 <button
-                  className="text-red-500 hover:underline ml-2"
+                  className="text-red-500 hover:underline ml-2 font-bold"
                   onClick={() => handleDeleteClick(personnel.Personnel_ID)}
                 >
                   Delete

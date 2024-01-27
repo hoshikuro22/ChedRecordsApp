@@ -361,19 +361,19 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{document.remarks}</td>
         <td className="border px-4 py-2 text-center">
           <button
-            className="text-blue-500 hover:underline"
+            className="text-blue-500 hover:underline font-bold"
             onClick={() => handleEditClick(document.doc_ID)}
           >
             Modify
           </button>
           <button
-            className="text-red-500 hover:underline ml-2"
+            className="text-red-500 hover:underline ml-2 font-bold"
             onClick={() => handleDeleteClick(document.doc_ID)}
           >
             Delete
           </button>
           <button
-            className="text-gray-500 hover:underline ml-2"
+            className="text-gray-500 hover:underline ml-2 font-bold"
             onClick={() => handleInfoClick(document.doc_ID)}
           >
             More Details
