@@ -108,8 +108,8 @@ export default function DocumentTypes() {
   };
 
   return (
-    <div className="w-screen h-auto mt-8 p-4 ml-4">
-      <h1 className="font-semibold text-2xl mb-4">LIST OF DOCUMENT TYPES</h1>
+    <div className="w-screen h-auto mt-2 p-4 ml-4">
+    
 
       <DocumentTypesAddForm
         formData={formData}

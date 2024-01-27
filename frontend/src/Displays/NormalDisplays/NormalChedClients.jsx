@@ -4,6 +4,7 @@ import ChedClientsNormalTable from "./ChedClientsNormalDisplayComponent/ChedClie
 import ChedClientsNormalEditForm from "./ChedClientsNormalDisplayComponent/ChedClientsNormalEditForm";
 import ChedClientsNormalPagination from "./ChedClientsNormalDisplayComponent/ChedClientsNormalPagination";
 import ChedClientsNormalMoreDetails from "./ChedClientsNormalDisplayComponent/ChedClientsNormalMoreDetails";
+import ChedClientsNormalSearchBar from "./ChedClientsNormalDisplayComponent/CHEDClientsNormalSearchBar";
 
 
 export default function NormalChedClients() {
@@ -18,6 +19,16 @@ export default function NormalChedClients() {
     userID: "",
   });
   console.log("the formData " + JSON.stringify(formData));
+
+
+  
+  // for dymanic search for filter
+  const [searchQuery, setSearchQuery] = useState("");
+  
+   const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
 
  // to fetch user_ID
  useEffect(() => {
@@ -174,40 +185,22 @@ export default function NormalChedClients() {
 
   return (
     <div className="w-screen h-screen mt-2 p-2 ml-4">
-      <h1 className="font-semibold text-2xl mb-4">CHED CLIENTS</h1>
 
 
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-2">List of CHED Clients</h2>
 
-        {/* Search bar for filter by Institution ID or Name */}
-        {/* <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Search by Institutional ID"
-            value={searchQueryID}
-            onChange={handleSearchIDChange}
-            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-          />
-          <input
-            type="text"
-            placeholder="Search by Institutional Name"
-            value={searchQueryName}
-            onChange={handleSearchNameChange}
-            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 ml-2"
-          />
-        </div> */}
-
-        
+        <ChedClientsNormalSearchBar 
+         handleSearchChange={handleSearchChange}
+         searchQuery={searchQuery}/>
 
 
         {/* Table sa pagtawag sa data gikan sa server */}
         <div>
   <ChedClientsNormalTable
     currentItems={currentItems}
-    // searchQueryID={searchQueryID}
-    // searchQueryName={searchQueryName}
+    searchQuery={searchQuery}
     handleInfoClick={handleInfoClick}
   handleEditClick={handleEditClick}
   />

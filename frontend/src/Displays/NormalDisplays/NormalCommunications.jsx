@@ -4,6 +4,7 @@ import CommunicationsNormalTable from "./CommunicationsNormalDisplayComponent.js
 import CommunicationsNormalEditForm from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalEditForm";
 import CommunicationsNormalMoreDetails from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalMoreDetails";
 import CommunicationsNormalPagination from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalPagination";
+import CommunicationsNormalSearchBar from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalSearchBar";
 
 
 
@@ -20,6 +21,15 @@ export default function NormalCommunications() {
     userID: "", 
   });
   console.log("the formData " + JSON.stringify(formData));
+
+  // for dymanic search for filter
+  const [searchQuery, setSearchQuery] = useState("");
+  
+   const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+
 
 
     // to fetch user_ID
@@ -242,16 +252,19 @@ const handleInfoClick = (doc_ID) => {
 
   return (
     <div className="w-screen h-screen mt-2 p-2 ml-4">
-      <h1 className="font-semibold text-2xl mb-4">COMMUNICATIONS</h1>
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-2">List of COMMUNICATIONS</h2>
+         <CommunicationsNormalSearchBar
+           handleSearchChange={handleSearchChange}
+           searchQuery={searchQuery} />
 
 
        {/* Table sa pagtawag sa data gikan sa server */}
    <div>
   <CommunicationsNormalTable
     currentItems={currentItems}
+    searchQuery={searchQuery}
     // handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
     handleEditClick={handleEditClick}

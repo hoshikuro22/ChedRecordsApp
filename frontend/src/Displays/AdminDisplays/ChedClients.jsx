@@ -295,7 +295,6 @@ const handleCloseEditForm = () => {
 
   return (
     <div className="w-screen h-auto mt-2 p-2 ml-4">
-      <h1 className="font-semibold text-2xl mb-4">CHED CLIENTS</h1>
 
 
      <div className="flex-row gap-2">

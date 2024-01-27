@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function ChedClientsNormalTable({
   currentItems,
+  searchQuery,
   // handleDeleteClick,
   handleInfoClick,
   // handleEditClick={handleEditClick} 
@@ -28,13 +29,9 @@ export default function ChedClientsNormalTable({
         <table className="table-auto w-full border-collapse border h-24">
           <thead>
             <tr className="bg-gray-200">
-              <th className="px-4 py-2">Seq No</th>
               <th className="px-4 py-2">Client ID</th>
               <th className="px-4 py-2">Name of Client</th>
-              {/* <th className="px-4 py-2">Filing Category</th> */}
-            
               <th className="px-4 py-2">
-              
                 <div className="relative inline-block ml-2">
                   <div>
                   <button
@@ -129,47 +126,34 @@ export default function ChedClientsNormalTable({
             </tr>
           </thead>
           <tbody>
-          {currentItems.map((client) => (
-  ((selectedClientTypeFilter === "1" && client.client_type === "CHED10") ||
-    (selectedClientTypeFilter === "2" && client.client_type === "HEIS") ||
-    (selectedClientTypeFilter === "3" && client.client_type === "Government Office") ||
-    (selectedClientTypeFilter === "4" && client.client_type === "Agency") ||
-    selectedClientTypeFilter === "") &&
- 
-  // (client.inst_id.includes(searchQueryID) &&
-  //   client.inst_name.includes(searchQueryName)) &&
-     (
-    <tr key={client.client_id}>
-      <td className="border px-4 py-2 text-center">{client.seq_no}</td>
-      <td className="border px-4 py-2 text-center">{client.client_id}</td>
-      <td className="border px-4 py-2 text-center">{client.client_name}</td>
-      <td className="border px-4 py-2 text-center">{client.client_type}</td>
-      <td className="border px-4 py-2 text-center">
-     
-        
-        {/* <button
-          className="text-blue-500 hover:underline ml-2"
-          onClick={() =>  handleEditClick(client.client_id)}
-        >
-          Edit
-        </button>
-        <button
-          className="text-red-500 hover:underline ml-2"
-          onClick={() => handleDeleteClick(client.client_id)}
-        >
-          Delete
-        </button> */}
-        <button
-          className="text-gray-500 hover:underline ml-2 font-bold"
-          onClick={() => handleInfoClick(client.client_id)}
-        >
-          More Details
-        </button>
-      </td>
-    </tr>
-  )   
-))}
-    </tbody>
+          {currentItems
+            .filter((client) => (
+              ((selectedClientTypeFilter === "1" && client.client_type === "CHED10") ||
+                (selectedClientTypeFilter === "2" && client.client_type === "HEIS") ||
+                (selectedClientTypeFilter === "3" && client.client_type === "Government Office") ||
+                (selectedClientTypeFilter === "4" && client.client_type === "Agency") ||
+                selectedClientTypeFilter === "") &&
+              (client.client_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                client.client_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                client.client_type.toLowerCase().includes(searchQuery.toLowerCase()))
+            ))
+            .map((client) => (
+              <tr key={client.client_id}>
+                <td className="border px-4 py-2 text-center">{client.client_id}</td>
+                <td className="border px-4 py-2 text-center">{client.client_name}</td>
+                <td className="border px-4 py-2 text-center">{client.client_type}</td>
+                <td className="border px-4 py-2 text-center">
+                 
+                  <button
+                    className="text-gray-500 hover:underline ml-2 font-bold"
+                    onClick={() => handleInfoClick(client.client_id)}
+                  >
+                    More Details
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
     </table> 
 
 
@@ -180,8 +164,7 @@ export default function ChedClientsNormalTable({
 
 ChedClientsNormalTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
-  // searchQueryID: PropTypes.string.isRequired,
-  // searchQueryName: PropTypes.string.isRequired,
+  searchQuery: PropTypes.string.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
   // handleDeleteClick: PropTypes.func.isRequired,
   // handleEditClick: PropTypes.func.isRequired,

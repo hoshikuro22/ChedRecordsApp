@@ -404,7 +404,7 @@ const handleDeleteClick = async (id) => {
 
   return (
     <div className="w-screen h-auto mt-2 p-2 ml-4">
-      <h1 className="font-semibold text-2xl mb-4">COMMUNICATIONS</h1>
+     
 
       
       {/* The add form */}
