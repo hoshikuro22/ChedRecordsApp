@@ -80,7 +80,6 @@ const handleSelectClientNameFilter = (value) => {
         <thead>
           <tr className="bg-gray-200">
             <th className="px-4 py-2">Doc ID</th>
-            <th className="px-4 py-2">File</th>
             <th className="px-4 py-2">
   <div className="relative inline-block ml-2">
     <button
@@ -305,6 +304,7 @@ const handleSelectClientNameFilter = (value) => {
               </div>
             </th>
             <th className="px-4 py-2">Remarks</th>
+            <th className="px-4 py-2">File</th>
             <th className="px-4 py-2">Action</th>
           </tr>
         </thead>
@@ -341,6 +341,14 @@ const handleSelectClientNameFilter = (value) => {
     .map((document) => (
       <tr key={document.doc_ID}>
         <td className="border px-4 py-2 text-center">{document.doc_ID}</td>
+        <td className="border px-4 py-2 text-center">{document.client_name}</td>
+        <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
+        <td className="border px-4 py-2 text-center">{document.unit}</td>
+        <td className="border px-4 py-2 text-center">{document.document_type}</td>
+        <td className="border px-4 py-2 text-center">{document.date_received}</td>
+        <td className="border px-4 py-2 text-center">{document.date_released}</td>
+        <td className="border px-4 py-2 text-center">{document.status}</td>
+        <td className="border px-4 py-2 text-center">{document.remarks}</td>
         <td className="border px-4 py-2 text-center">
           <a
             href={`http://localhost:8081/communicationfiles/${document.file}`}
@@ -351,14 +359,6 @@ const handleSelectClientNameFilter = (value) => {
             {document.file}
           </a>
         </td>
-        <td className="border px-4 py-2 text-center">{document.client_name}</td>
-        <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
-        <td className="border px-4 py-2 text-center">{document.unit}</td>
-        <td className="border px-4 py-2 text-center">{document.document_type}</td>
-        <td className="border px-4 py-2 text-center">{document.date_received}</td>
-        <td className="border px-4 py-2 text-center">{document.date_released}</td>
-        <td className="border px-4 py-2 text-center">{document.status}</td>
-        <td className="border px-4 py-2 text-center">{document.remarks}</td>
         <td className="border px-4 py-2 text-center">
           <button
             className="text-blue-500 hover:underline font-bold"

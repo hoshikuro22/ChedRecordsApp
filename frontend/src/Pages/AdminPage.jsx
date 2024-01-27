@@ -13,6 +13,7 @@ import Reports from "../Displays/AdminDisplays/Reports"
 import ListOfPersonnels from "../Displays/AdminDisplays/ListOfPersonnels"
 import AddAccount from "../Displays/AdminDisplays/AddAccount"
 import AdminFooter from "../Components/AdminComponents/AdminFooter"
+import Profile from "../Displays/AdminDisplays/Profile"
 
 
 
@@ -65,10 +66,11 @@ export default function AdminPage() {
         <div className='flex gap-72 h-auto '>
              <AdminSidebar />
           <Routes >
+            <Route path='/profile' element= {<Profile/>}/>
             <Route path='/adhome' element={<AdminHome/>} />
             <Route path='/chedclients' element={<ChedClients />} />
             <Route path='/communications' element={<Communications />} />
-            <Route path ='/documenttypes' element ={<DocumentTypes />} />
+            <Route path='/documenttypes' element ={<DocumentTypes />} />
             <Route path='/activitylog' element={<ActivityLog/>} />
             <Route path='/reports' element={<Reports/>} />
             <Route path='/listofpersonnel' element={<ListOfPersonnels/>} />

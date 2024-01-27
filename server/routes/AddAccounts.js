@@ -100,6 +100,9 @@ router.post("/addUser", (req, res) => {
     });
   });
   
+
+
+  // DELETE
   router.delete("/deleteUser/:id", (req, res) => {
     const { id } = req.params;
   

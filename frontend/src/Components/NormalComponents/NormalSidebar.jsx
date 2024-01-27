@@ -37,16 +37,21 @@ export default function NormalSidebar() {
         <div className=" bg-slate-800 text-white w-36 sm:w-72 py-4 px-6">
           <div className="flex gap-5">
           <a href="/normal/norhome/">
-            <img className=" h-16 pl-6 sm:pl-3" src={CHED10LOGOPicture} alt="Ched Logo" />
+            <img className=" h-16 pl-6 sm:pl-3 mt-2" src={CHED10LOGOPicture} alt="Ched Logo" />
             </a>
+            <div className='flex-col flex items-center mt-4'>
             <h1 className=" font-bold sm:text-1xl text-white top-7 items-center hidden sm:flex">
               CHED Region 10
             </h1>
+            <h1 className=" font-bold sm:text-1xl text-white top-7 items-center hidden sm:flex">
+             RMIS
+            </h1>
+            </div>
           </div>
 
           <div className="flex items-center gap-2 mt-5">
             <BsFillPersonFill size="20" />
-            <h1 className="text-1xl">Staff Name:  {lastName + ", "+firstName }</h1>
+            <h1 className="text-1xl">Staff:  {lastName + ", "+firstName }</h1>
           </div>
 
           <div className="flex items-center mt-5">
@@ -72,7 +77,7 @@ export default function NormalSidebar() {
 
           <div className="bottom-5 absolute">
             <Link to="/" onClick={handleLogout} className="px-2 rounded hover:bg-gray-700 flex gap-2 items-center">
-              <BiLogOut />Logout (back to login)
+              <BiLogOut />Logout
             </Link>
           </div>
         </div>

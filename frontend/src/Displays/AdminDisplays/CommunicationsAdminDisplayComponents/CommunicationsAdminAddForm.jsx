@@ -30,7 +30,7 @@ export default function CommunicationsAdminAddForm({
           <div className="flex flex-row gap-6">
 
           <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Add File</label>
+              <label className="mb-1 text-sm font-semibold">Add File <strong>(PDF ONLY)</strong></label>
             <input
             required
             id="file"
@@ -140,7 +140,7 @@ export default function CommunicationsAdminAddForm({
               >
                 <option value="">Select Unit</option>
                 <option value="1">Admin</option>
-                <option value="2">Receiving</option>
+                <option value="2">Receiving</option>s
                 <option value="3">Scholarship</option>
                 <option value="4">Records</option>
                

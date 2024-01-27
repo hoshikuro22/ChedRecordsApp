@@ -45,15 +45,20 @@ export default function AdminSidebar() {
             <a href="/admin/adhome">
             <img className=" h-16 pl-6 sm:pl-3 mt-6" src={CHED10LOGOPicture} alt="Ched Logo" />
             </a>
+            <div className='flex-col flex items-center mt-10'>
             <h1 className=" font-bold sm:text-1xl text-white top-7 items-center hidden sm:flex">
               CHED Region 10
             </h1>
+            <h1 className=" font-bold sm:text-1xl text-white top-7 items-center hidden sm:flex">
+             RMIS
+            </h1>
+          </div>
           </div>
 
-          <div className="flex items-center gap-2 mt-5">
+          <a className="flex items-center gap-2 mt-5 rounded hover:bg-gray-700" href="/admin/profile">
             <BsFillPersonFill size="20" />
-            <h1 className="text-1xl">Name: {FirstName + ", "+ LastName }</h1>
-          </div>
+            <h1 className="text-1xl">Admin: {FirstName + ", "+ LastName }</h1>
+          </a>
 
           <div className="flex items-center mt-5">
             <ul>
@@ -114,7 +119,7 @@ export default function AdminSidebar() {
           </div>
           <div className="">
             <Link to="/login" onClick={handleLogout} className="px-2 rounded hover:bg-gray-700 flex gap-2 items-center">
-              <BiLogOut />Logout (back to login)
+              <BiLogOut />Logout 
             </Link>
           </div>
           </div>

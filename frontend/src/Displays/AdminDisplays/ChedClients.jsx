@@ -346,7 +346,6 @@ const handleCloseEditForm = () => {
       handleEditSubmit={handleEditSubmit}
       handleCloseEditForm={handleCloseEditForm}
       handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
-      // handleFileChange={(e) =>setEditFormData({ ...editFormData, file: e.target.files[0] })  }  
     />
   )}  
 
