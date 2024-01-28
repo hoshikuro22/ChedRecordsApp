@@ -81,16 +81,16 @@ export default function LandingPage() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
-              Email
+              Username
             </label>
             <input
               onChange={(e) =>
-                setValues({ ...values, Email: e.target.value })
+                setValues({ ...values, Username: e.target.value })
               }
               required
-              type="Email"
-              id="Email"
-              name="Email"
+              type="Username"
+              id="Username"
+              name="Username"
               className="mt-1 px-3 py-2 w-full border rounded-md focus:ring focus:ring-blue-200"
             />
           </div>

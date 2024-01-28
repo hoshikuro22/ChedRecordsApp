@@ -13,63 +13,23 @@ export default function AddAccount() {
     lastName: "",
     firstName: "",
     contactNumber: "",
+    userName: "",
   }); console.log("the Add FormData " + JSON.stringify(formData));
 
+  const [newPassword, setNewPassword] = useState('');
   const [editFormData, setEditFormData] = useState({
-    userType: "",
+    user_type_ID: "",
     email: "",
     password: "",
-    lastName: "",
-    firstName: "",
-    contactNumber: "",
+    last_name: "",
+    first_name: "",
+    contact_number: "",
+    username: "",
+    user_ID: "",
   }); console.log("the EditformData " + JSON.stringify(editFormData));
-
- // ---- EDIT ----- //
-  const handleEditSubmit = async (e) => {
-    e.preventDefault();
-
-    if (editFormData.password !== confirmPassword) {
-      alert("Password and Confirm Password do not match.");
-      return;
-    }
-
-    try {
-      const response = await axios.put(
-        `http://localhost:8081/updateUser/${editFormData.user_ID}`,
-        {
-          ...editFormData,
-        }
-      );
-
-      if (response.data.Status === "Success") {
-        alert("User updated successfully!");
-        setEditFormData({
-          userType: "",
-          email: "",
-          password: "",
-          lastName: "",
-          firstName: "",
-          contactNumber: "",
-        });
-        setConfirmPassword(""); // Clear confirm password field
-        fetchUsers();
-        setShowEditModal(false);
-      } else {
-        alert("Error updating user. Please check the inputs and try again.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while updating the user.");
-    }
-  };
-
-  const [users, setUsers] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-
-
-  const [showEditModal, setShowEditModal] = useState(false);
   const handleEditClick = (user_ID) => {
     // Find the user with the matching user_ID
+    setNewPassword(''); 
     const selectedUser = users.find((user) => user.user_ID === user_ID);
     console.log("Selected User Data to edit:", selectedUser);
   
@@ -78,6 +38,58 @@ export default function AddAccount() {
     // Show the edit modal
     setShowEditModal(true);
   };
+
+ // ---- EDIT ----- //
+ const handleEditSubmit = async (e) => {
+  e.preventDefault();
+
+  // Add a confirmation dialog
+  const isConfirmed = window.confirm("Are you sure you want to update this user?");
+  if (!isConfirmed) {
+    // If the user clicks "Cancel", stop the function
+    return;
+  }
+
+  try {
+    const response = await axios.put(
+      `http://localhost:8081/updateUser/${editFormData.user_ID}`,
+      {
+        ...editFormData,
+        NewPassword: newPassword, // Include the new password
+      }
+    );
+
+    if (response.data.Status === "Success") {
+      alert("User updated successfully!");
+      setEditFormData({
+        user_type_ID: "",
+        email: "",
+        password: "",
+        last_name: "",
+        first_name: "",
+        contact_number: "",
+        username: "",
+      });
+      setConfirmPassword(""); // Clear confirm password field
+      fetchUsers();
+      setShowEditModal(false);
+    } else {
+      alert("Error updating user. Please check the inputs and try again.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while updating the user.");
+  }
+};
+////
+
+
+  const [users, setUsers] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+
+
+  const [showEditModal, setShowEditModal] = useState(false);
+
   
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -108,10 +120,16 @@ export default function AddAccount() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "NewPassword") {
+        setNewPassword(value);
+    } else {
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    }
+
+
     
     // Check if the changed field is the confirmPassword field and update its state
     if (name === "confirmPassword") {
@@ -137,6 +155,7 @@ export default function AddAccount() {
       lastName: "",
       firstName: "",
       contactNumber: "",
+      userName: "",
 
     });
   };
@@ -146,20 +165,27 @@ export default function AddAccount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
+    // Check if passwords match
     if (formData.password !== confirmPassword) {
-      alert("Password and Confirm Password do not match.");
+      window.alert("Password and Confirm Password do not match.");
+      return;
+    }
+  
+    // Ask for confirmation before submitting
+    if (!window.confirm("Are you sure you want to submit the form?")) {
       return;
     }
   
     try {
       const userID = getMaxUserID();
-     
+  
       const response = await axios.post("http://localhost:8081/addUser", {
         ...formData,
         userID,
       });
+  
       if (response.data.Status === "Success") {
-        alert("Account added successfully!");
+        window.alert("Account added successfully!");
         setFormData({
           userType: "",
           email: "",
@@ -167,18 +193,22 @@ export default function AddAccount() {
           lastName: "",
           firstName: "",
           contactNumber: "",
+          userName: "",
         });
         setConfirmPassword(""); // Clear confirm password field
         fetchUsers();
         setShowForm(false);
       } else {
-        alert("Error adding client. Please check the inputs and try again.");
+        window.alert("Error adding client. Please check the inputs and try again.");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("An error occurred while adding the client.");
+      window.alert("An error occurred while adding the client.");
     }
   };
+
+  
+  
   
 
 
@@ -234,11 +264,12 @@ export default function AddAccount() {
         {showEditModal && (
           <AddAccountAdminEditForm
             editFormData={editFormData}
-            confirmPassword={confirmPassword}
-            handleChange={handleChange}
+             handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
             handleHideFormClick={() => setShowEditModal(false)} // Hide the modal
             handleClearFormClick={handleClearFormClick}
             handleEditSubmit={handleEditSubmit}
+            newPassword={newPassword}
+            setNewPassword={setNewPassword}
           />
         )}
 

@@ -49,9 +49,11 @@ const verifyUser = (req, res, next) => {
         req.First_Name = decoded.user.First_Name;
         req.Last_Name = decoded.user.Last_Name;
         req.User_type_ID = decoded.user.User_type_ID;
-        req.User_ID = decoded.user.User_ID
-        req.Email = decoded.user.Email
-        req.Password = decoded.user.Password
+        req.User_ID = decoded.user.User_ID;
+        req.Email = decoded.user.Email;
+        req.Password = decoded.user.Password;
+        req.Username = decoded.user.Username;
+        req.Contact_Number = decoded.user.Contact_Number;
         next();
       }
     });
@@ -61,12 +63,12 @@ const verifyUser = (req, res, next) => {
 
 
 app.get('/', verifyUser, (req, res) => {
-  return res.json({ Status: "Logged in", First_Name: req.First_Name, Last_Name : req.Last_Name, User_type_ID: req.User_type_ID, User_ID: req.User_ID, Email: req.Email, Password: req.Password });
+  return res.json({ Status: "Logged in", First_Name: req.First_Name, Last_Name : req.Last_Name, User_type_ID: req.User_type_ID, User_ID: req.User_ID, Email: req.Email, Password: req.Password, Username: req.Username, Contact_Number: req.Contact_Number });
 });
 
 app.post("/login", (req, res) => {
-  const sql = "SELECT * FROM user WHERE Email = ? ";
-  db.query(sql, [req.body.Email], (err, data) => {
+  const sql = "SELECT * FROM user WHERE Username = ? ";
+  db.query(sql, [req.body.Username], (err, data) => {
     if (err) return res.json({Error: "Server Side Error" });
     if (data.length > 0 ) {
         bcrypt.compare(req.body.Password.toString(), data[0].Password, (err, response) => {
@@ -76,37 +78,63 @@ app.post("/login", (req, res) => {
           //  console.log("this is the user:"+ user); // Check the structure of 'user' here
             const token = jwt.sign({user}, "secretkey", {expiresIn: '1d'});
             res.cookie('token', token, { httpOnly: true, secure: true})
-            return res.json({Status: "Success", userType: user.User_type_ID, First_Name: user.First_Name, Last_Name: user.Last_Name });
+            return res.json({Status: "Success", userType: user.User_type_ID, First_Name: user.First_Name, Last_Name: user.Last_Name, Username: user.Username });
           } else {
             return res.json({Error: "Password not matched" });
           }
         })
     } else {
-      return res.json({ Message: "No email existed" });
+      return res.json({ Message: "No Username existed" });
     }
   })
 }) 
  
 // UPDATE USER
-app.put('/updateUser', verifyUser, (req, res) => {
-  const { User_ID, First_Name, Last_Name, Email, Password, User_type_ID } = req.body;
+app.put('/updateProfile', verifyUser, async (req, res) => {
+  const { User_ID, First_Name, Last_Name, Email, NewPassword, User_type_ID, Username, Contact_Number } = req.body;
 
-  // Validate that the user making the request is the same as the one being updated
   if (req.User_ID !== User_ID) {
     return res.status(403).json({ Message: "Forbidden: You can only update your own user details." });
   }
 
-  const sql = "UPDATE user SET First_Name = ?, Last_Name = ?, Email = ?, Password = ?, User_type_ID = ? WHERE User_ID = ?";
-  db.query(sql, [First_Name, Last_Name, Email, Password, User_type_ID, User_ID,], (err, result) => {
-    if (err) {
-      console.error("Error updating user:", err);
-      return res.status(500).json({ Status: "Error", Message: "Failed to update user details" });
+  try {
+    let hashedPassword = null;
+
+    if (NewPassword) {
+      // Hash the new password if provided
+      hashedPassword = await bcrypt.hash(NewPassword, 10); // Adjust the salt rounds as necessary
     }
 
-    return res.status(200).json({ Status: "Success", Message: "User details updated successfully", UpdatedUser: { User_ID, User_type_ID, First_Name, Last_Name, Email, Password } });
+    const sql = `
+      UPDATE user 
+      SET First_Name = ?, Last_Name = ?, Email = ?, Password = ?, User_type_ID = ?, Username = ?, Contact_Number = ? 
+      WHERE User_ID = ?
+    `;
 
-  });
+    const values = [First_Name, Last_Name, Email, hashedPassword || req.Password, User_type_ID, Username, Contact_Number, User_ID];
+
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error("Error updating user:", err);
+        return res.status(500).json({ Status: "Error", Message: "Failed to update user details" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ Status: "Error", Message: "User not found or no changes applied" });
+      }
+
+      return res.status(200).json({
+        Status: "Success",
+        Message: "User details updated successfully",
+        UpdatedUser: { User_ID, User_type_ID, First_Name, Last_Name, Email, Username, Contact_Number },
+      });
+    });
+  } catch (error) {
+    console.error("Error in updating user:", error);
+    res.status(500).json({ Status: "Error", Message: "Server error while updating user details" });
+  }
 });
+
 
  
 ////

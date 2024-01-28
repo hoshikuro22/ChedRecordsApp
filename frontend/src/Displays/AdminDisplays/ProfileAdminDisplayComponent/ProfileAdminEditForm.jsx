@@ -5,8 +5,12 @@ export default function ProfileAdminEditForm({
   handleEditSubmit,
   handleChange,
   closeModal,
+  newPassword,
+  setNewPassword,
+  
 }) {
-    
+  
+ 
   return (
     <div className="fixed inset-0 flex items-center justify-center">
       <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
@@ -50,17 +54,45 @@ export default function ProfileAdminEditForm({
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="Password" className="mb-1 text-sm font-semibold">Password</label>
+          <label htmlFor="Email" className="mb-1 text-sm font-semibold">Contact Number</label>
           <input
-            type="password"
-            id="Password"
-            name="Password"
-            placeholder="Enter Password"
-            value={editFormData.Password}
+            type="text"
+            id="Contact_Number"
+            name="Contact_Number"
+            placeholder="Enter Contact Number"
+            value={editFormData.Contact_Number}
             onChange={handleChange}
             className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
           />
         </div>
+        <div className="flex flex-col">
+          <label  className="mb-1 text-sm font-semibold">Username</label>
+          <input
+            type="text"
+            id="Username"
+            name="Username"
+            placeholder="Enter Username"
+            value={editFormData.Username}
+            onChange={handleChange}
+            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+          />
+        </div>
+        
+        <div className="flex flex-col">
+            <label htmlFor="NewPassword" className="mb-1 text-sm font-semibold">
+              New Password
+            </label>
+            <input
+              type="password"
+              id="NewPassword"
+              name="NewPassword"
+              placeholder="Enter New Password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
+
         <div className="col-span-2 flex justify-end gap-4">
           <button
             type="submit"
@@ -89,8 +121,12 @@ ProfileAdminEditForm.propTypes = {
     Last_Name: PropTypes.string,
     Email: PropTypes.string,
     Password: PropTypes.string,
+    Contact_Number: PropTypes.number,
+    Username: PropTypes.string,
   }).isRequired,
   handleEditSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
+  newPassword: PropTypes.string,
+  setNewPassword: PropTypes.func.isRequired,
 };

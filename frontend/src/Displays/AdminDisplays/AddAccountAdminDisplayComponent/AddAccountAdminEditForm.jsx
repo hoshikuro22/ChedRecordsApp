@@ -5,7 +5,10 @@ export default function AddAccountAdminEditForm({
      handleHideFormClick,
      handleEditSubmit,
      handleChange,
-     confirmPassword }) {
+     newPassword,
+     setNewPassword,
+
+     }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center">
       <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
@@ -15,7 +18,83 @@ export default function AddAccountAdminEditForm({
         </span>
         <h2 className="text-2xl font-semibold mb-4">Edit Account</h2>
         <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
+
         <div className="flex flex-col">
+            <label className="mb-1 text-sm font-semibold">First Name</label>
+            <input
+              type="text"
+              name="first_name"
+              placeholder="Enter First Name"
+              value={editFormData.first_name}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-semibold">Last Name</label>
+            <input
+              type="text"
+              name="last_name"
+              placeholder="Enter Last Name"
+              value={editFormData.last_name}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
+            />
+          </div>
+
+          
+
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-semibold">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Email"
+              value={editFormData.email}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-semibold">Contact Number</label>
+            <input
+              type="text"
+              name="contact_number"
+              placeholder="Enter Contact Number"
+              value={editFormData.contact_number}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-semibold">Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter Username"
+              value={editFormData.username}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-semibold">New Password</label>
+            <input
+              type="password"
+              id="NewPassword"
+              name="NewPassword"
+              placeholder="Enter New Password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
+
+          <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">User Type</label>
               <select
                 required
@@ -30,74 +109,7 @@ export default function AddAccountAdminEditForm({
                 <option value="1">Normal</option>
               </select>
             </div>
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              value={editFormData.email}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={editFormData.password}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div>
-          <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold"> ConfirmPassword</label>
-              <input
-                required
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Last Name</label>
-            <input
-              type="text"
-              name="last_name"
-              placeholder="Enter Last Name"
-              value={editFormData.last_name}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">First Name</label>
-            <input
-              type="text"
-              name="first_name"
-              placeholder="Enter First Name"
-              value={editFormData.first_name}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Contact Number</label>
-            <input
-              type="text"
-              name="contact_number"
-              placeholder="Enter Contact Number"
-              value={editFormData.contact_number}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            />
-          </div>
+
           <div className="col-span-2 ml-auto gap-">
             <button
               type="submit"
@@ -127,9 +139,11 @@ AddAccountAdminEditForm.propTypes = {
     last_name: PropTypes.string,
     first_name: PropTypes.string,
     contact_number: PropTypes.string,
+    username: PropTypes.string,
   }).isRequired,
   handleHideFormClick: PropTypes.func.isRequired,
   handleEditSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  confirmPassword:PropTypes.string,
+  newPassword: PropTypes.string,
+  setNewPassword: PropTypes.func.isRequired,
 };

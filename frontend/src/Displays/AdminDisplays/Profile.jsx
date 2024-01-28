@@ -3,6 +3,8 @@ import axios from 'axios';
 import ProfileAdminEditForm from './ProfileAdminDisplayComponent/ProfileAdminEditForm';
 
 export default function Profile() {
+
+ 
   const [userData, setUserData] = useState({
     User_ID: '',
     User_type_ID: '',
@@ -10,6 +12,8 @@ export default function Profile() {
     Last_Name: '',
     Email: '',
     Password: '',
+    Username: '',
+    Contact_Number: '',
   });
 
   // Fetch user data
@@ -27,7 +31,10 @@ export default function Profile() {
         Last_Name: response.data.Last_Name,
         Email: response.data.Email,
         Password: response.data.Password,
+        Contact_Number: response.data.Contact_Number,
+        Username: response.data.Username,
       });
+      console.log("the response " + JSON.stringify(response));
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -37,35 +44,47 @@ export default function Profile() {
 
   const openModal = () => {
     setEditFormData(userData);  // Set edit form data to current user data
+    setNewPassword('');  // Reset newPassword when opening the modal
     setIsModalOpen(true);
   };
   
   const closeModal = () => setIsModalOpen(false);
 
   // Functions for handling edit form
+  const [newPassword, setNewPassword] = useState('');
   const [editFormData, setEditFormData] = useState({
     User_ID: '',
     First_Name: '',
     Last_Name: '',
     Email: '',
     Password: '',
+    Username: '',
+    Contact_Number: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEditFormData({
-      ...editFormData,
-      [name]: value,
-    });
+
+    if (name === "NewPassword") {
+      setNewPassword(value);
+    } else {
+      setEditFormData({
+        ...editFormData,
+        [name]: value,
+      });
+    }
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Confirmation dialog
     if (window.confirm("Are you sure you want to save these changes?")) {
       try {
-        const response = await axios.put('http://localhost:8081/updateUser', editFormData);
+        const response = await axios.put('http://localhost:8081/updateProfile', {
+          ...editFormData,
+          NewPassword: newPassword, // Include the new password
+        });
         console.log(response.data);
         closeModal(); // Close the modal after successful update
         const updatedUser = response.data.UpdatedUser;
@@ -88,26 +107,44 @@ export default function Profile() {
             <td className="border px-4 py-2 font-semibold ">User ID:</td>
             <td className="border px-4 py-2">{userData.User_ID}</td>
           </tr>
+
           <tr>
             <td className="border px-4 py-2 font-semibold">User Type ID:</td>
             <td className="border px-4 py-2">{userData.User_type_ID}</td>
           </tr>
-          <tr className="bg-gray-100">
-            <td className="border px-4 py-2 font-semibold">Email:</td>
-            <td className="border px-4 py-2">{userData.Email}</td>
-          </tr>
-          <tr>
-            <td className="border px-4 py-2 font-semibold">Password:</td>
-            <td className="border px-4 py-2">{userData.Password}</td>
-          </tr>
+
           <tr className="bg-gray-100">
             <td className="border px-4 py-2 font-semibold">First Name:</td>
             <td className="border px-4 py-2">{userData.First_Name}</td>
           </tr>
+
           <tr>
             <td className="border px-4 py-2 font-semibold">Last Name:</td>
             <td className="border px-4 py-2">{userData.Last_Name}</td>
           </tr>
+
+          <tr className="bg-gray-100">
+            <td className="border px-4 py-2 font-semibold">Email:</td>
+            <td className="border px-4 py-2">{userData.Email}</td>
+          </tr>
+
+          <tr>
+            <td className="border px-4 py-2 font-semibold">Contact Number:</td>
+            <td className="border px-4 py-2">{userData.Contact_Number}</td>
+          </tr>
+
+          <tr>
+            <td className="border px-4 py-2 font-semibold">Username:</td>
+            <td className="border px-4 py-2">{userData.Username}</td>
+          </tr>
+
+          <tr>
+            <td className="border px-4 py-2 font-semibold">Password:</td>
+            <td className="border px-4 py-2">{userData.Password}</td>
+          </tr>
+
+
+
         </tbody>
       </table>
       </div>
@@ -120,6 +157,8 @@ export default function Profile() {
           handleEditSubmit={handleEditSubmit}
           closeModal={closeModal}
           handleChange={handleChange}
+          newPassword={newPassword}
+          setNewPassword={setNewPassword}
         />
       )}
     </div>

@@ -25,6 +25,7 @@ router.post("/addUser", (req, res) => {
       lastName,
       firstName,
       contactNumber,
+      userName,
     } = req.body;
   
     // Check if the email already exists in the database
@@ -51,13 +52,14 @@ router.post("/addUser", (req, res) => {
           // Convert the hashed password to a string
           const hashedPasswordString = hash.toString();
   
+  
           // Insert the new user if the email is unique
           const insertSql =
-            "INSERT INTO user (user_id, user_type_ID, email, password, last_name, first_name, contact_number) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO user (user_id, user_type_ID, email, password, last_name, first_name, contact_number, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   
           db.query(
             insertSql,
-            [userID, userType, email, hashedPasswordString, lastName, firstName, contactNumber],
+            [userID, userType, email, hashedPasswordString, lastName, firstName, contactNumber, userName],
             (err, result) => {
               if (err) {
                 console.error(err);
@@ -83,7 +85,8 @@ router.post("/addUser", (req, res) => {
       u.password,
       u.last_name,
       u.first_name,
-      u.contact_number
+      u.contact_number,
+      u.username
     FROM user u
     JOIN user_type ut ON u.user_type_ID = ut.user_type_ID
     ORDER BY user_ID ASC; `;
@@ -138,93 +141,74 @@ router.post("/addUser", (req, res) => {
 
 
 
-  //UPDATE
-  router.put("/updateUser/:id", (req, res) => {
-    const { id } = req.params;
+  // UPDATE USER
+router.put('/updateUser/:id', async (req, res) => {
+  const { id } = req.params;
   
-    if (!id) {
-      return res
-        .status(400)
-        .json({ Status: "Error", Message: "Invalid user ID provided" });
+  if (!id) {
+    return res.status(400).json({ Status: "Error", Message: "Invalid user ID provided" });
+  }
+  
+  const {
+    user_type_ID,
+    email,
+    NewPassword, // Include NewPassword field
+    last_name,
+    first_name,
+    contact_number,
+    username,
+  } = req.body;
+
+  // Check if the email already exists in the database (excluding the current user's email)
+  const checkEmailSql = "SELECT COUNT(*) AS emailCount FROM user WHERE email = ? AND user_ID != ?";
+
+  db.query(checkEmailSql, [email, id], async (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ Status: "Error", Message: "Database error" });
     }
-  
-    const {
-      user_type_ID,
-      email,
-      password,
-      last_name,
-      first_name,
-      contact_number,
-    } = req.body;
-  
-    // Check if the email already exists in the database (excluding the current user's email)
-    const checkEmailSql =
-      "SELECT COUNT(*) AS emailCount FROM user WHERE email = ? AND user_ID != ?";
-  
-    db.query(checkEmailSql, [email, id], (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.json({ Status: "Error" });
-      }
-  
-      // Check if an entry with the same email already exists
-      if (result[0].emailCount > 0) {
-        return res.json({ Status: "Email already exists" });
-      } else {
-        // Hash the password
-        bcrypt.hash(password, salt, (err, hash) => {
+
+    // Check if an entry with the same email already exists
+    if (result[0].emailCount > 0) {
+      return res.status(409).json({ Status: "Error", Message: "Email already exists" });
+    } else {
+      try {
+        let hashedPassword = null;
+
+        if (NewPassword) {
+          // Hash the new password if provided
+          hashedPassword = await bcrypt.hash(NewPassword, 10); // Adjust the salt rounds as necessary
+          console.log('NewPassword:', NewPassword);          // Log the NewPassword
+          console.log('hashedPassword:', hashedPassword);    // Log the hashed password
+        }
+
+        // Update the user with the provided ID
+        const updateSql = `
+          UPDATE user 
+          SET user_type_ID = ?, email = ?, password = ?, last_name = ?, first_name = ?, contact_number = ?, username = ? 
+          WHERE user_ID = ?
+        `;
+
+        db.query(updateSql, [user_type_ID, email, hashedPassword, last_name, first_name, contact_number, username, id], (err, result) => {
           if (err) {
             console.error(err);
-            return res.json({
-              Status: "Error",
-              Message: "Error hashing password",
-            });
+            return res.status(500).json({ Status: "Error", Message: "Error updating user in the database" });
           }
-  
-          // Convert the hashed password to a string
-          const hashedPasswordString = hash.toString();
-  
-          // Update the user with the provided ID
-          const updateSql =
-            "UPDATE user SET user_type_ID = ?, email = ?, password = ?, last_name = ?, first_name = ?, contact_number = ? WHERE user_ID = ?";
-  
-          db.query(
-            updateSql,
-            [
-              user_type_ID,
-              email,
-              hashedPasswordString,
-              last_name,
-              first_name,
-              contact_number,
-              id,
-            ],
-            (err, result) => {
-              if (err) {
-                console.error(err);
-                return res.json({
-                  Status: "Error",
-                  Message: "Error updating user in the database",
-                });
-              }
-  
-              if (result.affectedRows === 0) {
-                return res
-                  .status(404)
-                  .json({ Status: "Error", Message: "User not found" });
-              }
-  
-              console.log("User updated in the database");
-              return res.status(200).json({
-                Status: "Success",
-                Message: "User updated in the database",
-              });
-            }
-          );
+
+          if (result.affectedRows === 0) {
+            return res.status(404).json({ Status: "Error", Message: "User not found" });
+          }
+
+          console.log("User updated in the database");
+          return res.status(200).json({ Status: "Success", Message: "User updated in the database" });
         });
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ Status: "Error", Message: "Server error while hashing password" });
       }
-    });
+    }
   });
+});
   
   //last line sa admin:addaccount(users)
 

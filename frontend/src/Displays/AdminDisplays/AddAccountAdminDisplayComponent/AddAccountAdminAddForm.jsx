@@ -13,7 +13,9 @@ export default function AddAccountAdminAddForm({
   return (
     <div>
               {showForm ? (
-        <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
+           <div className="bg-white rounded-lg p-8 z-50">
           <h2 className="text-xl font-semibold mb-2">Add New Account</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
@@ -26,11 +28,11 @@ export default function AddAccountAdminAddForm({
                 placeholder="Enter First Name"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
               />
             </div>
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Last Name</label>
+              <label className="mb-1 text-sm font-semibold ">Last Name</label>
               <input
                 required
                 type="text"
@@ -39,9 +41,10 @@ export default function AddAccountAdminAddForm({
                 placeholder="Enter Last Name"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
               />
             </div>
+
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Email</label>
               <input
@@ -51,48 +54,6 @@ export default function AddAccountAdminAddForm({
                 name="email"
                 placeholder="Enter Email"
                 value={formData.email}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Password</label>
-              <input
-                required
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter Password"
-                value={formData.password}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">User Type</label>
-              <select
-                required
-                id="userType"
-                name="userType"
-                value={formData.userType}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select User Type</option>
-                <option value="0">Admin</option>
-                <option value="1">Normal</option>
-              </select>
-            </div>
-            
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold"> ConfirmPassword</label>
-              <input
-                required
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={confirmPassword}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
@@ -111,6 +72,66 @@ export default function AddAccountAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Username</label>
+              <input
+                required
+                type="text"
+                id="userName"
+                name="userName"
+                placeholder="Enter Username"
+                value={formData.userName}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">User Type</label>
+              <select
+                required
+                id="userType"
+                name="userType"
+                value={formData.userType}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              >
+                <option value="">Select User Type</option>
+                <option value="0">Admin</option>
+                <option value="1">Normal</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Password</label>
+              <input
+                required
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
+            
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold"> ConfirmPassword</label>
+              <input
+                required
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
+
+
           
            
 
@@ -137,6 +158,7 @@ export default function AddAccountAdminAddForm({
               </button>
             </div>
           </form>
+          </div>
           
         </div>
       ) : (
