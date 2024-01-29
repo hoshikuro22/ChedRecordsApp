@@ -236,8 +236,8 @@ export default function AddAccount() {
 
 
   return (
-    <div className="w-screen h-screen mt-8 p-4 ml-4">
-      <h1 className="font-semibold text-2xl mb-4">ACCOUNTS</h1>
+    <div className="w-screen h-screen mt-2 p-4 ml-4">
+      <h1 className="font-semibold text-2xl mb-4"></h1>
 
 {/* ADD FORM */}
       <AddAccountAdminAddForm
@@ -252,7 +252,7 @@ export default function AddAccount() {
       />
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-2">List of ACCOUNTS</h2>
+        <h2 className="text-xl font-semibold mb-2"></h2>
 
         {/* Table sa pagtawag sa data gikan sa server */}
         <AddAccountAdminTable 

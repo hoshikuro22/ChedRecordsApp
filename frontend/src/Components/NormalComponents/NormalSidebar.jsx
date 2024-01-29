@@ -36,7 +36,7 @@ export default function NormalSidebar() {
       <div className=" bg-slate-800 bottom-0 fixed h-screen sm:w-72">
         <div className=" bg-slate-800 text-white w-36 sm:w-72 py-4 px-6">
           <div className="flex gap-5">
-          <a href="/normal/norhome/">
+          <a href="/normal/ncommunications">
             <img className=" h-16 pl-6 sm:pl-3 mt-2" src={CHED10LOGOPicture} alt="Ched Logo" />
             </a>
             <div className='flex-col flex items-center mt-4'>
@@ -49,10 +49,10 @@ export default function NormalSidebar() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 mt-5">
+          <a className="flex items-center gap-2 mt-5 hover:bg-gray-700" href="/normal/norprofile">
             <BsFillPersonFill size="20" />
             <h1 className="text-1xl">Staff:  {lastName + ", "+firstName }</h1>
-          </div>
+          </a>
 
           <div className="flex items-center mt-5">
             <ul>

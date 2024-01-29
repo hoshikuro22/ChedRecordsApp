@@ -4,6 +4,8 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Picture from "../assets/ched10.png";
 import HomePage from "./HomePage";
+import ChedBackgroundImage from "../assets/CHED10Picture.jpg";
+
 export default function LandingPage() {
   const [values, setValues] = useState({
     email: "",
@@ -21,7 +23,7 @@ export default function LandingPage() {
         if (res.data.userType === 0) {
           navigate("/admin/adhome");
         } else if (res.data.userType === 1) {
-          navigate("/normal/norhome");
+          navigate("/normal/ncommunications");
         } else {
           // alert(res.data.Error);
           alert("Password or User not matched, please try again.")
@@ -54,33 +56,34 @@ export default function LandingPage() {
     <HomePage/>
   </div>
     :
-    <div className="bg-gray-500 h-screen">
+    <div className="relative h-screen bg-cover bg-center" style={{ backgroundImage: `url(${ChedBackgroundImage})`, backgroundRepeat: 'no-repeat' }}>
+
+    {/* Overlay with 50% opacity */}
+    <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
+  
+   {/* content */}
     <div className="bg-sky-950 top-0 pt-2 h-5 text-center"></div>
-    <div className="flex flex-col items-center justify-center p-9">
+    <div className="relative flex flex-col items-center justify-center p-9 z-10">
       <div className="mt-3">
-        <div className="flex flex-col md:flex-row md:gap-6 items-center text-2xl font-semibold text-white text-center">
-          <img
-            className="h-[200px] w-[200px]"
-            alt="ched-logo"
-            src={Picture}
-          />
-          <span>Commission on Higher Education Region X</span>
-        </div>
-        <div className="mt-7 text-5xl text-white font-bold text-center">
-          <span>Records Management Information System</span>
+        <div className="flex flex-col md:flex-row md:items-center text-2xl font-semibold text-white">
+          <img className="h-[200px] w-[200px] md:mr-6" alt="ched-logo" src={Picture} />
+          <div>
+            <span className="block text-center md:text-left">Commission on Higher Education Region X</span>
+            <span className="block mt-7 text-5xl font-bold text-center md:text-left">Records Management Information System</span>
+          </div>
         </div>
       </div>
     </div>
-
-    <div className="bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded shadow-lg w-80 my-10">
+  
+    <div className="relative bg-black bg-opacity-40 flex items-center justify-center z-10">
+    <div className="bg-white p-8 rounded shadow-lg w-80 my-2">
         <div className="items-center flex mb-4 gap-2">
           <BsFillPersonFill size="25" />
-          <h1 className="text-2xl font-semibold ">User Login</h1>
+          <h1 className="text-3xl font-semibold ">User Login</h1>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-lg font-medium text-gray-700">
               Username
             </label>
             <input
@@ -95,7 +98,7 @@ export default function LandingPage() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-lg font-medium text-gray-700">
               Password
             </label>
             <input
@@ -111,7 +114,7 @@ export default function LandingPage() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 text-lg"
           >
             Login
           </button>
@@ -119,6 +122,8 @@ export default function LandingPage() {
       </div>
     </div>
   </div>
+  
+  
               }
     </div>
   );

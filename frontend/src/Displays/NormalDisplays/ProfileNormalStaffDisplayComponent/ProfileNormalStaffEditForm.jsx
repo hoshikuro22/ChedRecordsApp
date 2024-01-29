@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export default function ProfileAdminEditForm({
+export default function ProfileNormalStaffEditForm({
   editFormData,
   handleEditSubmit,
   handleChange,
@@ -38,7 +38,7 @@ export default function ProfileAdminEditForm({
             placeholder="Enter Last Name"
             value={editFormData.Last_Name}
             onChange={handleChange}
-            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
+            className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize" 
           />
         </div>
         <div className="flex flex-col">
@@ -114,7 +114,7 @@ export default function ProfileAdminEditForm({
   );
 }
 
-ProfileAdminEditForm.propTypes = {
+ProfileNormalStaffEditForm.propTypes = {
   editFormData: PropTypes.shape({
     User_ID: PropTypes.number,
     First_Name: PropTypes.string,

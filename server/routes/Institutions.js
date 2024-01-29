@@ -322,6 +322,24 @@ router.get("/getClientTypeCounts", (req, res) => {
     return res.status(200).json(results);
   });
 });
+
+ // endpoint to get the count of Client Types of clients
+ router.get("/getClientNameCounts", (req, res) => {
+  const sql = `
+    SELECT client_name, COUNT(*) as count
+    FROM client
+    GROUP BY client.client_name;
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching client type counts:", err);
+      return res.status(500).json({ status: "Error", message: "Failed to fetch client type counts" });
+    }
+
+    return res.status(200).json(results);
+  });
+});
   
 
   

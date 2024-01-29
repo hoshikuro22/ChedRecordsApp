@@ -124,7 +124,7 @@ const handleCloseEditForm = () => {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 1000;
+  const itemsPerPage = 15;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
@@ -297,7 +297,12 @@ const handleCloseEditForm = () => {
     <div className="w-screen h-auto mt-2 p-2 ml-4">
 
 
-     <div className="flex-row gap-2">
+     <div className="flex flex-row gap-2">
+   {/* Search bar for filter by Institution ID or Name */}
+   <ChedClientsAdminSearchBar 
+        handleSearchChange={handleSearchChange}
+        searchQuery={searchQuery}/>
+
       {/* The add form */}
       <ChedClientsAdminAddForm
         formData={formData}
@@ -309,6 +314,7 @@ const handleCloseEditForm = () => {
         handleChange={handleChange}
         // handleFileChange={handleFileChange}
       />
+ 
   
       </div>
      
@@ -316,12 +322,9 @@ const handleCloseEditForm = () => {
 
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md h-78">
-        <h2 className="text-xl font-semibold mb-2">List of CHED Clients</h2>
+        <h2 className="text-xl font-semibold mb-2"></h2>
 
-        {/* Search bar for filter by Institution ID or Name */}
-        <ChedClientsAdminSearchBar 
-        handleSearchChange={handleSearchChange}
-        searchQuery={searchQuery}/>
+
        
 
         

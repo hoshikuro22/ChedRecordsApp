@@ -79,7 +79,7 @@ const handleSelectClientNameFilter = (value) => {
     <div>
         <table className="table-auto w-full border-collapse border h-24">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-gray-400">
             <th className="px-4 py-2">Doc No</th>
             <th className="px-4 py-2">
   <div className="relative inline-block ml-2">
@@ -235,7 +235,7 @@ const handleSelectClientNameFilter = (value) => {
 </th>
 
             <th className="px-4 py-2">Date Received</th>
-            <th className="px-4 py-2">Date Release</th>
+            {/* <th className="px-4 py-2">Date Release</th> */}
             <th className="px-4 py-2">
               
               <div className="relative inline-block ml-2">
@@ -344,7 +344,7 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{document.unit}</td>
         <td className="border px-4 py-2 text-center">{document.document_type}</td>
         <td className="border px-4 py-2 text-center">{document.date_received}</td>
-        <td className="border px-4 py-2 text-center">{document.date_released}</td>
+        {/* <td className="border px-4 py-2 text-center">{document.date_released}</td> */}
         <td className="border px-4 py-2 text-center">{document.status}</td>
         <td className="border px-4 py-2 text-center">{document.remarks}</td>
         <td className="border px-4 py-2 text-center">

@@ -494,6 +494,45 @@ router.get("/getDocumentStatusCounts", (req, res) => {
   });
 });
 
+// endpoint to get the count of document with client names of Communcications
+router.get("/getDocumentByClients", (req, res) => {
+  const sql = `
+    SELECT client.client_name, COUNT(document.doc_id) as count
+    FROM document
+    JOIN client ON document.client_id = client.client_id
+    GROUP BY client.client_name;
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching document counts by client:", err);
+      return res.status(500).json({ status: "Error", message: "Failed to fetch document counts by client" });
+    }
+
+    return res.status(200).json(results);
+  });
+});
+
+// endpoint to get the count of document with document types of Communcications
+router.get("/getDocumentByDocumentTypes", (req, res) => {
+  const sql = `
+  SELECT document_type.Type, COUNT(document.Doc_ID) as count
+  FROM document
+  JOIN document_type ON document.Doc_type_ID = document_type.Doc_type_ID
+  GROUP BY document_type.Type;
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching document counts by document types:", err);
+      return res.status(500).json({ status: "Error", message: "Failed to fetch document counts by document types" });
+    }
+
+    return res.status(200).json(results);
+  });
+});
+
+
 
 
 // UPDATE

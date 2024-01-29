@@ -131,7 +131,7 @@ export default function NormalChedClients() {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 1000;
+  const itemsPerPage = 15;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
@@ -189,7 +189,7 @@ export default function NormalChedClients() {
 
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-2">List of CHED Clients</h2>
+        <h2 className="text-xl font-semibold mb-2"></h2>
 
         <ChedClientsNormalSearchBar 
          handleSearchChange={handleSearchChange}

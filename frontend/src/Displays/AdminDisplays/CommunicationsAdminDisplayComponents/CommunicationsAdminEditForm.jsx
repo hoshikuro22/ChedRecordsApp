@@ -27,7 +27,7 @@ export default function CommunicationsAdminEditForm({
           </div>
          
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Add File </label>
+            <label className="mb-1 text-sm font-semibold">Add File <strong>(PDF ONLY)</strong> </label>
             <input
               type="file"
               name="file"   

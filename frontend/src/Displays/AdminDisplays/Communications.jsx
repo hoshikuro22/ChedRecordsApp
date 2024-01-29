@@ -196,7 +196,7 @@ useEffect(() => {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 1000;
+  const itemsPerPage = 15;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = documents.slice(indexOfFirstItem, indexOfLastItem);
@@ -406,7 +406,14 @@ const handleDeleteClick = async (id) => {
     <div className="w-screen h-auto mt-2 p-2 ml-4">
      
 
-      
+      <div className="flex flex-row gap-3">
+
+         {/* Dynamic Search */}
+        <CommunicationsAdminSearchBar
+       handleSearchChange={handleSearchChange}
+       searchQuery={searchQuery} />
+
+
       {/* The add form */}
       <CommunicationsAdminAddForm
         formData={formData}
@@ -422,16 +429,12 @@ const handleDeleteClick = async (id) => {
         handleClearFormClick={handleClearFormClick}
       />
 
- 
-
+    </div>
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-2">List of COMMUNICATIONS</h2>
+        <h2 className="text-xl font-semibold mb-2"></h2>
 
-       {/* Dynamic Search */}
-       <CommunicationsAdminSearchBar
-       handleSearchChange={handleSearchChange}
-       searchQuery={searchQuery} />
+
 
 
        {/* Table sa pagtawag sa data gikan sa server */}

@@ -7,6 +7,7 @@ export default function CommunicationsAdminSearchBar({searchQuery, handleSearchC
 
   return (
     <div className="mb-4 flex items-center gap-4">
+       <FaMagnifyingGlass />
     <input
       type="text"
       placeholder=" Search "
@@ -14,7 +15,7 @@ export default function CommunicationsAdminSearchBar({searchQuery, handleSearchC
       onChange={handleSearchChange}
       className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
     />
-    <FaMagnifyingGlass />
+   
   </div>
   )
 }

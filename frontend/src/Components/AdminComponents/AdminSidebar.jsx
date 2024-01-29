@@ -55,7 +55,7 @@ export default function AdminSidebar() {
           </div>
           </div>
 
-          <a className="flex items-center gap-2 mt-5 rounded hover:bg-gray-700" href="/admin/profile">
+          <a className="flex items-center gap-2 mt-5 rounded hover:bg-gray-700 " href="/admin/profile">
             <BsFillPersonFill size="20" />
             <h1 className="text-1xl">Admin: {FirstName + ", "+ LastName }</h1>
           </a>

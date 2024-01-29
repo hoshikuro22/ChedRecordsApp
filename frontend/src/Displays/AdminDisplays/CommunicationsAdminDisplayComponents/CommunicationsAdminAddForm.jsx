@@ -42,7 +42,7 @@ export default function CommunicationsAdminAddForm({
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Request</label>
+              <label className="mb-1 text-sm font-semibold">Date Receive</label>
               <DatePicker
                 selected={formData.dateReceived}
                 onChange={(date) => handleChange({ target: { name: 'dateReceived', value: date } })}
@@ -51,7 +51,7 @@ export default function CommunicationsAdminAddForm({
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className=" flex-col hidden">
               <label className="mb-1 text-sm font-semibold">Date Released</label>
               <DatePicker
                 selected={formData.dateReleased}
@@ -227,13 +227,17 @@ export default function CommunicationsAdminAddForm({
           </form>
           </div>
         </div>
+        
       ) : (
+        
         <button
           onClick={handleAddCommunicationClick}
           className="w-64 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
         >
           Add New Communication
+          
         </button>
+        
       )}
 
 

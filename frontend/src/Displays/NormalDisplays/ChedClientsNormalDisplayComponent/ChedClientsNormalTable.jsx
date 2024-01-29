@@ -28,7 +28,7 @@ export default function ChedClientsNormalTable({
         
         <table className="table-auto w-full border-collapse border h-24">
           <thead>
-            <tr className="bg-gray-200">
+            <tr className="bg-gray-400">
               <th className="px-4 py-2">Client ID</th>
               <th className="px-4 py-2">Name of Client</th>
               <th className="px-4 py-2">

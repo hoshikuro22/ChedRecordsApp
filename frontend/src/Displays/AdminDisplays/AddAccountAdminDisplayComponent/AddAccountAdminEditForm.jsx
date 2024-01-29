@@ -106,7 +106,7 @@ export default function AddAccountAdminEditForm({
               >
                 <option value="">Select User Type</option>
                 <option value="0">Admin</option>
-                <option value="1">Normal</option>
+                <option value="1">Staff</option>
               </select>
             </div>
 

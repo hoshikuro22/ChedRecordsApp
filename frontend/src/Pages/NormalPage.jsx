@@ -8,6 +8,7 @@ import NormalCommunications from "../Displays/NormalDisplays/NormalCommunication
 import NormalHeader from "../Components/NormalComponents/NormalHeader"
 import NormalHome from "../Displays/NormalDisplays/NormalHome"
 import NormalFooter from "../Components/NormalComponents/NormalFooter"
+import NormalStaffProfile from "../Displays/NormalDisplays/NormalStaffProfile"
 
 
 
@@ -44,6 +45,7 @@ export default function NormalPage() {
           <NormalSidebar />     
           {/* Displays */}
           <Routes >
+            <Route path='/norprofile' element={ <NormalStaffProfile/>} />
             <Route path='/norhome' element={<NormalHome />} />
             <Route path='/nchedclients' element={<NormalChedClients />} />
             <Route path='/ncommunications' element={<NormalCommunications />} />
