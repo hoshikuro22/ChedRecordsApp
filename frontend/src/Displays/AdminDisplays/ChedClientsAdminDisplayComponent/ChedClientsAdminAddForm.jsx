@@ -4,6 +4,7 @@ export default function ChedClientsAdminAddForm({
     handleSubmit,
     showForm,
     formData,
+    clientTypeOptions,
     handleAddClientClick,
     handleHideFormClick,
     handleClearFormClick,
@@ -59,25 +60,26 @@ export default function ChedClientsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Client Type</label>
-              <select
-                required
-                id="clientType"
-                name="clientType"
-                value={formData.clientType}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select Client Type</option>
-                <option value="1">CHED10</option>
-                <option value="2">HEIS </option>
-                <option value="3">Government Office </option>
-                <option value="4">Agency </option>
-                <option value="5">Individual </option>
-            
-              </select>
-            </div>
+      <label className="mb-1 text-sm font-semibold">Client Type</label>
+      <select
+        required
+        id="clientType"
+        name="clientType" 
+        value={formData.clientType}
+        onChange={handleChange}
+        className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+      >
+        <option value="">Select Client Type</option>
+        {clientTypeOptions.map((clientType) => (
+          <option key={clientType.Client_type_ID} value={clientType.Client_type_ID}>
+            {clientType.type}
+          </option>
+        ))}
+      </select>
+    </div> 
+
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Email Address (Optional)</label>
               <input
@@ -178,5 +180,6 @@ ChedClientsAdminAddForm.propTypes = {
     handleHideFormClick: PropTypes.func.isRequired,
     handleClearFormClick: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
+    clientTypeOptions: PropTypes.array.isRequired,
     // handleFileChange: PropTypes.func.isRequired,
   };

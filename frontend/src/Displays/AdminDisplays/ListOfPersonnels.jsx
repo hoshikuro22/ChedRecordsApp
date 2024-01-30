@@ -101,7 +101,7 @@ const handleCloseEditForm = () => {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 1000;
  
 
   // function to get personnels
@@ -236,7 +236,7 @@ const handleCloseEditForm = () => {
       handleAddPersonnelClick={handleAddPersonnelClick}
     />
 
-      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
+      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
         
 
 
@@ -260,6 +260,7 @@ const handleCloseEditForm = () => {
   )}  
        
 
+      </div>
         {/* PAGINATION */}
         <PersonnelPagination
          
@@ -269,8 +270,6 @@ const handleCloseEditForm = () => {
           setCurrentPage={setCurrentPage}
           onPageChange={setCurrentPage}
         />
-
-      </div>
     </div>
   );
 }

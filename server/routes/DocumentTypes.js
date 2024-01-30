@@ -9,16 +9,16 @@ import mysql from "mysql"
   });
 
 
-//first line sa admin:listofpersonnels(assignatories)
+//first line sa admin:document types
 
 //CREATE
 router.post("/addDocumentType", (req, res) => {
-    const { documentTypeID, documentType } = req.body;
+    const { documentTypeID, documentType, remarks } = req.body;
   
     const sql =
-      "INSERT INTO document_type (doc_type_ID, type) VALUES (?, ?)";
+      "INSERT INTO document_type (doc_type_ID, type, remarks) VALUES (?, ?, ?)";
   
-    db.query(sql, [documentTypeID, documentType], (err, result) => {
+    db.query(sql, [documentTypeID, documentType, remarks], (err, result) => {
       if (err) {
         console.error(err);
         return res.json({
@@ -41,11 +41,12 @@ router.post("/addDocumentType", (req, res) => {
     const sql = `
       SELECT
       CAST(d.Doc_type_ID AS SIGNED) as Doc_type_ID,
-      d.Doc_type_ID,
-      d.Type
+      d.doc_type_id,
+      d.type,
+      d.remarks
     FROM document_type d
    
-    ORDER BY Doc_type_ID ASC; `;
+    ORDER BY Type ASC; `;
   
     db.query(sql, (err, data) => {
       if (err) {
@@ -59,37 +60,44 @@ router.post("/addDocumentType", (req, res) => {
     });
   });
   
-  //UPDATE
+ //EDIT
+ router.put("/updateDocumentType/:id", (req, res) => {
+  const { id } = req.params;
+  const { 
+    type,
+    remarks,
+ } = req.body;
 
-  router.put("/editPersonnel/:id", (req, res) => {
-    const { id } = req.params;
-    const { lastName, firstName, position } = req.body;
-  
-    const sql = "UPDATE list_personnel SET Last_Name = ?, First_Name = ?, Position = ? WHERE Personnel_ID = ?";
-  
-    db.query(sql, [lastName, firstName, position, id], (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({
-          Status: "Error",
-          Message: "Error updating personnel data in the database",
-        });
-      }
-  
-      if (result.affectedRows === 0) {
-        return res.status(404).json({
-          Status: "Error",
-          Message: "Personnel not found",
-        });
-      }
-  
-      console.log("Personnel data updated in the database");
-      return res.status(200).json({
-        Status: "Success",
-        Message: "Personnel data updated in the database",
+  const sql = "UPDATE document_type SET type = ?, remarks = ? WHERE doc_type_id = ?";
+
+  db.query(sql, [
+    type,
+    remarks,
+    id
+    ], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({
+        Status: "Error",
+        Message: "Error updating document types data in the database",
       });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        Status: "Error",
+        Message: "document types not found",
+      });
+    }
+
+    console.log("Document types data updated in the database");
+    return res.status(200).json({
+      Status: "Success",
+      Message: "Document types data updated in the database",
     });
   });
+});
+
   
   
   //DELETE
@@ -126,7 +134,7 @@ router.post("/addDocumentType", (req, res) => {
     });
   });
   
-  //last line sa admin:list of personnels(assignatories)
+  //last line sa admin:list of document types
   
 
 

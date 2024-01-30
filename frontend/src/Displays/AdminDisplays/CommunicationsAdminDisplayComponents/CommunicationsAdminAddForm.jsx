@@ -42,7 +42,7 @@ export default function CommunicationsAdminAddForm({
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Receive</label>
+              <label className="mb-1 text-sm font-semibold">Date Received</label>
               <DatePicker
                 selected={formData.dateReceived}
                 onChange={(date) => handleChange({ target: { name: 'dateReceived', value: date } })}
@@ -77,7 +77,7 @@ export default function CommunicationsAdminAddForm({
         <option value="">Select Document Type</option>
         {documentTypeOptions.map((documentType) => (
           <option key={documentType.Doc_type_ID} value={documentType.Doc_type_ID}>
-            {documentType.Type}
+            {documentType.type}
           </option>
         ))}
       </select>

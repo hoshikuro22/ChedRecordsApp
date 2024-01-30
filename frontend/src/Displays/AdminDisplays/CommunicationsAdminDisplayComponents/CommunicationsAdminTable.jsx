@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 export default function CommunicationsAdminTable({
   currentItems,
-  // handleDeleteClick,
+  handleDeleteClick,
   handleInfoClick,
   handleEditClick,
   clientsOptions,
@@ -79,13 +79,13 @@ const handleSelectClientNameFilter = (value) => {
         <table className="table-auto w-full border-collapse border h-24">
         <thead>
           <tr className="bg-gray-400 ">
-            <th className="px-4 py-2">Doc ID</th>
+            {/* <th className="px-4 py-2">Doc ID</th> */}
             <th className="px-4 py-2">
-  <div className="relative inline-block ml-2">
+  <div className="relative inline-block ml-2 ">
     <button
       onClick={handleToggleClientNameFilterDropdown}
       type="button"
-      className="inline-flex justify-center w-32 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
+      className="inline-flex justify-center w-32 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300 "
     >
       {selectedClientNameFilter ? selectedClientNameFilter : 'Client Name'}
     </button>
@@ -216,15 +216,15 @@ const handleSelectClientNameFilter = (value) => {
           </button>
           {documentTypeOptions.map((type) => (
             <button
-              key={type.Doc_type_ID}
-              onClick={() => handleSelectTypeFilter(type.Type)}
+              key={type.doc_type_ID}
+              onClick={() => handleSelectTypeFilter(type.type)}
               className={`${
-                selectedTypeFilter === type.Doc_type_ID
+                selectedTypeFilter === type.doc_type_ID
                   ? 'bg-gray-200 text-gray-900'
                   : 'text-gray-700'
               } block px-4 py-2 text-sm w-full text-left`}
             >
-              {type.Type}
+              {type.type}
             </button>
           ))}
         </div>
@@ -340,16 +340,16 @@ const handleSelectClientNameFilter = (value) => {
     )
     .map((document) => (
       <tr key={document.doc_ID} className=''>
-        <td className="border px-4 py-2 text-center">{document.doc_ID}</td>
-        <td className="border px-4 py-2 text-center">{document.client_name}</td>
-        <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
-        <td className="border px-4 py-2 text-center">{document.unit}</td>
-        <td className="border px-4 py-2 text-center">{document.document_type}</td>
-        <td className="border px-4 py-2 text-center">{document.date_received}</td>
-        {/* <td className="border px-4 py-2 text-center">{document.date_released}</td> */}
-        <td className="border px-4 py-2 text-center">{document.status}</td>
-        <td className="border px-4 py-2 text-center">{document.remarks}</td>
-        <td className="border px-4 py-2 text-center">
+        {/* <td className="border px-4 py-2 text-center">{document.doc_ID}</td> */}
+        <td className="border px-3 py-2 text-left">{document.client_name}</td>
+        <td className="border px-3 py-2 text-left">{document.contact_firstName} {document.contact_lastName}</td>
+        <td className="border px-3 py-2 text-left">{document.unit}</td>
+        <td className="border px-3 py-2 text-left">{document.document_type}</td>
+        <td className="border px-3 py-2 text-left">{document.date_received}</td>
+        {/* <td className="border px-4 py-2 text-left">{document.date_released}</td> */}  
+        <td className="border px-3 py-2 text-left">{document.status}</td>
+        <td className="border px-3 py-2 text-left">{document.remarks}</td>
+        <td className="border px-3 py-2 text-left">
           <a
             href={`http://localhost:8081/communicationfiles/${document.file}`}
             target="_blank"
@@ -359,19 +359,19 @@ const handleSelectClientNameFilter = (value) => {
             {document.file}
           </a>
         </td>
-        <td className="border px-4 py-2 text-center">
+        <td className="border px-3 py-2 text-left">
           <button
             className="text-blue-500 hover:underline font-bold"
             onClick={() => handleEditClick(document.doc_ID)}
           >
             Modify
           </button>
-          {/* <button
+          <button
             className="text-red-500 hover:underline ml-2 font-bold"
             onClick={() => handleDeleteClick(document.doc_ID)}
           >
             Delete
-          </button> */}
+          </button>
           <button
             className="text-gray-500 hover:underline ml-2 font-bold"
             onClick={() => handleInfoClick(document.doc_ID)}
@@ -397,3 +397,4 @@ CommunicationsAdminTable.propTypes = {
   clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
 };
+

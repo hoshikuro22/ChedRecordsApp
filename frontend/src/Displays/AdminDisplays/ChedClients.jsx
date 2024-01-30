@@ -35,6 +35,23 @@ export default function ChedClients() {
     });
 }, []);
 
+// to fetch document type for the add and edit form
+const [clientTypeOptions, setClientTypeOptions] = useState([]);
+
+useEffect(() => {
+  const fetchClientTypeData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/getClientTypes");
+      setClientTypeOptions(response.data);
+      console.log("Client types: " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching client type data:", error);
+    }
+  };
+
+  fetchClientTypeData();
+}, []);
+
   //===== Edit =====//
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
@@ -124,7 +141,7 @@ const handleCloseEditForm = () => {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const itemsPerPage = 1000;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
@@ -308,6 +325,7 @@ const handleCloseEditForm = () => {
         formData={formData}
         handleSubmit={handleSubmit}
         showForm={showForm}
+        clientTypeOptions={clientTypeOptions}
         handleAddClientClick={handleAddClientClick}
         handleHideFormClick={handleHideFormClick}
         handleClearFormClick={handleClearFormClick}
@@ -321,7 +339,7 @@ const handleCloseEditForm = () => {
       
 
 
-      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md h-78">
+      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
         <h2 className="text-xl font-semibold mb-2"></h2>
 
 
@@ -331,7 +349,7 @@ const handleCloseEditForm = () => {
 
 
         {/* Table sa pagtawag sa data gikan sa server */}
-        <div>
+        <div className="">
   <ChedClientsAdminTable
     currentItems={currentItems}
     searchQuery={searchQuery}

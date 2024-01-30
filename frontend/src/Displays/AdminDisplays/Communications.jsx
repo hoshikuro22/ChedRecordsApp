@@ -196,7 +196,7 @@ useEffect(() => {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const itemsPerPage = 1000;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = documents.slice(indexOfFirstItem, indexOfLastItem);
@@ -431,7 +431,7 @@ const handleDeleteClick = async (id) => {
 
     </div>
 
-      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
+      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
         <h2 className="text-xl font-semibold mb-2"></h2>
 
 

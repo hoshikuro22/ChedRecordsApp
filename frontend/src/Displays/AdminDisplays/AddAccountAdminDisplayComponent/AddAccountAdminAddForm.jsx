@@ -63,12 +63,17 @@ export default function AddAccountAdminAddForm({
               <label className="mb-1 text-sm font-semibold">Contact Number</label>
               <input
                 required
-                type="text"
+                title="Contact number should be up to 12 digits"
+                type="number"
                 id="contactNumber"
                 name="contactNumber"
                 placeholder="Enter Contact Number"
                 value={formData.contactNumber}
-                onChange={handleChange}
+                  onChange={(e) => {
+    if (e.target.value.length <= 11) {
+      handleChange(e);
+    }
+  }}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>

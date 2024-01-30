@@ -188,7 +188,7 @@ export default function NormalChedClients() {
 
 
 
-      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
+      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
         <h2 className="text-xl font-semibold mb-2"></h2>
 
         <ChedClientsNormalSearchBar 

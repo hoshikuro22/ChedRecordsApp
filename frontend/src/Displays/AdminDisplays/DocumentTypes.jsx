@@ -4,20 +4,85 @@ import axios from "axios";
 import DocumentTypesAddForm from "./DocumentTypesAdminDisplayComponent/DocumentTypesAddForm";
 import DocumentTypesTable from "./DocumentTypesAdminDisplayComponent/DocumentTypesTable";
 import DocumentTypesPagination from "./DocumentTypesAdminDisplayComponent/DocumentTypesPagination";
+import DocumentTypesEditForm from "./DocumentTypesAdminDisplayComponent/DocumentTypesEditForm";
 
 export default function DocumentTypes() {
   const [formData, setFormData] = useState({
     documentType: "",
+    remarks: "",
     
   });
   console.log("the formData " + JSON.stringify(formData));
+
+
+  const handleCloseEditForm = () => {
+    setShowEditForm(false);
+  };
+  
+  //===== Edit =====//
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    documentType: "",
+    remarks: "",
+  }); console.log("the EditformData " + JSON.stringify(editFormData));
+
+
+  const handleEditClick = (Doc_type_ID) => {
+    const selectedRow = documentTypes.find((documentType) => documentType.Doc_type_ID === Doc_type_ID);
+    if (selectedRow) {
+      console.log("Selected Row Data to edit:", selectedRow);
+      setEditFormData({
+        ...selectedRow,
+      });
+      setShowEditForm(true);
+    }
+  };
+
+    
+ // the "save form function of edit modal"
+
+ const handleEditSubmit = async (e) => {
+  e.preventDefault();
+  const userConfirmed = window.confirm("Are you sure you want to save changes?");
+
+  if (!userConfirmed) {
+    // User clicked 'Cancel' in the confirmation dialog
+    alert("Changes not saved.");
+    return;
+  }
+
+  try {
+    const response = await axios.put(
+      `http://localhost:8081/updateDocumentType/${editFormData.doc_type_id}`,
+      {
+        doc_type_id: editFormData.doc_type_id,
+        type: editFormData.type,
+        remarks: editFormData.remarks,
+      }
+    );
+
+    if (response.data.Status === "Success") {
+      alert("Document Type edited successfully!");
+      setShowEditForm(false);
+      fetchDocumentTypes(); // Refresh the document types list
+    } else {
+      alert("Error editing document types. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while editing the document types.");
+  }
+};
+
+
+  
 
   const [documentTypes, setDocumentTypes] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
     // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 50;
+  const itemsPerPage = 1000;
 
   useEffect(() => {
     fetchDocumentTypes();
@@ -62,33 +127,47 @@ export default function DocumentTypes() {
   const handleClearFormClick = () => {
     setFormData({
       documentType: "",
+      remarks: "",
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const documentTypeID = getMaxDocumentTypeID();
-      const response = await axios.post("http://localhost:8081/addDocumentType", {
-        ...formData,
-        documentTypeID,
-      });
-      if (response.data.Status === "Success") {
-        alert("Document type added successfully!");
-        setFormData({
-            documentType: "",
-        });
-        fetchDocumentTypes();
-        setShowForm(false);
-      } else {
-        alert("Error adding document type. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while adding the document type.");
-    }
-  };
 
+  // add document type
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  // Display a confirmation dialog
+  const isConfirmed = window.confirm("Are you sure you want to add this document type?");
+
+  if (!isConfirmed) {
+    // If the user cancels the confirmation, do nothing
+    return;
+  }
+
+  try {
+    const documentTypeID = getMaxDocumentTypeID();
+    const response = await axios.post("http://localhost:8081/addDocumentType", {
+      ...formData,
+      documentTypeID,
+    }); 
+    if (response.data.Status === "Success") {
+      alert("Document type added successfully!");
+      setFormData({
+        documentType: "",
+        remarks: "",
+      });
+      fetchDocumentTypes();
+      setShowForm(false);
+    } else {
+      alert("Error adding document type. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while adding the document type.");
+  }
+};
+
+  // delete document type
   const handleDeleteClick = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this document type?");
     if (confirmDelete) {
@@ -121,24 +200,36 @@ export default function DocumentTypes() {
         handleAddDocumentTypeClick={handleAddDocumentTypeClick}
       />
 
-      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-2">List of DOCUMENT TYPES</h2>
+      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
+        <h2 className="text-xl font-semibold mb-2"></h2>
 
         <DocumentTypesTable
           documentTypes={documentTypes}
           handleDeleteClick={handleDeleteClick}
+          handleEditClick={handleEditClick}
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
         />
 
-        <DocumentTypesPagination
+
+  {/* Edit Modal Form */}
+  {showEditForm && (
+    <DocumentTypesEditForm
+      editFormData={editFormData}
+      handleEditSubmit={handleEditSubmit}
+      handleCloseEditForm={handleCloseEditForm}
+      handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
+    />
+  )}  
+
+      </div>
+      <DocumentTypesPagination
           currentPage={currentPage}
           itemsPerPage={itemsPerPage}
           totalItems={documentTypes.length}
           setCurrentPage={setCurrentPage}
           onPageChange={setCurrentPage}
         />
-      </div>
     </div>
   );
 }

@@ -39,8 +39,8 @@ export default function CommunicationsAdminEditForm({
           <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Client Name</label>
   <select 
-    required
-
+    disabled
+   
     name="Client_ID"
     value={editFormData.client_id}
     onChange={handleChange}
@@ -58,7 +58,7 @@ export default function CommunicationsAdminEditForm({
 <div className="flex flex-col">
       <label className="mb-1 text-sm font-semibold">Document Type</label>
       <select
-        required
+        disabled
 
         name="doc_type_id" 
         value={editFormData.doc_type_id}
@@ -68,7 +68,7 @@ export default function CommunicationsAdminEditForm({
         <option value="">Select Document Type</option>
         {documentTypeOptions.map((documentType) => (
           <option key={documentType.Doc_type_ID} value={documentType.Doc_type_ID}>
-            {documentType.Type}
+            {documentType.type}
           </option>
         ))}
       </select>

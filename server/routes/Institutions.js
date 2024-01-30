@@ -256,34 +256,34 @@ router.post("/addClient", async (req, res) => {
 
 
   
-  // READ
-  router.get("/getClients", (req, res) => {
-    const sql = `
-      SELECT
-        CAST(i.seq_no AS SIGNED) as seq_no,
-        i.client_id,
-        i.client_name,
-        i.client_type_id,
-        ct.type as client_type,
-        i.email,
-        i.address,
-        i.contact_person,
-        i.contact_number
-      FROM client i
-      JOIN client_type ct ON i.client_type_id = ct.client_type_id
-      ORDER BY seq_no DESC; `;
+ // READ
+router.get("/getClients", (req, res) => {
+  const sql = `
+    SELECT
+      CAST(i.seq_no AS SIGNED) as seq_no,
+      i.client_id,
+      i.client_name,
+      i.client_type_id,
+      ct.type as client_type,
+      i.email,
+      i.address,
+      i.contact_person,
+      i.contact_number
+    FROM client i
+    JOIN client_type ct ON i.client_type_id = ct.client_type_id
+    ORDER BY i.client_name; `;  // Updated ORDER BY clause
   
-    db.query(sql, (err, data) => {
-      if (err) {
-        console.error("Error fetching clients:", err);
-        return res
-          .status(500)
-          .json({ Status: "Error", Message: "Failed to fetch clients" });
-      }
-  
-      return res.status(200).json(data);
-    });
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.error("Error fetching clients:", err);
+      return res
+        .status(500)
+        .json({ Status: "Error", Message: "Failed to fetch clients" });
+    }
+
+    return res.status(200).json(data);
   });
+});
 
   // endpoint to get the count of client
 router.get("/getClientCount", (req, res) => {

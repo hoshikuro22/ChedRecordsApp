@@ -475,6 +475,25 @@ router.get("/getCommunicationCount", (req, res) => {
   });
 });
 
+// endpoint to get the count of Communications
+router.get("/getUnitCount", (req, res) => {
+  const sql = `
+    SELECT COUNT(*) AS unitCount FROM unit;
+  `;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching unit count:", err);
+      return res.status(500).json({
+        Status: "Error",
+        Message: "Failed to fetch unit count",
+      });
+    }
+
+    const unitCount = result[0].unitCount;
+    return res.status(200).json({ unitCount });
+  });
+});
+
 // endpoint to get the count of Status of Communcications
 router.get("/getDocumentStatusCounts", (req, res) => {
   const sql = `
@@ -482,6 +501,25 @@ router.get("/getDocumentStatusCounts", (req, res) => {
     FROM document
     JOIN status ON document.status_id = status.status_ID
     GROUP BY status.type;
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching document status counts:", err);
+      return res.status(500).json({ status: "Error", message: "Failed to fetch document status counts" });
+    }
+
+    return res.status(200).json(results);
+  });
+});
+
+// endpoint to get the count of Status of Communcications
+router.get("/getDocumentUnitCounts", (req, res) => {
+  const sql = `
+    SELECT unit.type, COUNT(*) as count
+    FROM document
+    JOIN unit ON document.unit_id = unit.unit_ID
+    GROUP BY unit.type;
   `;
 
   db.query(sql, (err, results) => {

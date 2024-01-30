@@ -9,6 +9,7 @@ import institutionReportRoutes from './routes/InstitutionReports.js';
 import communicationsRoutes from './routes/Communications.js';
 import communicationReportRoutes from './routes/CommunicationReports.js';
 import documentTypesRoutes from './routes/DocumentTypes.js';
+import clientTypesRoutes from './routes/ClientTypes.js';
 import listofpersonnelsRoutes from './routes/ListOfPersonnels.js';
 import addaccountsRoutes from './routes/AddAccounts.js';
 import activitylogRoutes from './routes/ActivityLog.js';
@@ -147,6 +148,8 @@ app.use("/", communicationsRoutes);
 app.use("/", communicationReportRoutes);
 ////
 app.use("/", documentTypesRoutes);
+////
+app.use("/", clientTypesRoutes);
 ////
 app.use("/", listofpersonnelsRoutes);
 ////

@@ -118,18 +118,23 @@ export default function AddAccount() {
   };
   
 
+  // submit
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "NewPassword") {
-        setNewPassword(value);
-    } else {
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+  
+    let modifiedValue = value;
+  
+    // Capitalize the first letter for firstName and lastName
+    if (name === "firstName" || name === "lastName") {
+      modifiedValue = value.replace(/\b\w/g, char => char.toUpperCase());
     }
-
-
+  
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: modifiedValue,
+    }));
+  
+  
     
     // Check if the changed field is the confirmPassword field and update its state
     if (name === "confirmPassword") {
