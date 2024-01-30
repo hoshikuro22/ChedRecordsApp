@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
 
-export default function CommunicationsAdminEditForm({
-  
-  editFileFormData,
+export default function CommunicationsAdminEditForm2({
+  editFormData,
   personnelOptions,
   clientsOptions,
   documentTypeOptions,
   unitOptions,
-  handleEditFileSubmit,
+  handleEditSubmit,
   handleCloseEditForm,
   handleChange,
-  handleFileChange,
 }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center">
@@ -20,30 +20,21 @@ export default function CommunicationsAdminEditForm({
           &times;
         </span>
         <h2 className="text-2xl font-semibold mb-4">Edit Document</h2>
-        <form onSubmit={handleEditFileSubmit} className="grid grid-cols-2 gap-4">
-
-        <div className="flex flex-col">
-        <label className="mb-1 text-sm font-semibold">Document ID:</label>
-        <label className='font-semibold text-1xl ml-3'>#{editFileFormData.doc_ID}</label>
-          </div>
-         
+        <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-bold">Add File <strong>(PDF ONLY)</strong> </label>
-            <input
-              type="file"
-              name="file"   
-              onChange={handleFileChange} 
-              className="border"
-            />
+            <label className="mb-1 text-sm font-semibold">Document ID:</label>
+            <label className="font-semibold text-1xl ml-3">
+              #{editFormData.doc_ID}
+            </label>
           </div>
 
           <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Client Name</label>
   <select 
     disabled
-   
-    name="Client_ID"
-    value={editFileFormData.client_id}
+
+    name="client_id"
+    value={editFormData.client_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
@@ -62,7 +53,7 @@ export default function CommunicationsAdminEditForm({
         disabled
 
         name="doc_type_id" 
-        value={editFileFormData.doc_type_id}
+        value={editFormData.doc_type_id}
         onChange={handleChange}
         className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
       >
@@ -75,15 +66,28 @@ export default function CommunicationsAdminEditForm({
       </select>
     </div>
 
-            <div className="flex flex-col">
+          <div className="flex flex-col">
+            <label className="mb-1 text-sm font-bold">Remarks</label>
+            <input
+              type="text"
+              id="remarks"
+              name="remarks"
+              placeholder="Enter Remarks"
+              value={editFormData.remarks}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-black"
+            />
+          </div>
+
+          <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Date Received</label>
               <input
-                disabled
+                
                 type="text"
                 id="date_received"
                 name="date_received"
                 placeholder="Enter date_received"
-                value={editFileFormData.date_received}
+                value={editFormData.date_received}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
@@ -96,35 +100,19 @@ export default function CommunicationsAdminEditForm({
                 id="date_released"
                 name="date_released"
                 placeholder="Enter date_released"
-                value={editFileFormData.date_released}
+                value={editFormData.date_released}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
-            
-            
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Remarks</label>
-              <input
-                
-                type="text"
-                id="remarks"
-                name="remarks"
-                placeholder="Enter Remarks"
-                value={editFileFormData.remarks}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-            
 
-            <div className="flex flex-col">
-       <label className="mb-1 text-sm font-semibold">Assigned Personnel</label>
+          <div className="flex flex-col">
+       <label className="mb-1 text-sm font-semibold">Assigned to:</label>
   <select
-    required
+   disabled
   
     name="personnel_id"
-    value={editFileFormData.personnel_id}
+    value={editFormData.personnel_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
@@ -136,12 +124,12 @@ export default function CommunicationsAdminEditForm({
     ))}
      </select>
     </div>
-   
+
     <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Unit</label>
   <select 
     name="unit_id"
-    value={editFileFormData.unit_id}
+    value={editFormData.unit_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
@@ -154,13 +142,13 @@ export default function CommunicationsAdminEditForm({
   </select>
 </div>
 
-       
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Status</label>
               <select
               
+              
                 name="status_id"
-                value={editFileFormData.status_id}
+                value={editFormData.status_id}
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
@@ -171,21 +159,6 @@ export default function CommunicationsAdminEditForm({
               </select>
             </div> 
 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Tags</label>
-              <input
-                
-                type="text"
-                id="tags"
-                name="tags"
-                placeholder="Enter Tags"
-                value={editFileFormData.tags}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-            
-       
           <div className="col-span-2 ml-auto gap-">
             <button
               type="submit"
@@ -207,33 +180,25 @@ export default function CommunicationsAdminEditForm({
   );
 }
 
-CommunicationsAdminEditForm.propTypes = {
-  editFileFormData: PropTypes.shape({
+CommunicationsAdminEditForm2.propTypes = {
+  editFormData: PropTypes.shape({
     doc_ID: PropTypes.string,
-    // documentType: PropTypes.string, //sa read
-    doc_type_id: PropTypes.number,  //sa put
-    // institution: PropTypes.string, // sa read
-    client_id: PropTypes.string,
-    // unit: PropTypes.string, //sa read
-    unit_id: PropTypes.number,//sa put
+    doc_type_id: PropTypes.number, 
     date_received: PropTypes.string,
     date_released: PropTypes.string,
-    // status: PropTypes.string,   //sa read
-    status_id: PropTypes.number,   //sa put
+    status_id: PropTypes.number,
     remarks: PropTypes.string,
-    tags: PropTypes.string,
-    // assignatories: PropTypes.string, //sa read
-    personnel_id: PropTypes.number, // sa put
-    
-   
+    personnel_id: PropTypes.number,
+    client_id: PropTypes.number,
+    unit_id: PropTypes.number,
+    tags:PropTypes.string,
   }).isRequired,
 
-  handleEditFileSubmit: PropTypes.func.isRequired,
+  handleEditSubmit: PropTypes.func.isRequired,
   handleCloseEditForm: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleFileChange: PropTypes.func.isRequired,
   personnelOptions: PropTypes.array.isRequired,
   clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
-  unitOptions: PropTypes.array.isRequired,
+  unitOptions:PropTypes.array.isRequired,
 };

@@ -131,7 +131,7 @@ export default function NormalChedClients() {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const itemsPerPage = 1000;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = clients.slice(indexOfFirstItem, indexOfLastItem);
@@ -170,6 +170,24 @@ export default function NormalChedClients() {
     }
   };
 
+  // to fetch document type for the add and edit form
+const [clientTypeOptions, setClientTypeOptions] = useState([]);
+
+useEffect(() => {
+  const fetchClientTypeData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/getClientTypes");
+      setClientTypeOptions(response.data);
+      console.log("Client types: " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching client type data:", error);
+    }
+  };
+
+  fetchClientTypeData();
+}, []);
+
+
 
   
 //   // sa pang search filter sa inst_ID
@@ -203,6 +221,7 @@ export default function NormalChedClients() {
     searchQuery={searchQuery}
     handleInfoClick={handleInfoClick}
   handleEditClick={handleEditClick}
+  clientTypeOptions={clientTypeOptions}
   />
 </div>
 

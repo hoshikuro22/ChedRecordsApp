@@ -73,7 +73,7 @@ export default function ChedClientsAdminAddForm({
       >
         <option value="">Select Client Type</option>
         {clientTypeOptions.map((clientType) => (
-          <option key={clientType.Client_type_ID} value={clientType.Client_type_ID}>
+          <option key={clientType.client_type_ID} value={clientType.client_type_ID}>
             {clientType.type}
           </option>
         ))}

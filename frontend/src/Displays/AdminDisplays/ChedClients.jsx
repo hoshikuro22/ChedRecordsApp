@@ -52,6 +52,8 @@ useEffect(() => {
   fetchClientTypeData();
 }, []);
 
+
+
   //===== Edit =====//
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
@@ -356,6 +358,7 @@ const handleCloseEditForm = () => {
     handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
   handleEditClick={handleEditClick}
+  clientTypeOptions={clientTypeOptions}
   />
 </div>
 

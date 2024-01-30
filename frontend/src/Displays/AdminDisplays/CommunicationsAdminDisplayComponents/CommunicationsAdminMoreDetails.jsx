@@ -14,7 +14,7 @@ export default function CommunicationsAdminMoreDetails({
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
           <div className="bg-white rounded-lg p-8 z-50">
-            <h2 className="text-xl font-semibold mb-4">Communications Information History</h2>
+            <h2 className="text-xl font-semibold mb-4">Communications File History</h2>
 
             <table className="w-full">
   <thead>

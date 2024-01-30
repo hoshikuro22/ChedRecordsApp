@@ -494,6 +494,27 @@ router.get("/getUnitCount", (req, res) => {
   });
 });
 
+//to fetch the units
+router.get("/getUnits", (req, res) => {
+  const sql = `
+    SELECT
+      CAST(u.unit_ID AS SIGNED) as unit_ID,
+      u.type
+    FROM unit u
+    ORDER BY Type ASC; `;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.error("Error fetching units", err);
+      return res
+        .status(500)
+        .json({ Status: "Error", Message: "Failed to fetch units" });
+    }
+
+    return res.status(200).json(data);
+  });
+});
+
 // endpoint to get the count of Status of Communcications
 router.get("/getDocumentStatusCounts", (req, res) => {
   const sql = `
@@ -629,7 +650,7 @@ const insertDocumentHistory = (docID, callback) => {
   });
 };
 
-router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
+router.put('/updateDocumentFile/:id', upload.single('file'), (req, res) => {
   const { id } = req.params;
   const { doc_type_id, unit_id, date_received, date_released, status_id, remarks, tags, personnel_id, client_id } = req.body;
 
@@ -665,15 +686,15 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
         }
 
         // Continue with the document update process
-        updateDocument();
+        updateDocumentFile();
       });
     } else {
       // If no new file is uploaded, or if it's the same as the old file, continue with the update process
-      updateDocument();
+      updateDocumentFile();
     }
 
-    function updateDocument() {
-      const updateDocumentSQL = `
+    function updateDocumentFile() {
+      const updateDocumentFileSQL = `
         UPDATE document
         SET
           doc_type_id = ?,
@@ -690,7 +711,7 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
         const fileToUpdate = newFile ? newFile : currentFile;
 
       db.query(
-        updateDocumentSQL,
+        updateDocumentFileSQL,
         [doc_type_id, unit_id, date_received, date_released, status_id, remarks, tags, personnel_id, client_id, fileToUpdate, id],
         (err, result) => {
           if (err) {
@@ -731,7 +752,7 @@ router.put('/updateDocument/:id', upload.single('file'), (req, res) => {
 // UPDATE FOR STAFF
 router.put('/updateDocumentNormal/:id', (req, res) => {
   const { id } = req.params;
-  const { doc_type_id, unit_id, date_received, date_released, status_id, remarks, personnel_id, client_id } = req.body;
+  const { doc_type_id, unit_id, date_received, date_released, status_id, remarks, personnel_id, client_id, tags } = req.body;
 
   if (!id) {
     return res.status(400).json({ Status: 'Error', Message: 'Invalid Document ID provided' });
@@ -747,12 +768,13 @@ router.put('/updateDocumentNormal/:id', (req, res) => {
       status_id = ?,
       remarks = ?,
       personnel_id = ?,
-      client_id = ?
+      client_id = ?,
+      tags = ?
     WHERE doc_ID = ?`;
 
   db.query(
     updateDocumentSQL,
-    [doc_type_id, unit_id, date_received, date_released, status_id, remarks, personnel_id, client_id, id],
+    [doc_type_id, unit_id, date_received, date_released, status_id, remarks, personnel_id, client_id, tags, id],
     (err, result) => {
       if (err) {
         console.error(err);

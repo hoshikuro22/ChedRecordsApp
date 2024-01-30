@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 export default function CommunicationsAdminTable({
   currentItems,
   handleDeleteClick,
   handleInfoClick,
+  handleEditFileClick,
   handleEditClick,
   clientsOptions,
   documentTypeOptions,
+  unitOptions,
   searchQuery,
 }) {
   
@@ -124,21 +126,16 @@ const handleSelectClientNameFilter = (value) => {
 </th>
             <th className="px-4 py-2">Assigned Personnel</th>
             <th className="px-4 py-2">
-                                      
-                 <div className="relative inline-block ml-2">
-                  <button
-                    onClick={handleToggleUnitFilterDropdown}
-                    type="button"
-                    className="inline-flex justify-center w-auto px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
-                  >
-                    {selectedUnitFilter === '1'
-                      ? 'Receiving'
-                      : selectedUnitFilter === '2'
-                      ? 'Scholarship'
-                      : selectedUnitFilter  === '3'
-                      ? 'Records'
-                      : 'Unit'}
-                  </button>
+  <div className="relative inline-block ml-2">
+    <button
+      onClick={handleToggleUnitFilterDropdown}
+      type="button"
+      className="inline-flex justify-center w-auto px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
+    >
+      {selectedUnitFilter
+        ? unitOptions.find((unit) => unit.type === selectedUnitFilter)?.type || 'Unit'
+        : 'Unit'}
+    </button>
     {showUnitFilterDropdown ? (
       <div
         className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
@@ -154,41 +151,24 @@ const handleSelectClientNameFilter = (value) => {
           >
             All
           </button>
-          <button
-            onClick={() => handleSelectUnitFilter('1')}
-            className={`${
-              selectedUnitFilter === '1'
-                ? 'bg-gray-200 text-gray-900'
-                : 'text-gray-700'
-            } block px-4 py-2 text-sm w-full text-left`}
-          >
-            Receiving
-          </button>
-          <button
-            onClick={() => handleSelectUnitFilter('2')}
-            className={`${
-              selectedUnitFilter === '2'
-                ? 'bg-gray-200 text-gray-900'
-                : 'text-gray-700'
-            } block px-4 py-2 text-sm w-full text-left`}
-          >
-            Scholarship
-          </button>
-          <button
-            onClick={() => handleSelectUnitFilter('3')}
-            className={`${
-              selectedUnitFilter === '3'
-                ? 'bg-gray-200 text-gray-900'
-                : 'text-gray-700'
-            } block px-4 py-2 text-sm w-full text-left`}
-          >
-            Records
-          </button>
+          {unitOptions.map((unit) => (
+            <button
+              key={unit.unit_ID}
+              onClick={() => handleSelectUnitFilter(unit.type)}
+              className={`${
+                selectedUnitFilter === unit.type
+                  ? 'bg-gray-200 text-gray-900'
+                  : 'text-gray-700'
+              } block px-4 py-2 text-sm w-full text-left`}
+            >
+              {unit.type}
+            </button>
+          ))}
         </div>
       </div>
     ) : null}
-          </div>
-           </th>
+  </div>
+</th>
            <th className="px-4 py-2">
   
   <div className="relative inline-block ml-2">
@@ -309,36 +289,29 @@ const handleSelectClientNameFilter = (value) => {
           </tr>
         </thead>
         <tbody>
-  {currentItems
-    .filter((document) =>
-      ((selectedStatusFilter === '0' && document.status === 'Pending') ||
-        (selectedStatusFilter === '1' && document.status === 'Approved') ||
-        (selectedStatusFilter === '2' && document.status === 'Disapproved') ||
-        selectedStatusFilter === '') &&
-      ((selectedUnitFilter === '1' && document.unit === 'Receiving') ||
-        (selectedUnitFilter === '2' && document.unit === 'Scholarship') ||
-        (selectedUnitFilter === '3' && document.unit === 'Records') ||
-        selectedUnitFilter === '') &&
-        (selectedTypeFilter === '' || document.document_type === selectedTypeFilter) &&
-        (selectedClientNameFilter === '' || document.client_name === selectedClientNameFilter) &&
-        (document.client_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.contact_firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.contact_lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.date_received.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.date_released.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.remarks.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.unit.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.document_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.file.toLowerCase().includes(searchQuery.toLowerCase()) ||
-         document.tags.toLowerCase().includes(searchQuery.toLowerCase())
-         
-
-         
-        
-        )
+        {currentItems
+  .filter((document) =>
+    ((selectedStatusFilter === '0' && document.status === 'Pending') ||
+      (selectedStatusFilter === '1' && document.status === 'Approved') ||
+      (selectedStatusFilter === '2' && document.status === 'Disapproved') ||
+      selectedStatusFilter === '') &&
+    ((selectedUnitFilter === '' || document.unit === selectedUnitFilter) &&
+      (selectedTypeFilter === '' || document.document_type === selectedTypeFilter) &&
+      (selectedClientNameFilter === '' || document.client_name === selectedClientNameFilter) &&
+      (document.client_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.contact_firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.contact_lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.date_received.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.date_released.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.remarks.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.unit.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.document_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.file.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       document.tags.toLowerCase().includes(searchQuery.toLowerCase()))
     )
-    .map((document) => (
+  )
+  .map((document) => (
       <tr key={document.doc_ID} className=''>
         {/* <td className="border px-4 py-2 text-center">{document.doc_ID}</td> */}
         <td className="border px-3 py-2 text-left">{document.client_name}</td>
@@ -349,22 +322,22 @@ const handleSelectClientNameFilter = (value) => {
         {/* <td className="border px-4 py-2 text-left">{document.date_released}</td> */}  
         <td className="border px-3 py-2 text-left">{document.status}</td>
         <td className="border px-3 py-2 text-left">{document.remarks}</td>
-        <td className="border px-3 py-2 text-left">
-          <a
-            href={`http://localhost:8081/communicationfiles/${document.file}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
-          >
-            {document.file}
-          </a>
-        </td>
+       
+        <td className="border px-4 py-2 text-center">
+                      <FileLink item={document} />
+                    </td>
         <td className="border px-3 py-2 text-left">
           <button
-            className="text-blue-500 hover:underline font-bold"
+            className="text-green-500 hover:underline ml-2 font-bold"
+            onClick={() => handleEditFileClick(document.doc_ID)}
+          >
+            Modify File
+          </button>
+          <button
+            className="text-blue-500 hover:underline ml-2 font-bold"
             onClick={() => handleEditClick(document.doc_ID)}
           >
-            Modify
+            Modify 
           </button>
           <button
             className="text-red-500 hover:underline ml-2 font-bold"
@@ -393,8 +366,44 @@ CommunicationsAdminTable.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   handleDeleteClick: PropTypes.func.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
+  handleEditFileClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,
   clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
+  unitOptions: PropTypes.array.isRequired,
 };
 
+
+const FileLink = ({ item }) => {
+  const [fileUrl, setFileUrl] = useState(`http://localhost:8081/communicationhistoryfiles/${item.file}`);
+
+  useEffect(() => {
+    const checkFile = async () => {
+      try {
+        const response = await fetch(fileUrl);
+        if (!response.ok) {
+          setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+        }
+      } catch (error) {
+        setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+      }
+    };
+
+    checkFile();
+  }, [item.file, fileUrl]);
+
+  return (
+    <a
+      href={fileUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-500 hover:underline"
+    >
+      {item.file}
+    </a>
+  );
+};
+
+FileLink.propTypes = {
+  item: PropTypes.object,
+};

@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export default function CommunicationsNormalEditForm({
   editFormData,
   personnelOptions,
-  institutionsOptions,
+  clientsOptions,
   documentTypeOptions,
+  unitOptions,
   handleEditSubmit,
   handleCloseEditForm,
   handleChange,
@@ -28,19 +29,19 @@ export default function CommunicationsNormalEditForm({
           </div>
 
           <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Institution Name</label>
+  <label className="mb-1 text-sm font-semibold">Client Name</label>
   <select 
     disabled
 
-    name="inst_id"
-    value={editFormData.inst_id}
+    name="client_id"
+    value={editFormData.client_id}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
-    <option value="">Select Institution</option>
-    {institutionsOptions.map((institution) => (
-      <option key={institution.inst_id} value={institution.inst_id}>
-        {institution.inst_name}
+    <option value="">Select Client</option>
+    {clientsOptions.map((client) => (
+      <option key={client.client_id} value={client.client_id}>
+        {client.client_name}
       </option>
     ))}
   </select>
@@ -58,13 +59,12 @@ export default function CommunicationsNormalEditForm({
       >
         <option value="">Select Document Type</option>
         {documentTypeOptions.map((documentType) => (
-          <option key={documentType.doc_type_id} value={documentType.doc_type_id}>
-            {documentType.document_type}
+          <option key={documentType.Doc_type_ID} value={documentType.Doc_type_ID}>
+            {documentType.type}
           </option>
         ))}
       </select>
     </div>
-
 
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-bold">Remarks</label>
@@ -80,13 +80,30 @@ export default function CommunicationsNormalEditForm({
           </div>
 
           <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Issued</label>
-              <DatePicker
-  selected={editFormData.dateIssued ? new Date(editFormData.dateIssued) : null}
-  onChange={(date) => handleChange({ target: { name: 'dateIssued', value: date } })}
-  dateFormat="MM/dd/yyyy" 
-  className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-/>
+              <label className="mb-1 text-sm font-semibold">Date Received</label>
+              <input
+                
+                type="text"
+                id="date_received"
+                name="date_received"
+                placeholder="Enter date_received"
+                value={editFormData.date_received}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">Date Released</label>
+              <input
+                
+                type="text"
+                id="date_released"
+                name="date_released"
+                placeholder="Enter date_released"
+                value={editFormData.date_released}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              />
             </div>
 
           <div className="flex flex-col">
@@ -102,29 +119,28 @@ export default function CommunicationsNormalEditForm({
     <option value="">Select Assignatories</option>
     {personnelOptions.map((person) => (
       <option key={person.personnel_id} value={person.personnel_id}>
-        {`${person.Last_Name}, ${person.First_Name}`}
+        {`${person.last_name}, ${person.first_name}`}
       </option>
     ))}
      </select>
     </div>
 
     <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Department</label>
-              <select 
-              
-              
-                name="department_id"
-                value={editFormData.department_id}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select Department</option>
-                <option value="1">Receiving</option>
-                <option value="2">Scholarship</option>
-                <option value="3">Records</option>
-               
-              </select>
-            </div>
+  <label className="mb-1 text-sm font-semibold">Unit</label>
+  <select 
+    name="unit_id"
+    value={editFormData.unit_id}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Unit</option>
+    {unitOptions.map((unit) => (
+      <option key={unit.unit_ID} value={unit.unit_ID}>
+        {unit.type}
+      </option>
+    ))}
+  </select>
+</div>
 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Status</label>
@@ -167,25 +183,22 @@ export default function CommunicationsNormalEditForm({
 CommunicationsNormalEditForm.propTypes = {
   editFormData: PropTypes.shape({
     doc_ID: PropTypes.string,
-    // documentType: PropTypes.string, //sa read
-    doc_type_id: PropTypes.number,  //sa put
-    // institution: PropTypes.string, // sa read
-    inst_id: PropTypes.string, // sa put  
-    // department: PropTypes.string,   //sa read
-    department_id: PropTypes.number,//sa put 
-    dateIssued: PropTypes.instanceOf(Date),
-    // status: PropTypes.string,  //sa read
-    status_id: PropTypes.number, //sa put
+    doc_type_id: PropTypes.number, 
+    date_received: PropTypes.string,
+    date_released: PropTypes.string,
+    status_id: PropTypes.number,
     remarks: PropTypes.string,
-    // assignatories: PropTypes.string, // sa read
-    personnel_id: PropTypes.number, // sa put
-    department: PropTypes.string,
+    personnel_id: PropTypes.number,
+    client_id: PropTypes.number,
+    unit_id: PropTypes.number,
+    tags:PropTypes.string,
   }).isRequired,
 
   handleEditSubmit: PropTypes.func.isRequired,
   handleCloseEditForm: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   personnelOptions: PropTypes.array.isRequired,
-  institutionsOptions: PropTypes.array.isRequired,
+  clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
+  unitOptions:PropTypes.array.isRequired,
 };

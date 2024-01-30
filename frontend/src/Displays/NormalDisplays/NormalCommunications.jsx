@@ -61,8 +61,23 @@ export default function NormalCommunications() {
          }
        }; fetchPersonnelData(); }, []);
 
+
+          // to fetch units for the add and edit form
+    const [unitOptions, setUnitOptions] = useState([]);
+
+    useEffect(() => {
+   const fetchUnitData = async () => {
+     try {
+       const response = await axios.get("http://localhost:8081/getUnits");
+       setUnitOptions(response.data);
+       console.log("the units " + JSON.stringify(response.data));
+     } catch (error) {
+       console.error("Error fetching units data:", error);
+     }
+   }; fetchUnitData(); }, []);
+
             // to fetch client for the add and edit form 
-            const [clientsOptions, setclientsOptions] = useState([]);
+       const [clientsOptions, setclientsOptions] = useState([]);
 
         useEffect(() => {
         const fetchClientData = async () => {
@@ -76,24 +91,7 @@ export default function NormalCommunications() {
        };
         fetchClientData();
      }, []);
-     
-       // to fetch institution for the add and edit form 
-     const [institutionsOptions, setInstitutionsOptions] = useState([]);
-     
-     useEffect(() => {
-       const fetchInstitutionData = async () => {
-         try {
-           const response = await axios.get("http://localhost:8081/getClients");
-           setInstitutionsOptions(response.data);
-           console.log("the institutions " + JSON.stringify(response.data));
-         } catch (error) {
-           console.error("Error fetching institution data:", error);
-         }
-       };
-     
-       fetchInstitutionData();
-     }, []);
-     
+         
      // to fetch document type for the add and edit form
      const [documentTypeOptions, setDocumentTypeOptions] = useState([]);
      
@@ -117,12 +115,14 @@ export default function NormalCommunications() {
   const [editFormData, setEditFormData] = useState({
     doc_ID: "",
     documentType: "",
-    dateIssued: new Date(),
+    dateReceived: new Date(),
+    dateReleased: new Date(),
     status: "", 
     assignatories: "",
-    department: "",
+    unit: "",
     remarks: "",
-    institution: "",
+    tags: "",
+    client: "",
   }); console.log("the EditformData " + JSON.stringify(editFormData));
  
 
@@ -141,38 +141,33 @@ export default function NormalCommunications() {
   
 
  // the "save form function of edit modal"
-const handleEditSubmit = async (e) => {
+ const handleEditSubmit = async (e) => {
   e.preventDefault();
   const userConfirmed = window.confirm("Are you sure you want to save changes?");
 
   if (!userConfirmed) {
-    // User clicked 'Cancel' in the confirmation dialog
     alert("Changes not saved.");
     return;
   }
 
   try {
-    // Check if editFormData.dateIssued is a valid date
-    const dateIssued = new Date(editFormData.dateIssued);
-    if (isNaN(dateIssued.getTime())) {
-      // Invalid date
-      alert("Invalid date format. Please provide a valid date.");
-      return;
-    }
-
-    const formattedDate = dateIssued.toLocaleDateString();
+    // Directly format dateIssued to local date string
+    const formattedDateReceived = new Date(editFormData.date_received).toLocaleDateString();
+    const formattedDateReleased = new Date(editFormData.date_released).toLocaleDateString();
 
     const response = await axios.put(
       `http://localhost:8081/updateDocumentNormal/${editFormData.doc_ID}`,
       {
         doc_ID: editFormData.doc_ID,
         doc_type_id: editFormData.doc_type_id,
-        dateIssued: formattedDate,
+        date_received: formattedDateReceived,
+        date_released: formattedDateReleased,
         status_id: editFormData.status_id,
-        personnel_id: editFormData.personnel_id,
-        department_id: editFormData.department_id,
         remarks: editFormData.remarks,
-        inst_id: editFormData.inst_id,
+        personnel_id: editFormData.personnel_id,
+        client_id: editFormData.client_id,
+        unit_id: editFormData.unit_id,
+        tags: editFormData.tags,
       }
     );
 
@@ -199,7 +194,7 @@ const handleEditSubmit = async (e) => {
 
   // for pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 15;
+  const itemsPerPage = 1000;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = documents.slice(indexOfFirstItem, indexOfLastItem);
@@ -220,7 +215,7 @@ const fetchDocumentHistory = async (doc_ID) => {
 };
 
 const handleInfoClick = (doc_ID) => {
-  // Find the selected row data based on the inst_id
+  // Find the selected row data based on the doc_id
   const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
   if (selectedRow) {
     setSelectedRowData(selectedRow);
@@ -270,6 +265,7 @@ const handleInfoClick = (doc_ID) => {
     handleEditClick={handleEditClick}
     clientsOptions={clientsOptions}
     documentTypeOptions={documentTypeOptions}
+    unitOptions={unitOptions}
   />
 </div>
 
@@ -279,8 +275,9 @@ const handleInfoClick = (doc_ID) => {
   <CommunicationsNormalEditForm
     editFormData={editFormData}
     personnelOptions={personnelOptions} 
-    institutionsOptions={institutionsOptions}
+    clientsOptions={clientsOptions}
     documentTypeOptions={documentTypeOptions}
+    unitOptions={unitOptions}
     handleEditSubmit={handleEditSubmit}
     handleCloseEditForm={() => setShowEditForm(false)}
     handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}

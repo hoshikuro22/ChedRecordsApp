@@ -7,6 +7,7 @@ export default function ChedClientsAdminTable({
   handleInfoClick,
   handleEditClick,
   searchQuery,
+  clientTypeOptions,
 }) {
   // for Client Type Filter dropdown
   const [showClientTypeFilterDropdown, setShowClientTypeFilterDropdown] = useState(false);
@@ -35,17 +36,11 @@ export default function ChedClientsAdminTable({
                   type="button"
                   className="inline-flex justify-center w-32 px-2 py-1 text-black bg-gray-400 rounded-lg hover:bg-gray-500 transition duration-300"
                 >
-                  {selectedClientTypeFilter === "1"
-                    ? "CHED10"
-                    : selectedClientTypeFilter === "2"
-                    ? "HEIS"
-                    : selectedClientTypeFilter === "3"
-                    ? "Government Office"
-                    : selectedClientTypeFilter === "4"
-                    ? "Agency"
-                    : selectedClientTypeFilter === "5"
-                    ? "Individual"
-                    : "Client Type"}
+                  {selectedClientTypeFilter
+                    ? clientTypeOptions.find(
+                        (option) => option.Client_type_ID === selectedClientTypeFilter
+                      )?.type || 'Client Type'
+                    : 'Client Type'}
                 </button>
                 {showClientTypeFilterDropdown ? (
                   <div className="origin-top-right absolute right-0 mt-2 w-auto rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
@@ -60,56 +55,19 @@ export default function ChedClientsAdminTable({
                       >
                         All
                       </button>
-                      <button
-                        onClick={() => handleSelectClientTypeFilter("1")}
-                        className={`${
-                          selectedClientTypeFilter === "1"
-                            ? "bg-gray-200 text-gray-900"
-                            : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
-                      >
-                        CHED10
-                      </button>
-                      <button
-                        onClick={() => handleSelectClientTypeFilter("2")}
-                        className={`${
-                          selectedClientTypeFilter === "2"
-                            ? "bg-gray-200 text-gray-900"
-                            : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
-                      >
-                        HEIS
-                      </button>
-                      <button
-                        onClick={() => handleSelectClientTypeFilter("3")}
-                        className={`${
-                          selectedClientTypeFilter === "3"
-                            ? "bg-gray-200 text-gray-900"
-                            : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
-                      >
-                        Government Office
-                      </button>
-                      <button
-                        onClick={() => handleSelectClientTypeFilter("4")}
-                        className={`${
-                          selectedClientTypeFilter === "4"
-                            ? "bg-gray-200 text-gray-900"
-                            : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
-                      >
-                        Agency
-                      </button>
-                      <button
-                        onClick={() => handleSelectClientTypeFilter("5")}
-                        className={`${
-                          selectedClientTypeFilter === "5"
-                            ? "bg-gray-200 text-gray-900"
-                            : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
-                      >
-                        Individual
-                      </button>
+                      {clientTypeOptions.map((option) => (
+                        <button
+                          key={option.Client_type_ID}
+                          onClick={() => handleSelectClientTypeFilter(option.Client_type_ID)}
+                          className={`${
+                            selectedClientTypeFilter === option.Client_type_ID
+                              ? 'bg-gray-200 text-gray-900'
+                              : 'text-gray-700'
+                          } block px-4 py-2 text-sm w-full text-left`}
+                        >
+                          {option.type}
+                        </button>
+                      ))}
                     </div>
                   </div>
                 ) : null}
@@ -121,11 +79,10 @@ export default function ChedClientsAdminTable({
         <tbody>
           {currentItems
             .filter((client) => (
-              ((selectedClientTypeFilter === "1" && client.client_type === "CHED10") ||
-                (selectedClientTypeFilter === "2" && client.client_type === "HEIS") ||
-                (selectedClientTypeFilter === "3" && client.client_type === "Government Office") ||
-                (selectedClientTypeFilter === "4" && client.client_type === "Agency") ||
-                selectedClientTypeFilter === "") &&
+              (!selectedClientTypeFilter ||
+                clientTypeOptions.find(
+                  (option) => option.Client_type_ID === selectedClientTypeFilter
+                )?.type === client.client_type) &&
               (client.client_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 client.client_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 client.client_type.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -169,4 +126,5 @@ ChedClientsAdminTable.propTypes = {
   handleInfoClick: PropTypes.func.isRequired,
   handleDeleteClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,
+  clientTypeOptions: PropTypes.array.isRequired,
 };

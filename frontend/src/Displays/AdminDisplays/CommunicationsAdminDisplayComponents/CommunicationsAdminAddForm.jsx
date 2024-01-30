@@ -10,6 +10,7 @@ export default function CommunicationsAdminAddForm({
     personnelOptions,
     clientsOptions,
     documentTypeOptions,
+    unitOptions,
     handleChange,
     handleSubmit,
     handleHideFormClick,
@@ -129,23 +130,21 @@ export default function CommunicationsAdminAddForm({
            </div>
 
            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Unit</label>
-              <select 
-                required
-                id="unit"
-                name="unit"
-                value={formData.unit}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select Unit</option>
-                <option value="1">Admin</option>
-                <option value="2">Receiving</option>s
-                <option value="3">Scholarship</option>
-                <option value="4">Records</option>
-               
-              </select>
-            </div>
+  <label className="mb-1 text-sm font-semibold">Unit</label>
+  <select 
+    name="unit"
+    value={formData.unit}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Unit</option>
+    {unitOptions.map((unit) => (
+      <option key={unit.unit_ID} value={unit.unit_ID}>
+        {unit.type}
+      </option>
+    ))}
+  </select>
+</div>
 
            </div>
 
@@ -270,4 +269,5 @@ CommunicationsAdminAddForm.propTypes = {
   personnelOptions: PropTypes.array.isRequired,
   clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
+  unitOptions: PropTypes.array.isRequired,
 };

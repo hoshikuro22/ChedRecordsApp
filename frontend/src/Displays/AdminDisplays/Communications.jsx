@@ -6,6 +6,7 @@ import CommunicationsAdminPagination from "./CommunicationsAdminDisplayComponent
 import CommunicationsAdminMoreDetails from "./CommunicationsAdminDisplayComponents/CommunicationsAdminMoreDetails";
 import CommunicationsAdminEditForm from "./CommunicationsAdminDisplayComponents/CommunicationsAdminEditForm";
 import CommunicationsAdminSearchBar from "./CommunicationsAdminDisplayComponents/CommunicationsAdminSearchBar";
+import CommunicationsAdminEditForm2 from "./CommunicationsAdminDisplayComponents/CommunicationsAdminEditForm2";
 
 
 export default function Communications() {
@@ -55,6 +56,23 @@ export default function Communications() {
     }
   }; fetchPersonnelData(); }, []);
 
+  
+    // to fetch units for the add and edit form
+    const [unitOptions, setUnitOptions] = useState([]);
+
+   useEffect(() => {
+  const fetchUnitData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/getUnits");
+      setUnitOptions(response.data);
+      console.log("the units " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching units data:", error);
+    }
+  }; fetchUnitData(); }, []);
+
+  
+
   // to fetch client for the add and edit form 
 const [clientsOptions, setclientsOptions] = useState([]);
 
@@ -91,9 +109,9 @@ useEffect(() => {
 
 
   
- //===== Edit =====//
-  const [showEditForm, setShowEditForm] = useState(false);
-  const [editFormData, setEditFormData] = useState({
+ //===== Edit WITH/FOR FILE =====// - BELOW
+  const [showEditFileForm, setShowEditFileForm] = useState(false);
+  const [editFileFormData, setEditFileFormData] = useState({
     doc_ID: "",
     file: null,
     documentType: "",
@@ -105,25 +123,25 @@ useEffect(() => {
     remarks: "",
     tags: "",
     client: "",
-  }); console.log("the EditformData " + JSON.stringify(editFormData));
+  }); console.log("the EditFileformData " + JSON.stringify(editFileFormData));
  
 
-  const handleEditClick = (doc_ID) => {
+  const handleEditFileClick = (doc_ID) => {
     const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
     if (selectedRow) {
       console.log("Selected Row Data to edit:", selectedRow);
      selectedRow.doc_ID = String(selectedRow.doc_ID);
-     setEditFormData({
+     setEditFileFormData({
       ...selectedRow,
       file: selectedRow.file ? new File([], selectedRow.file.name) : null,
     });
-      setShowEditForm(true);
+      setShowEditFileForm(true);
     }
   };
   
 
   // the "save form function of edit modal"
-  const handleEditSubmit = async (e) => {
+  const handleEditFileSubmit = async (e) => {
     e.preventDefault();
     const userConfirmed = window.confirm("Are you sure you want to save changes?");
 
@@ -140,33 +158,33 @@ useEffect(() => {
         const formattedDateReceived = formData.dateReceived.toLocaleDateString();
         const formattedDateReleased = formData.dateReleased.toLocaleDateString();
         // Append the non-file data to formDataToSend
-        formDataToSend.append("doc_ID", String(editFormData.doc_ID));
-        formDataToSend.append("doc_type_id", editFormData.doc_type_id);
+        formDataToSend.append("doc_ID", String(editFileFormData.doc_ID));
+        formDataToSend.append("doc_type_id", editFileFormData.doc_type_id);
         formDataToSend.append("date_received", formattedDateReceived);
         formDataToSend.append("date_released", formattedDateReleased);
-        formDataToSend.append("status_id", editFormData.status_id);
-        formDataToSend.append("personnel_id", editFormData.personnel_id);
-        formDataToSend.append("unit_id", editFormData.unit_id);
-        formDataToSend.append("remarks", editFormData.remarks);
-        formDataToSend.append("tags", editFormData.tags);
-        formDataToSend.append("client_id", editFormData.client_id);
+        formDataToSend.append("status_id", editFileFormData.status_id);
+        formDataToSend.append("personnel_id", editFileFormData.personnel_id);
+        formDataToSend.append("unit_id", editFileFormData.unit_id);
+        formDataToSend.append("remarks", editFileFormData.remarks);
+        formDataToSend.append("tags", editFileFormData.tags);
+        formDataToSend.append("client_id", editFileFormData.client_id);
         
   
         // Append the file if it exists
-        if (editFormData.file && editFormData.file instanceof File) {
-          formDataToSend.append("file", editFormData.file);
+        if (editFileFormData.file && editFileFormData.file instanceof File) {
+          formDataToSend.append("file", editFileFormData.file);
         }
         
       
         // Make the API call to update the document details
         const response = await axios.put(
-          `http://localhost:8081/updateDocument/${editFormData.doc_ID}`,
+          `http://localhost:8081/updateDocumentFile/${editFileFormData.doc_ID}`,
           formDataToSend
         );
   
         if (response.data.Status === "Success") {
           alert("Document edited successfully!");
-          setShowEditForm(false);
+          setShowEditFileForm(false);
           fetchDocuments(); // Refresh the document list
         } else {
           alert("Error editing document. Please try again.");
@@ -177,8 +195,89 @@ useEffect(() => {
       }
   };
   
-  
-  //EDIT
+  //EDIT WITH/FOR FILE ABOVE
+
+  //EDIT WITHOUT FILE BELOW
+
+//===== Edit =====//
+const [showEditForm, setShowEditForm] = useState(false);
+const [editFormData, setEditFormData] = useState({
+  doc_ID: "",
+  documentType: "",
+  dateReceived: new Date(),
+  dateReleased: new Date(),
+  status: "", 
+  assignatories: "",
+  unit: "",
+  remarks: "",
+  tags: "",
+  client: "",
+}); console.log("the EditformData " + JSON.stringify(editFormData));
+
+
+const handleEditClick = (doc_ID) => {
+  const selectedRow = documents.find((document) => document.doc_ID === doc_ID);
+  if (selectedRow) {
+    console.log("Selected Row Data:", selectedRow);
+   selectedRow.doc_ID = String(selectedRow.doc_ID);
+   setEditFormData({
+    ...selectedRow,
+    // file: selectedRow.file ? new File([], selectedRow.file.name) : null,
+  });
+    setShowEditForm(true);
+  }
+};
+
+
+// the "save form function of edit modal"
+const handleEditSubmit = async (e) => {
+e.preventDefault();
+const userConfirmed = window.confirm("Are you sure you want to save changes?");
+
+if (!userConfirmed) {
+  alert("Changes not saved.");
+  return;
+}
+
+try {
+  // Directly format dateIssued to local date string
+  const formattedDateReceived = new Date(editFormData.date_received).toLocaleDateString();
+  const formattedDateReleased = new Date(editFormData.date_released).toLocaleDateString();
+
+  const response = await axios.put(
+    `http://localhost:8081/updateDocumentNormal/${editFormData.doc_ID}`,
+    {
+      doc_ID: editFormData.doc_ID,
+      doc_type_id: editFormData.doc_type_id,
+      date_received: formattedDateReceived,
+      date_released: formattedDateReleased,
+      status_id: editFormData.status_id,
+      remarks: editFormData.remarks,
+      personnel_id: editFormData.personnel_id,
+      client_id: editFormData.client_id,
+      unit_id: editFormData.unit_id,
+      tags: editFormData.tags,
+    }
+  );
+
+  if (response.data.Status === "Success") {
+    alert("Document edited successfully!");
+    setShowEditForm(false);
+    fetchDocuments(); // Refresh the document list
+  } else {
+    alert("Error editing document. Please try again.");
+  }
+} catch (error) {
+  console.error("Error:", error);
+  alert("An error occurred while editing the document.");
+}
+};
+
+
+//EDIT
+
+
+   //EDIT WITHOUT FILE ABOVE
 
 
 
@@ -421,6 +520,7 @@ const handleDeleteClick = async (id) => {
         personnelOptions={personnelOptions} 
         clientsOptions={clientsOptions}
         documentTypeOptions={documentTypeOptions}
+        unitOptions={unitOptions}
         handleChange={handleChange}
         handleFileChange={handleFileChange}
         handleSubmit={handleSubmit}
@@ -444,27 +544,44 @@ const handleDeleteClick = async (id) => {
     searchQuery={searchQuery}
     handleDeleteClick={handleDeleteClick}
     handleInfoClick={handleInfoClick}
+    handleEditFileClick={handleEditFileClick}
     handleEditClick={handleEditClick}
     clientsOptions={clientsOptions}
     documentTypeOptions={documentTypeOptions}
+    unitOptions={unitOptions}
   />
 </div>
 
 
-  {/* Edit Modal Form */}
-   {showEditForm && (
+  {/* Edit (file) Modal  Form */}
+   {showEditFileForm && (
   <CommunicationsAdminEditForm
+    editFileFormData={editFileFormData}
+    personnelOptions={personnelOptions} 
+    clientsOptions={clientsOptions}
+    documentTypeOptions={documentTypeOptions}
+    unitOptions={unitOptions}
+    handleEditFileSubmit={handleEditFileSubmit}
+    handleCloseEditForm={() => setShowEditFileForm(false)}
+    handleChange={(e) => setEditFileFormData({ ...editFileFormData, [e.target.name]: e.target.value })}
+    handleFileChange={(e) =>setEditFileFormData({ ...editFileFormData, file: e.target.files[0] })  } 
+  />
+)}
+
+
+  {/* Edit(no file) Modal Form */}
+  {showEditForm && (
+  <CommunicationsAdminEditForm2
     editFormData={editFormData}
     personnelOptions={personnelOptions} 
     clientsOptions={clientsOptions}
     documentTypeOptions={documentTypeOptions}
+    unitOptions={unitOptions}
     handleEditSubmit={handleEditSubmit}
     handleCloseEditForm={() => setShowEditForm(false)}
     handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
-    handleFileChange={(e) =>setEditFormData({ ...editFormData, file: e.target.files[0] })  } 
   />
 )}
-
 
  </div>
 
