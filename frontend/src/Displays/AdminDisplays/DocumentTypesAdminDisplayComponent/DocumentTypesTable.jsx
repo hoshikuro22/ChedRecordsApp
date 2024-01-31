@@ -12,7 +12,7 @@ export default function DocumentTypesTable({ documentTypes, handleDeleteClick, h
         <thead>
           <tr className="bg-gray-200">
             {/* <th className="px-4 py-2">ID</th> */}
-            <th className="px-4 py-2 text-left">Document Type</th>
+            <th className="px-4 py-2 text-center">Document Type</th>
             <th className="px-4 py-2 text-left">Remarks</th>
             <th className="px-4 py-2 text-left">Action</th>
           

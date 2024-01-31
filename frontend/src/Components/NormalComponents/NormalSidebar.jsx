@@ -51,7 +51,7 @@ export default function NormalSidebar() {
 
           <a className="flex items-center gap-2 mt-5 hover:bg-gray-700" href="/normal/norprofile">
             <BsFillPersonFill size="20" />
-            <h1 className="text-1xl">Staff:  {lastName + ", "+firstName }</h1>
+            <h1 className="text-1xl"> {lastName + ", "+firstName }</h1>
           </a>
 
           <div className="flex items-center mt-5">

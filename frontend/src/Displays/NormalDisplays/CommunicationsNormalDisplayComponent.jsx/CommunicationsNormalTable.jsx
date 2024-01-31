@@ -5,8 +5,8 @@ export default function CommunicationsNormalTable({
   currentItems,
   searchQuery,
   handleInfoClick,
-  handleDeleteClick,
-  handleEditClick,
+  // handleDeleteClick,
+  // handleEditClick,
   clientsOptions,
   documentTypeOptions,
   unitOptions,
@@ -81,7 +81,7 @@ const handleSelectClientNameFilter = (value) => {
         <table className="table-auto w-full border-collapse border h-24">
         <thead>
           <tr className="bg-gray-400">
-            <th className="px-4 py-2">Doc No</th>
+            {/* <th className="px-4 py-2">Doc No</th> */}
             <th className="px-4 py-2">
   <div className="relative inline-block ml-2">
     <button
@@ -313,7 +313,7 @@ const handleSelectClientNameFilter = (value) => {
   )
   .map((document) => (
       <tr key={document.doc_ID}>
-        <td className="border px-4 py-2 text-center">{document.doc_ID}</td>
+        {/* <td className="border px-4 py-2 text-center">{document.doc_ID}</td> */}
 
         <td className="border px-4 py-2 text-center">{document.client_name}</td>
         <td className="border px-4 py-2 text-center">{document.contact_firstName} {document.contact_lastName}</td>
@@ -334,7 +334,7 @@ const handleSelectClientNameFilter = (value) => {
           </a>
         </td>
         <td className="border px-4 py-2 text-center">
-          <button
+          {/* <button
             className="text-blue-500 hover:underline"
             onClick={() => handleEditClick(document.doc_ID)}
           >
@@ -345,7 +345,7 @@ const handleSelectClientNameFilter = (value) => {
             onClick={() => handleDeleteClick(document.doc_ID)}
           >
             Delete
-          </button>
+          </button> */}
           <button
             className="text-gray-500 hover:underline ml-2 font-bold"
             onClick={() => handleInfoClick(document.doc_ID)}
@@ -366,8 +366,8 @@ CommunicationsNormalTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
   searchQuery: PropTypes.string.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
-  handleDeleteClick: PropTypes.func.isRequired,
-  handleEditClick: PropTypes.func.isRequired,
+  // handleDeleteClick: PropTypes.func.isRequired,
+  // handleEditClick: PropTypes.func.isRequired,
   clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
   unitOptions: PropTypes.array.isRequired,

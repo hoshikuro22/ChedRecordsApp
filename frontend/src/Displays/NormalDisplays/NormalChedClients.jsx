@@ -202,7 +202,7 @@ useEffect(() => {
   
 
   return (
-    <div className="w-screen h-screen mt-2 p-2 ml-4">
+    <div className="w-screen h-screen mt-2 p-2 ml-2">
 
 
 

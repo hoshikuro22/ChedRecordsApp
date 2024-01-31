@@ -313,7 +313,7 @@ const handleCloseEditForm = () => {
 
 
   return (
-    <div className="w-screen h-auto mt-2 p-2 ml-4">
+    <div className="w-screen h-auto mt-2 p-2 ml-1">
 
 
      <div className="flex flex-row gap-2">

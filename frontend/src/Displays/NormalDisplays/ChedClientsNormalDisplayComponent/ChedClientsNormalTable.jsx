@@ -93,8 +93,8 @@ export default function ChedClientsNormalTable({
             <tr key={client.client_id}>
               <td className="border px-3 py-2 text-left">{client.client_id}</td>
               <td className="border px-3 py-2 text-left">{client.client_name}</td>
-              <td className="border px-3 py-2 text-left">{client.client_type}</td>
-              <td className="border px-3 py-2 text-left">
+              <td className="border px-3 py-2 text-center">{client.client_type}</td>
+              <td className="border px-3 py-2 text-center">
                 {/* <button
                   className="text-blue-500 hover:underline ml-2 font-bold"
                   onClick={() => handleEditClick(client.client_id)}

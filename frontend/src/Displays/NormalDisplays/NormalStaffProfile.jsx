@@ -98,20 +98,20 @@ export default function NormalStaffProfile() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen ">
+    <div className="flex flex-col  h-screen w-screen items-center  ">
       <h2 className="text-3xl font-semibold mb-4 text-blue-600">User Profile</h2>
-      <div className="w-auto max-w-md bg-white rounded-lg ">
+      <div className="max-w-md bg-white rounded-lg ">
       <table className="">
         <tbody>
-          <tr className="bg-gray-100 ">
-            <td className="border px-4 py-2 font-semibold ">User ID:</td>
+          <tr className="bg-gray-100  ">
+            <td className="border px-4 py-2 font-semibold w-20 ">User ID:</td>
             <td className="border px-4 py-2">{userData.User_ID}</td>
           </tr>
 
-          <tr>
+          {/* <tr>
             <td className="border px-4 py-2 font-semibold">User Type ID:</td>
             <td className="border px-4 py-2">{userData.User_type_ID}</td>
-          </tr>
+          </tr> */}
 
           <tr className="bg-gray-100">
             <td className="border px-4 py-2 font-semibold">First Name:</td>

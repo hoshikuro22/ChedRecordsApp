@@ -498,11 +498,27 @@ const handleDeleteClick = async (id) => {
   }
 };
 
+const [maxDocIDShown, setMaxDocIDShown] = useState(0);
+
+useEffect(() => {
+  // Fetch the maximum Doc_ID when the component mounts
+  getMaxDocIDShown();
+}, []);
+
+// Function to fetch the maximum Doc_ID
+const getMaxDocIDShown = async () => {
+  try {
+    const response = await axios.get("http://localhost:8081/getMaxDocIDShown");
+    setMaxDocIDShown(response.data.maxDocIDShown);
+  } catch (error) {
+    console.error("Error fetching max Doc_ID:", error);
+  }
+};
   
 
 
   return (
-    <div className="w-screen h-auto mt-2 p-2 ml-4">
+    <div className="w-screen h-auto mt-2 p-2 ml-1">
      
 
       <div className="flex flex-row gap-3">
@@ -527,6 +543,7 @@ const handleDeleteClick = async (id) => {
         handleAddCommunicationClick={handleAddCommunicationClick}
         handleHideFormClick={handleHideFormClick}
         handleClearFormClick={handleClearFormClick}
+        maxDocIDShown={maxDocIDShown}
       />
 
     </div>

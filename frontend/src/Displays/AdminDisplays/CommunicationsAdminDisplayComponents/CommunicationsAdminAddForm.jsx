@@ -17,7 +17,11 @@ export default function CommunicationsAdminAddForm({
     handleClearFormClick,
     handleFileChange,
     handleAddCommunicationClick,
+    maxDocIDShown,
   }) {
+
+    
+    
   return (
     <div>
 
@@ -25,7 +29,12 @@ export default function CommunicationsAdminAddForm({
          <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
           <div className="bg-white rounded-lg p-8 z-50">
-          <h2 className="text-xl font-semibold mb-2">Add New Communication</h2>
+            <div className="flex flex-row">
+            <h2 className="text-xl font-semibold mb-2">Add New Communication</h2>
+            <label className="mb-1 text-sm font-semibold right-1 ml-auto">DOC ID: <strong>{maxDocIDShown + 1}</strong></label>
+
+            </div>
+        
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
 
           <div className="flex flex-row gap-6">
@@ -193,6 +202,7 @@ export default function CommunicationsAdminAddForm({
                 <option value="0">Pending</option>
                 <option value="1">Approved</option>
                 <option value="2">Disapproved</option>
+                <option value="3">No Action</option>
               </select>
             </div></div>
 
@@ -270,4 +280,5 @@ CommunicationsAdminAddForm.propTypes = {
   clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
   unitOptions: PropTypes.array.isRequired,
+  maxDocIDShown: PropTypes.number.isRequired,
 };

@@ -22,7 +22,7 @@ export default function LandingPage() {
         console.log(res);
         if (res.data.userType === 0) {
           navigate("/admin/adhome");
-        } else if (res.data.userType === 1) {
+        } else if (res.data.userType >= 1 && res.data.userType <= 7) {
           navigate("/normal/ncommunications");
         } else {
           // alert(res.data.Error);

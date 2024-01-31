@@ -89,7 +89,7 @@ router.post("/addUser", (req, res) => {
       u.username
     FROM user u
     JOIN user_type ut ON u.user_type_ID = ut.user_type_ID
-    ORDER BY user_ID ASC; `;
+    ORDER BY user_type ASC; `;
   
     db.query(sql, (err, data) => {
       if (err) {

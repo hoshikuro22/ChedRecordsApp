@@ -412,6 +412,26 @@ ORDER BY doc_ID DESC;
     });
 });
 
+// API endpoint to get the maximum Doc_ID
+router.get('/getMaxDocIDShown', async (req, res) => {
+  try {
+    const sql = 'SELECT MAX(CAST(Doc_ID AS SIGNED)) AS maxDocIDShown FROM document';
+    db.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error fetching max Doc_ID:', err);
+        return res.status(500).json({ Status: 'Error', Message: 'Failed to fetch max Doc_ID' });
+      }
+
+      const maxDocIDShown = result[0].maxDocIDShown || 0; // Ensure a default value if there's no document yet
+      return res.status(200).json({ maxDocIDShown });
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(500).json({ Status: 'Error', Message: 'Internal server error' });
+  }
+});
+
+
 // sa document history fetch
 router.get("/getDocumentHistory/:doc_ID", (req, res) => {
   const doc_ID = req.params.doc_ID;

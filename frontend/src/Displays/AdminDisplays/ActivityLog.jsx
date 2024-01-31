@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export default function ActivityLog() {
   const [activityLog, setActivityLog] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(1000);
 
   useEffect(() => {
     // Fetch data when the component mounts
@@ -37,8 +37,8 @@ export default function ActivityLog() {
   
 
   return (
-    <div className="w-screen h-screen mt-8 p-4 ml-4">
-      <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md">
+    <div className="w-screen h-screen mt-8 p-4 ml-1">
+       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
         <h2 className="text-xl font-semibold mb-2">Activity Log: <strong>(Added & Deleted)</strong></h2>
 
         <table className="table-auto w-full border-collapse border">
@@ -63,8 +63,11 @@ export default function ActivityLog() {
           </tbody>
         </table>
 
-        {/* Pagination */}
-        <div className="flex justify-between mt-4">
+
+      </div>
+
+              {/* Pagination */}
+              <div className="flex justify-between mt-4">
           <button
             onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 1}
@@ -81,7 +84,6 @@ export default function ActivityLog() {
             Next
           </button>
         </div>
-      </div>
     </div>
   );
 }

@@ -187,7 +187,7 @@ export default function DocumentTypes() {
   };
 
   return (
-    <div className="w-screen h-auto mt-2 p-4 ml-4">
+    <div className="w-screen h-auto mt-2 p-4 ml-1">
     
 
       <DocumentTypesAddForm

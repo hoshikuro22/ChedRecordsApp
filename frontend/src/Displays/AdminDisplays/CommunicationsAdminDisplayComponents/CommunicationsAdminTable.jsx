@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 export default function CommunicationsAdminTable({
   currentItems,
-  handleDeleteClick,
+  // handleDeleteClick,
   handleInfoClick,
   handleEditFileClick,
   handleEditClick,
@@ -230,6 +230,8 @@ const handleSelectClientNameFilter = (value) => {
                       ? 'Approved'
                       : selectedStatusFilter === '2'
                       ? 'Disapproved'
+                      : selectedStatusFilter === '3'
+                      ? 'No Action'
                       : 'Status'}
                   </button>
                 </div>
@@ -278,6 +280,16 @@ const handleSelectClientNameFilter = (value) => {
                       >
                         Disapproved
                       </button>
+                      <button
+                        onClick={() => handleSelectStatusFilter('3')}
+                        className={`${
+                          selectedStatusFilter === '3'
+                            ? 'bg-gray-200 text-gray-900'
+                            : 'text-gray-700'
+                        } block px-4 py-2 text-sm w-full text-left`}
+                      >
+                        No Action
+                      </button>
                     </div>
                   </div>
                 ) : null}
@@ -294,6 +306,7 @@ const handleSelectClientNameFilter = (value) => {
     ((selectedStatusFilter === '0' && document.status === 'Pending') ||
       (selectedStatusFilter === '1' && document.status === 'Approved') ||
       (selectedStatusFilter === '2' && document.status === 'Disapproved') ||
+      (selectedStatusFilter === '3' && document.status === 'No Action') ||
       selectedStatusFilter === '') &&
     ((selectedUnitFilter === '' || document.unit === selectedUnitFilter) &&
       (selectedTypeFilter === '' || document.document_type === selectedTypeFilter) &&
@@ -339,12 +352,12 @@ const handleSelectClientNameFilter = (value) => {
           >
             Modify 
           </button>
-          <button
+          {/* <button
             className="text-red-500 hover:underline ml-2 font-bold"
             onClick={() => handleDeleteClick(document.doc_ID)}
           >
             Delete
-          </button>
+          </button> */}
           <button
             className="text-gray-500 hover:underline ml-2 font-bold"
             onClick={() => handleInfoClick(document.doc_ID)}
@@ -364,7 +377,7 @@ const handleSelectClientNameFilter = (value) => {
 CommunicationsAdminTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
   searchQuery: PropTypes.string.isRequired,
-  handleDeleteClick: PropTypes.func.isRequired,
+  // handleDeleteClick: PropTypes.func.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
   handleEditFileClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,
