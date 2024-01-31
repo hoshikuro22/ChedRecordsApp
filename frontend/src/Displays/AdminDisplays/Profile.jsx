@@ -129,7 +129,7 @@ export default function Profile() {
           </tr>
 
           <tr>
-            <td className="border px-4 py-2 font-semibold">Contact Number:</td>
+            <td className="border px-4 py-2 font-semibold">Mobile Number:</td>
             <td className="border px-4 py-2">{userData.Contact_Number}</td>
           </tr>
 

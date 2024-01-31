@@ -15,7 +15,7 @@ export default function Communications() {
     file: null,
     documentType: "",
     dateReceived: new Date(),
-    dateReleased: new Date(),
+    dateReleased: "",
     status: "",
     assignatories: "",
     unit: "",
@@ -388,7 +388,7 @@ const handleFileChange = (e) => {
       file: null,
       documentType: "",
       dateReceived: new Date(),
-      dateReleased: new Date(),
+      dateReleased: "",
       status: "0",
       assignatories: "",
       unit: "",
@@ -412,7 +412,6 @@ const handleFileChange = (e) => {
     try {
       const docID = getMaxDocID();
       const formattedDateReceived = formData.dateReceived.toLocaleDateString();
-      const formattedDateReleased = formData.dateReleased.toLocaleDateString();
       const formDataToSend = new FormData();
     
       // Append form data including the file
@@ -420,7 +419,7 @@ const handleFileChange = (e) => {
       formDataToSend.append("assignatories", formData.assignatories);
       formDataToSend.append("documentType", formData.documentType);
       formDataToSend.append("dateReceived", formattedDateReceived);
-      formDataToSend.append("dateReleased", formattedDateReleased);
+      formDataToSend.append("dateReleased", formData.dateReleased);
       formDataToSend.append("remarks", formData.remarks);
       formDataToSend.append("tags", formData.tags);
       formDataToSend.append("status", formData.status);
@@ -439,7 +438,7 @@ const handleFileChange = (e) => {
           file: null,
           documentType: "",
           dateReceived: new Date(),
-          dateReleased: new Date(),
+          dateReleased: "",
           status: "",
           assignatories: "",
           unit: "",

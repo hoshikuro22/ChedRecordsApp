@@ -18,7 +18,7 @@ export default function PersonnelTable({ personnels, handleDeleteClick, handleEd
             <th className="px-3 py-2">Unit</th>
             <th className="px-3 py-2">Birth Date</th>
             <th className="px-3 py-2">Email</th>
-            <th className="px-3 py-2">Contact Number</th>
+            <th className="px-3 py-2">Mobile Number</th>
             <th className="px-3 py-2">Action</th>
           </tr>
         </thead>

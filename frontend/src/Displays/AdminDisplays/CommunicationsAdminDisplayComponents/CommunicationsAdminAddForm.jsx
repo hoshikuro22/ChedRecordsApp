@@ -31,7 +31,7 @@ export default function CommunicationsAdminAddForm({
           <div className="bg-white rounded-lg p-8 z-50">
             <div className="flex flex-row">
             <h2 className="text-xl font-semibold mb-2">Add New Communication</h2>
-            <label className="mb-1 text-sm font-semibold right-1 ml-auto">DOC ID: <strong>{maxDocIDShown + 1}</strong></label>
+            <label className="mb-1 text-sm font-semibold right-1 ml-auto">DOC ID: <strong> {maxDocIDShown + 1}</strong></label>
 
             </div>
         
@@ -54,6 +54,7 @@ export default function CommunicationsAdminAddForm({
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Date Received</label>
               <DatePicker
+                disabled
                 selected={formData.dateReceived}
                 onChange={(date) => handleChange({ target: { name: 'dateReceived', value: date } })}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
@@ -61,13 +62,27 @@ export default function CommunicationsAdminAddForm({
               />
             </div>
 
-            <div className=" flex-col hidden">
+            {/* <div className=" flex-col hidden">
               <label className="mb-1 text-sm font-semibold">Date Released</label>
               <DatePicker
                 selected={formData.dateReleased}
                 onChange={(date) => handleChange({ target: { name: 'dateReleased', value: date } })}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                 displayFormat
+              />
+            </div> */}
+
+            <div className=" flex-col hidden">
+              <label className="mb-1 text-sm font-semibold">Date Released</label>
+              <input
+                
+                type="dateReleased"
+                id="dateReleased"
+                name="dateReleased"
+                placeholder="Enter dateReleased"
+                value={formData.dateReleased}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
             
@@ -141,6 +156,7 @@ export default function CommunicationsAdminAddForm({
            <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Unit</label>
   <select 
+  required
     name="unit"
     value={formData.unit}
     onChange={handleChange}
@@ -170,6 +186,7 @@ export default function CommunicationsAdminAddForm({
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>
+
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Tags (Optional)</label>
               <input
@@ -262,7 +279,7 @@ CommunicationsAdminAddForm.propTypes = {
     file: PropTypes.object,
     documentType: PropTypes.string.isRequired,
     dateReceived: PropTypes.instanceOf(Date).isRequired,
-    dateReleased: PropTypes.instanceOf(Date).isRequired,
+    dateReleased: PropTypes.string,
     status: PropTypes.string.isRequired,
     assignatories: PropTypes.string.isRequired,
     unit: PropTypes.string.isRequired,

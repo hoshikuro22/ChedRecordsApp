@@ -31,12 +31,11 @@ export default function CommunicationsAdminEditForm2({
           <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Client Name</label>
   <select 
-    disabled
-
+    
     name="client_id"
     value={editFormData.client_id}
     onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
   >
     <option value="">Select Client</option>
     {clientsOptions.map((client) => (
@@ -50,12 +49,10 @@ export default function CommunicationsAdminEditForm2({
 <div className="flex flex-col">
       <label className="mb-1 text-sm font-semibold">Document Type</label>
       <select
-        disabled
-
         name="doc_type_id" 
         value={editFormData.doc_type_id}
         onChange={handleChange}
-        className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+        className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
       >
         <option value="">Select Document Type</option>
         {documentTypeOptions.map((documentType) => (
@@ -75,46 +72,44 @@ export default function CommunicationsAdminEditForm2({
               placeholder="Enter Remarks"
               value={editFormData.remarks}
               onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-black"
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="hidden flex-col">
               <label className="mb-1 text-sm font-semibold">Date Received</label>
               <input
-                
+                disabled
                 type="text"
                 id="date_received"
                 name="date_received"
                 placeholder="Enter date_received"
                 value={editFormData.date_received}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-gray-500"
               />
             </div>
-            <div className="flex flex-col">
+            <div className="hidden flex-col">
               <label className="mb-1 text-sm font-semibold">Date Released</label>
               <input
-                
+                disabled
                 type="text"
                 id="date_released"
                 name="date_released"
                 placeholder="Enter date_released"
                 value={editFormData.date_released}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-gray-500"
               />
             </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col" >
        <label className="mb-1 text-sm font-semibold">Assigned to:</label>
   <select
-   disabled
-  
     name="personnel_id"
     value={editFormData.personnel_id}
     onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500 "
   >
     <option value="">Select Assignatories</option>
     {personnelOptions.map((person) => (
@@ -127,11 +122,11 @@ export default function CommunicationsAdminEditForm2({
 
     <div className="flex flex-col">
   <label className="mb-1 text-sm font-semibold">Unit</label>
-  <select 
+  <select
     name="unit_id"
     value={editFormData.unit_id}
     onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
   >
     <option value="">Select Unit</option>
     {unitOptions.map((unit) => (
@@ -150,12 +145,13 @@ export default function CommunicationsAdminEditForm2({
                 name="status_id"
                 value={editFormData.status_id}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
               >
                  <option value="">Select Status</option>
                 <option value="0">Pending</option>
                 <option value="1">Approved</option>
                 <option value="2">Disapproved</option>
+                
               </select>
             </div> 
 
@@ -173,6 +169,7 @@ export default function CommunicationsAdminEditForm2({
             >
               Cancel
             </button>
+            
           </div>
         </form>
       </div>

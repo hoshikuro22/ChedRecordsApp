@@ -60,7 +60,7 @@ export default function AddAccountAdminAddForm({
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Contact Number</label>
+              <label className="mb-1 text-sm font-semibold">Mobile Number</label>
               <input
                 required
                 title="Contact number should be up to 12 digits"

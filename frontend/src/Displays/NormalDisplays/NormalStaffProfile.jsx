@@ -98,7 +98,7 @@ export default function NormalStaffProfile() {
   };
 
   return (
-    <div className="flex flex-col  h-screen w-screen items-center  ">
+    <div className="flex flex-col h-screen w-screen items-center justify-center mr-20 r  ">
       <h2 className="text-3xl font-semibold mb-4 text-blue-600">User Profile</h2>
       <div className="max-w-md bg-white rounded-lg ">
       <table className="">

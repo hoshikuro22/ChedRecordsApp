@@ -17,7 +17,7 @@ export default function ChedClientsNormalMoreDetails({ isInfoModalOpen, setInfoM
                   <th className="px-4 py-2">Address</th>
                   <th className="px-4 py-2">Email</th>
                   <th className="px-4 py-2">Contact Person</th>
-                  <th className="px-4 py-2">Contact Number</th>
+                  <th className="px-4 py-2">Mobile Number</th>
                 </tr>
               </thead>
 

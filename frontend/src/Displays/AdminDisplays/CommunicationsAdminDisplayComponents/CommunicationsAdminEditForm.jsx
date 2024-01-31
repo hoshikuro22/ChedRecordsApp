@@ -27,17 +27,18 @@ export default function CommunicationsAdminEditForm({
         <label className='font-semibold text-1xl ml-3'>#{editFileFormData.doc_ID}</label>
           </div>
          
-          <div className="flex flex-col">
-            <label className="mb-1 text-sm font-bold">Add File <strong>(PDF ONLY)</strong> </label>
+          <div className="flex flex-col ">
+            <label className="mb-1 text-sm font-bold  ">Add File <strong>(PDF ONLY)</strong> </label>
             <input
+              required
               type="file"
               name="file"   
               onChange={handleFileChange} 
-              className="border"
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="hidden flex-col">
   <label className="mb-1 text-sm font-semibold">Client Name</label>
   <select 
     disabled
@@ -45,7 +46,7 @@ export default function CommunicationsAdminEditForm({
     name="Client_ID"
     value={editFileFormData.client_id}
     onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+    className="px-3 py-1 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-gray-500"
   >
     <option value="">Select Client</option>
     {clientsOptions.map((client) => (
@@ -56,7 +57,7 @@ export default function CommunicationsAdminEditForm({
   </select>
 </div>
 
-<div className="flex flex-col">
+<div className="hidden flex-col">
       <label className="mb-1 text-sm font-semibold">Document Type</label>
       <select
         disabled
@@ -64,7 +65,7 @@ export default function CommunicationsAdminEditForm({
         name="doc_type_id" 
         value={editFileFormData.doc_type_id}
         onChange={handleChange}
-        className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+        className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-gray-500"
       >
         <option value="">Select Document Type</option>
         {documentTypeOptions.map((documentType) => (
@@ -75,7 +76,7 @@ export default function CommunicationsAdminEditForm({
       </select>
     </div>
 
-            <div className="flex flex-col">
+            <div className="hidden flex-col">
               <label className="mb-1 text-sm font-semibold">Date Received</label>
               <input
                 disabled
@@ -85,20 +86,20 @@ export default function CommunicationsAdminEditForm({
                 placeholder="Enter date_received"
                 value={editFileFormData.date_received}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-gray-500"
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Date Released</label>
               <input
                 
-                type="text"
+                type="date"
                 id="date_released"
                 name="date_released"
                 placeholder="Enter date_released"
                 value={editFileFormData.date_released}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
               />
             </div>
             
@@ -113,20 +114,21 @@ export default function CommunicationsAdminEditForm({
                 placeholder="Enter Remarks"
                 value={editFileFormData.remarks}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
               />
             </div>
             
 
-            <div className="flex flex-col">
+            <div className="hidden flex-col">
        <label className="mb-1 text-sm font-semibold">Assigned Personnel</label>
   <select
     required
+    disabled
   
     name="personnel_id"
     value={editFileFormData.personnel_id}
     onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-gray-500"
   >
     <option value="">Select Assignatories</option>
     {personnelOptions.map((person) => (
@@ -137,13 +139,14 @@ export default function CommunicationsAdminEditForm({
      </select>
     </div>
    
-    <div className="flex flex-col">
+    <div className="hidden flex-col">
   <label className="mb-1 text-sm font-semibold">Unit</label>
   <select 
+    disabled
     name="unit_id"
     value={editFileFormData.unit_id}
     onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-gray-500"
   >
     <option value="">Select Unit</option>
     {unitOptions.map((unit) => (
@@ -162,7 +165,7 @@ export default function CommunicationsAdminEditForm({
                 name="status_id"
                 value={editFileFormData.status_id}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
               >
                  <option value="">Select Status</option>
                 <option value="0">Pending</option>
@@ -172,7 +175,7 @@ export default function CommunicationsAdminEditForm({
               </select>
             </div> 
 
-            <div className="flex flex-col">
+            <div className="hidden flex-col">
               <label className="mb-1 text-sm font-semibold">Tags</label>
               <input
                 
@@ -182,7 +185,7 @@ export default function CommunicationsAdminEditForm({
                 placeholder="Enter Tags"
                 value={editFileFormData.tags}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 border-blue-500"
               />
             </div>
             

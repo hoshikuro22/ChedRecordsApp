@@ -151,7 +151,7 @@ export default function Reports() {
               </div>
               <div></div>
             <div className="mt-4">
-              <label htmlFor="startDate" className="text-gray-700">Start Date: </label>
+              <label htmlFor="startDate" className="text-gray-700">Date Received Start Date: </label>
               <input
                 type="date"
                 id="startDate"
@@ -159,7 +159,7 @@ export default function Reports() {
                 onChange={(e) => setStartDateReceived(e.target.value)}
                 className="border p-1 rounded focus:ring-blue-500 focus:border-blue-500"
               />
-              <label htmlFor="endDate" className="ml-4 text-gray-700">End Date: </label>
+              <label htmlFor="endDate" className="ml-4 text-gray-700">Date Received End Date: </label>
               <input
                 type="date"
                 id="endDate"
@@ -220,18 +220,20 @@ export default function Reports() {
 
 
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+
       <div className="md:col-span-1">
         <div className="p-4 border rounded">
-          {/* Table 2 */}
+         
           Table 2
         </div>
       </div>
       <div className="md:col-span-1">
         <div className="p-4 border rounded">
-          {/* Table 3 */}
+        
           Table 3
         </div>
       </div>
+      
       <div className="md:col-span-1">
         <div className="p-4 border rounded">
           {/* Chart 2 */}
