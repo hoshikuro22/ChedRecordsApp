@@ -116,7 +116,7 @@ useEffect(() => {
     file: null,
     documentType: "",
     dateReceived: new Date(),
-    dateReleased: new Date(),
+    dateReleased: "",
     status: "", 
     assignatories: "",
     unit: "",
@@ -156,12 +156,11 @@ useEffect(() => {
         const formDataToSend = new FormData();
         // para sa date 
         const formattedDateReceived = formData.dateReceived.toLocaleDateString();
-        const formattedDateReleased = formData.dateReleased.toLocaleDateString();
         // Append the non-file data to formDataToSend
         formDataToSend.append("doc_ID", String(editFileFormData.doc_ID));
         formDataToSend.append("doc_type_id", editFileFormData.doc_type_id);
         formDataToSend.append("date_received", formattedDateReceived);
-        formDataToSend.append("date_released", formattedDateReleased);
+        formDataToSend.append("date_released", editFileFormData.date_released);
         formDataToSend.append("status_id", editFileFormData.status_id);
         formDataToSend.append("personnel_id", editFileFormData.personnel_id);
         formDataToSend.append("unit_id", editFileFormData.unit_id);
@@ -205,7 +204,7 @@ const [editFormData, setEditFormData] = useState({
   doc_ID: "",
   documentType: "",
   dateReceived: new Date(),
-  dateReleased: new Date(),
+  dateReleased: "",
   status: "", 
   assignatories: "",
   unit: "",
@@ -242,7 +241,7 @@ if (!userConfirmed) {
 try {
   // Directly format dateIssued to local date string
   const formattedDateReceived = new Date(editFormData.date_received).toLocaleDateString();
-  const formattedDateReleased = new Date(editFormData.date_released).toLocaleDateString();
+
 
   const response = await axios.put(
     `http://localhost:8081/updateDocumentNormal/${editFormData.doc_ID}`,
@@ -250,7 +249,7 @@ try {
       doc_ID: editFormData.doc_ID,
       doc_type_id: editFormData.doc_type_id,
       date_received: formattedDateReceived,
-      date_released: formattedDateReleased,
+      date_released: editFormData.date_released,
       status_id: editFormData.status_id,
       remarks: editFormData.remarks,
       personnel_id: editFormData.personnel_id,

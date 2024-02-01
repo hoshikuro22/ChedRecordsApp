@@ -48,7 +48,7 @@ export default function PersonnelAddForm({
   >
     <option value="">Select Unit</option>
     {unitOptions.map((unit) => (
-      <option key={unit.unit_id} value={unit.unit_id}>
+      <option key={unit.unit_ID} value={unit.unit_ID}>
         {unit.type}
       </option>
     ))}

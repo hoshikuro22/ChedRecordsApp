@@ -42,7 +42,7 @@
       SELECT
         CAST(p.Personnel_ID AS SIGNED) as Personnel_ID,
         p.personnel_id,
-        p.unit_id, 
+        p.unit_ID, 
         p.last_name,
         p.first_name,
         p.position,
@@ -51,7 +51,7 @@
         p.contact_number,
         u.Type as unit_type
       FROM list_personnel p
-      LEFT JOIN Unit u ON p.unit_id = u.Unit_ID
+      LEFT JOIN Unit u ON p.unit_ID = u.Unit_ID
       ORDER BY Personnel_ID ASC;
     `;
 
@@ -71,7 +71,7 @@
       router.put("/updatePersonnel/:id", (req, res) => {
       const { id } = req.params;
       const { 
-        unit_id,
+        unit_ID,
         last_name,
         first_name, 
         position, 
@@ -79,10 +79,10 @@
         email, 
         contact_number } = req.body;
     
-      const sql = "UPDATE list_personnel SET unit_id = ?, last_name = ?, first_name = ?, position = ?, birth_date = ?, email = ?, contact_number = ? WHERE personnel_id = ?";
+      const sql = "UPDATE list_personnel SET unit_ID = ?, last_name = ?, first_name = ?, position = ?, birth_date = ?, email = ?, contact_number = ? WHERE personnel_id = ?";
     
       db.query(sql, [
-        unit_id,
+        unit_ID,
         last_name,
         first_name,
         position,

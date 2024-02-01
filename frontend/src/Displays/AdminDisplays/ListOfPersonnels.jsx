@@ -62,7 +62,7 @@ export default function ListOfPersonnels() {
       `http://localhost:8081/updatePersonnel/${editFormData.personnel_id}`,
       {
         personnel_id: editFormData.personnel_id,
-        unit_id: editFormData.unit_id,
+        unit_ID: editFormData.unit_ID,
         last_name: editFormData.last_name,
         first_name: editFormData.first_name,
         position: editFormData.position,
@@ -187,16 +187,16 @@ const handleCloseEditForm = () => {
       alert("Contact number must be 11 digits");
      return; // Do not proceed with submission
     }
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(formData.email)) {
-      alert("Email must be in a valid format, and end with .com");
-      return; // Do not proceed with submission
-    }
-      //  // Validate email
-      //  if (formData.email && !formData.email.includes('.com')) {
-      //   alert("Email must contain .com");
-      //   return; // Do not proceed with submission
-      // }
+    // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    // if (!emailRegex.test(formData.email)) {
+    //   alert("Email must be in a valid format, and end with .com");
+    //   return; // Do not proceed with submission
+    // }
+       // Validate email
+       if (formData.email && !formData.email.includes('.com')) {
+        alert("Email must contain .com");
+        return; // Do not proceed with submission
+      }
         
   
     try {

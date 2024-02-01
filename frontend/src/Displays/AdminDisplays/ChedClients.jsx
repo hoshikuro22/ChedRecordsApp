@@ -238,16 +238,16 @@ const handleCloseEditForm = () => {
       return;
     }
   
-    // // Validate email
-    // if (formData.email && !formData.email.includes('.com')) {
-    //   alert("Email must contain .com");
-    //   return; // Do not proceed with submission
-    // }
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(formData.email)) {
-      alert("Email must be in a valid format, and end with .com");
+    // Validate email
+    if (formData.email && !formData.email.includes('.com')) {
+      alert("Email must contain .com");
       return; // Do not proceed with submission
     }
+    // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    // if (!emailRegex.test(formData.email)) {
+    //   alert("Email must be in a valid format, and end with .com");
+    //   return; // Do not proceed with submission
+    // }
   
     // Validate contact number
     if (formData.contactNumber && formData.contactNumber.length !== 11) {

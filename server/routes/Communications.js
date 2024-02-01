@@ -206,7 +206,7 @@ router.post('/addDocument', upload.single('file'), async (req, res) => {
         }
 
         const documentInsertQuery =
-          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Received, Date_Released, remarks, tags, status_id, unit_id, client_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO document (doc_ID, personnel_id, doc_type_id, Date_Received, Date_Released, remarks, tags, status_id, Unit_id, client_id, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const documentInsertValues = [
           docID,
           assignatories,
@@ -518,7 +518,7 @@ router.get("/getUnitCount", (req, res) => {
 router.get("/getUnits", (req, res) => {
   const sql = `
     SELECT
-      CAST(u.unit_ID AS SIGNED) as unit_id,
+      CAST(u.unit_ID AS SIGNED) as unit_ID,
       u.type
     FROM unit u
     ORDER BY Type ASC; `;

@@ -44,14 +44,14 @@ export default function PersonnelEditForm({
               <label className="mb-1 text-sm font-semibold">Unit</label>
               <select 
   required
-    name="unit"
-    value={editFormData.unit_id}
+    name="unit_ID"
+    value={editFormData.unit_ID}
     onChange={handleChange}
     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
   >
     <option value="">Select Unit</option>
     {unitOptions.map((unit) => (
-      <option key={unit.unit_id} value={unit.unit_id}>
+      <option key={unit.unit_ID} value={unit.unit_ID}>
         {unit.type}
       </option>
     ))}
@@ -126,7 +126,7 @@ export default function PersonnelEditForm({
 PersonnelEditForm.propTypes = {
   editFormData: PropTypes.shape({
     Personnel_ID: PropTypes.string,
-    unit_id: PropTypes.string, 
+    unit_ID: PropTypes.string, 
     last_name: PropTypes.string,
     first_name: PropTypes.string,
     position: PropTypes.string, 
