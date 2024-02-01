@@ -535,6 +535,27 @@ router.get("/getUnits", (req, res) => {
   });
 });
 
+//to fetch the status
+router.get("/getStatus", (req, res) => {
+  const sql = `
+    SELECT
+      CAST(s.status_ID AS SIGNED) as status_ID,
+      s.type
+    FROM status s
+    ORDER BY Type ASC; `;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.error("Error fetching status", err);
+      return res
+        .status(500)
+        .json({ Status: "Error", Message: "Failed to fetch status" });
+    }
+
+    return res.status(200).json(data);
+  });
+});
+
 // endpoint to get the count of Status of Communcications
 router.get("/getDocumentStatusCounts", (req, res) => {
   const sql = `

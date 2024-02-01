@@ -6,11 +6,11 @@ import { TEChart } from "tw-elements-react";
 import { makeRequest } from "../../../axios";
 
 export default function Reports() {
+//==============FETCHING BELOW===============//
 
-   // to fetch units for the add and edit form
+   // to fetch units 
    const [unitOptions, setUnitOptions] = useState([]);
-
-   useEffect(() => {
+  useEffect(() => {
   const fetchUnitData = async () => {
     try {
       const response = await makeRequest.get("/getUnits");
@@ -21,12 +21,62 @@ export default function Reports() {
     }
   }; fetchUnitData(); }, []);
 
+
+  // to fetch document type 
+const [documentTypeOptions, setDocumentTypeOptions] = useState([]);
+useEffect(() => {
+  const fetchDocumentTypeData = async () => {
+    try {
+      const response = await makeRequest.get("/getDocumentTypes");
+      setDocumentTypeOptions(response.data);
+      console.log("Document types: " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching document type data:", error);
+    }
+  };
+   fetchDocumentTypeData();}, []);
+
+
+     // to fetch status
+const [statusOptions, setStatusOptions] = useState([]);
+useEffect(() => {
+  const fetchStatusData = async () => {
+    try {
+      const response = await makeRequest.get("/getStatus");
+      setStatusOptions(response.data);
+      console.log("Status " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching status data:", error);
+    }
+  };
+  fetchStatusData();}, []);
+
+
+//     // to fetch personnel
+//   const [personnelOptions, setPersonnelOptions] = useState([]);
+// useEffect(() => {
+//   const fetchPersonnelData = async () => {
+//     try {
+//       const response = await makeRequest.get("/getPersonnels");
+//       setPersonnelOptions(response.data);
+//       console.log("Status " + JSON.stringify(response.data));
+//     } catch (error) {
+//       console.error("Error fetching status data:", error);
+//     }
+//   };
+//   fetchPersonnelData();}, []);
+
+//==============FETCHING ABOVE===============//
+
   const [documents, setDocuments] = useState([]);
   const [filterYearReceived, setFilterYearReceived] = useState(new Date().getFullYear());
   const [filterMonthReceived, setFilterMonthReceived] = useState(new Date().getMonth() + 1); // Months are 0-indexed in JS
   const [startDateReceived, setStartDateReceived] = useState("");
   const [endDateReceived, setEndDateReceived] = useState("");
   const [filterUnit, setFilterUnit] = useState("");
+  const [filterDocumentType, setFilterDocumentType] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+  // const [filterPersonnel, setFilterPersonnel] = useState("");
   
   useEffect(() => {
     makeRequest.get("/getDocuments")
@@ -47,8 +97,11 @@ export default function Reports() {
       (!filterYearReceived || year === filterYearReceived) &&
       (!filterMonthReceived || month === filterMonthReceived) &&
       (!startDateReceived || new Date(doc.date_received) >= new Date(startDateReceived)) &&
-      (!endDateReceived || new Date(doc.date_received) <= new Date(endDateReceived))&&
-      (!filterUnit || doc.unit === filterUnit)
+      (!endDateReceived || new Date(doc.date_received) <= new Date(endDateReceived)) &&
+      (!filterUnit || doc.unit === filterUnit) &&
+      (!filterDocumentType || doc.document_type === filterDocumentType) &&
+      (!filterStatus || doc.status === filterStatus) 
+      // (!filterPersonnel || doc.list_personnel === filterPersonnel)
     );
   });
 
@@ -183,6 +236,57 @@ export default function Reports() {
                  ))}
                  </select>
             </div>
+
+            <div>
+           <label htmlFor="documentTypeFilter" className="text-gray-700">Filter by Filing Category: </label>
+           <select
+              id="documentTypeFilter"
+              value={filterDocumentType}
+              onChange={(e) => setFilterDocumentType(e.target.value)}
+             className="border p-1 rounded focus:ring-blue-500 focus:border-blue-500"
+               >
+             <option value="">Select Filing Category</option>
+              {documentTypeOptions.map((document_type) => (
+               <option key={document_type.ID} value={document_type.ID}>
+                 {document_type.type}
+                </option>
+                 ))}
+                 </select>
+            </div>
+
+            <div>
+           <label htmlFor="statusFilter" className="text-gray-700">Filter by Status: </label>
+           <select
+              id="statusFilter"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+             className="border p-1 rounded focus:ring-blue-500 focus:border-blue-500"
+               >
+             <option value="">Select Status</option>
+              {statusOptions.map((status) => (
+               <option key={status.ID} value={status.ID}>
+                 {status.type}
+                </option>
+                 ))}
+                 </select>
+            </div>
+
+            {/* <div>
+           <label htmlFor="personnelFilter" className="text-gray-700">Filter by Personnel: </label>
+           <select
+              id="personnelFilter"
+              value={filterPersonnel}
+              onChange={(e) => setFilterPersonnel(e.target.value)}
+             className="border p-1 rounded focus:ring-blue-500 focus:border-blue-500"
+               >
+             <option value="">Select Personnel</option>
+              {personnelOptions.map((list_personnel) => (
+               <option key={list_personnel.ID} value={list_personnel.ID}>
+                 {list_personnel.first_name} {list_personnel.last_name}
+                </option>
+                 ))}
+                 </select>
+            </div> */}
               
             <div className="mt-4">
               <label htmlFor="startDate" className="text-gray-700">Date Received Start Date: </label>
