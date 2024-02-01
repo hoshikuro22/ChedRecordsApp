@@ -52,7 +52,7 @@ export default function CommunicationsAdminAddForm({
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Date Received</label>
+              <label className="mb-1 text-sm font-semibold">Date Received <strong>(Month/Day/Year)</strong></label>
               <DatePicker
                 disabled
                 selected={formData.dateReceived}

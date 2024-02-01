@@ -9,7 +9,7 @@ import PersonnelEditForm from "./ListOfPersonnelDisplaysComponents/PersonnelEdit
 
 export default function ListOfPersonnels() {
   const [formData, setFormData] = useState({
-    Unit: "",
+    unit: "",
     firstName: "",
     lastName: "",
     position: "",
@@ -22,7 +22,7 @@ export default function ListOfPersonnels() {
   //===== Edit =====//
   const [showEditForm, setShowEditForm] = useState(false);
   const [editFormData, setEditFormData] = useState({
-    Unit: "",
+    unit: "",
     firstName: "",
     lastName: "",
     position: "",
@@ -66,7 +66,7 @@ export default function ListOfPersonnels() {
         last_name: editFormData.last_name,
         first_name: editFormData.first_name,
         position: editFormData.position,
-        birth_date: editFormData.Birth_Date,
+        birth_date: editFormData.birth_date,
         email: editFormData.email,
         contact_number: editFormData.contact_number,
       }
@@ -121,6 +121,20 @@ const handleCloseEditForm = () => {
     }
   };
 
+     // to fetch units for the add and edit form
+     const [unitOptions, setUnitOptions] = useState([]);
+
+     useEffect(() => {
+    const fetchUnitData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8081/getUnits");
+        setUnitOptions(response.data);
+        console.log("the units " + JSON.stringify(response.data));
+      } catch (error) {
+        console.error("Error fetching units data:", error);
+      }
+    }; fetchUnitData(); }, []);
+
   const getMaxPersonnelID = () => {
     if (personnels.length === 0) {
       return 1;
@@ -169,6 +183,21 @@ const handleCloseEditForm = () => {
     if (!isConfirmed) {
       return; // Do nothing if not confirmed
     }
+    if (formData.contactNumber && formData.contactNumber.length !== 11) {
+      alert("Contact number must be 11 digits");
+     return; // Do not proceed with submission
+    }
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Email must be in a valid format, and end with .com");
+      return; // Do not proceed with submission
+    }
+      //  // Validate email
+      //  if (formData.email && !formData.email.includes('.com')) {
+      //   alert("Email must contain .com");
+      //   return; // Do not proceed with submission
+      // }
+        
   
     try {
       const personnelID = getMaxPersonnelID();
@@ -180,7 +209,7 @@ const handleCloseEditForm = () => {
       if (response.data.Status === "Success") {
         alert("Personnel added successfully!");
         setFormData({
-          Unit: "",
+          unit: "",
           firstName: "",
           lastName: "",
           position: "",
@@ -234,6 +263,7 @@ const handleCloseEditForm = () => {
       handleHideFormClick={handleHideFormClick}
       handleClearFormClick={handleClearFormClick}
       handleAddPersonnelClick={handleAddPersonnelClick}
+      unitOptions={unitOptions}
     />
 
       <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
@@ -256,6 +286,7 @@ const handleCloseEditForm = () => {
       handleEditSubmit={handleEditSubmit}
       handleCloseEditForm={handleCloseEditForm}
       handleChange={(e) => setEditFormData({ ...editFormData, [e.target.name]: e.target.value })}
+      unitOptions={unitOptions}
     />
   )}  
        

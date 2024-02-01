@@ -172,6 +172,15 @@ export default function AdminHome() {
     return `rgba(${r}, ${g}, ${b}, 0.5)`;
   };
 
+    // Function to calculate percentages for chart data
+    const calculatePercentages = (counts) => {
+      const total = Object.values(counts).reduce((acc, curr) => acc + curr, 0);
+      const percentages = Object.fromEntries(
+        Object.entries(counts).map(([label, count]) => [label, ((count / total) * 100).toFixed(2)])
+      );
+      return { percentages, total };
+    };
+
   return (
     <div className="w-screen h-screen bg-gray-100 p-8">
       <div className="container mx-auto">
@@ -197,21 +206,60 @@ export default function AdminHome() {
           </div>
             
           {communicationdropdownSelection === "By Clients" ? (
-    <TEChart
-        type="pie"
-        data={documentByClients}
-    />
-      ) : communicationdropdownSelection === "By Filing Category" ? (
-    <TEChart
-        type="pie"
-        data={documentByDocumentTypes}
-    />
-      ) : (
-    <TEChart
-        type="pie"
-        data={documentStatusCounts}
-    />
-      )}
+            <TEChart
+              type="pie"
+              data={documentByClients}
+              options={{
+                tooltips: {
+                  callbacks: {
+                    label: (tooltipItem, data) => {
+                      const label = data.labels[tooltipItem.index];
+                      const count = data.datasets[0].data[tooltipItem.index];
+                      const { percentages } = calculatePercentages(documentByClients);
+                      const percentage = percentages[label];
+                      return `${label}: ${count} Files (${percentage}%)`;
+                    },
+                  },
+                },
+              }}
+            />
+          ) : communicationdropdownSelection === "By Filing Category" ? (
+            <TEChart
+              type="pie"
+              data={documentByDocumentTypes}
+              options={{
+                tooltips: {
+                  callbacks: {
+                    label: (tooltipItem, data) => {
+                      const label = data.labels[tooltipItem.index];
+                      const count = data.datasets[0].data[tooltipItem.index];
+                      const { percentages } = calculatePercentages(documentByDocumentTypes);
+                      const percentage = percentages[label];
+                      return `${label}: ${count} Files (${percentage}%)`;
+                    },
+                  },
+                },
+              }}
+            />
+          ) : (
+            <TEChart
+              type="pie"
+              data={documentStatusCounts}
+              options={{
+                tooltips: {
+                  callbacks: {
+                    label: (tooltipItem, data) => {
+                      const label = data.labels[tooltipItem.index];
+                      const count = data.datasets[0].data[tooltipItem.index];
+                      const { percentages } = calculatePercentages(documentStatusCounts);
+                      const percentage = percentages[label];
+                      return `${label}: ${count} Files (${percentage}%)`;
+                    },
+                  },
+                },
+              }}
+            />
+          )}
 
           </div>
 

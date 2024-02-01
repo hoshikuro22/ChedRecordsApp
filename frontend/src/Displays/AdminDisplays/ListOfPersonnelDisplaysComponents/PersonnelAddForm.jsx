@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 export default function PersonnelAddForm({
-   formData, showForm, handleSubmit, handleChange, handleHideFormClick, handleClearFormClick, handleAddPersonnelClick }) {
+   formData, showForm, handleSubmit, handleChange, handleHideFormClick, handleClearFormClick, handleAddPersonnelClick, unitOptions }) {
   return (
     <div>
               {showForm ? (
@@ -13,6 +13,7 @@ export default function PersonnelAddForm({
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">First Name</label>
               <input
+                
                 required
                 type="text"
                 id="firstName"
@@ -20,7 +21,7 @@ export default function PersonnelAddForm({
                 placeholder="Enter First Name"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
               />
             </div>
             <div className="flex flex-col">
@@ -33,25 +34,25 @@ export default function PersonnelAddForm({
                 placeholder="Enter Last Name"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Unit</label>
               <select 
-                required
-                id="Unit"
-                name="Unit"
-                value={formData.Unit}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select Unit</option>
-                <option value="1">Receiving</option>
-                <option value="2">Scholarship</option>
-                <option value="3">Records</option>
-               
-              </select>
+  required
+    name="unit"
+    value={formData.unit}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Unit</option>
+    {unitOptions.map((unit) => (
+      <option key={unit.unit_id} value={unit.unit_id}>
+        {unit.type}
+      </option>
+    ))}
+  </select>
             </div>
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Position</label>
@@ -63,7 +64,7 @@ export default function PersonnelAddForm({
                 placeholder="Enter Position"
                 value={formData.position}
                 onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
               />
             </div>
             <div className="flex flex-col">
@@ -95,8 +96,11 @@ export default function PersonnelAddForm({
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Contact Number</label>
               <input
+                
+                title="Contact number should be up to 11 digits, only numbers"
                 required
-                type="text"
+                type="tel"
+                pattern="[0-9]*" 
                 id="contactNumber"
                 name="contactNumber"
                 placeholder="Enter Contact Number"
@@ -147,7 +151,7 @@ export default function PersonnelAddForm({
 }
 PersonnelAddForm.propTypes = {
     formData: PropTypes.shape({
-      Unit: PropTypes.string.isRequired,
+      unit: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
       position: PropTypes.string.isRequired,
@@ -161,4 +165,5 @@ PersonnelAddForm.propTypes = {
     handleHideFormClick: PropTypes.func.isRequired,
     handleClearFormClick: PropTypes.func.isRequired,
     handleAddPersonnelClick: PropTypes.func.isRequired,
+    unitOptions: PropTypes.array.isRequired,
   };

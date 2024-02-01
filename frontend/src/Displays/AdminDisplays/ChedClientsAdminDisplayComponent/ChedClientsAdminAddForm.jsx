@@ -73,7 +73,7 @@ export default function ChedClientsAdminAddForm({
       >
         <option value="">Select Client Type</option>
         {clientTypeOptions.map((clientType) => (
-          <option key={clientType.client_type_ID} value={clientType.client_type_ID}>
+          <option key={clientType.client_type_id} value={clientType.client_type_id}>
             {clientType.type}
           </option>
         ))}
@@ -107,15 +107,18 @@ export default function ChedClientsAdminAddForm({
                 onChange={handleChange}
                 className="w-80 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
+              
             </div>
             <div className="flex flex-col overflow-hidden">
               <label className="mb-1 text-sm font-semibold">Contact Number (Optional)</label>
               <input
                 
-                type="text"
+                title="11 digits number only"
+                type="tel"
+                pattern="[0-9]*"  // Allow only numeric input
                 id="contactNumber"
                 name="contactNumber"
-                placeholder="Enter Contact Number of Contact Person"
+                placeholder="Enter Contact Number"
                 onChange={handleChange}
                 className="w-80 px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />

@@ -13,12 +13,12 @@
 
   //CREATE
   router.post("/addPersonnel", (req, res) => {
-      const { personnelID, Unit, lastName, firstName, position, birthDate, email, contactNumber } = req.body;
+      const { personnelID, unit, lastName, firstName, position, birthDate, email, contactNumber } = req.body;
     
       const sql =
         "INSERT INTO list_personnel (Personnel_ID, Unit_ID, Last_Name, First_Name, Position, Birth_date, Email, Contact_Number ) VALUES (?, ?, ?, ?, ?, ?, ?, ? )";
     
-      db.query(sql, [personnelID, Unit, lastName, firstName, position, birthDate, email, contactNumber], (err, result) => {
+      db.query(sql, [personnelID, unit, lastName, firstName, position, birthDate, email, contactNumber], (err, result) => {
         if (err) {
           console.error(err);
           return res.json({

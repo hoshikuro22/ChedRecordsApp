@@ -5,6 +5,7 @@ export default function PersonnelEditForm({
   handleEditSubmit,
   handleCloseEditForm,
   handleChange,
+  unitOptions,
 }) {
   
   
@@ -40,19 +41,22 @@ export default function PersonnelEditForm({
             />
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Unit</label>
-            <select
-              name="unit_id"
-              value={editFormData.unit_id}
-              onChange={handleChange}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-            >
-              <option value="">Select Unit</option>
-              <option value="1">Receiving</option>
-              <option value="2">Scholarship</option>
-              <option value="3">Records</option>
-            </select>
-          </div>
+              <label className="mb-1 text-sm font-semibold">Unit</label>
+              <select 
+  required
+    name="unit"
+    value={editFormData.unit_id}
+    onChange={handleChange}
+    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+  >
+    <option value="">Select Unit</option>
+    {unitOptions.map((unit) => (
+      <option key={unit.unit_id} value={unit.unit_id}>
+        {unit.type}
+      </option>
+    ))}
+  </select>
+            </div>
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Position</label>
             <input
@@ -133,5 +137,6 @@ PersonnelEditForm.propTypes = {
   handleEditSubmit: PropTypes.func.isRequired,
   handleCloseEditForm: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
+  unitOptions: PropTypes.array.isRequired,
   // handleFileChange: PropTypes.func.isRequired,
 };

@@ -518,7 +518,7 @@ router.get("/getUnitCount", (req, res) => {
 router.get("/getUnits", (req, res) => {
   const sql = `
     SELECT
-      CAST(u.unit_ID AS SIGNED) as unit_ID,
+      CAST(u.unit_ID AS SIGNED) as unit_id,
       u.type
     FROM unit u
     ORDER BY Type ASC; `;

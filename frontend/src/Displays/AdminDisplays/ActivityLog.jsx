@@ -39,7 +39,7 @@ export default function ActivityLog() {
   return (
     <div className="w-screen h-screen mt-8 p-4 ml-1">
        <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md overflow-auto h-[720px]">
-        <h2 className="text-xl font-semibold mb-2">Activity Log: <strong>(Added & Deleted)</strong></h2>
+        <h2 className="text-xl font-semibold mb-2">Activity Log: <strong>(Added & Deleted CHED Clients and Communications only)</strong></h2>
 
         <table className="table-auto w-full border-collapse border">
           <thead>

@@ -103,7 +103,7 @@ export default function Reports() {
     const labels = Object.keys(counts);
     const data = labels.map(label => counts[label]);
     const backgroundColor = labels.map(() => generateRandomColor());
-    return { labels, datasets: [{ label: 'Communication per Unit', data, backgroundColor }] };
+    return { labels, datasets: [{ label: 'Records per Unit', data, backgroundColor }] };
   };
 
   
@@ -170,7 +170,7 @@ export default function Reports() {
               
             </div>
             
-            <div className="overflow-x-auto mt-4">
+            <div className="overflow-x-auto mt-4 overflow-auto h-96">
               <table className="min-w-full leading-normal">
                 <thead className="bg-gray-200">
                   <tr>
@@ -224,13 +224,13 @@ export default function Reports() {
       <div className="md:col-span-1">
         <div className="p-4 border rounded">
          
-          Table 2
+          Table 2 / CHART
         </div>
       </div>
       <div className="md:col-span-1">
         <div className="p-4 border rounded">
         
-          Table 3
+          Table 3  / CHART
         </div>
       </div>
       

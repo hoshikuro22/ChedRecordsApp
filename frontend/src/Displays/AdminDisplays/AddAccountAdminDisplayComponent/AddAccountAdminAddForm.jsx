@@ -48,6 +48,7 @@ export default function AddAccountAdminAddForm({
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Email</label>
               <input
+                title="must contain @ and .com "
                 required
                 type="email"
                 id="email"
@@ -63,17 +64,18 @@ export default function AddAccountAdminAddForm({
               <label className="mb-1 text-sm font-semibold">Mobile Number</label>
               <input
                 required
-                title="Contact number should be up to 12 digits"
-                type="number"
+                title="Contact number should be up to 11 digits, only numbers"
+                type="tel"
+                pattern="[0-9]*"  // Allow only numeric input
                 id="contactNumber"
                 name="contactNumber"
                 placeholder="Enter Contact Number"
                 value={formData.contactNumber}
-                  onChange={(e) => {
-    if (e.target.value.length <= 11) {
-      handleChange(e);
-    }
-  }}
+                onChange={(e) => {
+                if (e.target.value.length <= 11) {
+                handleChange(e);
+                }
+                }}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               />
             </div>

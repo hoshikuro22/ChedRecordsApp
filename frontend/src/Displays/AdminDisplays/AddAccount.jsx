@@ -180,6 +180,22 @@ export default function AddAccount() {
     if (!window.confirm("Are you sure you want to submit the form?")) {
       return;
     }
+    // Validate contact number
+    if (formData.contactNumber && formData.contactNumber.length !== 11) {
+       alert("Contact number must be 11 digits");
+      return; // Do not proceed with submission
+     }
+    //  // Validate email
+    // if (formData.email && !formData.email.includes('.com')) {
+    //   alert("Email must contain .com");
+    //   return; // Do not proceed with submission
+    // }
+        
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Email must be in a valid format, and end with .com");
+      return; // Do not proceed with submission
+    }
   
     try {
       const userID = getMaxUserID();

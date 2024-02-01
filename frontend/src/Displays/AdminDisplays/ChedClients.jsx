@@ -231,51 +231,69 @@ const handleCloseEditForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userConfirmed = window.confirm("Are you sure you want to add this client?");
-
+  
     if (!userConfirmed) {
-        // User clicked 'Cancel' in the confirmation dialog
-        alert("Client not added.");
-        return;
+      // User clicked 'Cancel' in the confirmation dialog
+      alert("Client not added.");
+      return;
     }
-
+  
+    // // Validate email
+    // if (formData.email && !formData.email.includes('.com')) {
+    //   alert("Email must contain .com");
+    //   return; // Do not proceed with submission
+    // }
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(formData.email)) {
+      alert("Email must be in a valid format, and end with .com");
+      return; // Do not proceed with submission
+    }
+  
+    // Validate contact number
+    if (formData.contactNumber && formData.contactNumber.length !== 11) {
+      alert("Contact number must be 11 digits");
+      return; // Do not proceed with submission
+    }
+  
     try {
-        const seq_no = getMaxSeqNo();
-
-        const response = await axios.post("http://localhost:8081/addClient", {
-            seq_no: seq_no,
-            clientID: formData.clientID,
-            clientName: formData.clientName,
-            address: formData.address,
-            clientType: formData.clientType,
-            email: formData.email,
-            contactPerson: formData.contactPerson,
-            contactNumber: formData.contactNumber,
-            userID: formData.userID,
+      const seq_no = getMaxSeqNo();
+  
+      const response = await axios.post("http://localhost:8081/addClient", {
+        seq_no: seq_no,
+        clientID: formData.clientID,
+        clientName: formData.clientName,
+        address: formData.address,
+        clientType: formData.clientType,
+        email: formData.email,
+        contactPerson: formData.contactPerson,
+        contactNumber: formData.contactNumber,
+        userID: formData.userID,
+      });
+  
+      if (response.data.Status === "Success") {
+        alert("Client added successfully!");
+        setFormData({
+          clientID: "Client2024000",
+          clientName: "",
+          address: "",
+          clientType: "",
+          email: "",
+          contactPerson: "",
+          contactNumber: "",
+          userID: formData.userID,
         });
-
-        if (response.data.Status === "Success") {
-            alert("Client added successfully!");
-            setFormData({
-                clientID: "Client2024000",
-                clientName: "",
-                address: "",
-                clientType: "",
-                email: "",
-                contactPerson: "",
-                contactNumber: "",
-                userID: formData.userID,
-            });
-            fetchClients();
-            setShowForm(false);
-        } else {
-            alert("Error adding client. Please try again.(frontend)");
-        }
+        fetchClients();
+        setShowForm(false);
+      } else {
+        alert("Error adding client. Please try again.(frontend)");
+      }
     } catch (error) {
-        console.error("Error:", error);
-        alert("An error occurred while adding the client.");
+      console.error("Error:", error);
+      alert("An error occurred while adding the client.");
     }
-};
-
+  };
+  
+  
 
   const handleDeleteClick = async (id) => {
     // Show a confirmation dialog

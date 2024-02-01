@@ -19,7 +19,7 @@ export default function CommunicationsAdminEditForm({
         <span className="close text-white" onClick={handleCloseEditForm}>
           &times;
         </span>
-        <h2 className="text-2xl font-semibold mb-4">Edit Document</h2>
+        <h2 className="text-2xl font-semibold mb-4">Modify Record <strong>With File</strong></h2>
         <form onSubmit={handleEditFileSubmit} className="grid grid-cols-2 gap-4">
 
         <div className="flex flex-col">
