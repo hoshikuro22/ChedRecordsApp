@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import ProfileAdminEditForm from './ProfileAdminDisplayComponent/ProfileAdminEditForm';
+import { makeRequest } from '../../../axios';
 
 export default function Profile() {
 
@@ -23,7 +24,7 @@ export default function Profile() {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("http://localhost:8081");
+      const response = await makeRequest.get("/");
       setUserData({
         User_ID: response.data.User_ID,
         User_type_ID: response.data.User_type_ID,
@@ -81,7 +82,7 @@ export default function Profile() {
     // Confirmation dialog
     if (window.confirm("Are you sure you want to save these changes?")) {
       try {
-        const response = await axios.put('http://localhost:8081/updateProfile', {
+        const response = await makeRequest.put('/updateProfile', {
           ...editFormData,
           NewPassword: newPassword, // Include the new password
         });

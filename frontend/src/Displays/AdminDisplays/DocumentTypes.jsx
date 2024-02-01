@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 
 import DocumentTypesAddForm from "./DocumentTypesAdminDisplayComponent/DocumentTypesAddForm";
 import DocumentTypesTable from "./DocumentTypesAdminDisplayComponent/DocumentTypesTable";
 import DocumentTypesPagination from "./DocumentTypesAdminDisplayComponent/DocumentTypesPagination";
 import DocumentTypesEditForm from "./DocumentTypesAdminDisplayComponent/DocumentTypesEditForm";
+import { makeRequest } from "../../../axios";
 
 export default function DocumentTypes() {
   const [formData, setFormData] = useState({
@@ -52,8 +53,8 @@ export default function DocumentTypes() {
   }
 
   try {
-    const response = await axios.put(
-      `http://localhost:8081/updateDocumentType/${editFormData.doc_type_id}`,
+    const response = await makeRequest.put(
+      `/updateDocumentType/${editFormData.doc_type_id}`,
       {
         doc_type_id: editFormData.doc_type_id,
         type: editFormData.type,
@@ -90,7 +91,7 @@ export default function DocumentTypes() {
 
   const fetchDocumentTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getDocumentTypes");
+      const response = await makeRequest.get("/getDocumentTypes");
       console.log(response.data); // line to check the fetched data
       const sortedDocumentTypes = response.data.sort();
       setDocumentTypes(sortedDocumentTypes);
@@ -146,7 +147,7 @@ export default function DocumentTypes() {
 
   try {
     const documentTypeID = getMaxDocumentTypeID();
-    const response = await axios.post("http://localhost:8081/addDocumentType", {
+    const response = await makeRequest.post("/addDocumentType", {
       ...formData,
       documentTypeID,
     }); 
@@ -172,7 +173,7 @@ export default function DocumentTypes() {
     const confirmDelete = window.confirm("Are you sure you want to delete this document type?");
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`http://localhost:8081/deleteDocumentType/${id}`);
+        const response = await makeRequest.delete(`/deleteDocumentType/${id}`);
         if (response.data.Status === "Success") {
           alert("Document type deleted successfully!");
           fetchDocumentTypes();

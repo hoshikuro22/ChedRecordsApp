@@ -7,6 +7,7 @@ import { BiMessageSquare, BiSolidReport, BiLogOut } from 'react-icons/bi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { makeRequest } from '../../../axios';
 
 export default function AdminSidebar() {
   const [LastName, setLastName] = useState('');
@@ -16,7 +17,7 @@ export default function AdminSidebar() {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    axios.get('http://localhost:8081')
+    makeRequest.get('/')
     
     .then(res => {
       if (res.data.Status === "Logged in") {
@@ -28,7 +29,7 @@ export default function AdminSidebar() {
   // para mabutang ang name na gikan sa database
 
   const handleLogout = () => {
-    axios.get('http://localhost:8081/logout').then((res) => {
+    makeRequest.get('/logout').then((res) => {
       if (res.data.Status === "Success") {
         location.reload(true);
       } else {

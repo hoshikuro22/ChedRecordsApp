@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import CommunicationsAdminAddForm from "./CommunicationsAdminDisplayComponents/CommunicationsAdminAddForm";
 import CommunicationsAdminTable from "./CommunicationsAdminDisplayComponents/CommunicationsAdminTable";
 import CommunicationsAdminPagination from "./CommunicationsAdminDisplayComponents/CommunicationsAdminPagination";
@@ -7,6 +7,7 @@ import CommunicationsAdminMoreDetails from "./CommunicationsAdminDisplayComponen
 import CommunicationsAdminEditForm from "./CommunicationsAdminDisplayComponents/CommunicationsAdminEditForm";
 import CommunicationsAdminSearchBar from "./CommunicationsAdminDisplayComponents/CommunicationsAdminSearchBar";
 import CommunicationsAdminEditForm2 from "./CommunicationsAdminDisplayComponents/CommunicationsAdminEditForm2";
+import { makeRequest } from "../../../axios";
 
 
 export default function Communications() {
@@ -29,8 +30,8 @@ export default function Communications() {
 
     // to fetch user_ID
     useEffect(() => {
-      axios
-        .get("http://localhost:8081")
+      makeRequest
+        .get("/")
         .then((res) => {
           const userID = res.data.User_ID;
           console.log("Communications-This is the User_ID: " + userID);
@@ -48,7 +49,7 @@ export default function Communications() {
    useEffect(() => {
   const fetchPersonnelData = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getPersonnels");
+      const response = await makeRequest.get("/getPersonnels");
       setPersonnelOptions(response.data);
       console.log("the personnels " + JSON.stringify(response.data));
     } catch (error) {
@@ -63,7 +64,7 @@ export default function Communications() {
    useEffect(() => {
   const fetchUnitData = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getUnits");
+      const response = await makeRequest.get("/getUnits");
       setUnitOptions(response.data);
       console.log("the units " + JSON.stringify(response.data));
     } catch (error) {
@@ -79,7 +80,7 @@ const [clientsOptions, setclientsOptions] = useState([]);
 useEffect(() => {
   const fetchClientData = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getClients");
+      const response = await makeRequest.get("/getClients");
       setclientsOptions(response.data);
       console.log("the client " + JSON.stringify(response.data));
     } catch (error) {
@@ -96,7 +97,7 @@ const [documentTypeOptions, setDocumentTypeOptions] = useState([]);
 useEffect(() => {
   const fetchDocumentTypeData = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getDocumentTypes");
+      const response = await makeRequest.get("/getDocumentTypes");
       setDocumentTypeOptions(response.data);
       console.log("Document types: " + JSON.stringify(response.data));
     } catch (error) {
@@ -176,8 +177,8 @@ useEffect(() => {
         
       
         // Make the API call to update the document details
-        const response = await axios.put(
-          `http://localhost:8081/updateDocumentFile/${editFileFormData.doc_ID}`,
+        const response = await makeRequest.put(
+          `/updateDocumentFile/${editFileFormData.doc_ID}`,
           formDataToSend
         );
   
@@ -243,8 +244,8 @@ try {
   const formattedDateReceived = new Date(editFormData.date_received).toLocaleDateString();
 
 
-  const response = await axios.put(
-    `http://localhost:8081/updateDocumentNormal/${editFormData.doc_ID}`,
+  const response = await makeRequest.put(
+    `/updateDocumentNormal/${editFormData.doc_ID}`,
     {
       doc_ID: editFormData.doc_ID,
       doc_type_id: editFormData.doc_type_id,
@@ -306,7 +307,7 @@ const [isInfoModalOpen, setInfoModalOpen] = useState(false);
 
 const fetchDocumentHistory = async (doc_ID) => {
   try {
-    const response = await axios.get(`http://localhost:8081/getDocumentHistory/${doc_ID}`);
+    const response = await makeRequest.get(`/getDocumentHistory/${doc_ID}`);
     console.log('API Response:', response.data);
     setDocumentHistory(response.data);
   } catch (error) {
@@ -332,7 +333,7 @@ const handleInfoClick = (doc_ID) => {
 
   const fetchDocuments = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getDocuments");
+      const response = await makeRequest.get("/getDocuments");
       console.log(response.data); // to check the fetched data
       const sortedDocuments = response.data.sort();
       setDocuments(sortedDocuments);
@@ -411,6 +412,7 @@ const handleFileChange = (e) => {
     try {
       const docID = getMaxDocID();
       const formattedDateReceived = formData.dateReceived.toLocaleDateString();
+      const formattedDateReleased = formData.dateReleased.toLocaleDateString();
       const formDataToSend = new FormData();
     
       // Append form data including the file
@@ -418,7 +420,7 @@ const handleFileChange = (e) => {
       formDataToSend.append("assignatories", formData.assignatories);
       formDataToSend.append("documentType", formData.documentType);
       formDataToSend.append("dateReceived", formattedDateReceived);
-      formDataToSend.append("dateReleased", formData.dateReleased);
+      formDataToSend.append("dateReleased", formattedDateReleased);
       formDataToSend.append("remarks", formData.remarks);
       formDataToSend.append("tags", formData.tags);
       formDataToSend.append("status", formData.status);
@@ -428,7 +430,7 @@ const handleFileChange = (e) => {
       formDataToSend.append("userID", formData.userID);
 
       console.log("the formData to send " + JSON.stringify(formDataToSend));
-      const response = await axios.post("http://localhost:8081/addDocument", formDataToSend);
+      const response = await makeRequest.post("/addDocument", formDataToSend);
   
       if (response.data.Status === "Success") {
         alert("Document added successfully!");
@@ -469,10 +471,10 @@ const handleDeleteClick = async (id) => {
   if (confirmDelete) {
     try {
       // Fetch user information (replace this with your actual method of getting user info)
-      const userResponse = await axios.get("http://localhost:8081"); 
+      const userResponse = await makeRequest.get("/"); 
       const { User_ID, First_Name, Last_Name } = userResponse.data;
 
-      const deleteResponse = await axios.delete(`http://localhost:8081/deleteDocument/${id}`, {
+      const deleteResponse = await makeRequest.delete(`/deleteDocument/${id}`, {
         headers: {
           // Pass user information in headers
           user_ID: User_ID,
@@ -506,7 +508,7 @@ useEffect(() => {
 // Function to fetch the maximum Doc_ID
 const getMaxDocIDShown = async () => {
   try {
-    const response = await axios.get("http://localhost:8081/getMaxDocIDShown");
+    const response = await makeRequest.get("/getMaxDocIDShown");
     setMaxDocIDShown(response.data.maxDocIDShown);
   } catch (error) {
     console.error("Error fetching max Doc_ID:", error);

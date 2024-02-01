@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { useState, useEffect } from "react";
 // import ClientTypesAddForm from "./ClientTypesAdminDisplayComponents/ClientTypesAddForm";
 
@@ -6,6 +6,7 @@ import ClientTypesPagination from "./ClientTypesAdminDisplayComponent/ClientType
 import ClientTypesTable from "./ClientTypesAdminDisplayComponent/ClientTypesTable";
 import ClientTypesEditForm from "./ClientTypesAdminDisplayComponent/ClientTypesEditForm";
 import ClientTypesAddForm from "./ClientTypesAdminDisplayComponent/ClientTypesAddForm";
+import { makeRequest } from "../../../axios";
 
 
 export default function ClientTypes() {
@@ -55,8 +56,8 @@ export default function ClientTypes() {
   }
 
   try {
-    const response = await axios.put(
-      `http://localhost:8081/updateClientType/${editFormData.client_type_id}`,
+    const response = await makeRequest.put(
+      `/updateClientType/${editFormData.client_type_id}`,
       {
         client_type_id: editFormData.client_type_id,
         type: editFormData.type,
@@ -93,7 +94,7 @@ export default function ClientTypes() {
 
   const fetchClientTypes = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getClientTypes");
+      const response = await makeRequest.get("/getClientTypes");
       console.log(response.data); // line to check the fetched data
       const sortedClientTypes = response.data.sort();
       setClientTypes(sortedClientTypes);
@@ -149,7 +150,7 @@ export default function ClientTypes() {
 
   try {
     const clientTypeID = getMaxClientTypeID();
-    const response = await axios.post("http://localhost:8081/addClientType", {
+    const response = await makeRequest.post("/addClientType", {
       ...formData,
       clientTypeID,
     }); 
@@ -175,7 +176,7 @@ export default function ClientTypes() {
     const confirmDelete = window.confirm("Are you sure you want to delete this client type?");
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`http://localhost:8081/deleteClientType/${id}`);
+        const response = await makeRequest.delete(`/deleteClientType/${id}`);
         if (response.data.Status === "Success") {
           alert("Client type deleted successfully!");
           fetchClientTypes();

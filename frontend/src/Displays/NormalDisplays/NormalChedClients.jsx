@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import ChedClientsNormalTable from "./ChedClientsNormalDisplayComponent/ChedClientsNormalTable";
 import ChedClientsNormalEditForm from "./ChedClientsNormalDisplayComponent/ChedClientsNormalEditForm";
 import ChedClientsNormalPagination from "./ChedClientsNormalDisplayComponent/ChedClientsNormalPagination";
 import ChedClientsNormalMoreDetails from "./ChedClientsNormalDisplayComponent/ChedClientsNormalMoreDetails";
 import ChedClientsNormalSearchBar from "./ChedClientsNormalDisplayComponent/CHEDClientsNormalSearchBar";
+import { makeRequest } from "../../../axios";
 
 
 export default function NormalChedClients() {
@@ -32,8 +33,8 @@ export default function NormalChedClients() {
 
  // to fetch user_ID
  useEffect(() => {
-  axios
-    .get("http://localhost:8081")
+  makeRequest
+    .get("/")
     .then((res) => {
       const userID = res.data.User_ID;
       console.log("Institutions-This is the User_ID: " + userID);
@@ -85,8 +86,8 @@ export default function NormalChedClients() {
   }
 
   try {
-    const response = await axios.put(
-      `http://localhost:8081/updateClient/${editFormData.client_id}`,
+    const response = await makeRequest.put(
+      `/updateClient/${editFormData.client_id}`,
       {
         client_id: editFormData.client_id,
         client_name: editFormData.client_name,
@@ -160,7 +161,7 @@ export default function NormalChedClients() {
   
   const fetchClients = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getClients");
+      const response = await makeRequest.get("/getClients");
       console.log(response.data); //  line to check the fetched data
       const sortedClients = response.data.sort();
       setClients(sortedClients);
@@ -176,7 +177,7 @@ const [clientTypeOptions, setClientTypeOptions] = useState([]);
 useEffect(() => {
   const fetchClientTypeData = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getClientTypes");
+      const response = await makeRequest.get("/getClientTypes");
       setClientTypeOptions(response.data);
       console.log("Client types: " + JSON.stringify(response.data));
     } catch (error) {

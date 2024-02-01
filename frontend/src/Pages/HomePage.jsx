@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import LandingPage from "./LandingPage";
 import NormalPage from "./NormalPage";
 import AdminPage from "./AdminPage";
+import { makeRequest } from "../../axios";
 
 export default function HomePage() {
 
@@ -11,7 +12,7 @@ export default function HomePage() {
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
-      axios.get('http://localhost:8081')
+      makeRequest.get('/')
       
         .then(res => {
           console.log("This is the status: "+ res.data.Status)
@@ -24,7 +25,7 @@ export default function HomePage() {
 
           
     useEffect(() => {
-      axios.get('http://localhost:8081')
+      makeRequest.get('/')
       
         .then(res => {
           console.log("This is the user type: "+ res.data.User_type_ID)

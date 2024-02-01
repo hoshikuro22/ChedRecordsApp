@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import ChedClientsAdminAddForm from "./ChedClientsAdminDisplayComponent/ChedClientsAdminAddForm";
 import ChedClientsAdminTable from "./ChedClientsAdminDisplayComponent/ChedClientsAdminTable";
 import ChedClientsAdminEditForm from "./ChedClientsAdminDisplayComponent/ChedClientsAdminEditForm";
 import ChedClientsAdminMoreDetails from "./ChedClientsAdminDisplayComponent/ChedClientsAdminMoreDetails";
 import ChedClientsAdminPagination from "./ChedClientsAdminDisplayComponent/ChedClientsAdminPagination";
 import ChedClientsAdminSearchBar from "./ChedClientsAdminDisplayComponent/ChedClientsAdminSearchBar";
+import { makeRequest } from "../../../axios";
 
 export default function ChedClients() {
   const [formData, setFormData] = useState({
@@ -22,8 +23,8 @@ export default function ChedClients() {
 
  // to fetch user_ID
  useEffect(() => {
-  axios
-    .get("http://localhost:8081")
+  makeRequest
+    .get("/")
     .then((res) => {
       const userID = res.data.User_ID;
       console.log("Clients-This is the User_ID: " + userID);
@@ -41,7 +42,7 @@ const [clientTypeOptions, setClientTypeOptions] = useState([]);
 useEffect(() => {
   const fetchClientTypeData = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getClientTypes");
+      const response = await makeRequest.get("/getClientTypes");
       setClientTypeOptions(response.data);
       console.log("Client types: " + JSON.stringify(response.data));
     } catch (error) {
@@ -94,8 +95,8 @@ useEffect(() => {
   }
 
   try {
-    const response = await axios.put(
-      `http://localhost:8081/updateClient/${editFormData.client_id}`,
+    const response = await makeRequest.put(
+      `/updateClient/${editFormData.client_id}`,
       {
         client_id: editFormData.client_id,
         client_name: editFormData.client_name,
@@ -172,7 +173,7 @@ const handleCloseEditForm = () => {
   
   const fetchClients = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getClients");
+      const response = await makeRequest.get("/getClients");
       console.log(response.data); //  line to check the fetched data
       const sortedClients = response.data.sort();
       setClients(sortedClients);
@@ -258,7 +259,7 @@ const handleCloseEditForm = () => {
     try {
       const seq_no = getMaxSeqNo();
   
-      const response = await axios.post("http://localhost:8081/addClient", {
+      const response = await makeRequest.post("/addClient", {
         seq_no: seq_no,
         clientID: formData.clientID,
         clientName: formData.clientName,
@@ -302,10 +303,10 @@ const handleCloseEditForm = () => {
     if (confirmDelete) {
       try {
         // Fetch user information (replace this with your actual method of getting user info)
-        const userResponse = await axios.get("http://localhost:8081"); 
+        const userResponse = await makeRequest.get("/"); 
         const { User_ID, First_Name, Last_Name } = userResponse.data;
   
-        const deleteResponse = await axios.delete(`http://localhost:8081/deleteClient/${id}`, {
+        const deleteResponse = await makeRequest.delete(`/deleteClient/${id}`, {
           headers: {
             // Pass user information in headers
             User_ID: User_ID,

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { makeRequest } from '../../../axios';
 
 export default function ActivityLog() {
   const [activityLog, setActivityLog] = useState([]);
@@ -12,9 +13,9 @@ export default function ActivityLog() {
 
   const fetchData = async () => {
     try {
-      // Make a request to your backend API
-      const response = await fetch('http://localhost:8081/getActivityLog');
-      const data = await response.json();
+      // Use makeRequest to fetch data with a dynamic URL
+      const response = await makeRequest.get('/getActivityLog');
+      const data = response.data;
 
       // Update the state with the fetched data
       setActivityLog(data);
@@ -22,7 +23,6 @@ export default function ActivityLog() {
       console.error('Error fetching data:', error);
     }
   };
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = activityLog.slice(indexOfFirstItem, indexOfLastItem);
@@ -53,10 +53,10 @@ export default function ActivityLog() {
           <tbody>
             {currentItems.map((activity) => (
               <tr key={activity.ActivityID}>
-                <td className="border px-4 py-2 text-center">{activity.ActivityID}</td>
-                <td className="border px-4 py-2 text-center">{activity.UserAccount}</td>
-                <td className="border px-4 py-2 text-center">{activity.Activity}</td>
-                <td className="border px-4 py-2 text-center">{formatDate(activity.DateAndTime)}</td>
+                <td className="border px-4 py-2 text-left">{activity.ActivityID}</td>
+                <td className="border px-4 py-2 text-left">{activity.UserAccount}</td>
+                <td className="border px-4 py-2 text-left">{activity.Activity}</td>
+                <td className="border px-4 py-2 text-left">{formatDate(activity.DateAndTime)}</td>
 
               </tr>
             ))}

@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import PersonnelAddForm from "./ListOfPersonnelDisplaysComponents/PersonnelAddForm";
 import PersonnelTable from "./ListOfPersonnelDisplaysComponents/PersonnelTable";
 import PersonnelPagination from "./ListOfPersonnelDisplaysComponents/PersonnelPagination";
 import PersonnelEditForm from "./ListOfPersonnelDisplaysComponents/PersonnelEditForm";
+import { makeRequest } from "../../../axios";
 
 
 
@@ -58,8 +59,8 @@ export default function ListOfPersonnels() {
   }
 
   try {
-    const response = await axios.put(
-      `http://localhost:8081/updatePersonnel/${editFormData.personnel_id}`,
+    const response = await makeRequest.put(
+      `/updatePersonnel/${editFormData.personnel_id}`,
       {
         personnel_id: editFormData.personnel_id,
         unit_ID: editFormData.unit_ID,
@@ -111,7 +112,7 @@ const handleCloseEditForm = () => {
 
   const fetchPersonnels = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getPersonnels");
+      const response = await makeRequest.get("/getPersonnels");
       console.log(response.data); //  line to check the fetched data
       const sortedPersonnels = response.data.sort();
       setPersonnels(sortedPersonnels);
@@ -127,7 +128,7 @@ const handleCloseEditForm = () => {
      useEffect(() => {
     const fetchUnitData = async () => {
       try {
-        const response = await axios.get("http://localhost:8081/getUnits");
+        const response = await makeRequest.get("/getUnits");
         setUnitOptions(response.data);
         console.log("the units " + JSON.stringify(response.data));
       } catch (error) {
@@ -201,7 +202,7 @@ const handleCloseEditForm = () => {
   
     try {
       const personnelID = getMaxPersonnelID();
-      const response = await axios.post("http://localhost:8081/addPersonnel", {
+      const response = await makeRequest.post("/addPersonnel", {
         ...formData,
         personnelID,
       });
@@ -236,7 +237,7 @@ const handleCloseEditForm = () => {
 
   if (confirmDelete) {
     try {
-      const response = await axios.delete(`http://localhost:8081/deletePersonnel/${id}`);
+      const response = await makeRequest.delete(`/deletePersonnel/${id}`);
       if (response.data.Status === "Success") {
         alert("Personnel deleted successfully!");
         fetchPersonnels(); // Refresh the document list

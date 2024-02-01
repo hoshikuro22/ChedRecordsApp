@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import AddAccountAdminAddForm from "./AddAccountAdminDisplayComponent/AddAccountAdminAddForm";
 import AddAccountAdminTable from "./AddAccountAdminDisplayComponent/AddAccountAdminTable";
 import AddAccountAdminEditForm from "./AddAccountAdminDisplayComponent/AddAccountAdminEditForm";
+import { makeRequest } from "../../../axios";
 
 
 export default function AddAccount() {
@@ -51,8 +52,8 @@ export default function AddAccount() {
   }
 
   try {
-    const response = await axios.put(
-      `http://localhost:8081/updateUser/${editFormData.user_ID}`,
+    const response = await makeRequest.put(
+      `/updateUser/${editFormData.user_ID}`,
       {
         ...editFormData,
         NewPassword: newPassword, // Include the new password
@@ -99,7 +100,7 @@ export default function AddAccount() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getUsers");
+      const response = await makeRequest.get("/getUsers");
       console.log(response.data); // Add this line to check the fetched data
       const sortedUsers = response.data.sort();
       setUsers(sortedUsers);
@@ -200,7 +201,7 @@ export default function AddAccount() {
     try {
       const userID = getMaxUserID();
   
-      const response = await axios.post("http://localhost:8081/addUser", {
+      const response = await makeRequest.post("/addUser", {
         ...formData,
         userID,
       });
@@ -241,7 +242,7 @@ export default function AddAccount() {
 
   if (confirmDelete) {
     try {
-      const response = await axios.delete(`http://localhost:8081/deleteUser/${id}`);
+      const response = await makeRequest.delete(`/deleteUser/${id}`);
       if (response.data.Status === "Success") {
         alert("User deleted successfully!");
         fetchUsers(); // Refresh the document list

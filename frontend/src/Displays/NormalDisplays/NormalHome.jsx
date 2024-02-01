@@ -1,7 +1,10 @@
 import  { useState, useEffect } from "react";
-import axios from "axios";
+
 import { FaEnvelope, FaUsers } from 'react-icons/fa';
 import { TEChart } from "tw-elements-react";
+import { makeRequest } from "../../../axios";
+
+
 
 export default function NormalHome() {
 
@@ -9,7 +12,7 @@ export default function NormalHome() {
   const [communicationCount, setCommunicationCount] = useState(0);
   useEffect(() => {
     // Fetch the count of Communications from the backend
-    axios.get("http://localhost:8081/getCommunicationCount")
+    makeRequest.get("/getCommunicationCount")
       .then((response) => {
         setCommunicationCount(response.data.communicationCount);
       })
@@ -22,7 +25,7 @@ export default function NormalHome() {
     const [clientCount, setClientCount] = useState(0);
     useEffect(() => {
       // Fetch the count of Communications from the backend
-      axios.get("http://localhost:8081/getClientCount")
+      makeRequest.get("/getClientCount")
         .then((response) => {
           setClientCount(response.data.clientCount);
         })
@@ -33,7 +36,7 @@ export default function NormalHome() {
     // to fetch the Status count of Communication
     const [documentStatusCounts, setDocumentStatusCounts] = useState({});
     useEffect(() => {
-    axios.get("http://localhost:8081/getDocumentStatusCounts")
+    makeRequest.get("/getDocumentStatusCounts")
     .then((response) => {
       const counts = response.data.reduce((acc, curr) => {
         acc[curr.type] = curr.count;
@@ -50,7 +53,7 @@ export default function NormalHome() {
    // to fetch the Client Type count of Communication
 const [clientTypeCounts, setClientTypeCounts] = useState({});
 useEffect(() => {
-  axios.get("http://localhost:8081/getClientTypeCounts")
+  makeRequest.get("/getClientTypeCounts")
     .then((response) => {
       const counts = response.data.reduce((acc, curr) => {
         acc[curr.type] = curr.count;

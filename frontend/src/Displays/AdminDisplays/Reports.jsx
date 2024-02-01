@@ -1,19 +1,35 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import { FaEnvelope } from 'react-icons/fa';
 import { RiGroupLine } from "react-icons/ri";
 import { TEChart } from "tw-elements-react";
+import { makeRequest } from "../../../axios";
 
 export default function Reports() {
+
+   // to fetch units for the add and edit form
+   const [unitOptions, setUnitOptions] = useState([]);
+
+   useEffect(() => {
+  const fetchUnitData = async () => {
+    try {
+      const response = await makeRequest.get("/getUnits");
+      setUnitOptions(response.data);
+      console.log("the units " + JSON.stringify(response.data));
+    } catch (error) {
+      console.error("Error fetching units data:", error);
+    }
+  }; fetchUnitData(); }, []);
 
   const [documents, setDocuments] = useState([]);
   const [filterYearReceived, setFilterYearReceived] = useState(new Date().getFullYear());
   const [filterMonthReceived, setFilterMonthReceived] = useState(new Date().getMonth() + 1); // Months are 0-indexed in JS
   const [startDateReceived, setStartDateReceived] = useState("");
   const [endDateReceived, setEndDateReceived] = useState("");
+  const [filterUnit, setFilterUnit] = useState("");
   
   useEffect(() => {
-    axios.get("http://localhost:8081/getDocuments")
+    makeRequest.get("/getDocuments")
       .then((response) => {
         setDocuments(response.data);
       })
@@ -31,7 +47,8 @@ export default function Reports() {
       (!filterYearReceived || year === filterYearReceived) &&
       (!filterMonthReceived || month === filterMonthReceived) &&
       (!startDateReceived || new Date(doc.date_received) >= new Date(startDateReceived)) &&
-      (!endDateReceived || new Date(doc.date_received) <= new Date(endDateReceived))
+      (!endDateReceived || new Date(doc.date_received) <= new Date(endDateReceived))&&
+      (!filterUnit || doc.unit === filterUnit)
     );
   });
 
@@ -40,7 +57,7 @@ export default function Reports() {
  const [communicationCount, setCommunicationCount] = useState(0);
  useEffect(() => {
      // Fetch the count of Communication counts from the backend
-   axios.get("http://localhost:8081/getCommunicationCount")
+   makeRequest.get("/getCommunicationCount")
      .then((response) => {
        setCommunicationCount(response.data.communicationCount);
      })
@@ -53,7 +70,7 @@ export default function Reports() {
   const [unitCount, setUnitCount] = useState(0);
   useEffect(() => {
       // Fetch the count of Communication counts from the backend
-    axios.get("http://localhost:8081/getUnitCount")
+    makeRequest.get("/getUnitCount")
       .then((response) => {
         setUnitCount(response.data.unitCount);
       })
@@ -66,7 +83,7 @@ export default function Reports() {
  const [documentStatusCounts, setDocumentStatusCounts] = useState({});
  useEffect(() => {
     // Fetch the count of Document Status counts from the backend
-   axios.get("http://localhost:8081/getDocumentStatusCounts")
+   makeRequest.get("/getDocumentStatusCounts")
      .then((response) => {
        const counts = response.data.reduce((acc, curr) => {
          acc[curr.type] = curr.count;
@@ -83,7 +100,7 @@ export default function Reports() {
   const [documentUnitCounts, setDocumentUnitCounts] = useState({});
   useEffect(() => {
      // Fetch the count of Document Status counts from the backend
-    axios.get("http://localhost:8081/getDocumentUnitCounts")
+    makeRequest.get("/getDocumentUnitCounts")
       .then((response) => {
         const counts = response.data.reduce((acc, curr) => {
           acc[curr.type] = curr.count;
@@ -149,7 +166,24 @@ export default function Reports() {
                   ))}
                 </select>
               </div>
-              <div></div>
+
+              <div>
+           <label htmlFor="unitFilter" className="text-gray-700">Filter by Units: </label>
+           <select
+              id="unitFilter"
+              value={filterUnit}
+              onChange={(e) => setFilterUnit(e.target.value)}
+             className="border p-1 rounded focus:ring-blue-500 focus:border-blue-500"
+               >
+             <option value="">Select Unit</option>
+              {unitOptions.map((unit) => (
+               <option key={unit.ID} value={unit.ID}>
+                 {unit.type}
+                </option>
+                 ))}
+                 </select>
+            </div>
+              
             <div className="mt-4">
               <label htmlFor="startDate" className="text-gray-700">Date Received Start Date: </label>
               <input
@@ -188,7 +222,7 @@ export default function Reports() {
                       <td>{document.client_name}</td>
                       <td>{document.contact_firstName} {document.contact_lastName}</td>
                       <td>{document.unit}</td>
-                      <td>{document.filing_category}</td>
+                      <td>{document.document_type}</td>
                       <td>{document.date_received}</td>
                       <td>{document.status}</td>
       

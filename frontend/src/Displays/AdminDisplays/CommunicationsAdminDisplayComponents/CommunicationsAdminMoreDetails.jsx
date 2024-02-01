@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import { makeRequest } from '../../../../axios';
 
 export default function CommunicationsAdminMoreDetails({ 
   isInfoModalOpen,
@@ -76,17 +77,20 @@ CommunicationsAdminMoreDetails.propTypes = {
 };
 
 const FileLink = ({ item }) => {
-  const [fileUrl, setFileUrl] = useState(`http://localhost:8081/communicationhistoryfiles/${item.file}`);
+  const [fileUrl, setFileUrl] = useState(`communicationfiles/${item.file}`);
 
   useEffect(() => {
     const checkFile = async () => {
       try {
-        const response = await fetch(fileUrl);
+        const response = await makeRequest.get(fileUrl);
+
+
         if (!response.ok) {
-          setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+          setFileUrl(`communicationfiles/${item.file}`);
         }
       } catch (error) {
-        setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+        console.error("Error fetching file:", error);
+        setFileUrl(`communicationhistoryfiles/${item.file}`);
       }
     };
 
@@ -95,7 +99,7 @@ const FileLink = ({ item }) => {
 
   return (
     <a
-      href={fileUrl}
+      href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
       target="_blank"
       rel="noopener noreferrer"
       className="text-blue-500 hover:underline"

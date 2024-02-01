@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import { makeRequest } from '../../../../axios';
 export default function CommunicationsAdminTable({
   currentItems,
-  // handleDeleteClick,
+  handleDeleteClick,
   handleInfoClick,
   handleEditFileClick,
   handleEditClick,
@@ -352,12 +353,12 @@ const handleSelectClientNameFilter = (value) => {
           >
             Modify 
           </button>
-          {/* <button
+          <button
             className="text-red-500 hover:underline ml-2 font-bold"
             onClick={() => handleDeleteClick(document.doc_ID)}
           >
             Delete
-          </button> */}
+          </button>
           <button
             className="text-gray-500 hover:underline ml-2 font-bold"
             onClick={() => handleInfoClick(document.doc_ID)}
@@ -377,7 +378,7 @@ const handleSelectClientNameFilter = (value) => {
 CommunicationsAdminTable.propTypes = {
   currentItems: PropTypes.array.isRequired,
   searchQuery: PropTypes.string.isRequired,
-  // handleDeleteClick: PropTypes.func.isRequired,
+  handleDeleteClick: PropTypes.func.isRequired,
   handleInfoClick: PropTypes.func.isRequired,
   handleEditFileClick: PropTypes.func.isRequired,
   handleEditClick: PropTypes.func.isRequired,
@@ -386,19 +387,21 @@ CommunicationsAdminTable.propTypes = {
   unitOptions: PropTypes.array.isRequired,
 };
 
-
 const FileLink = ({ item }) => {
-  const [fileUrl, setFileUrl] = useState(`http://localhost:8081/communicationhistoryfiles/${item.file}`);
+  const [fileUrl, setFileUrl] = useState(`communicationhistoryfiles/${item.file}`);
 
   useEffect(() => {
     const checkFile = async () => {
       try {
-        const response = await fetch(fileUrl);
+        const response = await makeRequest.get(fileUrl);
+
+        // You may need to adjust the condition based on your API response
         if (!response.ok) {
-          setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+          setFileUrl(`communicationfiles/${item.file}`);
         }
       } catch (error) {
-        setFileUrl(`http://localhost:8081/communicationfiles/${item.file}`);
+        console.error("Error fetching file:", error);
+        setFileUrl(`communicationfiles/${item.file}`);
       }
     };
 
@@ -407,7 +410,7 @@ const FileLink = ({ item }) => {
 
   return (
     <a
-      href={fileUrl}
+      href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
       target="_blank"
       rel="noopener noreferrer"
       className="text-blue-500 hover:underline"

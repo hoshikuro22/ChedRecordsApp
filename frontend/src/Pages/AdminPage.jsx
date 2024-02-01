@@ -15,6 +15,7 @@ import ListOfPersonnels from "../Displays/AdminDisplays/ListOfPersonnels"
 import AddAccount from "../Displays/AdminDisplays/AddAccount"
 import AdminFooter from "../Components/AdminComponents/AdminFooter"
 import Profile from "../Displays/AdminDisplays/Profile"
+import { makeRequest } from "../../axios"
 
 
 
@@ -33,7 +34,7 @@ export default function AdminPage() {
   axios.defaults.withCredentials = true;
   
   useEffect(() => {
-    axios.get('http://localhost:8081')
+    makeRequest.get('/')
     
       .then(res => {
         console.log("This is the status: "+ res.data.Status)
@@ -49,7 +50,7 @@ export default function AdminPage() {
 
         const [ifAdmin, setIfAdmin] = useState(false)
         useEffect(() => {
-          axios.get('http://localhost:8081')
+          makeRequest.get('/')
           
             .then(res => {
               console.log("This is the user type: "+ res.data.User_type_ID)

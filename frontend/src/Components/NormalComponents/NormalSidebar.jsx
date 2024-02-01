@@ -5,6 +5,7 @@ import { BiMessageSquare,  BiLogOut } from 'react-icons/bi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { makeRequest } from '../../../axios';
 
 export default function NormalSidebar() {
   const [lastName, setlastName] = useState('');
@@ -13,7 +14,7 @@ export default function NormalSidebar() {
   axios.defaults.withCredentials = true;
 
   useEffect(() => {
-    axios.get('http://localhost:8081').then((res) => {
+    makeRequest.get('/').then((res) => {
       if (res.data.Status === 'Logged in') {
         setlastName(res.data.Last_Name);
         setfirstName(res.data.First_Name);
@@ -22,7 +23,7 @@ export default function NormalSidebar() {
   }, []);
 
   const handleLogout = () => {
-    axios.get('http://localhost:8081/logout').then((res) => {
+    makeRequest.get('/logout').then((res) => {
       if (res.data.Status === 'Success') {
         location.reload(true);
       } else {

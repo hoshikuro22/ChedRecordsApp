@@ -9,6 +9,7 @@ import NormalHeader from "../Components/NormalComponents/NormalHeader"
 import NormalHome from "../Displays/NormalDisplays/NormalHome"
 import NormalFooter from "../Components/NormalComponents/NormalFooter"
 import NormalStaffProfile from "../Displays/NormalDisplays/NormalStaffProfile"
+import { makeRequest } from "../../axios"
 
 
 
@@ -21,7 +22,7 @@ export default function NormalPage() {
 
   axios.defaults.withCredentials = true;
   useEffect(() => {
-    axios.get('http://localhost:8081')
+    makeRequest.get('/')
       .then(res => {
         console.log("This is the status: "+ res.data.Status)
         console.log("This is the user type: "+ res.data.User_type_ID)

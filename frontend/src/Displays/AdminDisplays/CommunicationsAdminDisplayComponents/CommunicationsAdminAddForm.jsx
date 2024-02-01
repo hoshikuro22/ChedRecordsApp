@@ -72,20 +72,17 @@ export default function CommunicationsAdminAddForm({
               />
             </div> */}
 
-            <div className=" flex-col hidden">
-              <label className="mb-1 text-sm font-semibold">Date Released</label>
-              <input
-                
-                type="dateReleased"
-                id="dateReleased"
-                name="dateReleased"
-                placeholder="Enter dateReleased"
-                value={formData.dateReleased}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div>
-            
+{formData.status === "1" && (
+ <div className="flex flex-col">
+ <label className="mb-1 text-sm font-semibold">Date Released</label>
+ <DatePicker
+   selected={formData.dateReleased}
+   onChange={(date) => handleChange({ target: { name: 'dateReleased', value: date } })}
+   className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+   dateFormat="MM/dd/yyyy" 
+ />
+</div>
+)}
 
             </div>
             

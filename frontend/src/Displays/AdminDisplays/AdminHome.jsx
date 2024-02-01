@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import { FaEnvelope, FaUsers } from 'react-icons/fa';
 import { TEChart } from "tw-elements-react";
+import { makeRequest } from "../../../axios";
 
 export default function AdminHome() {
 
@@ -29,7 +30,7 @@ export default function AdminHome() {
   const [communicationCount, setCommunicationCount] = useState(0);
   useEffect(() => {
       // Fetch the count of Communication counts from the backend
-    axios.get("http://localhost:8081/getCommunicationCount")
+    makeRequest.get("/getCommunicationCount")
       .then((response) => {
         setCommunicationCount(response.data.communicationCount);
       })
@@ -42,7 +43,7 @@ export default function AdminHome() {
   const [documentStatusCounts, setDocumentStatusCounts] = useState({});
   useEffect(() => {
      // Fetch the count of Document Status counts from the backend
-    axios.get("http://localhost:8081/getDocumentStatusCounts")
+    makeRequest.get("/getDocumentStatusCounts")
       .then((response) => {
         const counts = response.data.reduce((acc, curr) => {
           acc[curr.type] = curr.count;
@@ -60,7 +61,7 @@ export default function AdminHome() {
 
   useEffect(() => {
  // Fetch the count of documents by client from the backend
-    axios.get("http://localhost:8081/getDocumentByClients")
+    makeRequest.get("/getDocumentByClients")
       .then((response) => {
         const counts = response.data.reduce((acc, curr) => {
           acc[curr.client_name] = curr.count;
@@ -78,7 +79,7 @@ export default function AdminHome() {
 
    useEffect(() => {
   // Fetch the count of documents by document types from the backend
-     axios.get("http://localhost:8081/getDocumentByDocumentTypes")
+     makeRequest.get("/getDocumentByDocumentTypes")
        .then((response) => {
          const counts = response.data.reduce((acc, curr) => {
            acc[curr.Type] = curr.count;
@@ -99,7 +100,7 @@ export default function AdminHome() {
   const [clientCount, setClientCount] = useState(0);
   useEffect(() => {
         // Fetch the count of Client counts from the backend
-    axios.get("http://localhost:8081/getClientCount")
+    makeRequest.get("/getClientCount")
       .then((response) => {
         setClientCount(response.data.clientCount);
       })
@@ -112,7 +113,7 @@ export default function AdminHome() {
     const [clientTypeCounts, setClientTypeCounts] = useState({});
     useEffect(() => {
        // Fetch the count of Client type counts from the backend
-      axios.get("http://localhost:8081/getClientTypeCounts")
+      makeRequest.get("/getClientTypeCounts")
         .then((response) => {
           const counts = response.data.reduce((acc, curr) => {
             acc[curr.type] = curr.count;
@@ -129,7 +130,7 @@ export default function AdminHome() {
         // const [clientNameCounts, setClientNameCounts] = useState({});
         // useEffect(() => {
         //    // Fetch the count of Client type counts from the backend
-        //   axios.get("http://localhost:8081/getClientNameCounts")
+        //   axios.get("http://192.168.110.50:8081/getClientNameCounts")
         //     .then((response) => {
         //       const counts = response.data.reduce((acc, curr) => {
         //         acc[curr.client_name] = curr.count;

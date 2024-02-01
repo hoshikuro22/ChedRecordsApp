@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { makeRequest } from '../../../../axios';
 
 export default function CommunicationsNormalTable({
   currentItems,
@@ -324,15 +325,8 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">{document.status}</td>
         <td className="border px-4 py-2 text-center">{document.remarks}</td>
         <td className="border px-4 py-2 text-center">
-          <a
-            href={`http://localhost:8081/communicationfiles/${document.file}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
-          >
-            {document.file}
-          </a>
-        </td>
+                      <FileLink item={document} />
+                    </td>
         <td className="border px-4 py-2 text-center">
           {/* <button
             className="text-blue-500 hover:underline"
@@ -371,4 +365,41 @@ CommunicationsNormalTable.propTypes = {
   clientsOptions: PropTypes.array.isRequired,
   documentTypeOptions: PropTypes.array.isRequired,
   unitOptions: PropTypes.array.isRequired,
+};
+
+const FileLink = ({ item }) => {
+  const [fileUrl, setFileUrl] = useState(`communicationhistoryfiles/${item.file}`);
+
+  useEffect(() => {
+    const checkFile = async () => {
+      try {
+        const response = await makeRequest.get(fileUrl);
+
+        // You may need to adjust the condition based on your API response
+        if (!response.ok) {
+          setFileUrl(`communicationfiles/${item.file}`);
+        }
+      } catch (error) {
+        console.error("Error fetching file:", error);
+        setFileUrl(`communicationfiles/${item.file}`);
+      }
+    };
+
+    checkFile();
+  }, [item.file, fileUrl]);
+
+  return (
+    <a
+      href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-500 hover:underline"
+    >
+      {item.file}
+    </a>
+  );
+};
+
+FileLink.propTypes = {
+  item: PropTypes.object,
 };

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+
 import CommunicationsNormalTable from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalTable";
 import CommunicationsNormalEditForm from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalEditForm";
 import CommunicationsNormalMoreDetails from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalMoreDetails";
 import CommunicationsNormalPagination from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalPagination";
 import CommunicationsNormalSearchBar from "./CommunicationsNormalDisplayComponent.jsx/CommunicationsNormalSearchBar";
+import { makeRequest } from "../../../axios";
 
 
 
@@ -34,8 +35,8 @@ export default function NormalCommunications() {
 
     // to fetch user_ID
     useEffect(() => {
-      axios
-        .get("http://localhost:8081")
+      makeRequest
+        .get("/")
         .then((res) => {
           const userID = res.data.User_ID;
           console.log("Communications-This is the User_ID: " + userID);
@@ -53,7 +54,7 @@ export default function NormalCommunications() {
         useEffect(() => {
        const fetchPersonnelData = async () => {
          try {
-           const response = await axios.get("http://localhost:8081/getPersonnels");
+           const response = await makeRequest.get("/getPersonnels");
            setPersonnelOptions(response.data);
            console.log("the personnels " + JSON.stringify(response.data));
          } catch (error) {
@@ -68,7 +69,7 @@ export default function NormalCommunications() {
     useEffect(() => {
    const fetchUnitData = async () => {
      try {
-       const response = await axios.get("http://localhost:8081/getUnits");
+       const response = await makeRequest.get("/getUnits");
        setUnitOptions(response.data);
        console.log("the units " + JSON.stringify(response.data));
      } catch (error) {
@@ -82,7 +83,7 @@ export default function NormalCommunications() {
         useEffect(() => {
         const fetchClientData = async () => {
       try {
-         const response = await axios.get("http://localhost:8081/getClients");
+         const response = await makeRequest.get("/getClients");
           setclientsOptions(response.data);
           console.log("the client " + JSON.stringify(response.data));
           } catch (error) {
@@ -98,7 +99,7 @@ export default function NormalCommunications() {
      useEffect(() => {
        const fetchDocumentTypeData = async () => {
          try {
-           const response = await axios.get("http://localhost:8081/getDocumentTypes");
+           const response = await makeRequest.get("/getDocumentTypes");
            setDocumentTypeOptions(response.data);
            console.log("Document types: " + JSON.stringify(response.data));
          } catch (error) {
@@ -155,8 +156,8 @@ export default function NormalCommunications() {
     const formattedDateReceived = new Date(editFormData.date_received).toLocaleDateString();
     const formattedDateReleased = new Date(editFormData.date_released).toLocaleDateString();
 
-    const response = await axios.put(
-      `http://localhost:8081/updateDocumentNormal/${editFormData.doc_ID}`,
+    const response = await makeRequest.put(
+      `/updateDocumentNormal/${editFormData.doc_ID}`,
       {
         doc_ID: editFormData.doc_ID,
         doc_type_id: editFormData.doc_type_id,
@@ -206,7 +207,7 @@ const [isInfoModalOpen, setInfoModalOpen] = useState(false);
 
 const fetchDocumentHistory = async (doc_ID) => {
   try {
-    const response = await axios.get(`http://localhost:8081/getDocumentHistory/${doc_ID}`);
+    const response = await makeRequest.get(`/getDocumentHistory/${doc_ID}`);
     console.log('API Response:', response.data);
     setDocumentHistory(response.data);
   } catch (error) {
@@ -232,7 +233,7 @@ const handleInfoClick = (doc_ID) => {
 
   const fetchDocuments = async () => {
     try {
-      const response = await axios.get("http://localhost:8081/getDocuments");
+      const response = await makeRequest.get("/getDocuments");
       console.log(response.data); // to check the fetched data
       const sortedDocuments = response.data.sort();
       setDocuments(sortedDocuments);
