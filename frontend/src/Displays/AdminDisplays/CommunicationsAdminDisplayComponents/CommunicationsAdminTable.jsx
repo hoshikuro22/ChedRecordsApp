@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { makeRequest } from '../../../../axios';
+import { MdEdit } from "react-icons/md";
+import { RiFileEditFill } from "react-icons/ri";
+import { PiListMagnifyingGlass } from "react-icons/pi";
+
 export default function CommunicationsAdminTable({
   currentItems,
-  handleDeleteClick,
+  // handleDeleteClick,
   handleInfoClick,
   handleEditFileClick,
   handleEditClick,
@@ -340,30 +344,30 @@ const handleSelectClientNameFilter = (value) => {
         <td className="border px-4 py-2 text-center">
                       <FileLink item={document} />
                     </td>
-        <td className="border px-3 py-2 text-left">
+        <td className="border px-3 py-2 text-left flex">
           <button
             className="text-green-500 hover:underline ml-2 font-bold"
             onClick={() => handleEditFileClick(document.doc_ID)}
           >
-            Modify File
+           <RiFileEditFill size='35px' />
           </button>
           <button
-            className="text-blue-500 hover:underline ml-2 font-bold"
+            className="text-blue-500 hover:underline ml-2 font-bold flex"
             onClick={() => handleEditClick(document.doc_ID)}
           >
-            Modify 
+           <MdEdit size='35px' /> 
           </button>
-          <button
+          {/* <button
             className="text-red-500 hover:underline ml-2 font-bold"
             onClick={() => handleDeleteClick(document.doc_ID)}
           >
             Delete
-          </button>
+          </button> */}
           <button
             className="text-gray-500 hover:underline ml-2 font-bold"
             onClick={() => handleInfoClick(document.doc_ID)}
           >
-            More Details
+             <PiListMagnifyingGlass size='35px'/> 
           </button>
         </td>
       </tr>

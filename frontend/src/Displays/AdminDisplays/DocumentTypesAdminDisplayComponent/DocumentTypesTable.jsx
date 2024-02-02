@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 
 export default function DocumentTypesTable({ documentTypes, handleDeleteClick, handleEditClick, currentPage, itemsPerPage }) {
 
@@ -31,13 +33,13 @@ export default function DocumentTypesTable({ documentTypes, handleDeleteClick, h
                  className="text-blue-500 hover:underline ml-2 font-bold"
                  onClick={() =>  handleEditClick(documentType.Doc_type_ID)}
                >
-                 Modify
+               <MdEdit size='35px' /> 
                 </button>
                 <button
                   className="text-red-500 hover:underline ml-2 font-bold"
                   onClick={() => handleDeleteClick(documentType.Doc_type_ID)}
                 >
-                  Delete
+                  <MdDelete size='35px' />
                 </button>
               </td>
             </tr>

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { MdEdit } from "react-icons/md";
 
 export default function AddAccountAdminTable({ users, handleEditClick}) {
   return (
@@ -34,7 +35,7 @@ export default function AddAccountAdminTable({ users, handleEditClick}) {
             className="text-blue-500 hover:underline font-bold"
             onClick={() => handleEditClick(user.user_ID)}
           >
-            MODIFY
+            <MdEdit size='35px' /> 
           </button>
           {/* <button
             // ang pk sa ChedClients / Institution is "id"

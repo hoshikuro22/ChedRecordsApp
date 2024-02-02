@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 export default function PersonnelTable({ personnels, handleDeleteClick, handleEditClick, currentPage, itemsPerPage }) {
 
@@ -34,18 +36,18 @@ export default function PersonnelTable({ personnels, handleDeleteClick, handleEd
               <td className="border px-4 py-2 text-left">{personnel.email}</td>
               <td className="border px-4 py-2 text-left">{personnel.contact_number}</td>
 
-              <td className="border px-4 py-2 text-left">
+              <td className="border px-4 py-2 text-left flex">
                 <button
                  className="text-blue-500 hover:underline ml-2 font-bold"
                  onClick={() =>  handleEditClick(personnel.Personnel_ID)}
                >
-                 Modify
+                 <MdEdit size='35px'/>
                 </button>
                 <button
                   className="text-red-500 hover:underline ml-2 font-bold"
                   onClick={() => handleDeleteClick(personnel.Personnel_ID)}
                 >
-                  Delete
+                  <MdDelete size='35px'/>
                 </button>
               </td>
             </tr>

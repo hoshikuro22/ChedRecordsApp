@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { IoMdAdd } from "react-icons/io";
 
 export default function ChedClientsAdminAddForm({
     handleSubmit,
@@ -22,7 +23,7 @@ export default function ChedClientsAdminAddForm({
           <h2 className="text-xl font-semibold mb-2">Add New Client</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" >
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Client ID <a className='font-black'>(Not Editable)</a></label>
+              <label className="mb-1 text-sm font-semibold">Client ID <a className='font-black'>(Not Editable when added)</a></label>
               <input
                 required
                 type="text"
@@ -155,9 +156,9 @@ export default function ChedClientsAdminAddForm({
       ) : (
         <button
           onClick={handleAddClientClick}
-          className="w-40 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
+          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2 flex gap-2"
         >
-          Add New Client
+          <IoMdAdd size='25px'/> Add New Client
         </button>
       )}
 

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { IoMdAdd } from "react-icons/io";
 
 export default function DocumentTypesAddForm({
    formData, showForm, handleSubmit, handleChange, handleHideFormClick, handleClearFormClick, handleAddDocumentTypeClick }) {
@@ -68,9 +69,9 @@ export default function DocumentTypesAddForm({
       ) : (
         <button
           onClick={handleAddDocumentTypeClick}
-          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
+          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2 flex gap-2"
         >
-          Add New Document Type
+         <IoMdAdd size='25px'/>  Add New Document Type
         </button>
       )}
 

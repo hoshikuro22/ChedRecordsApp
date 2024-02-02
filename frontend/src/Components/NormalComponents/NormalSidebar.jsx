@@ -1,7 +1,7 @@
 import CHED10LOGOPicture from '../AdminComponents/ched10.png';
 import { BsFillPersonFill } from 'react-icons/bs';
-import { GoOrganization } from 'react-icons/go';
-import { BiMessageSquare,  BiLogOut } from 'react-icons/bi';
+// import { GoOrganization } from 'react-icons/go';
+import { BiMessageSquare,  BiLogOut, BiSolidReport } from 'react-icons/bi';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -50,7 +50,7 @@ export default function NormalSidebar() {
             </div>
           </div>
 
-          <a className="flex items-center gap-2 mt-5 hover:bg-gray-700" href="/normal/norprofile">
+          <a className="flex items-center gap-2 mt-5 hover:bg-gray-700" href="/normal/nprofile">
             <BsFillPersonFill size="20" />
             <h1 className="text-1xl"> {lastName + ", "+firstName }</h1>
           </a>
@@ -64,14 +64,21 @@ export default function NormalSidebar() {
                   </a>
                 </li>
               </div>
-
               <div className="text-center block items-center mb-2">
+                <li>
+                  <a href="/normal/nreports" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center mb-5">
+                  <BiSolidReport />Reports
+                  </a>
+                </li>
+              </div>
+
+              {/* <div className="text-center block items-center mb-2">
                 <li>
                   <a href="/normal/nchedclients" className="py-1 px-2 rounded hover:bg-gray-700 flex gap-3 items-center">
                     <GoOrganization />Ched Clients
                   </a>
                 </li>
-              </div>
+              </div> */}
             
             </ul>
           </div>

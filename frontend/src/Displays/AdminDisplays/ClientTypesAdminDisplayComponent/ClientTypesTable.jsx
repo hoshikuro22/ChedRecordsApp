@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 export default function ClientTypesTable({ clientTypes, handleDeleteClick, handleEditClick, currentPage, itemsPerPage }) {
 
   const indexOfLastclientType = currentPage * itemsPerPage;
@@ -26,18 +27,18 @@ export default function ClientTypesTable({ clientTypes, handleDeleteClick, handl
               <td className="border px-4 py-2 text-center">{clientType.type}</td>
               <td className="border px-4 py-2 text-center">{clientType.remarks}</td>
 
-              <td className="border px-4 py-2 text-center">
+              <td className="border px-4 py-2 text-center flex">
               <button
                  className="text-blue-500 hover:underline ml-2 font-bold"
                  onClick={() =>  handleEditClick(clientType.Client_type_ID)}
                >
-                 Modify
+                <MdEdit size='35px'/>
                 </button>
                 <button
                   className="text-red-500 hover:underline ml-2 font-bold"
                   onClick={() => handleDeleteClick(clientType.Client_type_ID)}
                 >
-                  Delete
+                 <MdDelete size='35px'/>
                 </button>
               </td>
             </tr>

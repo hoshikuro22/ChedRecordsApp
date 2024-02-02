@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { PiListMagnifyingGlass } from "react-icons/pi";
+import { MdEdit } from "react-icons/md";
 
 export default function ChedClientsAdminTable({
   currentItems,
-  handleDeleteClick,
+  // handleDeleteClick,
   handleInfoClick,
   handleEditClick,
   searchQuery,
@@ -92,24 +94,24 @@ export default function ChedClientsAdminTable({
                 <td className="border px-3 py-2 text-left">{client.client_id}</td>
                 <td className="border px-3 py-2 text-left">{client.client_name}</td>
                 <td className="border px-3 py-2 text-left">{client.client_type}</td>
-                <td className="border px-3 py-2 text-left">
+                <td className="border px-3 py-2 text-left flex">
                   <button
                     className="text-blue-500 hover:underline ml-2 font-bold"
                     onClick={() => handleEditClick(client.client_id)}
                   >
-                    Modify
+                  <MdEdit size='35px' /> 
                   </button>
-                  <button
+                  {/* <button
                     className="text-red-500 hover:underline ml-2 font-bold"
                     onClick={() => handleDeleteClick(client.client_id)}
                   >
                     Delete
-                  </button>
+                  </button> */}
                   <button
                     className="text-gray-500 hover:underline ml-2 font-bold"
                     onClick={() => handleInfoClick(client.client_id)}
                   >
-                    More Details
+                   <PiListMagnifyingGlass size='35px'/> 
                   </button>
                 </td>
               </tr>

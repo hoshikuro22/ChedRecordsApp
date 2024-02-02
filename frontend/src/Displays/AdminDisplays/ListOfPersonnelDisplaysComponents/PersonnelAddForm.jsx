@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { IoMdAdd } from "react-icons/io";
 
 export default function PersonnelAddForm({
    formData, showForm, handleSubmit, handleChange, handleHideFormClick, handleClearFormClick, handleAddPersonnelClick, unitOptions }) {
@@ -140,9 +141,9 @@ export default function PersonnelAddForm({
       ) : (
         <button
           onClick={handleAddPersonnelClick}
-          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
+          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2 flex gap-2"
         >
-          Add New Personnel
+        <IoMdAdd size='25px' />  Add New Personnel
         </button>
       )}
 

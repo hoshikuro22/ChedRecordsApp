@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { IoMdAdd } from "react-icons/io";
 
 export default function ClientTypesAddForm({
    formData, showForm, handleSubmit, handleChange, handleHideFormClick, handleClearFormClick, handleAddClientTypeClick }) {
@@ -68,9 +69,9 @@ export default function ClientTypesAddForm({
       ) : (
         <button
           onClick={handleAddClientTypeClick}
-          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
+          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2 flex gap-2"
         >
-          Add New Client Type
+         <IoMdAdd size="25px" /> Add New Client Type
         </button>
       )}
 

@@ -3,13 +3,14 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import NormalSidebar from "../Components/NormalComponents/NormalSidebar"
 import { Routes, Route } from "react-router-dom"
-import NormalChedClients from "../Displays/NormalDisplays/NormalChedClients"
+// import NormalChedClients from "../Displays/NormalDisplays/NormalChedClients"
 import NormalCommunications from "../Displays/NormalDisplays/NormalCommunications"
 import NormalHeader from "../Components/NormalComponents/NormalHeader"
 import NormalHome from "../Displays/NormalDisplays/NormalHome"
 import NormalFooter from "../Components/NormalComponents/NormalFooter"
 import NormalStaffProfile from "../Displays/NormalDisplays/NormalStaffProfile"
 import { makeRequest } from "../../axios"
+import NormalReports from "../Displays/NormalDisplays/NormalReports"
 
 
 
@@ -46,10 +47,11 @@ export default function NormalPage() {
           <NormalSidebar />     
           {/* Displays */}
           <Routes >
-            <Route path='/norprofile' element={ <NormalStaffProfile/>} />
-            <Route path='/norhome' element={<NormalHome />} />
-            <Route path='/nchedclients' element={<NormalChedClients />} />
+            <Route path='/nprofile' element={ <NormalStaffProfile/>} />
+            <Route path='/nhome' element={<NormalHome />} />
+            {/* <Route path='/nchedclients' element={<NormalChedClients />} /> */}
             <Route path='/ncommunications' element={<NormalCommunications />} />
+            <Route path='/nreports' element={<NormalReports />} />
             {/* <Route path='/listofpersonnel' element={<ListOfPersonnel/>} />
             <Route path='/nreports' element={<NormalReports/>} /> */}
           </Routes>

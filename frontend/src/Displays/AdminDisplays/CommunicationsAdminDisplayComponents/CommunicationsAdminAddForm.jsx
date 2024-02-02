@@ -1,6 +1,7 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; 
 import PropTypes from 'prop-types';
+import { IoMdAdd } from "react-icons/io";
 
 
 
@@ -30,7 +31,7 @@ export default function CommunicationsAdminAddForm({
           <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
           <div className="bg-white rounded-lg p-8 z-50">
             <div className="flex flex-row">
-            <h2 className="text-xl font-semibold mb-2">Add New Communication</h2>
+            <h2 className="text-xl font-semibold mb-2"> Add New Communication</h2>
             <label className="mb-1 text-sm font-semibold right-1 ml-auto">DOC ID: <strong> {maxDocIDShown + 1}</strong></label>
 
             </div>
@@ -255,9 +256,8 @@ export default function CommunicationsAdminAddForm({
         
         <button
           onClick={handleAddCommunicationClick}
-          className="w-64 px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
-        >
-          Add New Communication
+          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2 flex gap-2"
+        >  <IoMdAdd size='25px'/> Add New Communication
           
         </button>
         

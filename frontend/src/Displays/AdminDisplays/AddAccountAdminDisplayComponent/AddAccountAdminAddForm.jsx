@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { IoMdAdd } from "react-icons/io";
 
 export default function AddAccountAdminAddForm({
     showForm,
@@ -106,11 +107,11 @@ export default function AddAccountAdminAddForm({
               >
                 <option value="">Select User Type</option>
                 <option value="0">Admin - Records Officer</option>
-                <option value="1">Staff - Releasing Clerk</option>
+                <option value="1">Staff - Receiving Clerk</option>
                 <option value="2">Staff - Releasing Clerk</option>
                 <option value="3">Staff - Education Supervisor</option>
                 <option value="4">Staff - Education Specialist</option>
-                <option value="5">Staff - Division Chef</option>
+                <option value="5">Staff - Division Chief</option>
                 <option value="6">Staff - Records Clerk</option>
               </select>
             </div>
@@ -176,9 +177,9 @@ export default function AddAccountAdminAddForm({
       ) : (
         <button
           onClick={handleAddClientClick}
-          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2"
+          className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300 mb-2 flex gap-2"
         >
-          Add New Account
+         <IoMdAdd size='25px'/> Add New Account
         </button>
       )}
     </div>
