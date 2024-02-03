@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import { FaEnvelope } from "react-icons/fa";
 import { RiGroupLine } from "react-icons/ri";
@@ -404,6 +405,7 @@ export default function NormalReports() {
                     <th className="text-gray-600">Filing Category</th>
                     <th className="text-gray-600">Date Received</th>
                     <th className="text-gray-600">Status</th>
+                    <th className="text-gray-600">File</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -420,6 +422,9 @@ export default function NormalReports() {
                       <td>{document.document_type}</td>
                       <td>{document.date_received}</td>
                       <td>{document.status}</td>
+                      <td>
+                        <FileLink item={document} />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -476,3 +481,45 @@ export default function NormalReports() {
     </div>
   );
 }
+const FileLink = ({ item }) => {
+  const [fileUrl, setFileUrl] = useState(
+    `communicationhistoryfiles/${item.file}`
+  );
+
+  useEffect(() => {
+    const checkFile = async () => {
+      try {
+        const response = await makeRequest.get(fileUrl);
+
+        // You may need to adjust the condition based on your API response
+        if (!response.ok) {
+          setFileUrl(`communicationfiles/${item.file}`);
+        }
+      } catch (error) {
+        console.error("Error fetching file:", error);
+        setFileUrl(`communicationfiles/${item.file}`);
+      }
+    };
+
+    checkFile();
+  }, [item.file, fileUrl]);
+
+  // Truncate the file name to 25 characters
+  const truncatedFileName =
+    item.file.length > 25 ? item.file.substring(0, 25) + "..." : item.file;
+
+  return (
+    <a
+      href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-500 hover:underline"
+    >
+      {truncatedFileName}
+    </a>
+  );
+};
+
+FileLink.propTypes = {
+  item: PropTypes.object,
+};
