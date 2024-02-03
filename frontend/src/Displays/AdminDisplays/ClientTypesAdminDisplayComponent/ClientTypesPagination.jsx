@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export default function ClientTypesPagination({
   currentPage,
@@ -35,8 +35,8 @@ export default function ClientTypesPagination({
         disabled={currentPage === totalPages}
         className={`px-4 py-2 text-white ${
           currentPage === totalPages
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-blue-500 hover:bg-blue-600 transition duration-300'
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600 transition duration-300"
         } rounded-lg`}
       >
         Next

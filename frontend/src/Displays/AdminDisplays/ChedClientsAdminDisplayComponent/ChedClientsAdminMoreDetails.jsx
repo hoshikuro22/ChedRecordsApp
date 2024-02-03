@@ -1,6 +1,10 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-export default function ChedClientsAdminMoreDetails({ isInfoModalOpen, setInfoModalOpen, selectedRowData }) {
+export default function ChedClientsAdminMoreDetails({
+  isInfoModalOpen,
+  setInfoModalOpen,
+  selectedRowData,
+}) {
   return (
     <div>
       {isInfoModalOpen && selectedRowData && (
@@ -23,12 +27,24 @@ export default function ChedClientsAdminMoreDetails({ isInfoModalOpen, setInfoMo
 
               <tbody>
                 <tr>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.client_id}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.client_name}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.address}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.email}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.contact_person}</td>
-                  <td className="border px-4 py-2 text-center">{selectedRowData.contact_number}</td>
+                  <td className="border px-4 py-2 text-center">
+                    {selectedRowData.client_id}
+                  </td>
+                  <td className="border px-4 py-2 text-center">
+                    {selectedRowData.client_name}
+                  </td>
+                  <td className="border px-4 py-2 text-center">
+                    {selectedRowData.address}
+                  </td>
+                  <td className="border px-4 py-2 text-center">
+                    {selectedRowData.email}
+                  </td>
+                  <td className="border px-4 py-2 text-center">
+                    {selectedRowData.contact_person}
+                  </td>
+                  <td className="border px-4 py-2 text-center">
+                    {selectedRowData.contact_number}
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export default function DocumentTypesEditForm({
   editFormData,
@@ -6,18 +6,15 @@ export default function DocumentTypesEditForm({
   handleCloseEditForm,
   handleChange,
 }) {
-  
-  
   return (
-    
     <div className="fixed inset-0 flex items-center justify-center">
-      
       <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
       <div className="bg-white rounded-lg p-8 z-50">
-        <span className="close text-white" onClick={handleCloseEditForm}>&times;</span>
+        <span className="close text-white" onClick={handleCloseEditForm}>
+          &times;
+        </span>
         <h2 className="text-2xl font-semibold mb-4">Edit Document Type</h2>
         <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
-
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Document Type</label>
             <input
@@ -31,7 +28,9 @@ export default function DocumentTypesEditForm({
           </div>
 
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Remarks (Optional)</label>
+            <label className="mb-1 text-sm font-semibold">
+              Remarks (Optional)
+            </label>
             <input
               type="text"
               name="remarks"
@@ -57,7 +56,7 @@ export default function DocumentTypesEditForm({
               Cancel
             </button>
           </div>
-        </form>
+        </form>s
       </div>
     </div>
   );

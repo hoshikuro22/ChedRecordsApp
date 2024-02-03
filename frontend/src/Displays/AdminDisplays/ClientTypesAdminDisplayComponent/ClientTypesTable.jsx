@@ -9,8 +9,8 @@ export default function ClientTypesTable({ clientTypes, handleDeleteClick, handl
 
   return (
     <div>
-      <table className="table-auto w-full border-collapse border">
-        <thead>
+      <table className="min-w-full leading-normal">
+      <thead className="bg-gray-200 sticky top-0">
           <tr className="bg-gray-200">
             {/* <th className="px-4 py-2">ID</th> */}
             <th className="px-4 py-2 text-center">Client Type</th>

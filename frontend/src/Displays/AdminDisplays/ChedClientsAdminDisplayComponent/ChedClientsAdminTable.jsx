@@ -25,9 +25,9 @@ export default function ChedClientsAdminTable({
   };
 
   return (
-    <div className="flex h-auto">
-      <table className="table-auto w-full border-collapse border h-24">
-        <thead>
+    <div className="">
+       <table className="min-w-full leading-normal">
+         <thead className="bg-gray-200 sticky top-0">
           <tr className="bg-gray-400">
             <th className="px-4 py-2 ">Client ID</th>
             <th className="px-4 py-2">Name of Client</th>

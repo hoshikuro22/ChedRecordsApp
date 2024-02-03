@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export default function PersonnelEditForm({
   editFormData,
@@ -7,15 +7,13 @@ export default function PersonnelEditForm({
   handleChange,
   unitOptions,
 }) {
-  
-  
   return (
-    
     <div className="fixed inset-0 flex items-center justify-center">
-      
       <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
       <div className="bg-white rounded-lg p-8 z-50">
-        <span className="close text-white" onClick={handleCloseEditForm}>&times;</span>
+        <span className="close text-white" onClick={handleCloseEditForm}>
+          &times;
+        </span>
         <h2 className="text-2xl font-semibold mb-4">Edit Personnel</h2>
         <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
           <div className="flex flex-col">
@@ -41,22 +39,22 @@ export default function PersonnelEditForm({
             />
           </div>
           <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Unit</label>
-              <select 
-  required
-    name="unit_ID"
-    value={editFormData.unit_ID}
-    onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-  >
-    <option value="">Select Unit</option>
-    {unitOptions.map((unit) => (
-      <option key={unit.unit_ID} value={unit.unit_ID}>
-        {unit.type}
-      </option>
-    ))}
-  </select>
-            </div>
+            <label className="mb-1 text-sm font-semibold">Unit</label>
+            <select
+              required
+              name="unit_ID"
+              value={editFormData.unit_ID}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            >
+              <option value="">Select Unit</option>
+              {unitOptions.map((unit) => (
+                <option key={unit.unit_ID} value={unit.unit_ID}>
+                  {unit.type}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Position</label>
             <input
@@ -126,10 +124,10 @@ export default function PersonnelEditForm({
 PersonnelEditForm.propTypes = {
   editFormData: PropTypes.shape({
     Personnel_ID: PropTypes.string,
-    unit_ID: PropTypes.string, 
+    unit_ID: PropTypes.string,
     last_name: PropTypes.string,
     first_name: PropTypes.string,
-    position: PropTypes.string, 
+    position: PropTypes.string,
     birth_date: PropTypes.string,
     email: PropTypes.string,
     contact_number: PropTypes.string,

@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export default function ChedClientsAdminEditForm({
   editFormData,
@@ -6,25 +6,26 @@ export default function ChedClientsAdminEditForm({
   handleCloseEditForm,
   handleChange,
 }) {
-  
-  
   return (
-    
     <div className="fixed inset-0 flex items-center justify-center">
-      
       <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
       <div className="bg-white rounded-lg p-8 z-50">
-        <span className="close text-white" onClick={handleCloseEditForm}>&times;</span>
+        <span className="close text-white" onClick={handleCloseEditForm}>
+          &times;
+        </span>
         <h2 className="text-2xl font-semibold mb-4">Edit Client</h2>
         <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Client ID:</label>
-        <label className='font-semibold text-1xl ml-3'>{editFormData.client_id}</label>
+            <label className="font-semibold text-1xl ml-3">
+              {editFormData.client_id}
+            </label>
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Name of Client </label>
+            <label className="mb-1 text-sm font-semibold">
+              Name of Client{" "}
+            </label>
             <input
-              
               type="text"
               name="client_name"
               placeholder="Enter Name of Client"
@@ -36,7 +37,6 @@ export default function ChedClientsAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Address</label>
             <input
-              
               type="text"
               name="address"
               placeholder="Enter Address"
@@ -48,7 +48,6 @@ export default function ChedClientsAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Client Type</label>
             <select
-              
               name="client_type_id"
               value={editFormData.client_type_id}
               onChange={handleChange}
@@ -63,9 +62,10 @@ export default function ChedClientsAdminEditForm({
             </select>
           </div>
           <div className="flex flex-col">
-            <label className="mb-1 text-sm font-semibold">Email Address (Optional)</label>
+            <label className="mb-1 text-sm font-semibold">
+              Email Address (Optional)
+            </label>
             <input
-              
               type="email"
               name="email"
               placeholder="Enter Email Address "
@@ -76,9 +76,10 @@ export default function ChedClientsAdminEditForm({
           </div>
           <div className="flex gap-4">
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Contact Person</label>
+              <label className="mb-1 text-sm font-semibold">
+                Contact Person
+              </label>
               <input
-                
                 type="text"
                 name="contact_person"
                 placeholder="Enter Name of Contact Person"
@@ -88,9 +89,10 @@ export default function ChedClientsAdminEditForm({
               />
             </div>
             <div className="flex flex-col overflow-hidden">
-              <label className="mb-1 text-sm font-semibold">Contact Number (Optional)</label>
+              <label className="mb-1 text-sm font-semibold">
+                Contact Number (Optional)
+              </label>
               <input
-                
                 type="text"
                 name="contact_number"
                 placeholder="Enter Contact Number of Contact Person"
@@ -125,11 +127,11 @@ export default function ChedClientsAdminEditForm({
 ChedClientsAdminEditForm.propTypes = {
   editFormData: PropTypes.shape({
     client_id: PropTypes.string,
-    client_name: PropTypes.string, 
+    client_name: PropTypes.string,
     address: PropTypes.string,
     // clientType: PropTypes.string,    //sa read
-    client_type_id: PropTypes.number,//sa put
-    email: PropTypes.string, 
+    client_type_id: PropTypes.number, //sa put
+    email: PropTypes.string,
     // filingCat: PropTypes.string,    //sa read
     contact_person: PropTypes.string,
     contact_number: PropTypes.string,

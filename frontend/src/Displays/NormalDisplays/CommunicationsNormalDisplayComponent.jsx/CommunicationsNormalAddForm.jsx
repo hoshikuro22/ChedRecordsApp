@@ -1,69 +1,71 @@
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; 
-import PropTypes from 'prop-types';
+import "react-datepicker/dist/react-datepicker.css";
+import PropTypes from "prop-types";
 
 export default function CommunicationsNormalAddForm({
-    showForm,
-    formData,
-    handleChange,
-    handleSubmit,
-    handleHideFormClick,
-    handleClearFormClick,
-    handleFileChange,
-    handleAddCommunicationClick,
-  }) {
+  showForm,
+  formData,
+  handleChange,
+  handleSubmit,
+  handleHideFormClick,
+  handleClearFormClick,
+  handleFileChange,
+  handleAddCommunicationClick,
+}) {
   return (
     <div>
-
-{showForm ? (
+      {showForm ? (
         <div className="border-2 border-black p-4 bg-white rounded-lg shadow-md mb-4">
           <h2 className="text-xl font-semibold mb-2">Add New Communication</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-
-          <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Add File</label>
-            <input
-            required
-            id="file"
-            name="file"
-            type="file"
-            onChange={handleFileChange}
-            className="border">
-            </input>
-            </div>
-            
             <div className="flex flex-col">
-  <label className="mb-1 text-sm font-semibold">Document Type</label>
-  <select 
-    required
-    id="documentType"
-    name="documentType"
-    value={formData.documentType}
-    onChange={handleChange}
-    className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-  >
-    <option value="">Select Document Type</option>
-    <option value="1">OFFICE MEMO MESSAGES</option>
-    <option value="2">CERTIFICATES</option>
-    <option value="3">RECOMMENDATIONS</option>
-    <option value="4">MAIL CERTIFICATES</option>
-    <option value="5">REGIONAL LETTER</option>
-    <option value="6">REGIONAL MEMO</option>
-    <option value="7">SPECIAL TRAVEL ORDER</option>
-    <option value="8">GOVERNMENT OFFICE</option>
-    <option value="9">CHED MANILA</option>
-    <option value="10">MISCELLANEOUS</option>
-    <option value="11">SPECIAL ORDER DEFICIENCY</option>
-    <option value="12">APPROVED/REPLY LETTERS TO SCHOLARS</option>
-    <option value="13">GOVERNMENT RECOGNITION</option>
-    <option value="14">CERTIFICATE OF PROGRAM COMPLETION- SUCS</option>
-    <option value="15">GOVERNMENT AUTHORITY-LUCS</option>
-    <option value="16">GOVERNMENT PERMIT</option>
-    <option value="17">COA-CHED 10 COMMUNICATION</option>
-    <option value="18">CHED MEMORANDUM</option>
-    <option value="19">SPECIAL ORDER DUPLICATES</option>
-  </select>
-</div>
+              <label className="mb-1 text-sm font-semibold">Add File</label>
+              <input
+                required
+                id="file"
+                name="file"
+                type="file"
+                onChange={handleFileChange}
+                className="border"
+              ></input>
+            </div>
+
+            <div className="flex flex-col">
+              <label className="mb-1 text-sm font-semibold">
+                Document Type
+              </label>
+              <select
+                required
+                id="documentType"
+                name="documentType"
+                value={formData.documentType}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              >
+                <option value="">Select Document Type</option>
+                <option value="1">OFFICE MEMO MESSAGES</option>
+                <option value="2">CERTIFICATES</option>
+                <option value="3">RECOMMENDATIONS</option>
+                <option value="4">MAIL CERTIFICATES</option>
+                <option value="5">REGIONAL LETTER</option>
+                <option value="6">REGIONAL MEMO</option>
+                <option value="7">SPECIAL TRAVEL ORDER</option>
+                <option value="8">GOVERNMENT OFFICE</option>
+                <option value="9">CHED MANILA</option>
+                <option value="10">MISCELLANEOUS</option>
+                <option value="11">SPECIAL ORDER DEFICIENCY</option>
+                <option value="12">APPROVED/REPLY LETTERS TO SCHOLARS</option>
+                <option value="13">GOVERNMENT RECOGNITION</option>
+                <option value="14">
+                  CERTIFICATE OF PROGRAM COMPLETION- SUCS
+                </option>
+                <option value="15">GOVERNMENT AUTHORITY-LUCS</option>
+                <option value="16">GOVERNMENT PERMIT</option>
+                <option value="17">COA-CHED 10 COMMUNICATION</option>
+                <option value="18">CHED MEMORANDUM</option>
+                <option value="19">SPECIAL ORDER DUPLICATES</option>
+              </select>
+            </div>
 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Date Issued</label>
@@ -74,7 +76,7 @@ export default function CommunicationsNormalAddForm({
                 displayFormat
               />
             </div>
-            
+
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Remarks</label>
               <input
@@ -89,8 +91,10 @@ export default function CommunicationsNormalAddForm({
               />
             </div>
             <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Assignatories</label>
-              <select 
+              <label className="mb-1 text-sm font-semibold">
+                Assignatories
+              </label>
+              <select
                 required
                 id="assignatories"
                 name="assignatories"
@@ -98,35 +102,34 @@ export default function CommunicationsNormalAddForm({
                 onChange={handleChange}
                 className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
               >
-              <option value="">Select Assignatories</option>
-              <option value="1">Bernal, Freddie</option>
-              <option value="2">Apag, Desiderio III</option>
-              <option value="3">Bag-o, Maria Dejeaneth</option>
-              <option value="4">Bolasco, Angelica Katrina</option>
-              <option value="5">Cotejar, Lilia</option>
-              <option value="6">Duplito, Jay Loienie</option>
-              <option value="7">Fernandez, Glarigen</option>
-              <option value="8">Fuentes, Miriam</option>
-              <option value="9">Galapin, Laiza Anna</option>
-              <option value="10">Gomez, Leonora</option>
-              <option value="11">Ladera, Virgil Thery Amor</option>
-              <option value="12">Lopez, Elmer</option>
-              <option value="13">Lumasag, Rose Mae</option>
-              <option value="14">Lumongsod, Jasmin</option>
-              <option value="15">Medez, Sarah Jane</option>
-              <option value="16">Minguez, Arlita Amapola</option>
-              <option value="17">Morong, Abraham, Jr.</option>
-              <option value="18">Pamplona, Daryl Glenn</option>
-              <option value="19">Pasagad, Abegail</option>
-              <option value="20">Raagas, Susan Daisy</option>
-              <option value="21">Torres, Mark Godfrey</option>
-
+                <option value="">Select Assignatories</option>
+                <option value="1">Bernal, Freddie</option>
+                <option value="2">Apag, Desiderio III</option>
+                <option value="3">Bag-o, Maria Dejeaneth</option>
+                <option value="4">Bolasco, Angelica Katrina</option>
+                <option value="5">Cotejar, Lilia</option>
+                <option value="6">Duplito, Jay Loienie</option>
+                <option value="7">Fernandez, Glarigen</option>
+                <option value="8">Fuentes, Miriam</option>
+                <option value="9">Galapin, Laiza Anna</option>
+                <option value="10">Gomez, Leonora</option>
+                <option value="11">Ladera, Virgil Thery Amor</option>
+                <option value="12">Lopez, Elmer</option>
+                <option value="13">Lumasag, Rose Mae</option>
+                <option value="14">Lumongsod, Jasmin</option>
+                <option value="15">Medez, Sarah Jane</option>
+                <option value="16">Minguez, Arlita Amapola</option>
+                <option value="17">Morong, Abraham, Jr.</option>
+                <option value="18">Pamplona, Daryl Glenn</option>
+                <option value="19">Pasagad, Abegail</option>
+                <option value="20">Raagas, Susan Daisy</option>
+                <option value="21">Torres, Mark Godfrey</option>
               </select>
             </div>
 
             <div className="flex flex-col">
               <label className="mb-1 text-sm font-semibold">Department</label>
-              <select 
+              <select
                 required
                 id="department"
                 name="department"
@@ -138,33 +141,29 @@ export default function CommunicationsNormalAddForm({
                 <option value="1">Receiving</option>
                 <option value="2">Scholarship</option>
                 <option value="3">Records</option>
-               
               </select>
             </div>
 
-
             {/* para ma add ang status sa add form */}
-             <div className="hidden"> 
-            <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">Status</label>
-              <select
-                required
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="0">Pending</option>
-                <option value="1">Approved</option>
-                <option value="2">Disapproved</option>
-              </select>
-            </div>  </div>
-
-
+            <div className="hidden">
+              <div className="flex flex-col">
+                <label className="mb-1 text-sm font-semibold">Status</label>
+                <select
+                  required
+                  id="status"
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                  className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                >
+                  <option value="0">Pending</option>
+                  <option value="1">Approved</option>
+                  <option value="2">Disapproved</option>
+                </select>
+              </div>{" "}
+            </div>
 
             <div className="col-span-2 ml-auto ">
-              
               <button
                 type="submit"
                 className="w-auto px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
@@ -187,7 +186,6 @@ export default function CommunicationsNormalAddForm({
               </button>
             </div>
           </form>
-          
         </div>
       ) : (
         <button
@@ -197,12 +195,8 @@ export default function CommunicationsNormalAddForm({
           Add New Communication
         </button>
       )}
-
-
-
-
     </div>
-  )
+  );
 }
 
 CommunicationsNormalAddForm.propTypes = {

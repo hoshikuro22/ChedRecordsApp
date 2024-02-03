@@ -76,9 +76,9 @@ export default function CommunicationsNormalTable({
   //sa filtering function for CLIENT/INSTITUTION TYPE//
 
   return (
-    <div>
-      <table className="table-auto w-full border-collapse border h-24">
-        <thead>
+    <div className="">
+     <table className="min-w-full leading-normal">
+     <thead className="bg-gray-200 sticky top-0">
           <tr className="bg-gray-400">
             {/* <th className="px-4 py-2">Doc No</th> */}
             <th className="px-4 py-2">
@@ -380,7 +380,7 @@ export default function CommunicationsNormalTable({
                     className="text-gray-500 hover:underline ml-2 font-bold"
                     onClick={() => handleInfoClick(document.doc_ID)}
                   >
-                    <PiListMagnifyingGlass size='35px'/>
+                    <PiListMagnifyingGlass size="35px" />
                   </button>
                 </td>
               </tr>
@@ -424,19 +424,22 @@ const FileLink = ({ item }) => {
 
     checkFile();
   }, [item.file, fileUrl]);
+ // Truncate the file name to 25 characters
+ const truncatedFileName =
+ item.file.length > 25 ? item.file.substring(0, 25) + "..." : item.file;
 
-  return (
-    <a
-      href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-500 hover:underline"
-    >
-      {item.file}
-    </a>
-  );
+return (
+ <a
+   href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
+   target="_blank"
+   rel="noopener noreferrer"
+   className="text-blue-500 hover:underline"
+ >
+   {truncatedFileName}
+ </a>
+);
 };
 
 FileLink.propTypes = {
-  item: PropTypes.object,
+item: PropTypes.object,
 };

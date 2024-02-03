@@ -1,20 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import ProfileAdminEditForm from './ProfileAdminDisplayComponent/ProfileAdminEditForm';
-import { makeRequest } from '../../../axios';
+import ProfileAdminEditForm from "./ProfileAdminDisplayComponent/ProfileAdminEditForm";
+import { makeRequest } from "../../../axios";
 
 export default function Profile() {
-
- 
   const [userData, setUserData] = useState({
-    User_ID: '',
-    User_type_ID: '',
-    First_Name: '',
-    Last_Name: '',
-    Email: '',
-    Password: '',
-    Username: '',
-    Contact_Number: '',
+    User_ID: "",
+    User_type_ID: "",
+    First_Name: "",
+    Last_Name: "",
+    Email: "",
+    Password: "",
+    Username: "",
+    Contact_Number: "",
   });
 
   // Fetch user data
@@ -44,23 +42,23 @@ export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
-    setEditFormData(userData);  // Set edit form data to current user data
-    setNewPassword('');  // Reset newPassword when opening the modal
+    setEditFormData(userData); // Set edit form data to current user data
+    setNewPassword(""); // Reset newPassword when opening the modal
     setIsModalOpen(true);
   };
-  
+
   const closeModal = () => setIsModalOpen(false);
 
   // Functions for handling edit form
-  const [newPassword, setNewPassword] = useState('');
+  const [newPassword, setNewPassword] = useState("");
   const [editFormData, setEditFormData] = useState({
-    User_ID: '',
-    First_Name: '',
-    Last_Name: '',
-    Email: '',
-    Password: '',
-    Username: '',
-    Contact_Number: '',
+    User_ID: "",
+    First_Name: "",
+    Last_Name: "",
+    Email: "",
+    Password: "",
+    Username: "",
+    Contact_Number: "",
   });
 
   const handleChange = (e) => {
@@ -78,11 +76,11 @@ export default function Profile() {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Confirmation dialog
     if (window.confirm("Are you sure you want to save these changes?")) {
       try {
-        const response = await makeRequest.put('/updateProfile', {
+        const response = await makeRequest.put("/updateProfile", {
           ...editFormData,
           NewPassword: newPassword, // Include the new password
         });
@@ -92,76 +90,82 @@ export default function Profile() {
         setUserData(updatedUser); // Update user data with the received updated data
         alert("Profile edited successfully!");
       } catch (error) {
-        console.error('Error updating user:', error);
+        console.error("Error updating user:", error);
         // Handle error here
       }
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-screen ">
-      <h2 className="text-3xl font-semibold mb-4 text-blue-600">User Profile</h2>
-      <div className="w-auto max-w-md bg-white rounded-lg ">
-      <table className="">
-        <tbody>
-          <tr className="bg-gray-100 ">
-            <td className="border px-4 py-2 font-semibold ">User ID:</td>
-            <td className="border px-4 py-2">{userData.User_ID}</td>
-          </tr>
+    <div className="flex items-center justify-center h-screen">
+      <div className="bg-white rounded-lg overflow-hidden shadow-md w-full max-w-md">
+        <div className="bg-blue-600 text-white p-4">
+          <h2 className="text-3xl font-semibold flex justify-center">
+            User Profile
+          </h2>
+        </div>
+        <table className="w-full">
+          <tbody>
+            <tr className="bg-gray-100">
+              <td className="border px-4 py-2 font-semibold">User ID:</td>
+              <td className="border px-4 py-2">{userData.User_ID}</td>
+            </tr>
 
-          <tr>
-            <td className="border px-4 py-2 font-semibold">User Type ID:</td>
-            <td className="border px-4 py-2">{userData.User_type_ID}</td>
-          </tr>
+            <tr>
+              <td className="border px-4 py-2 font-semibold">User Type ID:</td>
+              <td className="border px-4 py-2">{userData.User_type_ID}</td>
+            </tr>
 
-          <tr className="bg-gray-100">
-            <td className="border px-4 py-2 font-semibold">First Name:</td>
-            <td className="border px-4 py-2">{userData.First_Name}</td>
-          </tr>
+            <tr className="bg-gray-100">
+              <td className="border px-4 py-2 font-semibold">First Name:</td>
+              <td className="border px-4 py-2">{userData.First_Name}</td>
+            </tr>
 
-          <tr>
-            <td className="border px-4 py-2 font-semibold">Last Name:</td>
-            <td className="border px-4 py-2">{userData.Last_Name}</td>
-          </tr>
+            <tr>
+              <td className="border px-4 py-2 font-semibold">Last Name:</td>
+              <td className="border px-4 py-2">{userData.Last_Name}</td>
+            </tr>
 
-          <tr className="bg-gray-100">
-            <td className="border px-4 py-2 font-semibold">Email:</td>
-            <td className="border px-4 py-2">{userData.Email}</td>
-          </tr>
+            <tr className="bg-gray-100">
+              <td className="border px-4 py-2 font-semibold">Email:</td>
+              <td className="border px-4 py-2">{userData.Email}</td>
+            </tr>
 
-          <tr>
-            <td className="border px-4 py-2 font-semibold">Mobile Number:</td>
-            <td className="border px-4 py-2">{userData.Contact_Number}</td>
-          </tr>
+            <tr>
+              <td className="border px-4 py-2 font-semibold">Mobile Number:</td>
+              <td className="border px-4 py-2">{userData.Contact_Number}</td>
+            </tr>
 
-          <tr>
-            <td className="border px-4 py-2 font-semibold">Username:</td>
-            <td className="border px-4 py-2">{userData.Username}</td>
-          </tr>
+            <tr>
+              <td className="border px-4 py-2 font-semibold">Username:</td>
+              <td className="border px-4 py-2">{userData.Username}</td>
+            </tr>
 
-          <tr>
-            <td className="border px-4 py-2 font-semibold">Password:</td>
-            <td className="border px-4 py-2">{userData.Password}</td>
-          </tr>
-
-
-
-        </tbody>
-      </table>
+            <tr>
+              <td className="border px-4 py-2 font-semibold">Password:</td>
+              <td className="border px-4 py-2">*</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="p-4">
+          <button
+            onClick={openModal}
+            className="w-full bg-blue-500 text-white font-bold rounded py-2 cursor-pointer"
+          >
+            EDIT
+          </button>
+          {isModalOpen && (
+            <ProfileAdminEditForm
+              editFormData={editFormData}
+              handleEditSubmit={handleEditSubmit}
+              closeModal={closeModal}
+              handleChange={handleChange}
+              newPassword={newPassword}
+              setNewPassword={setNewPassword}
+            />
+          )}
+        </div>
       </div>
-      <button onClick={openModal} className="w-20 mt-4 p-2 bg-blue-500 text-white font-bold rounded cursor-pointer">
-        EDIT
-      </button>
-      {isModalOpen && (
-        <ProfileAdminEditForm
-          editFormData={editFormData}
-          handleEditSubmit={handleEditSubmit}
-          closeModal={closeModal}
-          handleChange={handleChange}
-          newPassword={newPassword}
-          setNewPassword={setNewPassword}
-        />
-      )}
     </div>
   );
 }

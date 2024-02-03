@@ -1,14 +1,13 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export default function AddAccountAdminEditForm({
-     editFormData,
-     handleHideFormClick,
-     handleEditSubmit,
-     handleChange,
-     newPassword,
-     setNewPassword,
-
-     }) {
+  editFormData,
+  handleHideFormClick,
+  handleEditSubmit,
+  handleChange,
+  newPassword,
+  setNewPassword,
+}) {
   return (
     <div className="fixed inset-0 flex items-center justify-center">
       <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
@@ -18,8 +17,7 @@ export default function AddAccountAdminEditForm({
         </span>
         <h2 className="text-2xl font-semibold mb-4">Edit Account</h2>
         <form onSubmit={handleEditSubmit} className="grid grid-cols-2 gap-4">
-
-        <div className="flex flex-col">
+          <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">First Name</label>
             <input
               type="text"
@@ -42,8 +40,6 @@ export default function AddAccountAdminEditForm({
               className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300 capitalize"
             />
           </div>
-
-          
 
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Email</label>
@@ -95,25 +91,24 @@ export default function AddAccountAdminEditForm({
           </div>
 
           <div className="flex flex-col">
-              <label className="mb-1 text-sm font-semibold">User Type</label>
-              <select
-                required
-                
-                name="user_type_ID"
-                value={editFormData.user_type_ID}
-                onChange={handleChange}
-                className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              >
-                <option value="">Select User Type</option>
-                <option value="0">Admin - Records Officer</option>
-                <option value="1">Staff - Releasing Clerk</option>
-                <option value="2">Staff - Releasing Clerk</option>
-                <option value="3">Staff - Education Supervisor</option>
-                <option value="4">Staff - Education Specialist</option>
-                <option value="5">Staff - Division Chef</option>
-                <option value="6">Staff - Records Clerk</option>
-              </select>
-            </div>
+            <label className="mb-1 text-sm font-semibold">User Type</label>
+            <select
+              required
+              name="user_type_ID"
+              value={editFormData.user_type_ID}
+              onChange={handleChange}
+              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            >
+              <option value="">Select User Type</option>
+              <option value="0">Admin - Records Officer</option>
+              <option value="1">Staff - Receiving Clerk</option>
+              <option value="2">Staff - Releasing Clerk</option>
+              <option value="3">Staff - Education Supervisor</option>
+              <option value="4">Staff - Education Specialist</option>
+              <option value="5">Staff - Division Chief</option>
+              <option value="6">Staff - Records Clerk</option>
+            </select>
+          </div>
 
           <div className="col-span-2 ml-auto gap-">
             <button

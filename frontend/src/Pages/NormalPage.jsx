@@ -42,9 +42,10 @@ export default function NormalPage() {
      <NormalHeader />
       {auth ?
          <div className="h-auto min-h-screen ">
-          <div className='flex gap-72 h-auto '>
+            <NormalSidebar />
+          <div className='ml-72 h-auto '>
           {/* call sidebar when /normal only */}
-          <NormalSidebar />     
+             
           {/* Displays */}
           <Routes >
             <Route path='/nprofile' element={ <NormalStaffProfile/>} />
