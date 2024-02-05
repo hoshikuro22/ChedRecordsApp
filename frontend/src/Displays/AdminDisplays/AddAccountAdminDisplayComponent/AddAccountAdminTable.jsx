@@ -31,11 +31,12 @@ export default function AddAccountAdminTable({ users, handleEditClick }) {
               <td className="border px-4 py-2">{user.email}</td>
               <td className="border px-4 py-2">
                 <button
-                  // ang pk sa ChedClients / Institution is "id"
+                  title="Modify"
                   className="text-blue-500 hover:underline font-bold"
                   onClick={() => handleEditClick(user.user_ID)}
                 >
                   <MdEdit size="35px" />
+                  <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                 </button>
                 {/* <button
             // ang pk sa ChedClients / Institution is "id"

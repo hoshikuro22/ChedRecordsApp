@@ -377,10 +377,12 @@ export default function CommunicationsNormalTable({
             Delete
           </button> */}
                   <button
+                    title="More Details"
                     className="text-gray-500 hover:underline ml-2 font-bold"
                     onClick={() => handleInfoClick(document.doc_ID)}
                   >
                     <PiListMagnifyingGlass size="35px" />
+                    <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                   </button>
                 </td>
               </tr>

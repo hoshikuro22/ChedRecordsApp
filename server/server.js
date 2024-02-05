@@ -217,5 +217,5 @@ app.get("/logout", (req, res) => {
 });
 
 app.listen(8081, () => {
-  console.log("API working!");
+  console.log("Server running!");
 });

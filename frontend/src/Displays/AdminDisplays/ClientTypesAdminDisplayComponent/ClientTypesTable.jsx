@@ -29,16 +29,20 @@ export default function ClientTypesTable({ clientTypes, handleDeleteClick, handl
 
               <td className="border px-4 py-2 text-center flex">
               <button
+                 title="Modify"
                  className="text-blue-500 hover:underline ml-2 font-bold"
                  onClick={() =>  handleEditClick(clientType.Client_type_ID)}
                >
                 <MdEdit size='35px'/>
+                <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                 </button>
                 <button
+                  title="Delete"
                   className="text-red-500 hover:underline ml-2 font-bold"
                   onClick={() => handleDeleteClick(clientType.Client_type_ID)}
                 >
                  <MdDelete size='35px'/>
+                 <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                 </button>
               </td>
             </tr>

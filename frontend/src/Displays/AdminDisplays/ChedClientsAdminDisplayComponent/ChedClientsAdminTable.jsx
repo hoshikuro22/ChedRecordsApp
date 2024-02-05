@@ -96,10 +96,12 @@ export default function ChedClientsAdminTable({
                 <td className="border px-3 py-2 text-left">{client.client_type}</td>
                 <td className="border px-3 py-2 text-left flex">
                   <button
+                    title="Modify Client Detail"
                     className="text-blue-500 hover:underline ml-2 font-bold"
                     onClick={() => handleEditClick(client.client_id)}
                   >
                   <MdEdit size='35px' /> 
+                  <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                   </button>
                   {/* <button
                     className="text-red-500 hover:underline ml-2 font-bold"
@@ -108,10 +110,12 @@ export default function ChedClientsAdminTable({
                     Delete
                   </button> */}
                   <button
+                    title="More Details"
                     className="text-gray-500 hover:underline ml-2 font-bold"
                     onClick={() => handleInfoClick(client.client_id)}
                   >
                    <PiListMagnifyingGlass size='35px'/> 
+                   <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                   </button>
                 </td>
               </tr>

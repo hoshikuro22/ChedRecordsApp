@@ -30,16 +30,20 @@ export default function DocumentTypesTable({ documentTypes, handleDeleteClick, h
 
               <td className="border px-4 py-2 text-left">
               <button
+                 title="Modify"
                  className="text-blue-500 hover:underline ml-2 font-bold"
                  onClick={() =>  handleEditClick(documentType.Doc_type_ID)}
                >
                <MdEdit size='35px' /> 
+               <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                 </button>
                 <button
+                  title="Delete"
                   className="text-red-500 hover:underline ml-2 font-bold"
                   onClick={() => handleDeleteClick(documentType.Doc_type_ID)}
                 >
                   <MdDelete size='35px' />
+                  <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                 </button>
               </td>
             </tr>

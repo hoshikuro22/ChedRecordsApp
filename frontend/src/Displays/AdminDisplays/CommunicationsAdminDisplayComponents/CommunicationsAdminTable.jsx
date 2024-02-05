@@ -380,12 +380,15 @@ export default function CommunicationsAdminTable({
                 </td>
                 <td className="border px-3 py-2 text-left flex">
                   <button
+                    title="Modify File"
                     className="text-green-500 hover:underline font-bold"
                     onClick={() => handleEditFileClick(document.doc_ID)}
                   >
                     <RiFileEditFill size="35px" />
+                    <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                   </button>
                   <button
+                    title="Modify Details"
                     className="text-blue-500 hover:underline font-bold flex"
                     onClick={() => handleEditClick(document.doc_ID)}
                   >
@@ -398,10 +401,12 @@ export default function CommunicationsAdminTable({
             Delete
           </button> */}
                   <button
+                    title="More Details"
                     className="text-gray-500 hover:underline font-bold"
                     onClick={() => handleInfoClick(document.doc_ID)}
                   >
                     <PiListMagnifyingGlass size="35px" />
+                    <div className="absolute bg-gray-800 text-white p-2 rounded shadow-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300"></div>
                   </button>
                 </td>
               </tr>
@@ -447,22 +452,22 @@ const FileLink = ({ item }) => {
     checkFile();
   }, [item.file, fileUrl]);
 
-   // Truncate the file name to 25 characters
-   const truncatedFileName =
-   item.file.length > 25 ? item.file.substring(0, 25) + "..." : item.file;
+  // Truncate the file name to 25 characters
+  const truncatedFileName =
+    item.file.length > 25 ? item.file.substring(0, 25) + "..." : item.file;
 
- return (
-   <a
-     href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
-     target="_blank"
-     rel="noopener noreferrer"
-     className="text-blue-500 hover:underline"
-   >
-     {truncatedFileName}
-   </a>
- );
+  return (
+    <a
+      href={makeRequest.defaults.baseURL + fileUrl} // Use baseURL from axios.js
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-500 hover:underline"
+    >
+      {truncatedFileName}
+    </a>
+  );
 };
 
 FileLink.propTypes = {
- item: PropTypes.object,
+  item: PropTypes.object,
 };
