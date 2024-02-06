@@ -356,14 +356,42 @@ export default function Communications() {
     return maxDocID + 1;
   };
 
+  //
+  const [selectedPersonnelUnit, setSelectedPersonnelUnit] = useState(null);
   //  all data
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+
+    if (name === "assignatories") {
+      // Find the selected personnel's unit ID
+      const selectedPersonnel = personnelOptions.find(
+        (person) => person.Personnel_ID === parseInt(value)
+      );
+
+      // Update the selected personnel's unit ID
+      setSelectedPersonnelUnit(
+        selectedPersonnel ? selectedPersonnel.unit_ID : null
+      );
+      setFormData({
+        ...formData,
+        unit: selectedPersonnel ? selectedPersonnel.unit_ID : "",
+        [name]: value,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
 
   // for file in the add form only
   const handleFileChange = (e) => {
@@ -549,6 +577,7 @@ export default function Communications() {
           handleHideFormClick={handleHideFormClick}
           handleClearFormClick={handleClearFormClick}
           maxDocIDShown={maxDocIDShown}
+          selectedPersonnelUnit={selectedPersonnelUnit}
         />
       </div>
 

@@ -209,7 +209,7 @@ export default function Reports() {
             {/* Filter selection and Table */}
             <div className="flex flex-col">
               {/* Filter by Year, Month, Day */}
-              <div className="flex flow-row gap-1 mt-1 border border-blue-950 rounded p-3 mb-2">
+              <div className="flex flow-row gap-1 mt-1 border border-blue-950 rounded p-3 mb-2 overflow-auto">
                 <div>
                   <label
                     htmlFor="yearFilter"
@@ -277,7 +277,7 @@ export default function Reports() {
                 </div>
               </div>
               {/* Filter by Date Received Start Date and End Date */}
-              <div className="flex flow-row gap-1 mt-1 border border-blue-950 rounded p-3 mb-2">
+              <div className="flex flow-row gap-1 mt-1 border border-blue-950 rounded p-3 mb-2 overflow-auto">
                 <div>
                   <label
                     htmlFor="startDate"
@@ -309,7 +309,7 @@ export default function Reports() {
                   />
                 </div>
               </div>
-              <div className="flex flow-row gap-1 mt-1 border border-blue-950 rounded p-3">
+              <div className="flex flow-row gap-1 mt-1 border border-blue-950 rounded p-3 overflow-auto">
                 <div>
                   <label
                     htmlFor="unitFilter"

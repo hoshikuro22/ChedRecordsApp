@@ -18,6 +18,7 @@ export default function CommunicationsAdminAddForm({
   handleFileChange,
   handleAddCommunicationClick,
   maxDocIDShown,
+  selectedPersonnelUnit,
 }) {
   return (
     <div>
@@ -36,7 +37,7 @@ export default function CommunicationsAdminAddForm({
             </div>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-2 overflow-auto">
                 <div className="flex flex-col">
                   <label className="mb-1 text-sm font-semibold">
                     Add File <strong>(PDF ONLY)</strong>
@@ -159,7 +160,7 @@ export default function CommunicationsAdminAddForm({
                   <label className="mb-1 text-sm font-semibold">Unit</label>
                   <select
                     name="unit"
-                    value={formData.unit}
+                    value={formData.unit || selectedPersonnelUnit}
                     onChange={handleChange}
                     className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                   >
@@ -285,4 +286,5 @@ CommunicationsAdminAddForm.propTypes = {
   documentTypeOptions: PropTypes.array.isRequired,
   unitOptions: PropTypes.array.isRequired,
   maxDocIDShown: PropTypes.number.isRequired,
+  selectedPersonnelUnit: PropTypes.number,
 };
