@@ -43,6 +43,7 @@ export default function CommunicationsAdminAddForm({
                     Add File <strong>(PDF ONLY)</strong>
                   </label>
                   <input
+                    accept=".pdf"
                     required
                     id="file"
                     name="file"
@@ -71,7 +72,7 @@ export default function CommunicationsAdminAddForm({
 
                 <div className="flex flex-col ">
                   <label className="mb-1 text-sm font-semibold">
-                    Date Released
+                    Date Released <strong>(Month/Day/Year)</strong>
                   </label>
                   <DatePicker
                     selected={formData.dateReleased}
@@ -159,6 +160,7 @@ export default function CommunicationsAdminAddForm({
                 <div className="flex flex-col">
                   <label className="mb-1 text-sm font-semibold">Unit</label>
                   <select
+                    disabled
                     name="unit"
                     value={formData.unit || selectedPersonnelUnit}
                     onChange={handleChange}

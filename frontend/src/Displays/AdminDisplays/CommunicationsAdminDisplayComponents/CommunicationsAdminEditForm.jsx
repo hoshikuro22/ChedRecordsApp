@@ -37,6 +37,7 @@ export default function CommunicationsAdminEditForm({
               Add File <strong>(PDF ONLY)</strong>{" "}
             </label>
             <input
+              accept=".pdf"
               required
               type="file"
               name="file"

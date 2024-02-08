@@ -230,11 +230,11 @@ export default function ChedClients() {
       return;
     }
 
-    // Validate email
-    if (formData.email && !formData.email.includes(".com")) {
-      alert("Email must contain .com");
-      return; // Do not proceed with submission
-    }
+   // Validate email
+  if (formData.email && !formData.email.includes(".com") && !formData.email.includes(".ph")) {
+    alert("Email must contain .com");
+    return; // Do not proceed with submission
+  }
     // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     // if (!emailRegex.test(formData.email)) {
     //   alert("Email must be in a valid format, and end with .com");

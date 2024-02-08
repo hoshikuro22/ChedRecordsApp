@@ -393,14 +393,47 @@ export default function Communications() {
   //   });
   // };
 
-  // for file in the add form only
+  // for file in the add and edit form 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      file: selectedFile,
-    }));
+  
+    if (selectedFile) {
+      const fileSizeLimit = 25000000; // 25MB in bytes
+                         // 25000000     25MB in bytes
+                         // 10000000     10MB in bytes
+                         //  5000000      5MB in bytes
+                         //  1000000      1MB in bytes
+                              
+      if (selectedFile.size <= fileSizeLimit && selectedFile.type === 'application/pdf') {
+        setFormData((prevData) => ({
+          ...prevData,
+          file: selectedFile,
+        }));
+      } else {
+        // File exceeds the size limit or is not a PDF
+        setFormData((prevData) => ({
+          ...prevData,
+          file: null,
+        }));
+  
+        if (selectedFile.type !== 'application/pdf') {
+          alert('Please select a PDF file.');
+        } else {
+          alert('Please select a file that is no larger than 25MB.');
+        }
+  
+        // Clear the input field
+        e.target.value = '';
+      }
+  
+      // Move this inside the if block to access selectedFile
+      setEditFileFormData((prevData) => ({
+        ...prevData,
+        file: selectedFile,
+      }));
+    }
   };
+  
 
   const handleAddCommunicationClick = () => {
     setShowForm(true);
@@ -554,7 +587,7 @@ export default function Communications() {
   };
 
   return (
-    <div className="h-auto mt-2 p-1 ml-1">
+    <div className="h-auto mt-2 p-1 ml-1 ">
       <div className="flex flex-row gap-2">
         {/* Dynamic Search */}
         <CommunicationsAdminSearchBar
@@ -615,12 +648,7 @@ export default function Communications() {
                 [e.target.name]: e.target.value,
               })
             }
-            handleFileChange={(e) =>
-              setEditFileFormData({
-                ...editFileFormData,
-                file: e.target.files[0],
-              })
-            }
+            handleFileChange={handleFileChange}
           />
         )}
 
