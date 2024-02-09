@@ -80,6 +80,23 @@ export default function NormalStaffProfile() {
     // Confirmation dialog
     if (window.confirm("Are you sure you want to save these changes?")) {
       try {
+        // Validate contact number
+        if (
+          editFormData.Contact_Number &&
+          editFormData.Contact_Number.length !== 11
+        ) {
+          alert("Contact number must be 11 digits");
+          return; // Do not proceed with submission
+        }
+        // Validate email
+        if (
+          editFormData.Email &&
+          !editFormData.Email.includes(".com") &&
+          !editFormData.Email.includes(".ph")
+        ) {
+          alert("Email must contain .com");
+          return; // Do not proceed with submission
+        }
         const response = await makeRequest.put("/updateProfile", {
           ...editFormData,
           NewPassword: newPassword, // Include the new password

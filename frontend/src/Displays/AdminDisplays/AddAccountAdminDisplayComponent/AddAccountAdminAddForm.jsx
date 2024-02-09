@@ -75,11 +75,7 @@ export default function AddAccountAdminAddForm({
                   name="contactNumber"
                   placeholder="Enter Contact Number"
                   value={formData.contactNumber}
-                  onChange={(e) => {
-                    if (e.target.value.length <= 11) {
-                      handleChange(e);
-                    }
-                  }}
+                  onChange={handleChange}
                   className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
                 />
               </div>
@@ -154,7 +150,7 @@ export default function AddAccountAdminAddForm({
                 <div className="flex">
                   <button
                     type="submit"
-                    className="flex gap-2 w-autofont-bold px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
+                    className="flex gap-2 w-auto font-bold px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
                   >
                     <IoMdAdd size="25px" /> ADD
                   </button>

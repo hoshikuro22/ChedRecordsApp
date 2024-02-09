@@ -3,7 +3,7 @@ import { MdEdit } from "react-icons/md";
 
 export default function AddAccountAdminTable({ users, handleEditClick }) {
   return (
-    <div>
+    <div className="relative">
       <table className="min-w-full leading-normal">
         <thead className="bg-gray-200 sticky top-0">
           <tr className="bg-gray-200">

@@ -20,6 +20,7 @@ export default function AddAccountAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">First Name</label>
             <input
+              required
               type="text"
               name="first_name"
               placeholder="Enter First Name"
@@ -32,6 +33,7 @@ export default function AddAccountAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Last Name</label>
             <input
+              required
               type="text"
               name="last_name"
               placeholder="Enter Last Name"
@@ -44,6 +46,7 @@ export default function AddAccountAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Email</label>
             <input
+              required
               type="email"
               name="email"
               placeholder="Enter Email"
@@ -56,7 +59,10 @@ export default function AddAccountAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Contact Number</label>
             <input
-              type="text"
+              required
+              title="11 digits number only"
+              type="tel"
+              pattern="[0-9]*" // Allow only numeric input
               name="contact_number"
               placeholder="Enter Contact Number"
               value={editFormData.contact_number}
@@ -68,6 +74,7 @@ export default function AddAccountAdminEditForm({
           <div className="flex flex-col">
             <label className="mb-1 text-sm font-semibold">Username</label>
             <input
+            required
               type="text"
               name="username"
               placeholder="Enter Username"

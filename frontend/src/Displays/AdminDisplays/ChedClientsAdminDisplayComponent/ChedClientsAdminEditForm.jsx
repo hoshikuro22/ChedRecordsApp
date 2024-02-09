@@ -93,7 +93,9 @@ export default function ChedClientsAdminEditForm({
                 Contact Number (Optional)
               </label>
               <input
-                type="text"
+                title="11 digits number only"
+                type="tel"
+                pattern="[0-9]*" // Allow only numeric input
                 name="contact_number"
                 placeholder="Enter Contact Number of Contact Person"
                 value={editFormData.contact_number}

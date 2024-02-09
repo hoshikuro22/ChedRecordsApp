@@ -94,6 +94,24 @@ export default function ChedClients() {
       return;
     }
 
+    // Validate email
+    if (
+      editFormData.email &&
+      !editFormData.email.includes(".com") &&
+      !editFormData.email.includes(".ph")
+    ) {
+      alert("Email must contain .com");
+      return; // Do not proceed with submission
+    }
+    // Validate contact number
+    if (
+      editFormData.contact_number &&
+      editFormData.contact_number.length !== 11
+    ) {
+      alert("Contact number must be 11 digits");
+      return; // Do not proceed with submission
+    }
+
     try {
       const response = await makeRequest.put(
         `/updateClient/${editFormData.client_id}`,
@@ -230,11 +248,15 @@ export default function ChedClients() {
       return;
     }
 
-   // Validate email
-  if (formData.email && !formData.email.includes(".com") && !formData.email.includes(".ph")) {
-    alert("Email must contain .com");
-    return; // Do not proceed with submission
-  }
+    // Validate email
+    if (
+      formData.email &&
+      !formData.email.includes(".com") &&
+      !formData.email.includes(".ph")
+    ) {
+      alert("Email must contain .com");
+      return; // Do not proceed with submission
+    }
     // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     // if (!emailRegex.test(formData.email)) {
     //   alert("Email must be in a valid format, and end with .com");

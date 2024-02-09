@@ -79,6 +79,24 @@ export default function Profile() {
 
     // Confirmation dialog
     if (window.confirm("Are you sure you want to save these changes?")) {
+      // Validate contact number
+      if (
+        editFormData.Contact_Number &&
+        editFormData.Contact_Number.length !== 11
+      ) {
+        alert("Contact number must be 11 digits");
+        return; // Do not proceed with submission
+      }
+      // Validate email
+      if (
+        editFormData.Email &&
+        !editFormData.Email.includes(".com") &&
+        !editFormData.Email.includes(".ph")
+      ) {
+        alert("Email must contain .com");
+        return; // Do not proceed with submission
+      }
+
       try {
         const response = await makeRequest.put("/updateProfile", {
           ...editFormData,
