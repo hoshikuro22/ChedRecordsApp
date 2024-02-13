@@ -104,7 +104,7 @@ export default function CommunicationsAdminTable({
                           selectedClientNameFilter === ""
                             ? "bg-gray-200 text-gray-900"
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
+                        } block px-1 py-2 text-sm w-full text-left`}
                       >
                         All
                       </button>
@@ -118,7 +118,7 @@ export default function CommunicationsAdminTable({
                             selectedClientNameFilter === client.client_name
                               ? "bg-gray-200 text-gray-900"
                               : "text-gray-700"
-                          } block px-4 py-2 text-sm w-full text-left`}
+                          } block px-1 py-2 text-sm w-full text-left`}
                         >
                           {client.client_name}
                         </button>
@@ -128,8 +128,8 @@ export default function CommunicationsAdminTable({
                 )}
               </div>
             </th>
-            <th className="px-4 py-2">Assigned Personnel</th>
-            <th className="px-4 py-2">
+            <th className="px-1 py-2">Assigned Personnel</th>
+            <th className="px-1 py-2">
               <div className="relative inline-block">
                 <button
                   onClick={handleToggleUnitFilterDropdown}
@@ -151,7 +151,7 @@ export default function CommunicationsAdminTable({
                           selectedUnitFilter === ""
                             ? "bg-gray-200 text-gray-900"
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
+                        } block px-1 py-2 text-sm w-full text-left`}
                       >
                         All
                       </button>
@@ -163,7 +163,7 @@ export default function CommunicationsAdminTable({
                             selectedUnitFilter === unit.type
                               ? "bg-gray-200 text-gray-900"
                               : "text-gray-700"
-                          } block px-4 py-2 text-sm w-full text-left`}
+                          } block px-1 py-2 text-sm w-full text-left`}
                         >
                           {unit.type}
                         </button>
@@ -173,7 +173,7 @@ export default function CommunicationsAdminTable({
                 ) : null}
               </div>
             </th>
-            <th className="px-4 py-2">
+            <th className="px-1 py-2">
               <div className="relative inline-block">
                 <button
                   onClick={handleToggleTypeFilterDropdown}
@@ -191,7 +191,7 @@ export default function CommunicationsAdminTable({
                           selectedTypeFilter === ""
                             ? "bg-gray-200 text-gray-900 "
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left `}
+                        } block px-1 py-2 text-sm w-full text-left `}
                       >
                         All
                       </button>
@@ -203,7 +203,7 @@ export default function CommunicationsAdminTable({
                             selectedTypeFilter === type.doc_type_ID
                               ? "bg-gray-200 text-gray-900"
                               : "text-gray-700"
-                          } block px-4 py-2 text-sm w-full text-left`}
+                          } block px-1 py-2 text-sm w-full text-left`}
                         >
                           {type.type}
                         </button>
@@ -214,9 +214,9 @@ export default function CommunicationsAdminTable({
               </div>
             </th>
 
-            <th className="px-4 py-2">Date Received</th>
+            <th className="px-1 py-2">Date Received</th>
             {/* <th className="px-4 py-2">Date Release</th> */}
-            <th className="px-4 py-2">
+            <th className="px-1 py-2">
               <div className="relative inline-block">
                 <div>
                   <button
@@ -244,7 +244,7 @@ export default function CommunicationsAdminTable({
                           selectedStatusFilter === ""
                             ? "bg-gray-200 text-gray-900"
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
+                        } block px-1 py-2 text-sm w-full text-left`}
                       >
                         All
                       </button>
@@ -254,7 +254,7 @@ export default function CommunicationsAdminTable({
                           selectedStatusFilter === "0"
                             ? "bg-gray-200 text-gray-900"
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
+                        } block px-1 py-2 text-sm w-full text-left`}
                       >
                         Pending
                       </button>
@@ -264,7 +264,7 @@ export default function CommunicationsAdminTable({
                           selectedStatusFilter === "1"
                             ? "bg-gray-200 text-gray-900"
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
+                        } block px-1 py-2 text-sm w-full text-left`}
                       >
                         Approved
                       </button>
@@ -274,7 +274,7 @@ export default function CommunicationsAdminTable({
                           selectedStatusFilter === "2"
                             ? "bg-gray-200 text-gray-900"
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
+                        } block px-1 py-2 text-sm w-full text-left`}
                       >
                         Disapproved
                       </button>
@@ -284,7 +284,7 @@ export default function CommunicationsAdminTable({
                           selectedStatusFilter === "3"
                             ? "bg-gray-200 text-gray-900"
                             : "text-gray-700"
-                        } block px-4 py-2 text-sm w-full text-left`}
+                        } block px-1 py-2 text-sm w-full text-left`}
                       >
                         No Action
                       </button>
@@ -293,9 +293,9 @@ export default function CommunicationsAdminTable({
                 ) : null}
               </div>
             </th>
-            <th className="px-4 py-2">Remarks</th>
-            <th className="px-4 py-2">File</th>
-            <th className="px-4 py-2">Action</th>
+            <th className="px-1 py-2">Remarks</th>
+            <th className="px-1 py-2">File</th>
+            <th className="px-1 py-2">Action</th>
           </tr>
         </thead>
         <tbody>
